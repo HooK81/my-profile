@@ -1,0 +1,100 @@
+/* ------------------------------------------------------------------ */
+/* Nav Item Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+ul#nav {
+  min-height: 48px;
+  width: auto;
+
+  /* center align the menu */
+  text-align: center;
+}
+ul#nav li {
+  position: relative;
+  list-style: none;
+  height: 48px;
+  display: inline-block;
+}
+
+/* Links */
+ul#nav li a {
+  /* 8px padding top + 8px padding bottom + 32px line-height = 48px */
+
+  display: inline-block;
+  padding: 8px 13px;
+  line-height: 32px;
+  text-decoration: none;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+
+  -webkit-transition: color 0.2s ease-in-out;
+  -moz-transition: color 0.2s ease-in-out;
+  -o-transition: color 0.2s ease-in-out;
+  -ms-transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    border-bottom: 1px solid $alternate-color2;
+    padding-bottom: 0;
+  }
+}
+
+ul#nav li a:active {
+  background-color: transparent !important;
+}
+ul#nav li a.active {
+  color: $alternate-color2;
+}
+
+
+/* screenwidth less than 1024px
+--------------------------------------------------------------------- */
+@media only screen and (max-width: 1024px) {
+}
+
+/* screenwidth less than 900px
+--------------------------------------------------------------------- */
+@media only screen and (max-width: 900px) {
+}
+
+/* mobile wide/smaller tablets
+---------------------------------------------------------------------- */
+
+@media only screen and (max-width: 767px) {
+  /* mobile navigation
+  -------------------------------------------------------------------- */
+
+  ul#nav li {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 4%;
+    text-align: left;
+    border-bottom: 1px solid #2d2e34;
+    border-bottom-style: dotted;
+  }
+
+  ul#nav li a {
+    display: block;
+    margin: 0;
+    padding: 0;
+    margin: 12px 0;
+    line-height: 16px; /* reset line-height from 48px */
+    border: none;
+
+    &:hover {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+}
+
+/* mobile narrow
+  -------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 480px) {
+  /* mobile navigation
+    -------------------------------------------------------------------- */
+}

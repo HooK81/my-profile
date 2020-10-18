@@ -1,0 +1,88 @@
+/* ------------------------------------------------------------------ */
+/* About Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+#about {
+  background: #2b2b2b;
+  padding-top: 96px;
+  padding-bottom: 66px;
+  overflow: hidden;
+}
+
+#about a,
+#about a:visited {
+  color: #fff;
+}
+#about a:hover,
+#about a:focus {
+  color: $alternate-color1;
+}
+
+#about h2 {
+  font: 22px/30px 'Open Sans', sans-serif;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 12px;
+}
+#about .bio p {
+  line-height: 30px;
+  color: #7a7a7a;
+  white-space: pre-line;
+}
+
+#about .contact-details {
+  width: 41.66667%;
+}
+#about .download {
+  width: 58.33333%;
+  padding-top: 6px;
+}
+#about .main-col {
+  padding-right: 5%;
+}
+#about .download .button {
+  margin-top: 6px;
+  background: #444;
+  text-align: center;
+}
+#about .download .button:hover {
+  background: #fff;
+  color: #2b2b2b;
+}
+#about .download .button i {
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+/* screenwidth less than 900px
+--------------------------------------------------------------------- */
+@media only screen and (max-width: 900px) {
+  #about .contact-details {
+    width: 50%;
+  }
+  #about .download {
+    width: 50%;
+  }
+  #about .profile-pic {
+    margin-left: 12px;
+  }
+}
+
+/* mobile wide/smaller tablets
+---------------------------------------------------------------------- */
+
+@media only screen and (max-width: 767px) {
+
+  #about .download .button {
+    width: 100%;
+    padding: 15px 20px;
+  }
+  #about .main-col {
+    padding-right: 30px;
+  }
+  #about .profile-pic {
+    margin: 3px auto;
+    display: block;
+  }
+}

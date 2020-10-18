@@ -1,0 +1,120 @@
+{
+  "menu": {
+    "home": "Accueil",
+    "about_me": "À Propos de Moi",
+    "resume": "Curriculum",
+    "techs": "Mes Technos",
+    "contact": "Contact",
+    "about_site": "Ce site"
+  },
+  "header": {
+    "head_line": "Bonjour, je suis {{ name }}.",
+    "description": "Je suis un <1>{{ occupation }}</1> localisé sur <4>{{ base }}</4>."
+  },
+  "about": {
+    "title": "À Propos de Moi",
+    "contact_details": "Coordonnées",
+    "download_resume": "Télécharger mon CV",
+    "del": "del"
+  },
+  "contact": {
+    "title": "Entrer en Contact",
+    "description": "J'adorerais avoir de vos nouvelles. N'hésitez pas à me contacter par mail ou en utilisant le formulaire ci-dessous.",
+    "message": {
+      "email": "Email",
+      "subject": "Sujet",
+      "message": "Message",
+      "submit": "Envoyer"
+    },
+    "address": "Addresse & Téléphone",
+    "mail_sent": "Votre message a bien été envoyé.\nJ'y répondrai dès que possible."
+  },
+  "resume": {
+    "educations": {
+      "title": "Formation",
+      "date_format": "MMMM YYYY"
+    },
+    "works": {
+      "title": "Expérience Professionnelle",
+      "today": "Aujourd'hui",
+      "date": "{{start}} - {{end}} - {{duration}}",
+      "duration": "{{ years }} {{ months }}",
+      "duration_years": "{{count}} an",
+      "duration_years_plural": "{{count}} ans",
+      "duration_months": "{{count}} mois",
+      "duration_months_plural": "{{count}} mois",
+      "moment_format": "MMMM YYYY"
+    },
+    "skills": {
+      "title": "Compétences",
+      "desc": "Petit résumé de mes compétences."
+    },
+    "techs" : {
+      "title": "Technos Préférées",
+      "desc": "Je suis un bricoleur et j'adore jouer avec les nouvelles technologies, mais ce sont celles-ci qui m'ont vraiment convaincu."
+    }
+  },
+  "hobbies": {
+    "title": "Voici quelque-uns des mes centres d'intêrets."
+  },
+  "about_site": {
+    "title": "À Propos du site",
+    "desc": "Voici les différents éléments constituant ce site et sa stack technique. C'est sans aucun doute surdimensionné mais quand on aime on ne compte pas.",
+    "front": {
+      "title": "Front-end",
+      "library": {
+        "title": "Librairie",
+        "item1": "React 16",
+        "item2": "Client HTTP: <2>Axios</2>",
+        "item3": "Conteneur d'État: <2>Redux</2> & <5>Redux Thunk</5>",
+        "item4": "Tests Unitaires: Jest + Enzyme (100% de couverture du code)"
+      },
+      "design": {
+        "title": "Design",
+        "item1": "Thème Ceevee par <2>Styleshout</2>"
+      }
+    },
+    "back": {
+      "title": "Back-end",
+      "language": {
+        "title": "Langage",
+        "item1": "PHP 7.2"
+      },
+      "framework": {
+        "title": "Framework",
+        "item1": "Symfony 4.4",
+        "item2": "API Rest par <2>FOSRestBundle</2>",
+        "item3": "Authentification avec token JWT par <2>LexikJWTAuthenticationBundle</2>"
+      }
+    },
+    "infra": {
+      "title": "Infrastructure",
+      "container": {
+        "title": "Conteneurs Docker",
+        "item1": "Conteneur PHP pour l'API Symfony",
+        "item2": "Conteneur NGINX pour l'app front-end React"
+      },
+      "hosting": {
+        "title": "Hébergement",
+        "item1": "Raspberry 4"
+      }
+    }
+  },
+  "api" : {
+    "error": {
+      "login": "Erreur d'accès au site !",
+      "get_user": "Impossible d'obtenir les données du profil !",
+      "get_user_file": "Impossible d'obtenir le fichier !",
+      "post_email": "Erreur lors de l'envoi du message !",
+      "please_try_later" : "Veuillez réessayer plus tard."
+    }
+  },
+  "error": {
+    "banner": "Noon... pleure pas",
+    "title": "Ce n'est qu'une erreur {{type}} !",
+    "messages": {
+      "404": "Ce que tu cherches a peut-être été perdu dans la Mémoire à Long Terme.",
+      "500": "Ce que tu cherches est pour le moment cassé. Revient dans un petit moment."
+    }
+  }
+}

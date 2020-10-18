@@ -1,0 +1,26 @@
+version: '3.7'
+services: 
+
+    php:
+        build: 
+            context: .
+            dockerfile: docker/php/Dockerfile.prod
+        image: myprofile_php:prod
+        container_name: mp_php_prod
+        volumes:
+            - './docker/users:/usr/src/api/resources/users:ro'
+        restart: always
+        environment:
+            HOME: /home/user
+
+    nginx:
+        build: 
+            context: .
+            dockerfile: docker/nginx/Dockerfile.prod
+        image: myprofile_nginx:prod
+        container_name: mp_nginx_prod
+        restart: "always"
+        depends_on: 
+            - php
+        ports: 
+            - '${NGINX_PORT}:80'

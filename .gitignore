@@ -1,0 +1,48 @@
+# IDE
+/.vscode/
+/.idea/
+
+#DOCKER
+/docker-compose.override.yml
+/.env
+
+#SYMFONY
+/apps/api/.env.local
+/apps/api/.env.local.php
+/apps/api/.env.*.local
+/apps/api/public/bundles/
+/apps/api/var/
+/apps/api/vendor/
+/apps/api/resources/users/
+
+#NODE
+/apps/front/node_modules
+/apps/front/.pnp
+.pnp.js
+/apps/front/coverage
+/apps/front/build/*
+/apps/front/.env
+/apps/front/.env.local
+/apps/front/.env.development.local
+/apps/front/.env.test.local
+/apps/front/.env.production.local
+/apps/front/.env.production
+/apps/front/npm-debug.log*
+/apps/front/yarn-debug.log*
+/apps/front/yarn-error.log*
+
+# PROD SECRETS
+/docker/php/secrets/*
+!/docker/php/secrets/README.md
+/docker/node/secrets/*
+!/docker/node/secrets/README.md
+/apps/api/config/secrets/prod/prod.decrypt.private.php
+/apps/api/config/jwt/prod/private.pem
+
+# USERS
+/docker/users/*
+!/docker/users/README.md
+!/docker/users/9383f3b9-9d3f-468d-b5dc-d47bd4460fa2/
+
+# Misc
+.DS_Store

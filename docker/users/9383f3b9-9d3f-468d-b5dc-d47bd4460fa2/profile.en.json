@@ -1,0 +1,115 @@
+{
+  "id": "9383f3b9-9d3f-468d-b5dc-d47bd4460fa2",
+  "main": {
+    "name": "John",
+    "fullName": "John Doe",
+    "occupation": "My Occupation",
+    "description": "Lorem **ipsum** dolor sit amet, consectetur **adipiscing** elit.\nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "image": "profile.jpg",
+    "bio": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "email": "john@doe.com",
+    "base": "Los Angeles",
+    "address": {
+      "street": "3707 S Hill St",
+      "city": "Los Angeles",
+      "zip": "CA 90007",
+      "country": "USA"
+    },
+    "phone": "+1 800-275-8777",
+    "resumePdf": "resume.pdf",
+    "social": [
+      {
+        "name": "linkedin",
+        "url": "https://www.linkedin.com/in/j-doe/",
+        "icon": "fab fa-linkedin"
+      },
+      {
+        "name": "facebook",
+        "url": "https://www.facebook.com/john.doe",
+        "icon": "fab fa-facebook"
+      },
+      {
+        "name": "twitter",
+        "url": "https://twitter.com/john_doe",
+        "icon": "fab fa-twitter"
+      }
+    ]
+  },
+  "resume": {
+    "educations": [
+      {
+        "degree": "Masters in Beer",
+        "school": "University",
+        "city": "Paris",
+        "date": "2000-09-01"
+      },
+      {
+        "degree": "What did you study 101",
+        "school": "High Scool",
+        "city": "Paris",
+        "date": "1998-06-01"
+      }
+    ],
+    "work": [
+      {
+        "company": "Awesome Studio 2",
+        "title": "Senior UX God ",
+        "date": {
+          "start": "2010-03-01",
+          "end": ""
+        },
+        "city": "Paris",
+        "description": "Describe work, **special projects**, notable achievements, what technologies you have been working with, and anything else that would be useful for an employer to know."
+      },
+      {
+        "company": "Awesome Studio 1",
+        "title": "UX God ",
+        "date": {
+          "start": "2007-03-01",
+          "end": "2009-12-31"
+        },
+        "city": "Paris",
+        "description": "Describe work, special projects, **notable achievements**, what technologies you have been working with, and anything else that would be useful for an employer to know."
+      }
+    ],
+    "skills": [
+      {
+        "name": "Lorem",
+        "level": "90%"
+      },
+      {
+        "name": "Ipsum",
+        "level": "50%"
+      }
+    ]
+  },
+  "techs": [
+    {
+      "name": "PHP",
+      "image": "php.jpg",
+      "desc": "Lorem ipsum dolor sit amet"
+    },
+    {
+      "name": "Symfony",
+      "image": "symfony.jpg",
+      "desc": "Lorem ipsum dolor sit amet"
+    }
+  ],
+  "hobbies": [
+    {
+      "title": "Cinema",
+      "image": "cinema.png",
+      "icon": "fas fa-film"
+    },
+    {
+      "title": "Video Game",
+      "image": "gaming.png",
+      "icon": "fas fa-gamepad"
+    },
+    {
+      "title": "Reading",
+      "image": "reading.png",
+      "icon": "fas fa-book-reader"
+    }
+  ]
+}

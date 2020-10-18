@@ -1,0 +1,60 @@
+/* ------------------------------------------------------------------ */
+/* Work Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+.work h3 {
+  font: 25px/30px 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+.work .info, .work .description {
+  font: 15px/24px 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin-top: 6px;
+}
+.work .info span:not(:first-child) {
+  margin-left: 5px;
+}
+.work .info span:not(:last-child) {
+  margin-right: 5px;
+}
+.work p.info:not(:last-child){
+  margin-bottom: 10px !important;
+}
+.work .description {
+  white-space: pre-line;
+  text-align: justify;
+}
+.work .description mark {
+  background-color: inherit;
+  color: $alternate-color3;
+  font-weight: normal;
+}
+.work .company {
+  font: 16px/24px 'Libre Baskerville', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #6e7881;
+  margin-bottom: 18px;
+  margin-top: 9px;
+}
+.work .date {
+  color: $alternate-color2;
+}
+
+/* mobile navigation
+-------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+  .work h3,
+  .work .info {
+    text-align: center;
+  }
+
+  .work .date {
+    display: block;
+  }
+
+  .work .date_separator {
+    display: none;
+  }
+}

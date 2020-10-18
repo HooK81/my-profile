@@ -1,0 +1,25 @@
+# Stage1 - Build React App 
+FROM node:lts-alpine as build
+LABEL maintainer="Julien CROCHET <julien@crochet.me>"
+WORKDIR /usr/src/front
+RUN apk add --no-cache python make g++
+ENV PATH /app/node_modules/.bin:$PATH
+COPY apps/front/package.json /usr/src/front/
+COPY apps/front/yarn.lock /usr/src/front/
+RUN yarn install --prod
+COPY docker/node/secrets/.env.production /usr/src/front/
+COPY apps/front /usr/src/front
+RUN yarn build
+
+# Stage 2 - build the final image
+FROM nginx:1.15.3-alpine
+LABEL maintainer="Julien CROCHET <julien@crochet.me>"
+
+RUN apk add --no-cache bash
+RUN echo 'alias ll="ls -la"' >> ~/.bashrc
+
+WORKDIR /usr/src
+
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY apps/api/public /usr/src/api
+COPY --from=build /usr/src/front/build /usr/src/front

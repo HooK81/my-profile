@@ -1,0 +1,75 @@
+/* ------------------------------------------------------------------ */
+/* Techs Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+#techs {
+  background: $body-background-color3;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  overflow: hidden;
+}
+
+#techs h1 {
+  font: 18px/24px 'Open Sans', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#techs h1 span {
+  display: inline-block;
+  border-bottom: 3px solid $alternate-color1;
+  padding-bottom: 6px;
+}
+#techs .main-col {
+  padding-right: 10%;
+}
+#techs .header-col {
+  padding-top: 9px;
+}
+#techs .feature-item {
+  text-align: center;
+  margin-top: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+#techs .feature-item img {
+  max-width: 65%;
+}
+
+/* screenwidth less than 900px
+--------------------------------------------------------------------- */
+@media only screen and (max-width: 900px) {
+  #techs h1 {
+    font: 16px/24px 'Open Sans', sans-serif;
+    font-weight: bold;
+  }
+  #techs .main-col {
+    padding-right: 5%;
+  }
+}
+
+/* mobile navigation
+-------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+  #techs .header-col {
+    padding-top: 0;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+  #techs h1 {
+    letter-spacing: 3px;
+  }
+  #techs .main-col {
+    padding-right: 30px;
+  }
+  #techs .feature-item {
+    margin-top: 2.5em;
+  }
+  #techs .feature-item img {
+    max-width: 50%;
+  }
+  #techs p.lead {
+    text-align: center;;
+  }
+}

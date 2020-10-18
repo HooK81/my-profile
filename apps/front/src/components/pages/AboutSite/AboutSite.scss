@@ -1,0 +1,79 @@
+/* ------------------------------------------------------------------ */
+/* About Site Page
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+#about-site {
+  background: $body-background-color3;
+  margin-top: -22px; // To remove margin of header
+  padding-top: 50px;
+  overflow: hidden;
+  padding-bottom: 72px;
+}
+
+#about-site a,
+#about-site a:visited {
+  color: $alternate-color1;
+}
+#about-site a:hover,
+#about-site a:focus {
+  color: $alternate-color3;
+}
+
+#about-site h1 {
+  font: 18px/24px 'Open Sans', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#about-site h1 span {
+  display: inline-block;
+  border-bottom: 3px solid $alternate-color1;
+  padding-bottom: 6px;
+}
+#about-site h3 {
+  font: 16px/22px 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+#about-site .header-col {
+  padding-top: 9px;
+}
+#about-site .main-col {
+  padding-right: 10%;
+}
+#about-site dl:first-child {
+  margin-top: 9px;
+}
+#about-site .category:not(:last-child) {
+  margin-bottom: 48px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+/* screenwidth less than 900px
+--------------------------------------------------------------------- */
+@media only screen and (max-width: 900px) {
+  #about-site h1 {
+    font: 16px/24px 'Open Sans', sans-serif;
+    font-weight: bold;
+  }
+  #about-site .main-col {
+    padding-right: 5%;
+  }
+}
+
+
+/* mobile navigation
+-------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+  #about-site .header-col {
+    padding-top: 0;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+  #about-site h1 {
+    letter-spacing: 3px;
+  }
+  #about-site .main-col {
+    padding-right: 30px;
+  }
+}

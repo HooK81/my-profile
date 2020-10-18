@@ -1,0 +1,9 @@
+<?php
+
+return array (
+  'APP_JWT_USER_UUID' => NULL,
+  'JWT_PASSPHRASE' => NULL,
+  'MAILER_PASSWORD' => NULL,
+  'MAILER_USERNAME' => NULL,
+  'RECAPTCHA_SECRET' => NULL,
+);

@@ -1,0 +1,41 @@
+/* ------------------------------------------------------------------ */
+/* Scroll Button
+/* ------------------------------------------------------------------ */
+
+@import "../../variables.scss";
+
+.scroll-button {
+  & > a, & > i {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    margin-left: -22px;
+    color: #fff;
+    display: block;
+    height: 42px;
+    width: 42px;
+    font-size: 42px;
+    line-height: 42px;
+    color: #fff;
+    border-radius: 100%;
+
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $alternate-color1;
+    }
+  }
+
+  & > i {
+    cursor: pointer;
+  }
+}
+
+/* mobile wide/smaller tablets
+---------------------------------------------------------------------- */
+
+@media only screen and (max-width: 767px) {
+}

@@ -1,0 +1,120 @@
+{
+  "menu": {
+    "home": "Home",
+    "about_me": "About Me",
+    "resume": "Resume",
+    "techs": "Favorite Tech",
+    "contact": "Contact",
+    "about_site": "About this site"
+  },
+  "header": {
+    "head_line": "Hello, I'm {{ name }}.",
+    "description": "I'm a <1>{{ base }}</1> based <4>{{ occupation }}</4>."
+  },
+  "about": {
+    "title": "About Me",
+    "contact_details": "Contact Details",
+    "download_resume": "Download Resume",
+    "del": "del"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "description": "I'd love to hear from you, give me a shout by email or by using the form below if you'd like to get in contact with me.",
+    "message": {
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Submit"
+    },
+    "address": "Address & Phone",
+    "mail_sent": "Your message has been sent.\nI will review it as soon as possible."
+  },
+  "resume": {
+    "educations": {
+      "title": "Education",
+      "date_format": "MMMM YYYY"
+    },
+    "works": {
+      "title": "Professional Experience",
+      "today": "Today",
+      "date": "{{start}} - {{end}} - {{duration}}",
+      "duration": "{{ years }} {{ months }}",
+      "duration_years": "{{count}} year",
+      "duration_years_plural": "{{count}} years",
+      "duration_months": "{{count}} month",
+      "duration_months_plural": "{{count}} months",
+      "moment_format": "MMMM YYYY"
+    },
+    "skills": {
+      "title": "Skills",
+      "desc": "Short catch-up of my skills."
+    },
+    "techs": {
+      "title": "Favorite Tech",
+      "desc": "I'm a tinkerer and am always interested in testing new technologies but these are the ones I prefer."
+    }
+  },
+  "hobbies": {
+    "title": "Here are some of my hobbies."
+  },
+  "about_site": {
+    "title": "About the site",
+    "desc": "Here is the technology stack used on this site. It is definitely too much for the purpose but as we say in french « If you like it, won't think about he price ».",
+    "front": {
+      "title": "Front-end",
+      "library": {
+        "title": "Library",
+        "item1": "React 16",
+        "item2": "Client HTTP: <2>Axios</2>",
+        "item3": "State Container: <2>Redux</2> & <5>Redux Thunk</5>",
+        "item4": "Unit Tests: Jest + Enzyme (100% code coverage)"
+      },
+      "design": {
+        "title": "Design",
+        "item1": "Ceevee theme by <2>Styleshout</2>"
+      }
+    },
+    "back": {
+      "title": "Back-end",
+      "language": {
+        "title": "Language",
+        "item1": "PHP 7.2"
+      },
+      "framework": {
+        "title": "Framework",
+        "item1": "Symfony 4.4",
+        "item2": "Rest API by <2>FOSRestBundle</2>",
+        "item3": "JWT token authentication by <2>LexikJWTAuthenticationBundle</2>"
+      }
+    },
+    "infra": {
+      "title": "Infrastructure",
+      "container": {
+        "title": "Docker containers",
+        "item1": "PHP container for Symfony API",
+        "item2": "NGINX container for React front-end app"
+      },
+      "hosting": {
+        "title": "Hosting",
+        "item1": "Raspberry 4"
+      }
+    }
+  },
+  "api": {
+    "error": {
+      "login": "Unable to access the site !",
+      "get_user": "Unable to get profile data !",
+      "get_user_file": "Unable to get file !",
+      "post_email": "Unable to send message !",
+      "please_try_later": "Please try again later."
+    }
+  },
+  "error": {
+    "banner": "Awww... don't cry",
+    "title": "It's just a {{type}} error!",
+    "messages": {
+      "404": "What you’re looking for may have been misplaced in Long Term Memory.",
+      "500": "What you’re looking for seems broken. Come back in a little while."
+    }
+  }
+}

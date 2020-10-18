@@ -1,0 +1,3 @@
+export const API_TOKEN_SUCCESS   = 'API_TOKEN_SUCCESS';
+export const API_TOKEN_ERROR     = 'API_TOKEN_ERROR';
+export const API_TOKEN_STARTED   = 'API_TOKEN_STARTED';

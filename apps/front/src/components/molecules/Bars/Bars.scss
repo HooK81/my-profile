@@ -1,0 +1,53 @@
+/* ------------------------------------------------------------------ */
+/* Bars Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+.bars {
+  width: 95%;
+  float: left;
+  padding: 0;
+  text-align: left;
+}
+.bars {
+  margin-top: 36px;
+  list-style: none;
+}
+.bars li {
+  position: relative;
+  margin-bottom: 60px;
+  background: $bars-background;
+  height: 42px;
+  border-radius: 3px;
+}
+.bars li em {
+  font: 15px 'Open Sans', sans-serif;
+  font-weight: bold;
+  color: $bars-color;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: normal;
+  position: relative;
+  top: -36px;
+}
+.bar-expand {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  margin: 0;
+  padding-right: 24px;
+  background: $bars-color;
+  display: inline-block;
+  height: 42px;
+  line-height: 42px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* mobile navigation
+-------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+  .bars {
+    width: 100%;
+  }
+}

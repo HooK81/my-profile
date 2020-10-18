@@ -1,0 +1,33 @@
+version: '3.7'
+services: 
+
+    php:
+        user: ${LOCAL_USER}
+        volumes: 
+            - './apps/api/:/usr/src/api'
+            - './docker/users:/usr/src/api/resources/users:ro'
+        environment:
+            HOME: /home/user
+            XDEBUG_CONFIG: remote_enable=1 remote_autostart=1 remote_mode=req remote_host=192.168.10.5 remote_port=9000 remote_connect_back=0
+
+    nginx:
+        volumes: 
+            - './apps/api/public/:/usr/src/api'
+
+    # Node container used only for dev
+    node:
+        build: 
+            context: .
+            dockerfile: docker/node/Dockerfile
+        container_name: mp_node
+        user: ${LOCAL_USER}
+        restart: "no"
+        volumes:
+            - './apps/front/:/usr/src/front'
+        ports: 
+            - '${NODE_DEV_PORT}:3000'
+        environment:
+            HOME: /home/user
+        stdin_open: true # Interactive stdin for yarn start
+        tty: true
+        command: sh -c "yarn install && yarn start"

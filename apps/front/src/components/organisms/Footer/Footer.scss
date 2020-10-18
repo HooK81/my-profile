@@ -1,0 +1,80 @@
+/* ------------------------------------------------------------------ */
+/* Footer Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+footer {
+  padding-top: 48px;
+  margin-bottom: 48px;
+  color: $footer-color;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+}
+
+footer a,
+footer a:visited,
+footer .social li a,
+footer .social li a:visited {
+  color: $footer-link-color;
+}
+footer a:hover,
+footer a:focus,
+footer .social li a:hover,
+footer .social li a:focus {
+  color: $footer-link-hover;
+}
+
+/* copyright */
+footer .copyright {
+  margin: 0;
+  padding: 0;
+}
+footer .copyright li {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
+}
+.ie footer .copyright li {
+  display: inline;
+}
+
+/* Go To Top Button */
+footer .scroll-button {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+
+  & > a,
+  & > i {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin-left: -30px;
+    background-color: #525252;
+    font-size: 40px;
+    &:hover {
+      color: #fff;
+      background-color: $alternate-color1;
+    }
+  }
+}
+
+/* mobile wide/smaller tablets
+---------------------------------------------------------------------- */
+
+@media only screen and (max-width: 767px) {
+  /* Go To Top Button */
+  footer .scroll-button {
+    top: 50px;
+
+    & > a,
+    & > i {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      margin-left: -25px;
+    }
+  }
+}

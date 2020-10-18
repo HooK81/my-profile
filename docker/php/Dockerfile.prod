@@ -1,0 +1,25 @@
+FROM php:7.2-fpm-alpine
+LABEL maintainer="Julien CROCHET <julien@crochet.me>"
+ARG PHP_ENV=PROD
+
+RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS && \
+    PATH=$PATH:/usr/src/api/vendor/bin:bin && \
+    cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php -r "if (hash_file('sha384', 'composer-setup.php') === file_get_contents('https://composer.github.io/installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php composer-setup.php --filename=composer && \
+    php -r "unlink('composer-setup.php');" && \
+    mv composer /usr/local/bin/composer && \
+    pecl install apcu && \
+    docker-php-ext-install opcache && \
+    docker-php-ext-enable apcu opcache && \
+    pecl clear-cache && \
+    apk del .build-dependencies
+
+WORKDIR /usr/src/api
+COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DIR/conf.d/
+COPY apps/api /usr/src/api
+COPY docker/php/secrets/prod.decrypt.private.php /usr/src/api/config/secrets/prod/prod.decrypt.private.php
+COPY --chown=www-data docker/php/secrets/prod.jwt.private.pem /usr/src/api/config/jwt/prod/private.pem
+
+RUN composer build-prod

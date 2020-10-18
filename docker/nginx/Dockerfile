@@ -1,0 +1,11 @@
+FROM nginx:1.15.3-alpine
+LABEL maintainer="Julien CROCHET <julien@crochet.me>"
+
+RUN apk add --no-cache bash
+RUN echo 'alias ll="ls -la"' >> ~/.bashrc
+
+WORKDIR /usr/src
+
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY apps/api/public /usr/src/api
+COPY apps/front/build /usr/src/front

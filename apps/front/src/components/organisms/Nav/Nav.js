@@ -62,7 +62,7 @@ export function Nav(props) {
   useEffect(() => {
     // This hook is executed only once  (by pathname).
     // Used to setup the event scroll to onHomeScroll for home page
-    const handleHomeScroll = _.debounce(onHomeScroll, 300);
+    const handleHomeScroll = _.throttle(onHomeScroll, 300);
 
     let eventScroll = null;
     if (location.pathname === '/') {

@@ -17,8 +17,9 @@ import './Header.scss';
  */
 export function Header(props) {
   /*----------------------------------------------------*/
-  /* Make sure that header background image height is qual to the browser height.
+  /* Make sure that home header background image height is qual to the browser height.
   ------------------------------------------------------*/
+  const location = useLocation();
   const headerRef = useRef();
   const [resolution, setResolution] = useState(getWindowResolution());
 
@@ -27,17 +28,17 @@ export function Header(props) {
       setResolution(getWindowResolution());
     }
     const debouncedResize = _.debounce(handleResize, 300);
-    window.addEventListener('resize', debouncedResize);
-
-    headerRef.current.style.height = `${resolution.height}px`;
+    if (location.pathname === '/') {
+      window.addEventListener('resize', debouncedResize);
+      headerRef.current.style.height = `${resolution.height}px`;
+    }
 
     return () => window.removeEventListener('resize', debouncedResize);
-  }, [resolution]);
+  }, [resolution, location.pathname]);
 
   /*----------------------------------------------------*/
   /*	Browser history on active link
   ------------------------------------------------------*/
-  const location = useLocation();
   const history = useHistory();
   const debouncedHistoryPush = _.debounce(history.push, 300);
 
@@ -63,7 +64,7 @@ export function Header(props) {
   ];
 
   return (
-    <header id={props.id} ref={headerRef} >
+    <header id={props.id} ref={headerRef}>
       <Nav items={navItems} onSetActiveAfterScroll={setActive} />
       {props.children}
     </header>

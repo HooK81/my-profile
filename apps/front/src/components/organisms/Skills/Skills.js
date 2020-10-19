@@ -73,9 +73,9 @@ Skills.defaultProps = {
 };
 /* istanbul ignore next */
 Skills.propTypes = {
-  skills: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  skills: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (!propValue[key].hasOwnProperty('name') || !propValue[key].hasOwnProperty('level')) {
-      return new Error('Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.');
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

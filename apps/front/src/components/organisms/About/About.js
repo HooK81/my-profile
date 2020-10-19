@@ -76,7 +76,7 @@ export function About(props) {
                 />
                 <br />
                 <span>
-                  <a href={'mailto:' + props.profileMain.email}>{props.profileMain.email}</a>
+                  <a href={`mailto:${props.profileMain.email}`}>{props.profileMain.email}</a>
                 </span>
                 <br />
                 <ProtectedText text={props.profileMain.phone} />

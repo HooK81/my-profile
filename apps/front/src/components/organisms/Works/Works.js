@@ -52,7 +52,7 @@ Works.defaultProps = {
 
 /* istanbul ignore next */
 Works.propTypes = {
-  works: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  works: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (
       !propValue[key].hasOwnProperty('company') ||
       !propValue[key].hasOwnProperty('title') ||
@@ -60,7 +60,7 @@ Works.propTypes = {
       !propValue[key].hasOwnProperty('city') ||
       !propValue[key].hasOwnProperty('description')
     ) {
-      return new Error('Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.');
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

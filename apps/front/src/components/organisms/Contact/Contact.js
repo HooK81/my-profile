@@ -193,7 +193,7 @@ export class Contact extends PureComponent {
                 <ProtectedText text={this.props.profileMain.address.country} />
                 <br />
                 <span>
-                  <a href={'mailto:' + this.props.profileMain.email}>{this.props.profileMain.email}</a>
+                  <a href={`mailto:${this.props.profileMain.email}}`}>{this.props.profileMain.email}</a>
                 </span>
                 <br />
                 <ProtectedText text={this.props.profileMain.phone} />

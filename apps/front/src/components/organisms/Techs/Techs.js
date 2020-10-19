@@ -65,13 +65,13 @@ Techs.defaultProps = {
 };
 /* istanbul ignore next */
 Techs.propTypes = {
-  techs: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  techs: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (
       !propValue[key].hasOwnProperty('name') ||
       !propValue[key].hasOwnProperty('image') ||
       !propValue[key].hasOwnProperty('desc')
     ) {
-      return new Error('Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.');
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

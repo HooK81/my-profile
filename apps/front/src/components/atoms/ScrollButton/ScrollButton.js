@@ -38,7 +38,7 @@ export function ScrollButton(props) {
     );
   }
 
-  return <div className={'scroll-button ' + props.type}>{link}</div>;
+  return <div className={`scroll-button ${props.type}`}>{link}</div>;
 }
 
 ScrollButton.defaultProps = {
@@ -51,7 +51,7 @@ ScrollButton.propTypes = {
   type: PropTypes.oneOf(['down', 'up', 'top']).isRequired,
   linkTo: function (props, propName, componentName) {
     if (props.type !== 'top' && !props[propName]) {
-      return new Error('Invalid prop `' + propName + '` supplied to `' + componentName + '`. Validation failed.');
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   },
   offset: PropTypes.number,

@@ -45,7 +45,7 @@ export function Hobby(props) {
     <div className="bgrid-column hobby-item">
       <div className="item-wrap" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
         {image && <img alt={props.title} src={image} />}
-        <div className={'overlay ' + overlayClass}>{overlay}</div>
+        <div className={`overlay ${overlayClass}`}>{overlay}</div>
       </div>
     </div>
   );

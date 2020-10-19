@@ -3,6 +3,8 @@
   "version": "1.2.2",
   "author": "Julien CROCHET",
   "description": "My Profile UI",
+  "license": "MIT",
+  "private": true,
   "keywords": [
     "profile",
     "resume",
@@ -12,7 +14,6 @@
     "type": "git",
     "url": "git@github.com:HooK81/my-profile"
   },
-  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

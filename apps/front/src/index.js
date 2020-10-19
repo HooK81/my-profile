@@ -1,8 +1,5 @@
-/**
- * MyProfile
- * @author Julien CROCHET <julien@crochet.me>
- */
-
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -14,6 +11,11 @@ import App from './App';
 import * as serviceWorker from './utils/serviceWorker';
 import { store } from './utils/configureStore';
 import './utils/ga';
+
+/**
+ * MyProfile
+ * @author Julien CROCHET <julien@crochet.me>
+ */
 
 // Render App
 ReactDOM.render(

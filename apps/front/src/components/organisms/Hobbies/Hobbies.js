@@ -24,9 +24,9 @@ export function Hobbies(props) {
     <section id="hobbies">
       <div className="row">
         <div className="twelve column collapsed">
-          <h1>{t("hobbies.title")}</h1>
+          <h1>{t('hobbies.title')}</h1>
           <div id="hobbies-wrapper" className="bgrid bgrid-quarters s-bgrid-thirds">
-            { hobbies }
+            {hobbies}
           </div>
         </div>
       </div>
@@ -39,15 +39,13 @@ Hobbies.defaultProps = {
 };
 /* istanbul ignore next */
 Hobbies.propTypes = {
-  hobbies: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  hobbies: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (
       !propValue[key].hasOwnProperty('title') ||
       !propValue[key].hasOwnProperty('image') ||
       !propValue[key].hasOwnProperty('icon')
     ) {
-      return new Error(
-        'Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.',
-      );
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

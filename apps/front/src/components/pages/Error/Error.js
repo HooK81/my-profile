@@ -30,7 +30,7 @@ export function Error(props) {
               <p>
                 {t('error.title', { type: props.type })}
                 <br />
-                {t('error.messages.' + props.type)}
+                {t(`error.messages.${props.type}`)}
               </p>
               {props.message && <p>{props.message}</p>}
             </div>

@@ -33,7 +33,7 @@ export class Api {
     this.axios.interceptors.request.use(
       (config) => {
         if (that.token) {
-          config.headers.authorization = 'Bearer ' + that.token;
+          config.headers.authorization = `Bearer ${that.token}`;
         }
         return config;
       },
@@ -56,7 +56,7 @@ export class Api {
         // error
         const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
         if (showError) {
-          toast.error(errorMEssage + '\n' + i18n.t('api.error.please_try_later'), {
+          toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
             position: toast.POSITION.TOP_CENTER,
             autoClose: errorAutoClose,
           });
@@ -86,7 +86,7 @@ export class Api {
         // error
         const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
         if (showError) {
-          toast.error(errorMEssage + '\n' + i18n.t('api.error.please_try_later'), {
+          toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
             position: toast.POSITION.TOP_CENTER,
             autoClose: errorAutoClose,
           });
@@ -175,10 +175,10 @@ export class Api {
    * @param {string} errorMessage
    */
   buildApiErrorMessage(routeName, errorMessage) {
-    const key = 'api.error.' + routeName;
+    const key = `api.error.${routeName}`;
     let msg = '';
     if (i18n.exists(key)) {
-      msg = i18n.t('api.error.' + routeName, { msg: errorMessage });
+      msg = i18n.t(key, { msg: errorMessage });
     } else {
       msg = errorMessage;
     }

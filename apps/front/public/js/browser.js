@@ -34,7 +34,7 @@ function get_browser() {
  */
 function isSupported(browser) {
   var supported = true;
-  if (browser.name === "MSIE" || browser.name === "IE") {
+  if (browser.name === "MSIE" || (browser.name === "IE" && browser.version < 11)) {
     supported = false;
   }
   return supported;

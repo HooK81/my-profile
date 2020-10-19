@@ -7,7 +7,6 @@ import { shallow } from 'enzyme';
 import { Footer } from '../Footer';
 import { SocialLinks } from '../../../molecules/SocialLinks/SocialLinks';
 import { ScrollButton } from '../../../atoms/ScrollButton/ScrollButton';
-import { ProtectedText } from '../../../atoms/ProtectedText/ProtectedText';
 
 describe('Footer', () => {
   beforeEach(() => {
@@ -17,8 +16,8 @@ describe('Footer', () => {
   it('Should Footer render without crash', () => {
     const wrapper = shallow(<Footer profileMain={{social: [], fullName: 'John DOE'}} />);
     expect(wrapper.find('footer')).toHaveLength(1);
-    expect(wrapper.find(ProtectedText)).toHaveLength(1);
     expect(wrapper.find(SocialLinks)).toHaveLength(1);
     expect(wrapper.find(ScrollButton)).toHaveLength(1);
+    expect(wrapper.find('.copyright li').text()).toMatch('John DOE');
   });
 });

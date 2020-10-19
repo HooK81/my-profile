@@ -27,15 +27,13 @@ export function SocialLinks(props) {
 
 /* istanbul ignore next */
 SocialLinks.propTypes = {
-  networks: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  networks: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (
       !propValue[key].hasOwnProperty('name') ||
       !propValue[key].hasOwnProperty('url') ||
       !propValue[key].hasOwnProperty('icon')
     ) {
-      return new Error(
-        'Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.',
-      );
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

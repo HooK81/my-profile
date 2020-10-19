@@ -35,7 +35,7 @@ export function TextHighlighter(props) {
 
     // Extract words to highlight
     function extractTextToHighlight() {
-      const regExpStr = escapeTag(tagStart) + '([\\w\\s\\d]+)' + escapeTag(tagEnd);
+      const regExpStr = `${escapeTag(tagStart)}([\\w\\s\\d]+)${escapeTag(tagEnd)}`;
       const regExp = new RegExp(regExpStr, 'g');
       let match = regExp.exec(textToHighlight);
       while (match != null) {

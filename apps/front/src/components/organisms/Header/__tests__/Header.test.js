@@ -27,7 +27,7 @@ describe('Header', () => {
     expect(wrapper.find(Nav)).toHaveLength(1);
   });
 
-  it('Should Header can update vh property on resize', async () => {
+  it('Should Header can update header height property on resize on home page', async () => {
     // First mount with a specific size
     global.innerHeight = '1000';
     const wrapper = mount(
@@ -49,6 +49,21 @@ describe('Header', () => {
         }, 400),
       );
     });
+  });
+
+  it('Should Header don\'t update header height property on resize for non home page', async () => {
+    setDefaultLcationMock({
+      pathname: '/foo',
+      hash: ''
+    })
+    // First mount with a specific size
+    global.innerHeight = '1000';
+    const wrapper = mount(
+      <BrowserRouter>
+        <Header id="foo" />
+      </BrowserRouter>,
+    );
+    expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe(null);
   });
 
   it('Should Header add history after scroll to hash', async () => {

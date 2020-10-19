@@ -3,7 +3,7 @@
  * @author Julien CROCHET <julien@crochet.me>
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Style from 'style-it';
 
@@ -12,14 +12,39 @@ import Style from 'style-it';
  * @param object props
  */
 export function ProtectedText(props) {
-  function strSplitIn3(str, size) {
+  const [domText, setDomText] = useState('');
+  const [beforeText, setBeforeText] = useState('');
+  const [afterText, setAfterText] = useState('');
+
+  /**
+   * Reverse and split the text
+   * @returns array
+   */
+  const reverseAndSplit = useCallback(() => {
+    const reverse = reverseWrappers(props.text.split('').reverse().join(''));
+    const parts = split(reverse);
+
+    return parts;
+  }, [props.text]);
+
+  /**
+   * Split text in 3 parts
+   * @param {string} str Text
+   * @returns array
+   */
+  function split(str) {
     if (!str) return [];
+    const size = Math.max(1, Math.ceil(str.length / 3));
     str = String(str);
-    size = ~~size;
-    return size > 0 ? str.match(new RegExp('.{1,' + size + '}', 'g')) : [str];
+
+    return str.match(new RegExp(`.{1,${size}}`, 'g'));
   }
 
-  function replaceWrapper(str) {
+  /**
+   * Reverse common wrappers
+   * @param {Re} str
+   */
+  function reverseWrappers(str) {
     return str
       .replace('(', ')')
       .replace(')', '(')
@@ -29,46 +54,92 @@ export function ProtectedText(props) {
       .replace(']', '[');
   }
 
-  const [domText, setDomText] = useState('');
-  const [beforeText, setBeforeText] = useState('');
-  const [afterText, setAfterText] = useState('');
-
+  /**
+   * Set the text parts into state
+   */
   useEffect(() => {
-    const reverse = props.text ? replaceWrapper([...props.text].reverse().join('')) : '';
-    const splitLen = Math.max(1, Math.ceil(reverse.length / 3));
-    const split = strSplitIn3(reverse, splitLen);
-    setBeforeText(split[0] ? split[0] : '');
-    setDomText(split[1] ? split[1] : '');
-    setAfterText(split[2] ? split[2] : '');
-  }, [props.text]);
+    const parts = reverseAndSplit();
+    setBeforeText(parts[0] ? parts[0] : '');
+    setDomText(parts[1] ? parts[1] : '');
+    setAfterText(parts[2] ? parts[2] : '');
+  }, [props.text, reverseAndSplit]);
 
-  if (!beforeText) return null; // empty string
+  /**
+   * Render Text
+   */
+  function renderText() {
+    const { text, href, customClassName, protectedHref, hrefHeaders, ...others } = props;
 
+    return <span {...others}>{domText}</span>;
+  }
+
+  /**
+   * Render Link
+   */
+  function renderLink() {
+    const { text, href, customClassName, protectedHref, hrefHeaders, ...others } = props;
+
+    return (
+      <a href={props.protectedHref} onClick={onLinkClick} {...others}>
+        {domText}
+      </a>
+    );
+  }
+
+  /**
+   * Handle click on Link
+   * @param {Event} event
+   */
+  function onLinkClick(event) {
+    event.preventDefault();
+    let headers = '';
+    if (props.hrefHeaders) {
+      headers =
+        '?' +
+        Object.keys(props.hrefHeaders)
+          .map((key) => `${key}=${encodeURIComponent(props.hrefHeaders[key])}`)
+          .join('&');
+      debugger;
+    }
+    window.location.assign(props.href + headers);
+  }
+
+  if (!beforeText) return null; // empty string, nothing to render
+
+  // Render Component
   return (
     <Style>
       {`
-        span {
+        .protected-text > * {
           unicode-bidi: bidi-override;
           direction: rtl;
         }
-        span:before {
+        .protected-text > *:before {
           content: "${beforeText}"
         }
-        span:after {
+        .protected-text > *:after {
           content: "${afterText}"
         }
       `}
-      <span className={'protected-text ' + props.protectedClassName}>
-        <span>{domText}</span>
+      <span className={`protected-text ${props.customClassName}`}>
+        {!props.href && renderText()}
+        {props.href && renderLink()}
       </span>
     </Style>
   );
 }
+export default ProtectedText;
 
 ProtectedText.defaultProps = {
-  protectedClassName: '',
+  text: '',
+  href: '',
+  customClassName: '',
+  protectedHref: 'https://click',
 };
 ProtectedText.propTypes = {
   text: PropTypes.string.isRequired,
-  protectedClassName: PropTypes.string,
+  href: PropTypes.string,
+  hrefHeaders: PropTypes.object,
+  customClassName: PropTypes.string,
+  protectedHref: PropTypes.string,
 };

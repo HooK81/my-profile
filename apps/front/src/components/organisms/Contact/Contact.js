@@ -184,7 +184,7 @@ export class Contact extends PureComponent {
             <div className="widget widget_contact">
               <h4>{t('contact.address')}</h4>
               <p className="address">
-                <ProtectedText text={this.props.profileMain.fullName} />
+                <span>{this.props.profileMain.fullName}</span>
                 <br />
                 <ProtectedText text={this.props.profileMain.address.street} />
                 <br />
@@ -192,11 +192,9 @@ export class Contact extends PureComponent {
                 <br />
                 <ProtectedText text={this.props.profileMain.address.country} />
                 <br />
-                <span>
-                  <a href={'mailto:' + this.props.profileMain.email}>{this.props.profileMain.email}</a>
-                </span>
+                <ProtectedText text={this.props.profileMain.email} href={`mailto:${this.props.profileMain.email}`} />
                 <br />
-                <ProtectedText text={this.props.profileMain.phone} />
+                <ProtectedText text={this.props.profileMain.phone} href={`sms:${this.props.profileMain.phone.replace(/\s/g,'')}`} />
               </p>
             </div>
           </aside>

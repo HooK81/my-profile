@@ -61,7 +61,7 @@ export class App extends PureComponent {
 
     // Set title after profile loaded
     if (this.props.isLoaded && !this.props.apiError) {
-      document.title = this.props.profile.main.name + ' - ' + this.props.profile.main.occupation;
+      document.title = `${this.props.profile.main.name} - ${this.props.profile.main.occupation}`;
     }
   }
 

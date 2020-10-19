@@ -47,19 +47,19 @@ export function Educations(props) {
 }
 
 Educations.defaultProps = {
-  educations: []
-}
+  educations: [],
+};
 
 /* istanbul ignore next */
 Educations.propTypes = {
-  educations: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
+  educations: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
     if (
       !propValue[key].hasOwnProperty('school') ||
       !propValue[key].hasOwnProperty('degree') ||
       !propValue[key].hasOwnProperty('city') ||
       !propValue[key].hasOwnProperty('date')
     ) {
-      return new Error('Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.');
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

@@ -29,14 +29,9 @@ export function Bars(props) {
 
 /* istanbul ignore next */
 Bars.propTypes = {
-  items: PropTypes.arrayOf(function (propValue, key, componentName, location, propFullName) {
-    if (
-      !propValue[key].hasOwnProperty('name') ||
-      !propValue[key].hasOwnProperty('level')
-    ) {
-      return new Error(
-        'Invalid prop `' + propFullName + '` supplied to `' + componentName + '`. Validation failed.',
-      );
+  items: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+    if (!propValue[key].hasOwnProperty('name') || !propValue[key].hasOwnProperty('level')) {
+      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
     }
   }).isRequired,
 };

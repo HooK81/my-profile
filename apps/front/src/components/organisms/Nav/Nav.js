@@ -74,7 +74,7 @@ export function Nav(props) {
     return () => window.removeEventListener('scroll', eventScroll);
   }, [location.pathname, onHomeScroll]);
 
-  const menuClass = menuState + ' ' + (isMenuDisplayed ? 'opened' : '');
+  const menuClass = `${menuState} ${isMenuDisplayed ? 'opened' : ''}`
 
   /*----------------------------------------------------*/
   /*	Change language

@@ -184,7 +184,7 @@ export class Contact extends PureComponent {
             <div className="widget widget_contact">
               <h4>{t('contact.address')}</h4>
               <p className="address">
-                <ProtectedText text={this.props.profileMain.fullName} />
+                <span>{this.props.profileMain.fullName}</span>
                 <br />
                 <ProtectedText text={this.props.profileMain.address.street} />
                 <br />

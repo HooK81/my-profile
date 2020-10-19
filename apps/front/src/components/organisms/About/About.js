@@ -67,7 +67,7 @@ export function About(props) {
             <div className="column contact-details">
               <h2>{t('about.contact_details')}</h2>
               <p className="address">
-                <ProtectedText text={props.profileMain.fullName} />
+                <span>{props.profileMain.fullName}</span>
                 <br />
                 <ProtectedText text={props.profileMain.address.street} />
                 <br />

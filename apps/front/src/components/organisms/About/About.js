@@ -75,11 +75,9 @@ export function About(props) {
                   text={`${props.profileMain.address.zip} ${props.profileMain.address.city} ${props.profileMain.address.country}`}
                 />
                 <br />
-                <span>
-                  <a href={`mailto:${props.profileMain.email}`}>{props.profileMain.email}</a>
-                </span>
+                <ProtectedText text={props.profileMain.email} href={`mailto:${props.profileMain.email}`} />
                 <br />
-                <ProtectedText text={props.profileMain.phone} />
+                <ProtectedText text={props.profileMain.phone} href={`sms:${props.profileMain.phone.replace(/\s/g,'')}`} />
               </p>
             </div>
             <div className="column download">

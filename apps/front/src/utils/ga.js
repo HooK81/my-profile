@@ -15,7 +15,4 @@ history.listen(location => {
   ReactGA.pageview(location.pathname + (location.hash ? location.hash : ''));
 });
 
-// Home page
-ReactGA.pageview('/');
-
 export default ReactGA;

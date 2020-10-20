@@ -10,6 +10,7 @@ import { AppLoader } from '../components/molecules/AppLoader/AppLoader';
 import { Home } from '../components/pages/Home/Home';
 import { Error } from '../components/pages/Error/Error';
 import { api } from '../api/index';
+import ReactGA from 'react-ga';
 
 jest.mock('../api/index');
 
@@ -18,16 +19,19 @@ const profile = {
   resume: {},
 };
 
+jest.mock('react-ga');
+ReactGA.pageview = jest.fn();
+
 const location = {
   pathname: '/',
 };
+window.location.reload = jest.fn();
+api.refreshToken = jest.fn();
+api.refreshToken.mockResolvedValue('token');
 
 describe('App', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-
-    window.location.reload = jest.fn();
-    api.refreshToken = jest.fn();
     api.refreshToken.mockResolvedValue('token');
   });
 
@@ -44,6 +48,7 @@ describe('App', () => {
 
     expect(wrapper.containsMatchingElement(<AppLoader isLoaded={false} />)).toBe(true);
     expect(wrapper.find(Home)).toHaveLength(0);
+    expect(ReactGA.pageview).toHaveBeenCalledTimes(0);
   });
 
   it('Should App loaded render without crash', () => {
@@ -240,5 +245,105 @@ describe('App', () => {
       setIsLoaded: jest.fn(),
     });
     expect(window.location.reload).toHaveBeenCalled();
+  });
+
+  it('Should App call react GA when app is loaded', async () => {
+    const wrapper = shallow(<App location={location} />);
+    wrapper.setProps({
+      isLoaded: true,
+      locale: 'en',
+      getProfile: () =>
+        new Promise((resolve, reject) => {
+          resolve();
+        }),
+      profile: profile,
+    });
+
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(ReactGA.pageview).toHaveBeenCalledWith('/');
+        done();
+      }, 1000),
+    );
+  });
+
+  it('Should App call react GA when location change', async () => {
+    const wrapper = shallow(<App location={location} />);
+    wrapper.setProps({
+      isLoaded: true,
+      locale: 'en',
+      getProfile: () =>
+        new Promise((resolve, reject) => {
+          resolve();
+        }),
+      profile: profile,
+      location: {
+        pathname: '/foo',
+      },
+    });
+
+    // Wait for first react GA call
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(ReactGA.pageview).toHaveBeenNthCalledWith(1, '/foo');
+        done();
+      }, 1000),
+    );
+
+    // Change location
+    wrapper.setProps({
+      location: {
+        pathname: '/bar',
+      },
+    });
+
+    // Wait for second react GA call
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(ReactGA.pageview).toHaveBeenNthCalledWith(2, '/bar');
+        done();
+      }, 1000),
+    );
+  });
+
+  it('Should App call react GA when hash change', async () => {
+    const wrapper = shallow(<App location={location} />);
+    wrapper.setProps({
+      isLoaded: true,
+      locale: 'en',
+      getProfile: () =>
+        new Promise((resolve, reject) => {
+          resolve();
+        }),
+      profile: profile,
+      location: {
+        pathname: '/foo',
+        hash: '#bar',
+      },
+    });
+
+    // Wait for first react GA call
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(ReactGA.pageview).toHaveBeenNthCalledWith(1, '/foo#bar');
+        done();
+      }, 1000),
+    );
+
+    // Change location
+    wrapper.setProps({
+      location: {
+        pathname: '/foo',
+        hash: '#baz',
+      },
+    });
+
+    // Wait for second react GA call
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(ReactGA.pageview).toHaveBeenNthCalledWith(2, '/foo#baz');
+        done();
+      }, 1000),
+    );
   });
 });

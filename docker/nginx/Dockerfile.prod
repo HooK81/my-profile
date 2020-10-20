@@ -7,8 +7,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY apps/front/package.json /usr/src/front/
 COPY apps/front/yarn.lock /usr/src/front/
 RUN yarn install --prod
-COPY docker/node/secrets/.env.production /usr/src/front/
 COPY apps/front /usr/src/front
+COPY docker/node/secrets/.env.production /usr/src/front/
 RUN yarn build
 
 # Stage 2 - build the final image

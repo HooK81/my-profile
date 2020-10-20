@@ -6,6 +6,7 @@ services:
             context: .
             dockerfile: docker/php/Dockerfile.prod
         container_name: mp_php_prod
+        image: myprofile_php:${TAG}
         volumes:
             - './docker/users:/usr/src/api/resources/users:ro'
         restart: always
@@ -17,6 +18,7 @@ services:
             context: .
             dockerfile: docker/nginx/Dockerfile.prod
         container_name: mp_nginx_prod
+        image: myprofile_nginx:${TAG}
         restart: "always"
         depends_on: 
             - php

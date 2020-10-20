@@ -62,7 +62,6 @@ describe('ProtectedText for Link', () => {
     const wrapper = mount(<ProtectedText text="foobar" href=""/>);
     expect(wrapper.find('.protected-text span')).toHaveLength(1);
     expect(wrapper.find('.protected-text span').text()).toBe('bo');
-    console.log(wrapper.debug());
   });
 
   it('Should ProtectedText render a link with customClassName', () => {

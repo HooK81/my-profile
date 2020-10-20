@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import ReactGA from 'react-ga';
+import _ from 'lodash';
 import { selectApiProfileData, selectApiProfileError } from './redux/profile/selectors';
 import { selectApiTokenError } from './redux/token/selectors';
 import { selectAppIsLoaded, selectAppLocale } from './redux/app/selectors';
@@ -44,7 +46,11 @@ export class App extends PureComponent {
     }
 
     // Reload page when user was on error page cauded by API and change location
-    if (prevProps.location.pathname === '/error' && prevProps.location.pathname !== this.props.location.pathname && this.props.apiError) {
+    if (
+      prevProps.location.pathname === '/error' &&
+      prevProps.location.pathname !== this.props.location.pathname &&
+      this.props.apiError
+    ) {
       this.props.setIsLoaded(false);
       window.location.reload();
     }
@@ -55,7 +61,7 @@ export class App extends PureComponent {
     }
 
     // Init moment when user change locale
-    if (this.props.locale !== prevProps.locale ) {
+    if (this.props.locale !== prevProps.locale) {
       moment.locale(this.props.locale);
     }
 
@@ -63,7 +69,20 @@ export class App extends PureComponent {
     if (this.props.isLoaded && !this.props.apiError) {
       document.title = `${this.props.profile.main.name} - ${this.props.profile.main.occupation}`;
     }
+
+    // Call React GA on location change
+    if (
+      prevProps.isLoaded !== this.props.isLoaded ||
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.hash !== this.props.location.hash
+    ) {
+      this.updateReactGA(this.props.location.pathname + (this.props.location.hash ? this.props.location.hash : ''));
+    }
   }
+
+  updateReactGA = _.debounce((path) => {
+    ReactGA.pageview(path.replace('#home', ''));
+  }, 1000);
 
   render() {
     if (!this.props.isLoaded) {
@@ -79,7 +98,7 @@ export class App extends PureComponent {
               <Error type="500" message={this.props.apiError} />
             </Route>
           </Switch>
-          <Footer/>
+          <Footer />
         </div>
       );
     }

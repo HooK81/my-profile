@@ -9,7 +9,7 @@
   },
   "header": {
     "head_line": "Hello, I'm {{ name }}.",
-    "description": "I'm a <1>{{ base }}</1> based <4>{{ occupation }}</4>."
+    "description": "I'm a **{{ base }}** based **{{ occupation }}**."
   },
   "about": {
     "title": "About Me",

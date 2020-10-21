@@ -18,7 +18,7 @@ header .banner {
   padding-bottom: 30px;
   text-align: center;
   padding-top: 30px;
-  background-color: rgba(0,0,0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 2em;
 }
 
@@ -44,11 +44,18 @@ header .banner-text h3 p {
   margin-bottom: 0;
   white-space: pre-line;
 }
-header .banner-text h3 mark,
-header .banner-text h3 a {
+
+header .banner-text h3 strong,
+header .banner-text h3 em {
   color: #fff;
-  background-color: inherit;
+  font-size: inherit;
+  font-family: inherit;
 }
+header .banner-text h3 strong {
+  font-weight: inherit;
+}
+
+
 header .banner-text hr {
   width: 60%;
   margin: 18px auto 24px auto;
@@ -96,7 +103,7 @@ header .banner-text hr {
 /* mobile wide/smaller tablets
 ---------------------------------------------------------------------- */
 
-@media only screen and (max-width: 767px), only screen and (max-height: 450px){
+@media only screen and (max-width: 767px), only screen and (max-height: 450px) {
   header .banner {
     padding-bottom: 12px;
     padding-top: 6px;
@@ -113,7 +120,7 @@ header .banner-text hr {
   }
 }
 
-@media only screen and (max-width: 767px), screen and (max-height: 390px){
+@media only screen and (max-width: 767px), screen and (max-height: 390px) {
   header .scroll-button {
     display: none;
   }
@@ -135,13 +142,13 @@ header .banner-text hr {
   }
 }
 
-@media only screen and (max-height: 450px){
+@media only screen and (max-height: 450px) {
   header .banner-text h1 {
     font: 58px/1.1em 'opensans-bold', sans-serif !important;
   }
 }
 
-@media only screen and (max-height: 320px){
+@media only screen and (max-height: 320px) {
   header .banner-text h1 {
     font: 48px/1.1em 'opensans-bold', sans-serif !important;
   }

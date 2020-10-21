@@ -4,7 +4,7 @@
     "name": "John",
     "fullName": "John Doe",
     "occupation": "My Occupation",
-    "description": "Lorem **ipsum** dolor sit amet, consectetur **adipiscing** elit.\nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "description": "Lorem **ipsum** dolor sit _amet_, consectetur **adipiscing** elit.\nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "image": "profile.jpg",
     "bio": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "email": "john@doe.com",
@@ -59,7 +59,7 @@
           "end": ""
         },
         "city": "Paris",
-        "description": "Describe work, **special projects**, notable achievements, what technologies you have been working with, and anything else that would be useful for an employer to know."
+        "description": "Describe work, **special projects**, notable achievements\n- what technologies you have been working with\n- and anything else that would be useful for an employer to know"
       },
       {
         "company": "Awesome Studio 1",
@@ -69,7 +69,7 @@
           "end": "2009-12-31"
         },
         "city": "Paris",
-        "description": "Describe work, special projects, **notable achievements**, what technologies you have been working with, and anything else that would be useful for an employer to know."
+        "description": "Describe work, **special projects**, notable achievements\n- what technologies you have been working with\n- and anything else that would be useful for an employer to know"
       }
     ],
     "skills": [

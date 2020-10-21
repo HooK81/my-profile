@@ -19,6 +19,7 @@ services:
         build: 
             context: .
             dockerfile: docker/node/Dockerfile
+        image: myprofile_node:${TAG}
         container_name: mp_node
         user: ${LOCAL_USER}
         restart: "no"

@@ -9,7 +9,7 @@
   },
   "header": {
     "head_line": "Bonjour, je suis {{ name }}.",
-    "description": "Je suis un <1>{{ occupation }}</1> localisé sur <4>{{ base }}</4>."
+    "description": "Je suis un **{{ occupation }}** localisé sur **{{ base }}**."
   },
   "about": {
     "title": "À Propos de Moi",

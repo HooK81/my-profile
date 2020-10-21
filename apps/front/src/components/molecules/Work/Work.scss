@@ -23,10 +23,24 @@
 }
 .work .description {
   white-space: pre-line;
+  margin-bottom: 30px;
   text-align: justify;
 }
-.work .description mark {
-  background-color: inherit;
+.work .description p {
+  margin-bottom: 0;
+}
+.work .description ul {
+  margin: 0;
+  margin-left: 1em;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.work .description li {
+  margin: 0;
+  line-height: inherit;
+}
+
+.work .description strong {
   color: $alternate-color3;
   font-weight: normal;
 }

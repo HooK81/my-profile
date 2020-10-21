@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment'
 import { useTranslation } from 'react-i18next';
 import { upperFirst } from 'lodash';
-import { TextHighlighter } from '../../molecules/TextHighlighter/TextHighlighter';
+import ReactMarkdown from 'react-markdown';
 import './Work.scss';
 
 /**
@@ -39,12 +39,7 @@ export function Work(props) {
         <span className="date_separator">&bull;</span>
         <span className="date">{t("resume.works.date", {start: dateStart, end: dateEnd, duration: durationString})}</span>
       </p>
-      <p className="description">
-        <TextHighlighter
-          autoEscape={true}
-          textToHighlight={props.description}
-        />
-      </p>
+      <ReactMarkdown className="description">{props.description}</ReactMarkdown>
     </div>
   );
 }

@@ -86,7 +86,9 @@
     "trailingComma": "all",
     "semi": true,
     "singleQuote": true,
-    "printWidth": 120
+    "printWidth": 120,
+    "bracketSpacing": true,
+    "useTabs": false
   },
   "jest": {
     "coveragePathIgnorePatterns": [

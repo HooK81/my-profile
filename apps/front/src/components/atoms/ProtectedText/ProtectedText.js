@@ -99,9 +99,13 @@ export function ProtectedText(props) {
         Object.keys(props.hrefHeaders)
           .map((key) => `${key}=${encodeURIComponent(props.hrefHeaders[key])}`)
           .join('&');
-      debugger;
     }
-    window.location.assign(props.href + headers);
+
+    if (event.metaKey || event.ctrlKey) {
+      window.open(props.href + headers, '_blank');
+    } else {
+      window.location.assign(props.href + headers);
+    }
   }
 
   if (!beforeText) return null; // empty string, nothing to render
@@ -121,7 +125,7 @@ export function ProtectedText(props) {
           content: "${afterText}"
         }
       `}
-      <span className={`protected-text ${props.customClassName}`}>
+      <span className={`protected-text ${props.className}`}>
         {!props.href && renderText()}
         {props.href && renderLink()}
       </span>
@@ -133,13 +137,13 @@ export default ProtectedText;
 ProtectedText.defaultProps = {
   text: '',
   href: '',
-  customClassName: '',
+  className: '',
   protectedHref: 'https://click',
 };
 ProtectedText.propTypes = {
   text: PropTypes.string.isRequired,
   href: PropTypes.string,
   hrefHeaders: PropTypes.object,
-  customClassName: PropTypes.string,
+  className: PropTypes.string,
   protectedHref: PropTypes.string,
 };

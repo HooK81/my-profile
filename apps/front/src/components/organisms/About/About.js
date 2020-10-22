@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { api } from '../../../api/index';
 import { ProfilePicture } from '../../atoms/ProfilePicture/ProfilePicture';
-import { ProtectedText } from '../../atoms/ProtectedText/ProtectedText';
+import { ProtectedText } from 'react-protected-text';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import './About.scss';
@@ -67,7 +67,7 @@ export function About(props) {
             <div className="column contact-details">
               <h2>{t('about.contact_details')}</h2>
               <p className="address">
-                <span>{props.profileMain.fullName}</span>
+                <ProtectedText text={props.profileMain.fullName} />
                 {props.profileMain.address.street && (
                   <>
                     <br />

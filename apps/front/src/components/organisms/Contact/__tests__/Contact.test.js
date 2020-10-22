@@ -5,9 +5,11 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import _ from 'lodash/fp';
 import Contact from '../Contact.js';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../../api/index';
+import { ProtectedText } from '../../../atoms/ProtectedText/ProtectedText';
 
 const profileMain = {
   fullName: '',
@@ -33,6 +35,28 @@ describe('Contact', () => {
     expect(wrapper.find('section#contact')).toHaveLength(1);
     expect(wrapper.find(ReCAPTCHA)).toHaveLength(1);
     expect(wrapper.find('.btn-submit').prop('disabled')).toBe(true);
+    expect(wrapper.find(ProtectedText)).toHaveLength(1);
+  });
+
+  it('Should Contact render with address', () => {
+    let profile = _.set(
+      'address',
+      {
+        street: '1 infinite loop',
+        zip: 'CA99',
+        city: 'Cupertino',
+        country: 'USA',
+      },
+      profileMain,
+    );
+    const wrapper = shallow(<Contact profileMain={profile} />);
+    expect(wrapper.find(ProtectedText)).toHaveLength(4);
+  });
+
+  it('Should Contact render with phone', () => {
+    let profile = _.set('phone', '0000', profileMain);
+    const wrapper = shallow(<Contact profileMain={profile} />);
+    expect(wrapper.find(ProtectedText)).toHaveLength(2);
   });
 
   it('Should Contact can send en email', () => {
@@ -46,7 +70,9 @@ describe('Contact', () => {
     wrapper.find('#contactMessage').simulate('change', { target: { name: 'message', value: 'foo' } });
     expect(wrapper.find('#contactMessage').prop('value')).toBe('foo');
 
-    wrapper.find('#contactSubject').simulate('change', { target: { name: 'fakeCheckbox', type: 'checkbox', checked: true } });
+    wrapper
+      .find('#contactSubject')
+      .simulate('change', { target: { name: 'fakeCheckbox', type: 'checkbox', checked: true } });
     expect(wrapper.state().fakeCheckbox).toBe(true);
 
     wrapper.find('#contactSubject').simulate('change', { target: { name: 'subject', value: 'bar' } });
@@ -134,9 +160,9 @@ describe('Contact', () => {
     const resetFn = jest.fn();
     instance.recaptchaRef = {
       current: {
-        reset: resetFn
-      }
-    }
+        reset: resetFn,
+      },
+    };
     spyOn(instance, 'clearCaptcha').and.callThrough();
     instance.clearCaptcha(true);
     expect(wrapper.state().verified).toBe(false);

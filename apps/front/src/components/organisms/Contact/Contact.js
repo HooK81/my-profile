@@ -185,16 +185,29 @@ export class Contact extends PureComponent {
               <h4>{t('contact.address')}</h4>
               <p className="address">
                 <span>{this.props.profileMain.fullName}</span>
-                <br />
-                <ProtectedText text={this.props.profileMain.address.street} />
-                <br />
-                <ProtectedText text={`${this.props.profileMain.address.zip} ${this.props.profileMain.address.city}`} />
-                <br />
-                <ProtectedText text={this.props.profileMain.address.country} />
+                {this.props.profileMain.address.street && (
+                  <>
+                    <br />
+                    <ProtectedText text={this.props.profileMain.address.street} />
+                    <br />
+                    <ProtectedText
+                      text={`${this.props.profileMain.address.zip} ${this.props.profileMain.address.city}`}
+                    />
+                    <br />
+                    <ProtectedText text={this.props.profileMain.address.country} />
+                  </>
+                )}
                 <br />
                 <ProtectedText text={this.props.profileMain.email} href={`mailto:${this.props.profileMain.email}`} />
-                <br />
-                <ProtectedText text={this.props.profileMain.phone} href={`sms:${this.props.profileMain.phone.replace(/\s/g,'')}`} />
+                {this.props.profileMain.phone && (
+                  <>
+                    <br />
+                    <ProtectedText
+                      text={this.props.profileMain.phone}
+                      href={`sms:${this.props.profileMain.phone.replace(/\s/g, '')}`}
+                    />
+                  </>
+                )}
               </p>
             </div>
           </aside>

@@ -114,14 +114,14 @@ export function ProtectedText(props) {
   return (
     <Style>
       {`
-        .protected-text > * {
+        * {
           unicode-bidi: bidi-override;
           direction: rtl;
         }
-        .protected-text > *:before {
+        *:before {
           content: "${beforeText}"
         }
-        .protected-text > *:after {
+        *:after {
           content: "${afterText}"
         }
       `}

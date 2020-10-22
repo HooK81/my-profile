@@ -68,16 +68,27 @@ export function About(props) {
               <h2>{t('about.contact_details')}</h2>
               <p className="address">
                 <span>{props.profileMain.fullName}</span>
-                <br />
-                <ProtectedText text={props.profileMain.address.street} />
-                <br />
-                <ProtectedText
-                  text={`${props.profileMain.address.zip} ${props.profileMain.address.city} ${props.profileMain.address.country}`}
-                />
+                {props.profileMain.address.street && (
+                  <>
+                    <br />
+                    <ProtectedText text={props.profileMain.address.street} />
+                    <br />
+                    <ProtectedText
+                      text={`${props.profileMain.address.zip} ${props.profileMain.address.city} ${props.profileMain.address.country}`}
+                    />
+                  </>
+                )}
                 <br />
                 <ProtectedText text={props.profileMain.email} href={`mailto:${props.profileMain.email}`} />
-                <br />
-                <ProtectedText text={props.profileMain.phone} href={`sms:${props.profileMain.phone.replace(/\s/g,'')}`} />
+                {props.profileMain.phone && (
+                  <>
+                    <br />
+                    <ProtectedText
+                      text={props.profileMain.phone}
+                      href={`sms:${props.profileMain.phone.replace(/\s/g, '')}`}
+                    />
+                  </>
+                )}
               </p>
             </div>
             <div className="column download">

@@ -9,7 +9,7 @@ import _ from 'lodash/fp';
 import Contact from '../Contact.js';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../../api/index';
-import { ProtectedText } from '../../../atoms/ProtectedText/ProtectedText';
+import { ProtectedText } from 'react-protected-text';
 
 const profileMain = {
   fullName: '',
@@ -35,7 +35,7 @@ describe('Contact', () => {
     expect(wrapper.find('section#contact')).toHaveLength(1);
     expect(wrapper.find(ReCAPTCHA)).toHaveLength(1);
     expect(wrapper.find('.btn-submit').prop('disabled')).toBe(true);
-    expect(wrapper.find(ProtectedText)).toHaveLength(1);
+    expect(wrapper.find(ProtectedText)).toHaveLength(2);
   });
 
   it('Should Contact render with address', () => {
@@ -50,13 +50,13 @@ describe('Contact', () => {
       profileMain,
     );
     const wrapper = shallow(<Contact profileMain={profile} />);
-    expect(wrapper.find(ProtectedText)).toHaveLength(4);
+    expect(wrapper.find(ProtectedText)).toHaveLength(5);
   });
 
   it('Should Contact render with phone', () => {
     let profile = _.set('phone', '0000', profileMain);
     const wrapper = shallow(<Contact profileMain={profile} />);
-    expect(wrapper.find(ProtectedText)).toHaveLength(2);
+    expect(wrapper.find(ProtectedText)).toHaveLength(3);
   });
 
   it('Should Contact can send en email', () => {

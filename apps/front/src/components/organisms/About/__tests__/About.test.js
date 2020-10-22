@@ -7,14 +7,14 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { About } from '../About.js';
 import { ProfilePicture } from '../../../atoms/ProfilePicture/ProfilePicture';
-import { ProtectedText } from '../../../atoms/ProtectedText/ProtectedText';
+import { ProtectedText } from 'react-protected-text';
 
 describe('About', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Should About render without crash without adress and without phone', () => {
+  it('Should About render without adress and without phone', () => {
     const profile = {
       name: '',
       fullName: '',
@@ -31,10 +31,10 @@ describe('About', () => {
     expect(wrapper.find('section#about')).toHaveLength(1);
     expect(wrapper.find(ProfilePicture)).toHaveLength(1);
     expect(wrapper.find(ProfilePicture).prop('url')).toMatch('/foo');
-    expect(wrapper.find(ProtectedText)).toHaveLength(1);
+    expect(wrapper.find(ProtectedText)).toHaveLength(2);
   });
 
-  it('Should About render without crash with adress', () => {
+  it('Should About render with adress', () => {
     const profile = {
       name: '',
       fullName: '',
@@ -48,10 +48,10 @@ describe('About', () => {
       phone: '',
     };
     const wrapper = mount(<About profileMain={profile} />);
-    expect(wrapper.find(ProtectedText)).toHaveLength(3);
+    expect(wrapper.find(ProtectedText)).toHaveLength(4);
   });
 
-  it('Should About render without crash with phone', () => {
+  it('Should About render with phone', () => {
     const profile = {
       name: '',
       fullName: '',
@@ -65,6 +65,6 @@ describe('About', () => {
       phone: '000000000',
     };
     const wrapper = mount(<About profileMain={profile} />);
-    expect(wrapper.find(ProtectedText)).toHaveLength(2);
+    expect(wrapper.find(ProtectedText)).toHaveLength(3);
   });
 });

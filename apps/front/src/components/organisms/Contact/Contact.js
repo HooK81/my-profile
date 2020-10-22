@@ -9,7 +9,7 @@ import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
 import { withTranslation } from 'react-i18next';
 import i18n from 'i18next';
-import { ProtectedText } from '../../atoms/ProtectedText/ProtectedText';
+import { ProtectedText } from 'react-protected-text';
 import './Contact.scss';
 
 /**
@@ -184,7 +184,7 @@ export class Contact extends PureComponent {
             <div className="widget widget_contact">
               <h4>{t('contact.address')}</h4>
               <p className="address">
-                <span>{this.props.profileMain.fullName}</span>
+                <ProtectedText text={this.props.profileMain.fullName} />
                 {this.props.profileMain.address.street && (
                   <>
                     <br />

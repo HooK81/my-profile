@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import { shallow } from 'enzyme';
+import { ProtectedText } from 'react-protected-text';
 import { Footer } from '../Footer';
 import { SocialLinks } from '../../../molecules/SocialLinks/SocialLinks';
 import { ScrollButton } from '../../../atoms/ScrollButton/ScrollButton';
@@ -18,6 +19,6 @@ describe('Footer', () => {
     expect(wrapper.find('footer')).toHaveLength(1);
     expect(wrapper.find(SocialLinks)).toHaveLength(1);
     expect(wrapper.find(ScrollButton)).toHaveLength(1);
-    expect(wrapper.find('.copyright li').text()).toMatch('John DOE');
+    expect(wrapper.find('.copyright li').find(ProtectedText)).toHaveLength(1);
   });
 });

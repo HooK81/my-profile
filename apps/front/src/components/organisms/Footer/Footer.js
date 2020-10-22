@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { ProtectedText } from 'react-protected-text';
 import { SocialLinks } from '../../molecules/SocialLinks/SocialLinks';
 import { ScrollButton } from '../../atoms/ScrollButton/ScrollButton';
 import './Footer.scss';
@@ -23,7 +24,8 @@ export function Footer(props) {
           <SocialLinks networks={props.profileMain.social} />
           <ul className="copyright">
             <li>
-              v{process.env.REACT_APP_VERSION} &copy; Copyright {year} {props.profileMain.fullName}
+              v{process.env.REACT_APP_VERSION} &copy; Copyright {year}{' '}
+              <ProtectedText text={props.profileMain.fullName} />
             </li>
           </ul>
         </div>
@@ -36,9 +38,9 @@ export function Footer(props) {
 Footer.defaultProps = {
   profileMain: {
     social: [],
-    fullName: ''
+    fullName: '',
   },
-}
+};
 
 Footer.propTypes = {
   profileMain: PropTypes.object,

@@ -9560,10 +9560,10 @@ react-markdown@^5.0.0:
     unist-util-visit "^2.0.0"
     xtend "^4.0.1"
 
-react-protected-text@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-protected-text/-/react-protected-text-1.0.2.tgz#ca653d0d651cbb14b35a0852a136e03528da2d97"
-  integrity sha512-XfNQsHCxRr4wX1E9fV+ZKo8rnrzBsVRrrYpk04yZoHIArrOzBwB8VW3gML7ZIzDz0qaNNot5Wa783WkQPrfc1Q==
+react-protected-text@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-protected-text/-/react-protected-text-1.1.0.tgz#e48b12e62d0db406e3415bb9f834708b85c2ada6"
+  integrity sha512-5JnqhTjX9tmBkRXp3xURBB2Mppbyg6/u8g433w31Q6e41kEfTV+hzarPpKxRXoywzdecAcgaiARxI7En4Pn1aQ==
   dependencies:
     style-it "^2.1.4"
 

@@ -11,6 +11,12 @@
     "head_line": "Bonjour, je suis {{ name }}.",
     "description": "Je suis un **{{ occupation }}** localisé sur **{{ base }}**."
   },
+  "footer": {
+    "cookie": {
+      "message": "Ce site utilise les cookies pour améliorer l'expérience utilisateur.",
+      "accept_btn": "Je comprends"
+    }
+  },
   "about": {
     "title": "À Propos de Moi",
     "contact_details": "Coordonnées",

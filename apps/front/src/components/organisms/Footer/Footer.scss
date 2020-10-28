@@ -60,6 +60,19 @@ footer .scroll-button {
   }
 }
 
+/* Cookie consent */
+.cookie-consent{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  background-color: $alternate-color3 !important;
+}
+
+.cookie-consent-button button {
+  background-color: $alternate-color2 !important;
+  color: #fff !important;
+}
+
 /* mobile wide/smaller tablets
 ---------------------------------------------------------------------- */
 
@@ -75,5 +88,8 @@ footer .scroll-button {
       line-height: 50px;
       margin-left: -25px;
     }
+  }
+  .cookie-consent-button {
+    flex: auto;
   }
 }

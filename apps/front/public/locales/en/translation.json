@@ -11,6 +11,12 @@
     "head_line": "Hello, I'm {{ name }}.",
     "description": "I'm a **{{ base }}** based **{{ occupation }}**."
   },
+  "footer": {
+    "cookie": {
+      "message": "This website uses cookies to enhance the user experience.",
+      "accept_btn": "I understand"
+    }
+  },
   "about": {
     "title": "About Me",
     "contact_details": "Contact Details",

@@ -5,6 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import CookieConsent from 'react-cookie-consent';
+import { useTranslation } from 'react-i18next';
 import { ProtectedText } from 'react-protected-text';
 import { SocialLinks } from '../../molecules/SocialLinks/SocialLinks';
 import { ScrollButton } from '../../atoms/ScrollButton/ScrollButton';
@@ -16,6 +18,7 @@ import './Footer.scss';
  */
 export function Footer(props) {
   const year = moment().year();
+  const { t } = useTranslation();
 
   return (
     <footer>
@@ -31,6 +34,18 @@ export function Footer(props) {
         </div>
         <ScrollButton type={'top'} />
       </div>
+      <CookieConsent
+          location="bottom"
+          cookieName="cookieConsent"
+          expires={999}
+          acceptOnScroll={true}
+          acceptOnScrollPercentage={5}
+          containerClasses="cookie-consent"
+          buttonWrapperClasses="cookie-consent-button"
+          buttonText={t('footer.cookie.accept_btn')}
+        >
+          {t('footer.cookie.message')}
+        </CookieConsent>
     </footer>
   );
 }

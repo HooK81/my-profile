@@ -42,7 +42,7 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.library.item2">
                   HTTP Client:{' '}
-                  <a href="https://github.com/axios/axios" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/axios/axios">
                     Axios
                   </a>
                 </Trans>
@@ -51,10 +51,10 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.library.item3">
                   State Container:{' '}
-                  <a href="https://redux.js.org/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://redux.js.org/">
                     Redux
                   </a> and{' '}
-                  <a href="https://redux.js.org/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://redux.js.org/">
                     Redux Thunk
                   </a>
                 </Trans>
@@ -67,7 +67,7 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.design.item1">
                   Ceevee theme{' '}
-                  <a href="https://www.styleshout.com/free-templates/ceevee/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.styleshout.com/free-templates/ceevee/">
                     Styleshout
                   </a>
                 </Trans>
@@ -93,7 +93,7 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.back.framework.item2">
                   Rest API by{' '}
-                  <a href="https://github.com/FriendsOfSymfony/FOSRestBundle" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">
                     FOSRestBundle
                   </a>
                 </Trans>
@@ -102,7 +102,7 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.back.framework.item3">
                   JWT token authentication{' '}
-                  <a href="https://github.com/lexik/LexikJWTAuthenticationBundle" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/lexik/LexikJWTAuthenticationBundle">
                     LexikJWTAuthenticationBundle
                   </a>
                 </Trans>

@@ -3,12 +3,14 @@
  * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { api } from '../../../api/index';
+import { selectAppLocale } from '../../../redux/app/selectors';
+
 import { ProfilePicture } from '../../atoms/ProfilePicture/ProfilePicture';
 import { ProtectedText } from 'react-protected-text';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import './About.scss';
 
 /**
@@ -19,6 +21,7 @@ export function About(props) {
   // Component State
   const [pictureUrl, setPictureUrl] = useState(null);
   const [resumeUrl, setResumeUrl] = useState(null);
+  const appLocale = useSelector(state => selectAppLocale(state));
 
   // Get profile picture URL
   useEffect(() => {
@@ -34,21 +37,20 @@ export function About(props) {
   }, [props.profileMain.image]);
 
   // Get resume pdf URL
-  const lng = i18n.language;
   useEffect(() => {
     const url = api.buildUrl(
       'get_user_file',
       {
         id: process.env.REACT_APP_PROFILE_ID,
         file: props.profileMain.resumePdf,
-        _locale: lng,
+        _locale: appLocale,
         disposition: 'attachment',
       },
       true,
       true,
     );
     setResumeUrl(url);
-  }, [props.profileMain.resumePdf, lng]);
+  }, [props.profileMain.resumePdf, appLocale]);
 
   const { t } = useTranslation();
 

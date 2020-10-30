@@ -65,7 +65,7 @@
   },
   "about_site": {
     "title": "About the site",
-    "desc": "Here is the technology stack used on this site. It is definitely too much for the purpose but as we say in french « If you like it, won't think about he price ».",
+    "desc": "Here is the technology stack used on this website. It is definitely too much for the purpose but as we say in french « If you like it, won't think about the price ».",
     "front": {
       "title": "Front-end",
       "library": {

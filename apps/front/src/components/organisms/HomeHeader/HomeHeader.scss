@@ -55,12 +55,19 @@ header .banner-text h3 strong {
   font-weight: inherit;
 }
 
-
 header .banner-text hr {
   width: 60%;
   margin: 18px auto 24px auto;
   border-color: #2f2d2e;
   border-color: rgba(150, 150, 150, 0.1);
+}
+
+header .scroll-button {
+  margin-left: -21px;
+
+  & i {
+    font-size: 42px;
+  }
 }
 
 /* screenwidth less than 1024px
@@ -93,17 +100,15 @@ header .banner-text hr {
     width: 65%;
     margin: 12px auto;
   }
-}
-@media only screen and (max-height: 500px) {
   header .scroll-button i {
-    font-size: 0.8em !important;
+    font-size: 30px;
   }
 }
 
 /* mobile wide/smaller tablets
 ---------------------------------------------------------------------- */
 
-@media only screen and (max-width: 767px), only screen and (max-height: 450px) {
+@media only screen and (max-width: 767px), only screen and (max-height: 490px) {
   header .banner {
     padding-bottom: 12px;
     padding-top: 6px;
@@ -118,9 +123,15 @@ header .banner-text hr {
     width: 80%;
     margin: 18px auto;
   }
+  header .scroll-button {
+    margin-left: -23px;
+    & i {
+      font-size: 24px;
+    }
+  }
 }
 
-@media only screen and (max-width: 767px), screen and (max-height: 390px) {
+@media only screen and (max-width: 480px) and (max-height: 510px), only screen and (max-width: 320px), only screen and (max-height: 380px) {
   header .scroll-button {
     display: none;
   }

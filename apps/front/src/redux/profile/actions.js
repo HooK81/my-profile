@@ -5,7 +5,7 @@
 import { GET_PROFILE_STARTED, GET_PROFILE_SUCCESS, GET_PROFILE_ERROR } from './constants';
 import { api } from '../../api';
 import { setIsLoaded } from '../app/actions';
-import i18n from 'i18next';
+import { selectAppLocale } from '../app/selectors';
 
 /**
  * Get user profile
@@ -19,7 +19,7 @@ export const getProfile = () => {
         'get_user',
         {
           id: process.env.REACT_APP_PROFILE_ID,
-          _locale: i18n.language,
+          _locale: selectAppLocale(getState()),
         },
         {
           showError: false,

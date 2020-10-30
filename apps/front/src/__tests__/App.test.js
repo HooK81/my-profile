@@ -39,7 +39,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: false,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -55,7 +55,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -73,7 +73,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -90,7 +90,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           reject();
@@ -120,7 +120,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       profile: profile,
       apiError: 'err',
       setIsLoaded: jest.fn(),
@@ -138,7 +138,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -151,7 +151,7 @@ describe('App', () => {
 
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -165,7 +165,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -178,7 +178,7 @@ describe('App', () => {
 
     wrapper.setProps({
       isLoaded: true,
-      locale: 'fr',
+      appLocale: 'fr',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -192,7 +192,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -205,7 +205,7 @@ describe('App', () => {
 
     wrapper.setProps({
       isLoaded: true,
-      locale: 'fr',
+      appLocale: 'fr',
       getProfile: () =>
         new Promise((resolve, reject) => {
           reject();
@@ -220,7 +220,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={locationError} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -234,7 +234,7 @@ describe('App', () => {
 
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       apiError: 'error',
       getProfile: () =>
         new Promise((resolve, reject) => {
@@ -251,7 +251,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -271,7 +271,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();
@@ -310,7 +310,7 @@ describe('App', () => {
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
-      locale: 'en',
+      appLocale: 'en',
       getProfile: () =>
         new Promise((resolve, reject) => {
           resolve();

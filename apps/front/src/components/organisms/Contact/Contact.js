@@ -4,6 +4,9 @@
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { selectAppLocale } from '../../../redux/app/selectors';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
@@ -75,7 +78,6 @@ export class Contact extends PureComponent {
         from: this.state.email,
         object: this.state.subject,
         message: this.state.message,
-        _locale: i18n.language,
       })
       .then((res) => {
         this.clearCaptcha(true);
@@ -161,7 +163,7 @@ export class Contact extends PureComponent {
                 <div className="submit cf">
                   <ReCAPTCHA
                     className="captcha"
-                    hl={i18n.language}
+                    hl={this.props.appLocale}
                     ref={this.recaptchaRef}
                     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                     onChange={this.onVerify}
@@ -217,7 +219,12 @@ export class Contact extends PureComponent {
   }
 }
 
-export default withTranslation()(Contact);
+/* istanbul ignore next */
+const mapStateToProps = (state) => ({
+  appLocale: selectAppLocale(state),
+});
+
+export default compose(connect(mapStateToProps), withTranslation())(Contact);
 
 Contact.propTypes = {
   profileMain: PropTypes.object.isRequired,

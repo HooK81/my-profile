@@ -41,16 +41,14 @@ footer .copyright li {
 
 /* Go To Top Button */
 footer .scroll-button {
-  position: absolute;
-  top: 60px;
-  left: 50%;
+  top: -30px;
+  margin-left: -30px;
+  bottom: unset;
 
-  & > a,
-  & > i {
+  & i {
     width: 60px;
     height: 60px;
     line-height: 60px;
-    margin-left: -30px;
     background-color: #525252;
     font-size: 40px;
     &:hover {
@@ -61,11 +59,12 @@ footer .scroll-button {
 }
 
 /* Cookie consent */
-.cookie-consent{
+.cookie-consent {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 15px;
-  background-color: $alternate-color3 !important;
+  background: $alternate-color3 !important;
+  background: rgba($alternate-color3, 0.8) !important;
 }
 
 .cookie-consent-button button {
@@ -81,8 +80,7 @@ footer .scroll-button {
   footer .scroll-button {
     top: 50px;
 
-    & > a,
-    & > i {
+    & i {
       width: 50px;
       height: 50px;
       line-height: 50px;

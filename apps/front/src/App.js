@@ -56,13 +56,13 @@ export class App extends PureComponent {
     }
 
     // Reload profile when user change locale
-    if (this.props.isLoaded && this.props.locale !== prevProps.locale && !this.props.apiError) {
+    if (this.props.isLoaded && this.props.appLocale !== prevProps.appLocale && !this.props.apiError) {
       this.props.getProfile().catch(() => {});
     }
 
     // Init moment when user change locale
-    if (this.props.locale !== prevProps.locale) {
-      moment.locale(this.props.locale);
+    if (this.props.appLocale !== prevProps.appLocale) {
+      moment.locale(this.props.appLocale);
     }
 
     // Set title after profile loaded
@@ -128,7 +128,7 @@ const mapStateToProps = (state) => ({
   profile: selectApiProfileData(state),
   apiError: selectApiTokenError(state) ? selectApiTokenError(state) : selectApiProfileError(state),
   isLoaded: selectAppIsLoaded(state),
-  locale: selectAppLocale(state),
+  appLocale: selectAppLocale(state),
 });
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch) => {

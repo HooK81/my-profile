@@ -6,7 +6,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import _ from 'lodash/fp';
-import Contact from '../Contact.js';
+import { Contact } from '../Contact.js';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../../api/index';
 import { ProtectedText } from 'react-protected-text';

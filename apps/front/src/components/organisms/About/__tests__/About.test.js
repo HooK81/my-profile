@@ -4,10 +4,18 @@
  */
 
 import React from 'react';
+import configureMockStore from 'redux-mock-store';
+import {Provider} from 'react-redux'
 import { mount } from 'enzyme';
 import { About } from '../About.js';
 import { ProfilePicture } from '../../../atoms/ProfilePicture/ProfilePicture';
 import { ProtectedText } from 'react-protected-text';
+
+// Mock Store
+const mockStore = configureMockStore();
+const store = mockStore({
+  app: { locale: 'en' }
+});
 
 describe('About', () => {
   beforeEach(() => {
@@ -27,7 +35,7 @@ describe('About', () => {
       },
       phone: '',
     };
-    const wrapper = mount(<About profileMain={profile} />);
+    const wrapper = mount(<Provider store={store}><About profileMain={profile} /></Provider>);
     expect(wrapper.find('section#about')).toHaveLength(1);
     expect(wrapper.find(ProfilePicture)).toHaveLength(1);
     expect(wrapper.find(ProfilePicture).prop('url')).toMatch('/foo');
@@ -47,7 +55,7 @@ describe('About', () => {
       },
       phone: '',
     };
-    const wrapper = mount(<About profileMain={profile} />);
+    const wrapper = mount(<Provider store={store}><About profileMain={profile} /></Provider>);
     expect(wrapper.find(ProtectedText)).toHaveLength(4);
   });
 
@@ -64,7 +72,7 @@ describe('About', () => {
       },
       phone: '000000000',
     };
-    const wrapper = mount(<About profileMain={profile} />);
+    const wrapper = mount(<Provider store={store}><About profileMain={profile} /></Provider>);
     expect(wrapper.find(ProtectedText)).toHaveLength(3);
   });
 });

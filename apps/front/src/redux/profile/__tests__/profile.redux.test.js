@@ -19,7 +19,7 @@ const mockStore = configureMockStore([thunk]);
 
 // Mock app dependency setIsLoaded
 appDependency.setIsLoaded = jest.fn();
-appDependency.setIsLoaded.mockReturnValue({type: 'IS_LOADED', payload: true});
+appDependency.setIsLoaded.mockReturnValue({ type: 'IS_LOADED', payload: true });
 
 describe('Profile Action GetProfile', () => {
   let store;
@@ -36,6 +36,7 @@ describe('Profile Action GetProfile', () => {
           error: null,
         },
       },
+      app: { locale: 'en' },
     });
   });
 
@@ -43,40 +44,41 @@ describe('Profile Action GetProfile', () => {
     const profile = {
       profile: {
         firstname: 'foo',
-        lastname: 'bar'
+        lastname: 'bar',
       },
-    }
+    };
     // Mock api.post
     api.get.mockResolvedValue({
       data: profile,
     });
 
     // Expected actions
-    const expectedActions = [{ type: constants.GET_PROFILE_STARTED }, { type: constants.GET_PROFILE_SUCCESS, payload: profile }];
+    const expectedActions = [
+      { type: constants.GET_PROFILE_STARTED },
+      { type: constants.GET_PROFILE_SUCCESS, payload: profile },
+    ];
 
     // Call getProfile with success
     await store.dispatch(actions.getProfile()).then(() => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining(expectedActions)
-      );
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.get.mock.calls.length).toBe(1);
     });
   });
 
   it('Should getProfile action return an error', async () => {
-
     const resp = new Error('baz');
     api.get.mockRejectedValue(resp);
 
     // Expected actions
-    const expectedActions = [{ type: constants.GET_PROFILE_STARTED }, { type: constants.GET_PROFILE_ERROR, payload: 'baz' }];
+    const expectedActions = [
+      { type: constants.GET_PROFILE_STARTED },
+      { type: constants.GET_PROFILE_ERROR, payload: 'baz' },
+    ];
 
     // Call getProfile with error
     await store.dispatch(actions.getProfile()).catch(() => {
       expect(api.get.mock.calls.length).toBe(1);
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining(expectedActions)
-      );
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
   });
 });

@@ -15,7 +15,7 @@ export function SocialLinks(props) {
   const networks = props.networks.map(function (network) {
     return (
       <li key={network.name}>
-        <a href={network.url} target="_blank" rel="noopener noreferrer">
+        <a href={network.url}>
           <i className={network.icon}></i>
         </a>
       </li>

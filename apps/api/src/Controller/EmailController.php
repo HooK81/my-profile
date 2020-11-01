@@ -46,7 +46,7 @@ class EmailController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('Invalid request');
         }
         if (empty($msg['object'])) {
-            $msg->object = $_ENV['MAILER_OBJECT_DEFAULT'];
+            $msg['object'] = $_ENV['MAILER_OBJECT_DEFAULT'];
         }
 
         // send mail

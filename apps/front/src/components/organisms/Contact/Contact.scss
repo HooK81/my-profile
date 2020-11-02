@@ -63,7 +63,7 @@
 #contact form {
   margin-bottom: 30px;
 }
-#contact label {
+#contact fieldset label {
   font: 15px/24px 'Open Sans', sans-serif;
   font-weight: bold;
   margin: 12px 0;
@@ -71,9 +71,9 @@
   float: left;
   width: 26%;
 }
-#contact input,
-#contact textarea,
-#contact select {
+#contact fieldset input,
+#contact fieldset textarea,
+#contact fieldset select{
   padding: 15px 20px;
   color: #eee;
   background: #373233;
@@ -84,12 +84,19 @@
   line-height: 24px;
   width: 65%;
 }
-#contact input:focus,
-#contact textarea:focus,
-#contact select:focus {
+#contact fieldset input:focus,
+#contact fieldset textarea:focus,
+#contact fieldset select:focus {
   color: #fff;
   background-color: $alternate-color1;
 }
+#contact fieldset .error {
+  position: relative;
+  top: -25px;
+  margin-left: 26%;
+  color: $alternate-color2;
+}
+
 #contact .submit {
   margin-left: 26%;
 }
@@ -179,25 +186,23 @@
   }
 
   /* form */
-  #contact label {
+  #contact fieldset label {
     float: none;
     width: 100%;
   }
-  #contact input,
-  #contact textarea,
-  #contact select {
+  #contact fieldset input,
+  #contact fieldset textarea,
+  #contact fieldset select {
     margin-bottom: 6px;
     width: 100%;
   }
   #contact .submit {
-    margin-left: 0;
+    margin-left: unset;
   }
-  /*
-  #contact .captcha {
-    display: block;
-    margin-left: 0;
+
+  #contact fieldset .error {
+    top: unset;
+    margin-left: unset;
   }
-  #contact button.btn-submit {
-    margin: 5px 0 24px 0;
-  }*/
+
 }

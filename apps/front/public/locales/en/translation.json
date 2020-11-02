@@ -33,7 +33,12 @@
       "submit": "Submit"
     },
     "address": "Address & Phone",
-    "mail_sent": "Your message has been sent.\nI will review it as soon as possible."
+    "form": {
+      "required": "This field is required.",
+      "invalid_email": "Invalid email address.",
+      "invalid_message": "Message must be at least 10 characters long.",
+      "submitted": "Your message has been sent.\nI will review it as soon as possible."
+    }
   },
   "resume": {
     "educations": {

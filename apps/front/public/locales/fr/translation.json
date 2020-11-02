@@ -32,8 +32,13 @@
       "message": "Message",
       "submit": "Envoyer"
     },
-    "address": "Addresse & Téléphone",
-    "mail_sent": "Votre message a bien été envoyé.\nJ'y répondrai dès que possible."
+    "address": "Adresse & Téléphone",
+    "form": {
+      "required": "Ce champ est obligatoire.",
+      "invalid_email": "Adresse email invalide.",
+      "invalid_message": "Le message doit contenir au moins 10 caractères.",
+      "submitted": "Votre message a bien été envoyé.\nJ'y répondrai dès que possible."
+    }
   },
   "resume": {
     "educations": {

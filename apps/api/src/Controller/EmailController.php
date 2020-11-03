@@ -18,15 +18,18 @@ class EmailController extends AbstractFOSRestController
 {
     private $mailer;
     private $reCaptchaValidator;
+    private $timezone;
 
     /**
      * @param \Swift_Mailer      $mailer             Mail service
      * @param ReCaptchaValidator $reCaptchaValidator reCaptcha Validator
+     * @param string             $timezone           Timezone
      */
-    public function __construct(\Swift_Mailer $mailer, ReCaptchaValidator $reCaptchaValidator)
+    public function __construct(\Swift_Mailer $mailer, ReCaptchaValidator $reCaptchaValidator, $timezone)
     {
         $this->mailer = $mailer;
         $this->reCaptchaValidator = $reCaptchaValidator;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -57,6 +60,7 @@ class EmailController extends AbstractFOSRestController
                 $this->renderView(
                     'emails/contact.text.twig', [
                         'msg' => $msg,
+                        'timezone' => $this->timezone,
                     ]
                 ),
                 'text/plain'

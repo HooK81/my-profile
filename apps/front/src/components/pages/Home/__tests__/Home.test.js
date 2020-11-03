@@ -7,12 +7,11 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Home } from '../Home.js';
 import { Header } from '../../../organisms/Header/Header';
-import { HomeHeader } from '../../../organisms/HomeHeader/HomeHeader';
 import { About } from '../../../organisms/About/About';
 import { Resume } from '../../../pages/Resume/Resume';
 import { Hobbies } from '../../../organisms/Hobbies/Hobbies';
 import { Techs } from '../../../organisms/Techs/Techs';
-import Contact from '../../../organisms/Contact/Contact';
+import { Contact } from '../../../organisms/Contact/Contact';
 
 describe('Home', () => {
   beforeEach(() => {

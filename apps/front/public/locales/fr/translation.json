@@ -32,8 +32,13 @@
       "message": "Message",
       "submit": "Envoyer"
     },
-    "address": "Addresse & Téléphone",
-    "mail_sent": "Votre message a bien été envoyé.\nJ'y répondrai dès que possible."
+    "address": "Adresse & Téléphone",
+    "form": {
+      "required": "Ce champ est obligatoire.",
+      "invalid_email": "Adresse email invalide.",
+      "invalid_message": "Le message doit contenir au moins 10 caractères.",
+      "submitted": "Votre message a bien été envoyé.\nJ'y répondrai dès que possible."
+    }
   },
   "resume": {
     "educations": {
@@ -73,7 +78,8 @@
         "item1": "React 16",
         "item2": "Client HTTP: <2>Axios</2>",
         "item3": "Conteneur d'État: <2>Redux</2> & <5>Redux Thunk</5>",
-        "item4": "Tests Unitaires: Jest + Enzyme (100% de couverture du code)"
+        "item4": "Formulaire: <2>React Hook Form</2>",
+        "item5": "Tests Unitaires: Jest + Enzyme (100% de couverture du code)"
       },
       "design": {
         "title": "Design",

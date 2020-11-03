@@ -2,15 +2,15 @@
  * Contact
  * @author Julien CROCHET <julien@crochet.me>
  */
-import React, { PureComponent } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { selectAppLocale } from '../../../redux/app/selectors';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
-import { withTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { ProtectedText } from 'react-protected-text';
 import './Contact.scss';
@@ -19,212 +19,173 @@ import './Contact.scss';
  * Contact Component
  * @param {object} props
  */
-export class Contact extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.recaptchaRef = React.createRef();
-
-    this.state = {
-      verified: false,
-      pending: false,
-      recaptchaResponse: '',
-      email: '',
-      subject: '',
-      message: '',
-    };
-  }
+export function Contact(props) {
+  const [verified, setVerified] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [recaptchaResponse, setRecaptchaResponse] = useState('');
+  const recaptchaRef = useRef();
+  const appLocale = useSelector((state) => selectAppLocale(state));
 
   /*** CAPTCHA */
-  onVerify = (recaptchaResponse) => {
-    this.setState({
-      verified: true,
-      recaptchaResponse: recaptchaResponse,
-    });
+  const onVerify = (recaptchaResponse) => {
+    setVerified(true);
+    setRecaptchaResponse(recaptchaResponse);
   };
-
-  onExpired = () => {
-    this.clearCaptcha(false);
-  };
-
-  clearCaptcha = (reset) => {
-    this.setState({
-      verified: false,
-      recaptchaResponse: '',
-    });
+  const clearCaptcha = (reset) => {
+    setVerified(false);
+    setRecaptchaResponse('');
     if (reset) {
-      this.recaptchaRef.current.reset();
+      recaptchaRef.current.reset();
     }
   };
+  const onExpired = () => clearCaptcha(false);
 
-  /*** CONTROLLED FORM */
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.setState({
-      pending: true,
-    });
+  /*** FORM */
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data) => {
+    setPending(true);
 
     api
       .post('post_email', {
-        reCaptchaResponse: this.state.recaptchaResponse,
-        from: this.state.email,
-        object: this.state.subject,
-        message: this.state.message,
+        reCaptchaResponse: recaptchaResponse,
+        from: data?.email,
+        object: data?.subject,
+        message: data?.message,
       })
       .then((res) => {
-        this.clearCaptcha(true);
-        toast.success(i18n.t('contact.mail_sent'), {
+        clearCaptcha(true);
+        toast.success(i18n.t('contact.form.submitted'), {
           position: toast.POSITION.TOP_CENTER,
         });
-        this.setState({
-          pending: false,
-        });
+        setPending(false);
       })
       .catch((error) => {
-        this.clearCaptcha(true);
-        this.setState({
-          pending: false,
-        });
+        clearCaptcha(true);
+        setPending(false);
       });
   };
 
-  render() {
-    const { t } = this.props;
-    const submitDisabled = !this.state.verified || this.state.pending;
+  const submitDisabled = !verified || pending;
+  const { t } = useTranslation();
 
-    return (
-      <section id="contact">
-        <div className="row section-head">
-          <div className="two column header-col">
-            <h1>
-              <span>{t('contact.title')}</span>
-            </h1>
-          </div>
-
-          <div className="ten column">
-            <p className="lead">{t('contact.description')}</p>
-          </div>
+  return (
+    <section id="contact">
+      <div className="row section-head">
+        <div className="two column header-col">
+          <h1>
+            <span>{t('contact.title')}</span>
+          </h1>
         </div>
 
-        <div className="row">
-          <div className="eight column">
-            <form id="contactForm" name="contactForm" onSubmit={this.onSubmit}>
-              <fieldset>
-                <div>
-                  <label htmlFor="contactEmail">
-                    {t('contact.message.email')} <span className="required">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    size="35"
-                    id="contactEmail"
-                    name="email"
-                    required
-                    value={this.state.email}
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="contactSubject">{t('contact.message.subject')}</label>
-                  <input
-                    type="text"
-                    size="35"
-                    id="contactSubject"
-                    name="subject"
-                    value={this.state.subject}
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="contactMessage">
-                    {t('contact.message.message')} <span className="required">*</span>
-                  </label>
-                  <textarea
-                    cols="50"
-                    rows="8"
-                    id="contactMessage"
-                    name="message"
-                    required
-                    value={this.state.message}
-                    onChange={this.handleInputChange}
-                  ></textarea>
-                </div>
-
-                <div className="submit cf">
-                  <ReCAPTCHA
-                    className="captcha"
-                    hl={this.props.appLocale}
-                    ref={this.recaptchaRef}
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                    onChange={this.onVerify}
-                    onExpired={this.onExpired}
-                    theme="dark"
-                    size="compact"
-                  />
-                  <div className="btn-submit-wrapper">
-                    <button className="btn-submit" disabled={submitDisabled}>
-                      {t('contact.message.submit')}
-                      {this.state.pending && <i className="fas fa-spinner fa-spin fa-lg"></i>}
-                    </button>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-
-          <aside className="four column footer-widgets">
-            <div className="widget widget_contact">
-              <h4>{t('contact.address')}</h4>
-              <p className="address">
-                <ProtectedText text={this.props.profileMain.fullName} />
-                {this.props.profileMain.address.street && (
-                  <>
-                    <br />
-                    <ProtectedText text={this.props.profileMain.address.street} />
-                    <br />
-                    <ProtectedText
-                      text={`${this.props.profileMain.address.zip} ${this.props.profileMain.address.city}`}
-                    />
-                    <br />
-                    <ProtectedText text={this.props.profileMain.address.country} />
-                  </>
-                )}
-                <br />
-                <ProtectedText text={this.props.profileMain.email} href={`mailto:${this.props.profileMain.email}`} />
-                {this.props.profileMain.phone && (
-                  <>
-                    <br />
-                    <ProtectedText
-                      text={this.props.profileMain.phone}
-                      href={`sms:${this.props.profileMain.phone.replace(/\s/g, '')}`}
-                    />
-                  </>
-                )}
-              </p>
-            </div>
-          </aside>
+        <div className="ten column">
+          <p className="lead">{t('contact.description')}</p>
         </div>
-      </section>
-    );
-  }
+      </div>
+
+      <div className="row">
+        <div className="eight column">
+          <form id="contactForm" name="contactForm" onSubmit={handleSubmit(onSubmit)}>
+            <fieldset>
+              <div>
+                <label htmlFor="contactEmail">
+                  {t('contact.message.email')} <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  size="35"
+                  id="contactEmail"
+                  name="email"
+                  ref={register({
+                    required: t('contact.form.required'),
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: t('contact.form.invalid_email'),
+                    },
+                  })}
+                />
+                {errors.email && <span className="error">* {errors.email?.message}</span>}
+              </div>
+
+              <div>
+                <label htmlFor="contactSubject">{t('contact.message.subject')}</label>
+                <input type="text" size="35" id="contactSubject" name="subject" ref={register} />
+              </div>
+
+              <div>
+                <label htmlFor="contactMessage">
+                  {t('contact.message.message')} <span className="required">*</span>
+                </label>
+                <textarea
+                  cols="50"
+                  rows="8"
+                  id="contactMessage"
+                  name="message"
+                  ref={register({
+                    required: t('contact.form.required'),
+                    minLength: {
+                      value: 10,
+                      message: t('contact.form.invalid_message'),
+                    },
+                  })}
+                ></textarea>
+                {errors.message && <span className="error">* {errors.message?.message}</span>}
+              </div>
+
+              <div className="submit cf">
+                <ReCAPTCHA
+                  className="captcha"
+                  hl={appLocale}
+                  ref={recaptchaRef}
+                  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                  onChange={onVerify}
+                  onExpired={onExpired}
+                  theme="dark"
+                  size="compact"
+                />
+                <div className="btn-submit-wrapper">
+                  <button className="btn-submit" disabled={submitDisabled}>
+                    {t('contact.message.submit')}
+                    {pending && <i className="fas fa-spinner fa-spin fa-lg"></i>}
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <aside className="four column footer-widgets">
+          <div className="widget widget_contact">
+            <h4>{t('contact.address')}</h4>
+            <p className="address">
+              <ProtectedText text={props.profileMain.fullName} />
+              {props.profileMain.address.street && (
+                <>
+                  <br />
+                  <ProtectedText text={props.profileMain.address.street} />
+                  <br />
+                  <ProtectedText text={`${props.profileMain.address.zip} ${props.profileMain.address.city}`} />
+                  <br />
+                  <ProtectedText text={props.profileMain.address.country} />
+                </>
+              )}
+              <br />
+              <ProtectedText text={props.profileMain.email} href={`mailto:${props.profileMain.email}`} />
+              {props.profileMain.phone && (
+                <>
+                  <br />
+                  <ProtectedText
+                    text={props.profileMain.phone}
+                    href={`sms:${props.profileMain.phone.replace(/\s/g, '')}`}
+                  />
+                </>
+              )}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
 }
-
-/* istanbul ignore next */
-const mapStateToProps = (state) => ({
-  appLocale: selectAppLocale(state),
-});
-
-export default compose(connect(mapStateToProps), withTranslation())(Contact);
 
 Contact.propTypes = {
   profileMain: PropTypes.object.isRequired,

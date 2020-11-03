@@ -34,8 +34,7 @@ export function Contact(props) {
   const clearCaptcha = (reset) => {
     setVerified(false);
     setRecaptchaResponse('');
-    /* istanbul ignore next */
-    if (reset && recaptchaRef.current) {
+    if (reset) {
       recaptchaRef.current.reset();
     }
   };

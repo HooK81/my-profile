@@ -2,10 +2,10 @@
  * Contact Form Test Suites
  * @author Julien CROCHET <julien@crochet.me>
  */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA, { mockReset } from 'react-google-recaptcha'; // Mocked in __mocks__
 import { Contact } from '../Contact.js';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -33,33 +33,8 @@ const store = mockStore({
   app: { locale: 'en' },
 });
 
-// Mock ReCaptcha
-const MockReCAPTCHA = (props) => {
-  const timeoutRef = useRef(null);
-  const onChange = () => {
-    props.onChange('fake_captcha_response');
-    timeoutRef.current = setTimeout(() => {
-      props.onExpired();
-    }, 4000);
-  };
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-  return <input type="checkbox" className={props.size} onChange={onChange} data-testid="recaptcha-sign-in" />;
-};
-jest.mock('react-google-recaptcha', () => ({
-  ...jest.requireActual('react-google-recaptcha'),
-  default: jest.fn(),
-}));
-
-
 describe('Form', () => {
   beforeEach(() => {
-    ReCAPTCHA.mockImplementation(MockReCAPTCHA);
     jest.clearAllMocks();
   });
 
@@ -69,7 +44,6 @@ describe('Form', () => {
         <Contact profileMain={profileMain} />
       </Provider>,
     );
-
     const captcha = wrapper.find('.submit input[type="checkbox"]');
     const form = wrapper.find('#contactForm');
 
@@ -106,6 +80,7 @@ describe('Form', () => {
     wrapper.update();
     expect(wrapper.find('.fa-spinner')).toHaveLength(0);
     expect(api.post).toHaveBeenCalledTimes(1);
+    expect(mockReset).toHaveBeenCalledTimes(1);
   });
 
   it('should handle error when sending email', async () => {
@@ -134,6 +109,7 @@ describe('Form', () => {
     expect(wrapper.find('.fa-spinner')).toHaveLength(0);
     expect(wrapper.find('button.btn-submit').prop('disabled')).toBeTruthy();
     expect(api.post).toHaveBeenCalledTimes(1);
+    expect(mockReset).toHaveBeenCalledTimes(1);
   });
 
   it('should form display spinner when sending an email', async () => {

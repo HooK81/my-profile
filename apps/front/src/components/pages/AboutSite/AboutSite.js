@@ -59,7 +59,16 @@ export function AboutSite(props) {
                   </a>
                 </Trans>
               </dd>
-              <dd>&bull; {t('about_site.front.library.item4')}</dd>
+              <dd>
+                &bull;{' '}
+                <Trans i18nKey="about_site.front.library.item4">
+                  Form:{' '}
+                  <a href="https://react-hook-form.com/">
+                    React Hook Form
+                  </a>
+                </Trans>
+              </dd>
+              <dd>&bull; {t('about_site.front.library.item5')}</dd>
             </dl>
             <dl>
               <dt>{t('about_site.front.design.title')}</dt>

@@ -78,7 +78,8 @@
         "item1": "React 16",
         "item2": "Client HTTP: <2>Axios</2>",
         "item3": "State Container: <2>Redux</2> & <5>Redux Thunk</5>",
-        "item4": "Unit Tests: Jest + Enzyme (100% code coverage)"
+        "item4": "Form: <2>React Hook Form</2>",
+        "item5": "Unit Tests: Jest + Enzyme (100% code coverage)"
       },
       "design": {
         "title": "Design",

@@ -8,4 +8,3 @@ WORKDIR /usr/src
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY apps/api/public /usr/src/api
-COPY apps/front/build /usr/src/front

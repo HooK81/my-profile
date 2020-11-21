@@ -34,8 +34,7 @@
 # PROD SECRETS
 /docker/php/secrets/*
 !/docker/php/secrets/README.md
-/docker/node/secrets/*
-!/docker/node/secrets/README.md
+/docker/node/secrets/.env.production
 /apps/api/config/secrets/prod/prod.decrypt.private.php
 /apps/api/config/jwt/prod/private.pem
 

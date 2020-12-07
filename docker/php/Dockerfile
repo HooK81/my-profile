@@ -26,4 +26,3 @@ COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DI
 WORKDIR /usr/src/api
 
 COPY apps/api /usr/src/api
-COPY docker/php/secrets/prod.decrypt.private.php /usr/src/api/config/secrets/prod/prod.decrypt.private.php

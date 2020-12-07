@@ -50,7 +50,7 @@
         "date": "1998-06-01"
       }
     ],
-    "work": [
+    "works": [
       {
         "company": "Awesome Studio 2",
         "title": "Senior UX God ",
@@ -93,6 +93,11 @@
       "name": "Symfony",
       "image": "symfony.jpg",
       "desc": "Lorem ipsum dolor sit amet"
+    },
+    {
+      "name": "React",
+      "image": "react.jpg",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     }
   ],
   "hobbies": [

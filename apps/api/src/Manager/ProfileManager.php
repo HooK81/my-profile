@@ -20,7 +20,8 @@ class ProfileManager
 
     /** @var string */
     protected $usersPath;
-
+    /** @var string */
+    protected $defaultLocale;
     /** @var SerializerInterface */
     protected $serializer;
     /** @var Request */
@@ -28,12 +29,14 @@ class ProfileManager
 
     /**
      * @param string $usersPath
+     * @param string $defaultLocale
      */
-    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, $usersPath)
+    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, $usersPath, $defaultLocale)
     {
-        $this->usersPath = $usersPath;
-        $this->serializer = $serialize;
         $this->request = $requestStack->getMasterRequest();
+        $this->serializer = $serialize;
+        $this->usersPath = $usersPath;
+        $this->defaultLocale = $defaultLocale;
     }
 
     /**
@@ -80,8 +83,16 @@ class ProfileManager
      */
     public function getProfile($id)
     {
-        $filename = $this->getPath($id).sprintf(self::PROFILE_FILANAME, $this->request->getLocale());
-        if (!file_exists($filename)) {
+        $locales = [$this->request->getLocale(), $this->defaultLocale];
+        $found = false;
+        foreach ($locales as $locale) {
+            $filename = $this->getPath($id).sprintf(self::PROFILE_FILANAME, $locale);
+            if (file_exists($filename)) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
             return null;
         }
         $jsonStream = file_get_contents($filename);

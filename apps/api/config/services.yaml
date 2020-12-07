@@ -33,6 +33,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Manager\ProfileManager:
         $usersPath: "%kernel.project_dir%/%env(USERS_PATH)%"
+        $defaultLocale: "%app.default_locale%"
 
     App\Security\TokenManager:
         $passPhrase: '%env(JWT_PASSPHRASE)%'

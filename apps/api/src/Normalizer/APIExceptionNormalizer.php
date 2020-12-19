@@ -6,8 +6,6 @@ use JMS\Serializer\Context;
 use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
-use JMS\Serializer\Serializer;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 
 /**
@@ -18,19 +16,6 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
  */
 class APIExceptionNormalizer implements SubscribingHandlerInterface
 {
-    /**
-     * @var Serializer
-     */
-    private $serializer;
-
-    /**
-     * APIExceptionHandler constructor.
-     */
-    public function __construct(SerializerInterface $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
     /**
      * @return array
      */

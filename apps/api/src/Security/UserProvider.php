@@ -21,9 +21,6 @@ class UserProvider implements UserProviderInterface
     private $passwordEncoder;
     private $tokenManager;
 
-    /**
-     * @param PasswordEncoder $passwordEncoder User password encoder
-     */
     public function __construct(PasswordEncoder $passwordEncoder, TokenManager $tokenManager)
     {
         $this->passwordEncoder = $passwordEncoder;

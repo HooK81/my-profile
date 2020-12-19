@@ -8,12 +8,12 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTDecodedEvent;
 
 /**
  * JWTCreationListener
- * Add data into JWT token for security checks
+ * Add data into JWT token for security checks.
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
-class JWTCreationListener {
-
+class JWTCreationListener
+{
     private $tokenManager;
 
     public function __construct(TokenManager $tokenManager)
@@ -22,21 +22,17 @@ class JWTCreationListener {
     }
 
     /**
-     * Add secret property
-     *
-     * @param JWTCreatedEvent $event
+     * Add secret property.
      */
     public function onJWTCreated(JWTCreatedEvent $event)
     {
-        $payload           = $event->getData();
+        $payload = $event->getData();
         $payload['secret'] = $this->tokenManager->createTokenSecret();
         $event->setData($payload);
     }
 
     /**
-     * Check secret property
-     *
-     * @param JWTDecodedEvent $event
+     * Check secret property.
      */
     public function onJWTDecoded(JWTDecodedEvent $event)
     {
@@ -47,5 +43,5 @@ class JWTCreationListener {
         if (!$this->tokenManager->checkTokenSecret($payload['secret'])) {
             $event->markAsInvalid();
         }
-    }   
+    }
 }

@@ -35,7 +35,7 @@ class PasswordEncoder extends BasePasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function encodePassword($raw, $salt)
     {
@@ -54,7 +54,7 @@ class PasswordEncoder extends BasePasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function isPasswordValid($encoded, $raw, $salt)
     {

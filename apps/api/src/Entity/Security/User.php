@@ -16,10 +16,6 @@ class User implements UserInterface
     private $username;
     private $password;
 
-    /**
-     * @param string $username
-     * @param string $password
-     */
     public function __construct($username, $password = '')
     {
         $this->username = $username;

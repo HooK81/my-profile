@@ -19,9 +19,6 @@ class TokenManager
     private $cipher;
     private $env;
 
-    /**
-     * Constructor.
-     */
     public function __construct(RequestStack $requestStack, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
     {
         $this->request = $requestStack->getCurrentRequest();

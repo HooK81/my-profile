@@ -23,9 +23,6 @@ class ProfileController extends AbstractFOSRestController
     /** @var Request */
     protected $request;
 
-    /**
-     * @param ProfileManager $ProfileManager
-     */
     public function __construct(RequestStack $requestStack, ProfileManager $profileManager)
     {
         $this->profileManager = $profileManager;
@@ -47,6 +44,8 @@ class ProfileController extends AbstractFOSRestController
         if (!$profile) {
             throw new NotFoundHttpException(sprintf('profile [%s] not found', $id));
         }
+
+        throw new NotFoundHttpException(sprintf('profile [%s] not found', $id));
 
         return $profile;
     }

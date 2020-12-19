@@ -45,8 +45,6 @@ class ProfileController extends AbstractFOSRestController
             throw new NotFoundHttpException(sprintf('profile [%s] not found', $id));
         }
 
-        throw new NotFoundHttpException(sprintf('profile [%s] not found', $id));
-
         return $profile;
     }
 

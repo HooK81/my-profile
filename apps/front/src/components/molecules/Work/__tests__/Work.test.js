@@ -61,7 +61,7 @@ describe('Work', () => {
     expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
   });
 
-  it('Should Work shorter than 1 year render without crash', () => {
+  it('Should Work exactly 1 year render without crash', () => {
     const wrapper = shallow(
       <Work
         city="paris"
@@ -76,12 +76,12 @@ describe('Work', () => {
     expect(wrapper.find('.work h3').contains('god')).toBe(true);
     expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
     expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/December 2019/11')).toBe(true);
+    expect(wrapper.find('.work span.date').contains('January 2019/December 2019/1/')).toBe(true);
     expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
     expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
   });
 
-  it('Should Work longer than 1 year render without crash', () => {
+  it('Should Work exactly 2 years render without crash', () => {
     const wrapper = shallow(
       <Work
         city="paris"
@@ -96,12 +96,12 @@ describe('Work', () => {
     expect(wrapper.find('.work h3').contains('god')).toBe(true);
     expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
     expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/December 2020/1/11')).toBe(true);
+    expect(wrapper.find('.work span.date').contains('January 2019/December 2020/2/')).toBe(true);
     expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
     expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
   });
 
-  it('Should Work longer exactly 1 year render without crash', () => {
+  it('Should Work longer than 1 year render without crash', () => {
     const wrapper = shallow(
       <Work
         city="paris"
@@ -116,7 +116,7 @@ describe('Work', () => {
     expect(wrapper.find('.work h3').contains('god')).toBe(true);
     expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
     expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/January 2020/1/')).toBe(true);
+    expect(wrapper.find('.work span.date').contains('January 2019/January 2020/1/1')).toBe(true);
     expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
     expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
   });

@@ -37,7 +37,24 @@ export class Api {
         }
         return config;
       },
-      (error) => Promise.reject(error),
+      (error) => Promise.reject(error)
+    );
+
+    this.axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          return that.refreshToken().then((res) => {
+            if ([200, 201].indexOf(res.status) !== -1) {
+              axios.defaults.headers.common['Authorization'] = `Bearer ${that.token}`;
+              return that.axios(originalRequest);
+            }
+          })
+        }
+        return Promise.reject(error);
+      }
     );
   }
 

@@ -120,4 +120,24 @@ describe('Work', () => {
     expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
     expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
   });
+
+  it('Should Work less than 1 year render without crash', () => {
+    const wrapper = shallow(
+      <Work
+        city="paris"
+        company="world"
+        title="god"
+        date={{ start: '2019-03-01', end: '2019-05-01' }}
+        description="foo **bar**"
+      />,
+    );
+    expect(wrapper.find('.work')).toHaveLength(1);
+    expect(wrapper.find('.work p.info')).toHaveLength(1);
+    expect(wrapper.find('.work h3').contains('god')).toBe(true);
+    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
+    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
+    expect(wrapper.find('.work span.date').contains('March 2019/May 2019/2')).toBe(true);
+    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
+    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+  });
 });

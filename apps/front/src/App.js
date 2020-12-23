@@ -39,18 +39,8 @@ export class App extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    // Redirect to error page if API fails
-    if (this.props.apiError && this.props.location.pathname !== '/error' && prevProps.location.pathname !== '/error') {
-      this.props.setIsLoaded(false);
-      this.props.history.push('/error');
-    }
-
     // Reload page when user was on error page cauded by API and change location
-    if (
-      prevProps.location.pathname === '/error' &&
-      prevProps.location.pathname !== this.props.location.pathname &&
-      this.props.apiError
-    ) {
+    if (this.props.apiError && prevProps.location.key !== this.props.location.key) {
       this.props.setIsLoaded(false);
       window.location.reload();
     }

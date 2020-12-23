@@ -28,13 +28,13 @@ export function Header(props) {
       setResolution(getWindowResolution());
     }
     const debouncedResize = _.debounce(handleResize, 300);
-    if (location.pathname === '/') {
+    if (props.home) {
       window.addEventListener('resize', debouncedResize);
       headerRef.current.style.height = `${resolution.height}px`;
     }
 
     return () => window.removeEventListener('resize', debouncedResize);
-  }, [resolution, location.pathname]);
+  }, [resolution, props.home]);
 
   /*----------------------------------------------------*/
   /*	Browser history on active link
@@ -42,14 +42,31 @@ export function Header(props) {
   const history = useHistory();
   const debouncedHistoryPush = _.debounce(history.push, 300);
 
+  /**
+   * A link has been changed to "active"
+   * @param {string} hash
+   */
   function setActive(hash) {
-    if (location.pathname === '/' && (!location.hash || location.hash === '#home') && (!hash || hash === 'home')) {
+    if (props.home && (!location.hash || location.hash === '#home') && (!hash || hash === 'home')) {
       // Do not add an history for home
       return;
     }
     debouncedHistoryPush({
       pathname: location.pathname,
       hash: hash,
+    });
+  }
+
+  /**
+   * An error occured when going to a hash link
+   * @param {object} to
+   */
+  function onScrollLinkError(to) {
+    // Add an history on wrong hash link.
+    console.error('Invalid hash link', to);
+    debouncedHistoryPush({
+      pathname: to.pathname,
+      hash: to.hash,
     });
   }
 
@@ -65,12 +82,20 @@ export function Header(props) {
 
   return (
     <header id={props.id} ref={headerRef}>
-      <Nav items={navItems} onSetActiveAfterScroll={setActive} />
+      <Nav
+        home={props.home}
+        items={navItems}
+        onSetActiveAfterScroll={setActive}
+        onScrollLinkError={onScrollLinkError}
+      />
       {props.children}
     </header>
   );
 }
-
+Header.defaultProps = {
+  home: false,
+};
 Header.propTypes = {
   id: PropTypes.string.isRequired,
+  home: PropTypes.bool,
 };

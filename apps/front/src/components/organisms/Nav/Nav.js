@@ -3,10 +3,9 @@
  * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { getScrollPosition, getElementHeight, getCurrentWindowPathname } from '../../../utils/window';
+import { getScrollPosition, getElementHeight } from '../../../utils/window';
 import { useDispatch } from 'react-redux';
 import { setLocale } from '../../../redux/app/actions';
 import { NavItem } from '../../atoms/NavItem/NavItem';
@@ -39,19 +38,16 @@ export function Nav(props) {
   /*	Fade In/Out Primary Navigation
   ------------------------------------------------------*/
   const [menuState, setMenuState] = useState('opaque');
-  const location = useLocation();
 
   const onHomeScroll = useCallback(() => {
     const y = getScrollPosition().y;
     const h = getElementHeight('header', 'tag');
     let nextState = 'opaque';
-    if (getCurrentWindowPathname() === '/') {
-      if (y > h * 0.2 && y < h && window.outerWidth > 768) {
-        nextState = 'hidden';
-      } else {
-        if (y < h * 0.2) {
-          nextState = 'transparent';
-        }
+    if (y > h * 0.2 && y < h && window.outerWidth > 768) {
+      nextState = 'hidden';
+    } else {
+      if (y < h * 0.2) {
+        nextState = 'transparent';
       }
     }
     if (menuState !== nextState) {
@@ -65,14 +61,14 @@ export function Nav(props) {
     const handleHomeScroll = _.throttle(onHomeScroll, 300);
 
     let eventScroll = null;
-    if (location.pathname === '/') {
+    if (props.home) {
       eventScroll = handleHomeScroll;
       // call handler once
       handleHomeScroll();
     }
     window.addEventListener('scroll', eventScroll);
     return () => window.removeEventListener('scroll', eventScroll);
-  }, [location.pathname, onHomeScroll]);
+  }, [props.home, onHomeScroll]);
 
   const menuClass = `${menuState} ${isMenuDisplayed ? 'opened' : ''}`
 
@@ -105,6 +101,7 @@ export function Nav(props) {
             {...(item.smoothDuration !== undefined && { smoothDuration: item.smoothDuration })}
             {...(item.smoothActiveClass !== undefined && { smoothActiveClass: item.smoothActiveClass })}
             onSetActive={(hash) => props.onSetActiveAfterScroll(hash)}
+            onScrollLinkError={(to) => props.onScrollLinkError(to)}
           />
         ))}
         <li className="languages">
@@ -120,10 +117,17 @@ export function Nav(props) {
   );
 }
 
+/* istanbul ignore next */
 Nav.defaultProps = {
   onSetActiveAfterScroll: () => {},
+  onScrollLinkError: () => {},
+  onItemSelect: () => {},
+  home: false,
 }
 Nav.propTypes = {
   items: PropTypes.array.isRequired,
-  onSetActiveAfterScroll: PropTypes.func
+  home: PropTypes.bool,
+  onSetActiveAfterScroll: PropTypes.func,
+  onScrollLinkError: PropTypes.func,
+  onItemSelect: PropTypes.func,
 };

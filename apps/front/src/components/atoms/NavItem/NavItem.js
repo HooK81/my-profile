@@ -16,6 +16,15 @@ import './NavItem.scss';
  * @param {object} props
  */
 export function NavItem(props) {
+  function checkTargetHashLink(to) {
+    const targetExists = document.getElementById(to.hash);
+    if (targetExists === null) {
+      props.onScrollLinkError(to);
+      return false;
+    }
+    return true;
+  }
+
   let link;
   let location = useLocation();
   if (props.to.hash && props.to.pathname === location.pathname) {
@@ -27,7 +36,7 @@ export function NavItem(props) {
         offset={props.smoothOffset}
         duration={props.smoothDuration}
         activeClass={props.smoothActiveClass}
-        onClick={(e) => props.onItemSelect(e)}
+        onClick={(e) => {checkTargetHashLink(props.to); props.onItemSelect(e, props.to)}}
         onSetActive={(hashName) => props.onSetActive(hashName)}
       >
         {props.label}
@@ -52,6 +61,7 @@ NavItem.defaultProps = {
   smoothActiveClass: 'active',
   onItemSelect: () => {},
   onSetActive: () => {},
+  onScrollLinkError: () => {},
 };
 
 NavItem.propTypes = {
@@ -63,4 +73,5 @@ NavItem.propTypes = {
   smoothActiveClass: PropTypes.string,
   onItemSelect: PropTypes.func,
   onSetActive: PropTypes.func,
+  onScrollLinkError: PropTypes.func,
 };

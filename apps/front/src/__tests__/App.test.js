@@ -86,7 +86,6 @@ describe('App', () => {
   });
 
   it('Should App load profile with error without crash', async () => {
-    const pushMock = jest.fn();
     const wrapper = shallow(<App location={location} />);
     wrapper.setProps({
       isLoaded: true,
@@ -98,23 +97,19 @@ describe('App', () => {
       profile: profile,
       apiError: 'error',
       setIsLoaded: jest.fn(),
-      history: {
-        push: pushMock,
-      },
     });
     expect(wrapper.containsMatchingElement(<AppLoader isLoaded={true} />)).toBe(true);
     expect(wrapper.find(Home)).toHaveLength(0);
     await new Promise((done) =>
       setTimeout(() => {
         wrapper.update();
-        expect(pushMock).toHaveBeenCalledWith('/error');
+        expect(wrapper.find(Error)).toHaveLength(1);
         done();
       }, 1000),
     );
   });
 
   it('Should App load with token error without crash', () => {
-    const pushMock = jest.fn();
     api.refreshToken.mockRejectedValue('err');
 
     const wrapper = shallow(<App location={location} />);
@@ -124,14 +119,11 @@ describe('App', () => {
       profile: profile,
       apiError: 'err',
       setIsLoaded: jest.fn(),
-      history: {
-        push: pushMock,
-      },
     });
 
     expect(wrapper.containsMatchingElement(<AppLoader isLoaded={true} />)).toBe(true);
     expect(wrapper.find(Home)).toHaveLength(0);
-    expect(pushMock).toHaveBeenCalledWith('/error');
+    expect(wrapper.find(Error)).toHaveLength(1);
   });
 
   it('Should App handle same locale without crash', () => {
@@ -216,7 +208,8 @@ describe('App', () => {
   });
 
   it('Should App reload when user leave error page', () => {
-    const locationError = { pathname: '/error' };
+    const locationError = { pathname: '/', key: 'bla' };
+    const locationAfter = { pathname: '/', key: 'bar' };
     const wrapper = shallow(<App location={locationError} />);
     wrapper.setProps({
       isLoaded: true,
@@ -241,7 +234,7 @@ describe('App', () => {
           resolve();
         }),
       profile: profile,
-      location: location,
+      location: locationAfter,
       setIsLoaded: jest.fn(),
     });
     expect(window.location.reload).toHaveBeenCalled();

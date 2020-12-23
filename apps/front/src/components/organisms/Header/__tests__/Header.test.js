@@ -22,7 +22,7 @@ describe('Header', () => {
   });
 
   it('Should Header render without crash', () => {
-    const wrapper = shallow(<Header id="foo" />);
+    const wrapper = shallow(<Header id="foo" home={true} />);
     expect(wrapper.find('header#foo')).toHaveLength(1);
     expect(wrapper.find(Nav)).toHaveLength(1);
   });
@@ -32,7 +32,7 @@ describe('Header', () => {
     global.innerHeight = '1000';
     const wrapper = mount(
       <BrowserRouter>
-        <Header id="foo" />
+        <Header id="foo" home={true}/>
       </BrowserRouter>,
     );
     expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe('height: 1000px;');
@@ -60,7 +60,7 @@ describe('Header', () => {
     global.innerHeight = '1000';
     const wrapper = mount(
       <BrowserRouter>
-        <Header id="foo" />
+        <Header id="foo" home={false}/>
       </BrowserRouter>,
     );
     expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe(null);
@@ -71,7 +71,7 @@ describe('Header', () => {
       pathname: '/',
       hash: 'foo'
     })
-    const wrapper = shallow(<Header id="foo" />);
+    const wrapper = shallow(<Header id="foo" home={true}/>);
     wrapper.find(Nav).prop('onSetActiveAfterScroll')('foo');
 
     await new Promise((done) =>
@@ -87,7 +87,7 @@ describe('Header', () => {
       pathname: '/',
       hash: '#home'
     })
-    const wrapper = shallow(<Header id="foo" />);
+    const wrapper = shallow(<Header id="foo" home={true}/>);
     wrapper.find(Nav).prop('onSetActiveAfterScroll')('home');
 
     await new Promise((done) =>
@@ -103,7 +103,7 @@ describe('Header', () => {
       pathname: '/',
       hash: ''
     })
-    const wrapper = shallow(<Header id="foo" />);
+    const wrapper = shallow(<Header id="foo" home={true}/>);
     wrapper.find(Nav).prop('onSetActiveAfterScroll')('home');
 
     await new Promise((done) =>
@@ -119,12 +119,28 @@ describe('Header', () => {
       pathname: '/',
       hash: ''
     })
-    const wrapper = shallow(<Header id="foo" />);
+    const wrapper = shallow(<Header id="foo" home={true}/>);
     wrapper.find(Nav).prop('onSetActiveAfterScroll')('');
 
     await new Promise((done) =>
       setTimeout(() => {
         expect(historyPushMock).toHaveBeenCalledTimes(0);
+        done();
+      }, 400),
+    );
+  });
+
+  it('Should Header handle invalid hash link', async () => {
+    setDefaultLcationMock({
+      pathname: '/',
+      hash: 'foo'
+    })
+    const wrapper = shallow(<Header id="foo" home={true}/>);
+    wrapper.find(Nav).prop('onScrollLinkError')({pathname: '/', hash: 'foo'});
+
+    await new Promise((done) =>
+      setTimeout(() => {
+        expect(historyPushMock).toHaveBeenCalledWith({hash: 'foo', pathname: '/'});
         done();
       }, 400),
     );

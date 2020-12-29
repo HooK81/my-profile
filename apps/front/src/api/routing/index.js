@@ -8,7 +8,7 @@
 import Routing from './router';
 import routes from './fos_js_routes.json';
 
-if (process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST) {
+if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST) {
   routes.host   = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST;
   routes.port   = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PORT;
   routes.scheme = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.substring(0, process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.length - 1);;

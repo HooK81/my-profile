@@ -8,7 +8,7 @@ services:
             - './docker/users:/usr/src/api/resources/users:ro'
         environment:
             HOME: /home/user
-            XDEBUG_CONFIG: remote_enable=1 remote_autostart=1 remote_mode=req remote_host=192.168.10.5 remote_port=9000 remote_connect_back=0
+            XDEBUG_CONFIG: remote_enable=1 remote_autostart=1 remote_mode=req remote_port=9000 remote_connect_back=1
 
     nginx:
         volumes: 

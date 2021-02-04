@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 ARG PHP_ENV=DEV
 
@@ -18,7 +18,7 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
     php -r "unlink('composer-setup.php');" && \
     mv composer /usr/local/bin/composer
 
-RUN pecl install xdebug-2.9.8 && \
+RUN pecl install xdebug-3.0.2 && \
     docker-php-ext-enable xdebug
 
 COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DIR/conf.d/

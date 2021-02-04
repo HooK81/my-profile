@@ -100,9 +100,6 @@ header .scroll-button {
     width: 65%;
     margin: 12px auto;
   }
-  header .scroll-button i {
-    font-size: 30px;
-  }
 }
 
 /* mobile wide/smaller tablets
@@ -131,11 +128,18 @@ header .scroll-button {
   }
 }
 
-@media only screen and (max-width: 480px) and (max-height: 510px), only screen and (max-width: 320px), only screen and (max-height: 380px) {
+@media only screen and (max-height: 390px) {
+  header .scroll-button {
+    bottom: 3px;
+  }
+}
+
+@media only screen and (max-height: 279px) {
   header .scroll-button {
     display: none;
   }
 }
+
 
 /* mobile narrow
   -------------------------------------------------------------------------- */

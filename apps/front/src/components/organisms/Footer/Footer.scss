@@ -79,13 +79,13 @@ footer .scroll-button {
 @media only screen and (max-width: 767px) {
   /* Go To Top Button */
   footer .scroll-button {
-    top: 50px;
+    top: -25px;
+    margin-left: -25px;
 
     & i {
       width: 50px;
       height: 50px;
       line-height: 50px;
-      margin-left: -25px;
     }
   }
   .cookie-consent-button {

@@ -1,28 +1,4 @@
 login:
-    path:     /auth/login
-    options: { expose: true }
-    methods:  [POST]
-    defaults:
-        version: v1
-  
-profile:
-    type:     annotation
-    prefix:   /{_locale}/{version}
-    options: { expose: true, method_prefix: false }
-    resource: App\Controller\ProfileController
-    requirements:
-        _locale: '%app.locales%'
-    defaults:
-        _locale: '%app.default_locale%'
-        version: v1
-
-email:
-    type:     annotation
-    prefix:   /{_locale}/{version}
-    options: { expose: true, method_prefix: false }
-    resource: App\Controller\EmailController
-    requirements:
-        _locale: '%app.locales%'
-    defaults:
-        _locale: '%app.default_locale%'
-        version: v1
+  path: /auth/login
+  options: { expose: true }
+  methods: [POST]

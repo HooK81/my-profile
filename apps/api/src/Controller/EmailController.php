@@ -8,9 +8,17 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * EmailController.
+ *
+ * @Route(
+ *     "/{_locale}/{version}",
+ *     requirements={ "_locale" = "%app.locales%" },
+ *     options={ "expose" = true },
+ *     defaults={ "_locale" = "%app.default_locale%", "version" = "v1"}
+ * )
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
@@ -33,10 +41,10 @@ class EmailController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/email", name="post_email", options={ "method_prefix" = false })
+     * @Rest\Post("/email", name="post_email")
      * @Rest\View(statusCode=204)
      */
-    public function postEmailAction(Request $request)
+    public function postEmail(Request $request)
     {
         $msg = json_decode($request->getContent(), true);
         if (empty($msg['reCaptchaResponse'])) {

@@ -9,10 +9,19 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * ProfileController.
+ *
+ * @Route(
+ *     "/{_locale}/{version}/users",
+ *     requirements={ "_locale" = "%app.locales%" },
+ *     options={ "expose" = true },
+ *     defaults={ "_locale" = "%app.default_locale%", "version" = "v1"}
+ * )
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
@@ -32,12 +41,12 @@ class ProfileController extends AbstractFOSRestController
     /**
      * Get a user profile.
      *
-     * @Rest\Get("/users/{id}", name="get_user", options={ "method_prefix" = false })
+     * @Rest\Get("/{id}", name="get_user")
      * @Rest\View()
      *
      * @param string $id
      */
-    public function getUserAction($id)
+    public function getUserProfile($id): Profile
     {
         /** @var Profile $profile */
         $profile = $this->profileManager->getProfile($id);
@@ -51,14 +60,14 @@ class ProfileController extends AbstractFOSRestController
     /**
      * Get a user file.
      *
-     * @Rest\Get("/users/{id}/files/{file}", name="get_user_file", options={ "method_prefix" = false })
+     * @Rest\Get("/{id}/files/{file}", name="get_user_file")
      *
      * @param string $id
      * @param string $file
      *
      * @return BinaryFileResponse
      */
-    public function getUserFileAction($id, $file)
+    public function getUserFile($id, $file): Response
     {
         $filename = $this->profileManager->getFilesPath($id, $file);
         if (null === $filename) {

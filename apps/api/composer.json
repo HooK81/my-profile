@@ -28,7 +28,9 @@
         "symfony/monolog-bundle": "^3.5",
         "symfony/swiftmailer-bundle": "^3.4",
         "symfony/translation": "4.4.*",
-        "symfony/yaml": "4.4.*"
+        "symfony/twig-bundle": "4.4.*",
+        "symfony/yaml": "4.4.*",
+        "twig/twig": "^3.3"
     },
     "require-dev": {
         "symfony/profiler-pack": "^1.0"
@@ -73,7 +75,7 @@
         "build-prod": [
             "@build-clear",
             "@composer install",
-            "@composer dumpautoload --no-interaction --optimize",
+            "@composer dumpautoload --no-interaction --no-dev --classmap-authoritative",
             "bin/console secrets:decrypt-to-local --env=prod",
             "@composer dump-env prod",
             "bin/console cache:clear --env=prod",

@@ -42,8 +42,9 @@ services:
     App\Security\ReCaptchaValidator:
         $secret: '%env(RECAPTCHA_SECRET)%'
 
-    App\Controller\EmailController:
-        $timezone: '%env(MAILTER_TIMEZONE)%'
+    App\Mailer\Mailer:
+        $defaultSenderMail: '%env(MAILER_SENDER)%'
+        $teamMail: '%env(MAILER_RECEIVER)%'
     
     App\EventListener\JWTCreationListener:
         tags:

@@ -1,5 +1,5 @@
 /**
- * Nav Test Suites with scroll
+ * Nav Test Suites with scroll on home page
  * @author Julien CROCHET <julien@crochet.me>
  */
 
@@ -35,7 +35,7 @@ describe('Nav with scroll', () => {
     });
     getElementHeight.mockReturnValue(0);
     const navItems = [{ id: 1, to: { pathname: '/', hash: 'home' }, label: 'Home' }];
-    const wrapper = mount(<Nav items={navItems} />);
+    const wrapper = mount(<Nav items={navItems} home={true} />);
     // Menu should be opaque
     expect(wrapper.find('#nav-wrap.opaque')).toHaveLength(1);
 
@@ -62,7 +62,7 @@ describe('Nav with scroll', () => {
     getElementHeight.mockReturnValue(500);
     getCurrentWindowPathname.mockReturnValue('/');
     const navItems = [{ id: 1, to: { pathname: '/', hash: 'home' }, label: 'Home' }];
-    const wrapper = mount(<Nav items={navItems} />);
+    const wrapper = mount(<Nav items={navItems} home={true} />);
 
     await act(async () => {
       global.dispatchEvent(new Event('scroll'));
@@ -86,7 +86,7 @@ describe('Nav with scroll', () => {
     getCurrentWindowPathname.mockReturnValue('/');
 
     const navItems = [{ id: 1, to: { pathname: '/', hash: 'home' }, label: 'Home' }];
-    const wrapper = mount(<Nav items={navItems} />);
+    const wrapper = mount(<Nav items={navItems} home={true} />);
 
     await act(async () => {
       global.dispatchEvent(new Event('scroll'));
@@ -108,7 +108,7 @@ describe('Nav with scroll', () => {
     });
     getElementHeight.mockReturnValue(0);
     const navItems = [{ id: 1, to: { pathname: '/', hash: 'home' }, label: 'Home' }];
-    const wrapper = mount(<Nav items={navItems} />);
+    const wrapper = mount(<Nav items={navItems} home={true} />);
     // Menu should be opaque
     expect(wrapper.find('#nav-wrap.opaque')).toHaveLength(1);
 

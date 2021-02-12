@@ -92,3 +92,11 @@ footer .scroll-button {
     flex: auto;
   }
 }
+
+/* bottom notch
+---------------------------------------------------------------------- */
+@supports (padding: max(0px)) {
+  footer, .cookie-consent {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}

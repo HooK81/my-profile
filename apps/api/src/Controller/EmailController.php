@@ -2,15 +2,24 @@
 
 namespace App\Controller;
 
+use App\Mailer\MailerInterface;
 use App\Security\ReCaptchaValidator;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * EmailController.
+ *
+ * @Route(
+ *     "/{_locale}/{version}",
+ *     requirements={ "_locale" = "%app.locales%" },
+ *     options={ "expose" = true },
+ *     defaults={ "_locale" = "%app.default_locale%", "version" = "v1"}
+ * )
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
@@ -18,25 +27,22 @@ class EmailController extends AbstractFOSRestController
 {
     private $mailer;
     private $reCaptchaValidator;
-    private $timezone;
 
     /**
-     * @param \Swift_Mailer      $mailer             Mail service
+     * @param MailerInterface    $mailer             Mail service
      * @param ReCaptchaValidator $reCaptchaValidator reCaptcha Validator
-     * @param string             $timezone           Timezone
      */
-    public function __construct(\Swift_Mailer $mailer, ReCaptchaValidator $reCaptchaValidator, $timezone)
+    public function __construct(MailerInterface $mailer, ReCaptchaValidator $reCaptchaValidator)
     {
         $this->mailer = $mailer;
         $this->reCaptchaValidator = $reCaptchaValidator;
-        $this->timezone = $timezone;
     }
 
     /**
-     * @Rest\Post("/email", name="post_email", options={ "method_prefix" = false })
+     * @Rest\Post("/email", name="post_email")
      * @Rest\View(statusCode=204)
      */
-    public function postEmailAction(Request $request)
+    public function postEmail(Request $request)
     {
         $msg = json_decode($request->getContent(), true);
         if (empty($msg['reCaptchaResponse'])) {
@@ -52,22 +58,15 @@ class EmailController extends AbstractFOSRestController
             $msg['object'] = $_ENV['MAILER_OBJECT_DEFAULT'];
         }
 
-        // send mail
-        $mail = (new \Swift_Message($_ENV['MAILER_OBJECT_PREFIX'].$msg['object']))
-            ->setFrom($_ENV['MAILER_SENDER'])
-            ->setTo($_ENV['MAILER_RECEIVER'])
-            ->setBody(
-                $this->renderView(
-                    'emails/contact.text.twig', [
-                        'msg' => $msg,
-                        'timezone' => $this->timezone,
-                    ]
-                ),
-                'text/plain'
-            );
+        $body = $this->renderView(
+            'emails/contact.text.twig', [
+                'msg' => $msg,
+                'timezone' => $_ENV['MAILTER_TIMEZONE'],
+            ]
+        );
 
-        $res = $this->mailer->send($mail);
-        if (0 === $res) {
+        $res = $this->mailer->sendMailToTeam($msg['object'], $body, 'text/plain');
+        if (false === $res) {
             throw new ConflictHttpException('The e-mail message cannot be sent. Make sure the e-mail has a valid recipient.');
         }
     }

@@ -21,7 +21,7 @@ import { Contact } from '../../organisms/Contact/Contact';
 export function Home(props) {
   return (
     <div>
-      <Header id="home">
+      <Header id="home" home={true}>
         <HomeHeader profileMain={props.profile.main} />
       </Header>
       <About profileMain={props.profile.main} />

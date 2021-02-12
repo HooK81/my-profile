@@ -17,17 +17,23 @@ import './Work.scss';
 export function Work(props) {
   const { t } = useTranslation();
 
+  function humanize(duration) {
+    let nbMonths = duration.months() + (duration.days() > 0 ? 1 : 0);
+    const nbYears = duration.years() + (nbMonths === 12 ? 1 : 0);
+    if (nbMonths === 12) nbMonths = 0;
+    const years = nbYears >= 1 ? t("resume.works.duration_years", {count: nbYears}) : "";
+    const months = nbMonths > 0 ? t("resume.works.duration_months", {count: nbMonths}) : "";
+    return t("resume.works.duration", {years: years, months: months}).trim();
+  }
+
   const dateStart = upperFirst(moment(props.date.start).format(t("resume.works.moment_format")));
   const dateEnd = props.date.end ? upperFirst(moment(props.date.end).format(t("resume.works.moment_format"))) : t("resume.works.today");
-  let durationString = "";
 
   // Calculate duration
   const endDate = props.date.end ? moment(props.date.end) : moment();
   const startDate = moment(props.date.start);
   const duration = moment.duration(endDate.diff(startDate));
-  const years = duration.years() >= 1 ? t("resume.works.duration_years", {count: duration.years()}) : "";
-  const months = duration.months() > 0 ? t("resume.works.duration_months", {count: duration.months()}) : "";
-  durationString = t("resume.works.duration", {years: years, months: months}).trim();
+  const durationString = humanize(duration);
 
   return (
     <div className="work">

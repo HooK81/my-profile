@@ -40,6 +40,7 @@ export function Footer(props) {
           expires={999}
           acceptOnScroll={true}
           acceptOnScrollPercentage={5}
+          sameSite="strict"
           containerClasses="cookie-consent"
           buttonWrapperClasses="cookie-consent-button"
           buttonText={t('footer.cookie.accept_btn')}

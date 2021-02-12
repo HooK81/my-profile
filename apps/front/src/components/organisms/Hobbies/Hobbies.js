@@ -10,7 +10,6 @@ import './Hobbies.scss';
 
 /**
  * Hobbies Component
- * Used as a composition of Header Component
  * @param {object} props
  */
 export function Hobbies(props) {

@@ -99,9 +99,9 @@ describe('NavItem', () => {
     const onItemSelect = jest.fn();
 
     const wrapper = shallow(
-    <NavItem label="label" to={{ pathname: '/other' }} onItemSelect={onItemSelect} />
+      <NavItem label="label" to={{ pathname: '/other' }} onItemSelect={onItemSelect} />
     );
-    const dom = wrapper.find('li > ForwardRef');
+    const dom = wrapper.find('li > NavHashLink');
     expect(dom).toHaveLength(1);
     dom.simulate('click');
     expect(onItemSelect).toHaveBeenCalled();

@@ -25,7 +25,11 @@ ReactGA.pageview = jest.fn();
 const location = {
   pathname: '/',
 };
-window.location.reload = jest.fn();
+
+Object.defineProperty(window, 'location', {
+  writable: true,
+  value: { reload: jest.fn() }
+});
 api.refreshToken = jest.fn();
 api.refreshToken.mockResolvedValue('token');
 

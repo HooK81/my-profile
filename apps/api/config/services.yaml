@@ -51,9 +51,8 @@ services:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
 
-    fos_rest.serializer.flatten_exception_handler:
-        class: App\Normalizer\APIExceptionNormalizer
-        arguments: ["@jms_serializer"]
-        tags:
-            - { name: jms_serializer.subscribing_handler }
+    App\Normalizer\FormExceptionNormalizer:
+        tags: ['serializer.normalizer', 'serializer.exception_normalizer']
 
+    App\Normalizer\ExceptionNormalizerFactory:
+        arguments: [!tagged serializer.exception_normalizer]

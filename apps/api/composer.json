@@ -36,6 +36,7 @@
         "twig/twig": "^3.3"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.29",
         "symfony/profiler-pack": "^1.0"
     },
     "config": {

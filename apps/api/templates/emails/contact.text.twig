@@ -1,5 +1,5 @@
 From   : {{ msg.from }}
-Object : {{ msg.object|raw }}
+Object : {{ msg.subject|raw }}
 Date   : {{ "now"|date("d/m/Y H:i", timezone) }}
 -------------------------------------
 {{ msg.message|raw}}

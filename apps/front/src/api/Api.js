@@ -7,6 +7,18 @@ import { routing } from './routing/index';
 import _ from 'lodash';
 
 /**
+ * Api error base class
+ * @author Julien CROCHET <julien@crochet.me>
+ */
+export class ApiError extends Error {
+  constructor(message, httpStatus=null, data=null) {
+    super(message);
+    this.httpStatus = httpStatus;
+    this.data = data;
+  }
+}
+
+/**
  * Api base class
  * Used to inject token into requests
  * @author Julien CROCHET <julien@crochet.me>
@@ -78,7 +90,7 @@ export class Api {
             autoClose: errorAutoClose,
           });
         }
-        throw new Error(errorMEssage);
+        throw new ApiError(errorMEssage, error.response.status, error.response.data);
       });
     } catch (e) {
       console.error('API GET', routeName, e.message);
@@ -108,7 +120,7 @@ export class Api {
             autoClose: errorAutoClose,
           });
         }
-        throw new Error(errorMEssage);
+        throw new ApiError(errorMEssage, error.response.status, error.response.data);
       });
     } catch (e) {
       console.error('API POST', routeName, e.message);
@@ -200,5 +212,25 @@ export class Api {
       msg = errorMessage;
     }
     return msg;
+  }
+
+  /**
+   * Build form error object
+   * @param {object} errors from API
+   * @param {array} fields name mapping
+   */
+  buildFormErrors(errors, fieldsMapping = []) {
+    let backErrors = {};
+    if (!errors) {
+      return backErrors;
+    }
+    for (const field in errors) {
+      let fieldName = field;
+      if (typeof fieldsMapping[field] === 'string') {
+        fieldName = fieldsMapping[field];
+      }
+      backErrors[fieldName] = {message: errors[field][0], type: 'pattern'}; break;
+    }
+    return backErrors;
   }
 }

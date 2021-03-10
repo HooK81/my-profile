@@ -21,7 +21,7 @@ class FormException extends HttpException
     /**
      * HttpFormException constructor.
      */
-    public function __construct(FormInterface $form, int $statusCode = 400, string $message = null, \Exception $previous = null, array $headers = [], ?int $code = 0)
+    public function __construct(FormInterface $form, int $statusCode = 400, string $message = 'Invalid form', \Exception $previous = null, array $headers = [], ?int $code = 0)
     {
         parent::__construct($statusCode, $message, $previous, $headers, $code);
 

@@ -28,7 +28,7 @@ class FormExceptionNormalizer implements NormalizerInterface
             $data[$error->getOrigin()->getName()][] = $error->getMessage();
         }
 
-        return $data;
+        return [$data];
     }
 
     /**

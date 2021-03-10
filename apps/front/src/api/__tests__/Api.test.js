@@ -14,7 +14,7 @@ jest.mock('uuid/v4');
 jest.mock('react-toastify');
 jest.mock('i18next');
 Routing.setBaseUrl('');
-import { Api } from '../Api';
+import { Api, ApiError } from '../Api';
 
 describe('Api Get', () => {
   beforeEach(() => {
@@ -36,27 +36,27 @@ describe('Api Get', () => {
 
   it('Should Get throw an error without toast', async () => {
     axios.get.mockImplementation(() => {
-      return Promise.reject(Error('mock'));
+      return Promise.reject({message: 'mock', response: {status: 500, data: null}});
     });
 
     axios.create.mockReturnValue(axios);
 
     const api = new Api();
     expect.assertions(2);
-    await expect(api.get('get_user', { id: 'test' }, {showError: false})).rejects.toEqual(Error('mock'));
+    await expect(api.get('get_user', { id: 'test' }, {showError: false})).rejects.toEqual(new ApiError('mock', 500));
     expect(toast.error).not.toHaveBeenCalled();
   });
 
-  it('Should Post throw an error with toast', async () => {
+  it('Should Get throw an error with toast', async () => {
     axios.get.mockImplementation(() => {
-      return Promise.reject(Error('mock'));
+      return Promise.reject({message: 'mock', response: {status: null, data: null}});
     });
 
     axios.create.mockReturnValue(axios);
 
     const api = new Api();
     expect.assertions(2);
-    await expect(api.get('get_user', { id: 'test' })).rejects.toEqual(Error('mock'));
+    await expect(api.get('get_user', { id: 'test' })).rejects.toEqual(new ApiError('mock'));
     expect(toast.error).toHaveBeenCalled();
   });
 
@@ -87,27 +87,27 @@ describe('Api Post', () => {
 
   it('Should Post throw an error without toast', async () => {
     axios.post.mockImplementation(() => {
-      return Promise.reject(Error('mock'));
+      return Promise.reject({message: 'mock', response: {status: 500, data: 'bla'}});
     });
 
     axios.create.mockReturnValue(axios);
 
     const api = new Api();
     expect.assertions(2);
-    await expect(api.post('login', null, {}, {showError: false})).rejects.toEqual(Error('mock'));
+    await expect(api.post('login', null, {}, {showError: false})).rejects.toEqual(new ApiError('mock', 500, 'bla'));
     expect(toast.error).not.toHaveBeenCalled();
   });
 
   it('Should Post throw an error with toast', async () => {
     axios.post.mockImplementation(() => {
-      return Promise.reject(Error('mock'));
+      return Promise.reject({message: 'mock', response: {status: 500, data: null}});
     });
 
     axios.create.mockReturnValue(axios);
 
     const api = new Api();
     expect.assertions(2);
-    await expect(api.post('login')).rejects.toEqual(Error('mock'));
+    await expect(api.post('login')).rejects.toEqual(new ApiError('mock', 500, null));
     expect(toast.error).toHaveBeenCalled();
   });
 
@@ -235,4 +235,44 @@ describe('Api Basics', () => {
     expect(api.buildApiErrorMessage('route', 'error')).toEqual(expected);
   });
 
+  it('Should buildFormErrors returns expected React Hook Form errors 1 field 1 error', () => {
+    const expected = {field: {message: 'the error', type: 'pattern'}};
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect(api.buildFormErrors([{field: ['the error']}])).toEqual(expected);
+  });
+
+  it('Should buildFormErrors returns expected React Hook Form errors 1 field 2 errors', () => {
+    const expected = {field: {message: 'the error', type: 'pattern'}}; // Return only first error for each field
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect(api.buildFormErrors([{field: ['the error', 'error 2']}])).toEqual(expected);
+  });
+
+  it('Should buildFormErrors returns expected React Hook Form errors 2 fields', () => {
+    const expected = {field1: {message: 'the error 1', type: 'pattern'}, field2: {message: 'the error 2', type: 'pattern'}}; // Return only first error for each field
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect(api.buildFormErrors([{field1: ['the error 1']}, {field2: ['the error 2']}])).toEqual(expected);
+  });
+
+  it('Should buildFormErrors returns expected React Hook Form errors 1 field 1 error with mapping', () => {
+    const expected = {mappedFieldName: {message: 'the error', type: 'pattern'}};
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect(api.buildFormErrors([{field: ['the error']}], {field: 'mappedFieldName'})).toEqual(expected);
+  });
+
+  it('Should buildFormErrors returns empty on wrong parameters', () => {
+    const expected = {};
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect(api.buildFormErrors('bla')).toEqual(expected);
+    expect(api.buildFormErrors()).toEqual(expected);
+  });
 });

@@ -11,7 +11,7 @@ import _ from 'lodash';
  * @author Julien CROCHET <julien@crochet.me>
  */
 export class ApiError extends Error {
-  constructor(message, httpStatus=null, data=null) {
+  constructor(message, httpStatus = null, data = null) {
     super(message);
     this.httpStatus = httpStatus;
     this.data = data;
@@ -49,7 +49,7 @@ export class Api {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     this.axios.interceptors.response.use(
@@ -63,10 +63,10 @@ export class Api {
               axios.defaults.headers.common['Authorization'] = `Bearer ${that.token}`;
               return that.axios(originalRequest);
             }
-          })
+          });
         }
         return Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -217,20 +217,24 @@ export class Api {
   /**
    * Build form error object
    * @param {object} errors from API
-   * @param {array} fields name mapping
+   * @param {object} fields name mapping
    */
-  buildFormErrors(errors, fieldsMapping = []) {
+  buildFormErrors(errors, fieldsMapping = {}) {
     let backErrors = {};
-    if (!errors) {
+    if (typeof errors !== 'object') {
       return backErrors;
     }
-    for (const field in errors) {
-      let fieldName = field;
-      if (typeof fieldsMapping[field] === 'string') {
-        fieldName = fieldsMapping[field];
+
+    errors.map((error) => {
+      for (const field in error) {
+        let fieldName = field;
+        if (typeof fieldsMapping[field] === 'string') {
+          fieldName = fieldsMapping[field];
+        }
+        backErrors[fieldName] = { message: error[field][0], type: 'pattern' };
       }
-      backErrors[fieldName] = {message: errors[field][0], type: 'pattern'}; break;
-    }
+    });
+
     return backErrors;
   }
 }

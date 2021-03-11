@@ -42,16 +42,19 @@ export class Api {
   /* istanbul ignore next */
   setInterceptors() {
     const that = this;
+
+    /* Inject API token into each API request */
     this.axios.interceptors.request.use(
       (config) => {
         if (that.token) {
-          config.headers.authorization = `Bearer ${that.token}`;
+          //config.headers.authorization = `Bearer ${that.token}`;
         }
         return config;
       },
       (error) => Promise.reject(error),
     );
 
+    /* Refresh token when API return 401 error */
     this.axios.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -60,7 +63,8 @@ export class Api {
           originalRequest._retry = true;
           return that.refreshToken().then((res) => {
             if ([200, 201].indexOf(res.status) !== -1) {
-              axios.defaults.headers.common['Authorization'] = `Bearer ${that.token}`;
+              // Relaunch original request with new token
+              //axios.defaults.headers.common['Authorization'] = `Bearer ${that.token}`;
               return that.axios(originalRequest);
             }
           });
@@ -173,7 +177,7 @@ export class Api {
   buildUrl(routeName, routeParameters = {}, addToken = false, absolute = false) {
     let url;
     if (addToken) {
-      routeParameters = this.addTokenInParameters(routeParameters);
+      //routeParameters = this.addTokenInParameters(routeParameters);
     }
     if (routeParameters !== null) {
       url = routing.generate(routeName, routeParameters, absolute);

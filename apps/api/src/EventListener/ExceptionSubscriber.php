@@ -61,7 +61,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
      *
      * @return JsonResponse
      */
-    private function createApiResponse(\Exception $exception)
+    private function createApiResponse(\Throwable $exception)
     {
         $normalizer = $this->normalizerFactory->getNormalizer($exception);
         $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;

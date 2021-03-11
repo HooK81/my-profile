@@ -73,7 +73,9 @@ class JWTListener
                 '/',
                 null,
                 'dev' !== $this->env, // Secure
-                true  // Http Only
+                true,  // Http Only
+                false,
+                'strict'
             )
         );
     }

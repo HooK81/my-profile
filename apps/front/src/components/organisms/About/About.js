@@ -30,8 +30,7 @@ export function About(props) {
       {
         id: process.env.REACT_APP_PROFILE_ID,
         file: props.profileMain.image,
-      },
-      true,
+      }
     );
     setPictureUrl(url);
   }, [props.profileMain.image]);
@@ -46,7 +45,6 @@ export function About(props) {
         _locale: appLocale,
         disposition: 'attachment',
       },
-      true,
       true,
     );
     setResumeUrl(url);

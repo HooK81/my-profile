@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Exception\FormException;
+use App\Form\MailType;
 use App\Mailer\MailerInterface;
 use App\Security\ReCaptchaValidator;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -45,17 +47,16 @@ class EmailController extends AbstractFOSRestController
     public function postEmail(Request $request)
     {
         $msg = json_decode($request->getContent(), true);
-        if (empty($msg['reCaptchaResponse'])) {
-            throw new NotAcceptableHttpException('No reCaptcha response provided');
+        $form = $this->createForm(MailType::class);
+        $form->submit($msg);
+        if (!$form->isValid()) {
+            throw new FormException($form);
         }
         if (!$this->reCaptchaValidator->checkReCaptchaResponse($msg['reCaptchaResponse'])) {
             throw new NotAcceptableHttpException('Invalid reCaptcha response provided');
         }
-        if (empty($msg['from']) || empty($msg['message'])) {
-            throw new NotAcceptableHttpException('Invalid request');
-        }
-        if (empty($msg['object'])) {
-            $msg['object'] = $_ENV['MAILER_OBJECT_DEFAULT'];
+        if (empty($msg['subject'])) {
+            $msg['subject'] = $_ENV['MAILER_SUBJECT_DEFAULT'];
         }
 
         $body = $this->renderView(
@@ -64,8 +65,9 @@ class EmailController extends AbstractFOSRestController
                 'timezone' => $_ENV['MAILTER_TIMEZONE'],
             ]
         );
+        $subject = sprintf('%s %s', trim($_ENV['MAILER_SUBJECT_PREFIX']), $msg['subject']);
 
-        $res = $this->mailer->sendMailToTeam($msg['object'], $body, 'text/plain');
+        $res = $this->mailer->sendMailToTeam($subject, $body, 'text/plain');
         if (false === $res) {
             throw new ConflictHttpException('The e-mail message cannot be sent. Make sure the e-mail has a valid recipient.');
         }

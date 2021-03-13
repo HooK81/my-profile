@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import * as actions from '../actions';
 import * as reducers from '../reducers';
 import * as constants from '../constants';
-import * as appDependency from '../../app/actions';
 import { api } from '../../../api';
 
 // Mock API
@@ -16,10 +15,6 @@ jest.mock('../../../api');
 
 // Mock Store
 const mockStore = configureMockStore([thunk]);
-
-// Mock app dependency setIsLoaded
-appDependency.setIsLoaded = jest.fn();
-appDependency.setIsLoaded.mockReturnValue({ type: 'IS_LOADED', payload: true });
 
 describe('Profile Action GetProfile', () => {
   let store;

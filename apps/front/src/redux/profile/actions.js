@@ -26,6 +26,7 @@ export const getProfile = () => {
         },
       )
       .then((res) => {
+        api.setHasToken(true);
         dispatch(getProfileSuccess(res.data)); // save profile
         dispatch(setIsLoaded()); // set app loaded
         return res;

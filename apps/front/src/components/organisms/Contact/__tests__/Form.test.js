@@ -9,8 +9,10 @@ import ReCAPTCHA, { mockReset } from 'react-google-recaptcha'; // Mocked in __mo
 import { Contact } from '../Contact.js';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import { toast } from 'react-toastify';
 import _ from 'lodash/fp';
 import { api } from '../../../../api/index';
+import { ApiError } from '../../../../api/Api';
 
 const profileMain = {
   fullName: '',
@@ -32,6 +34,7 @@ const mockStore = configureMockStore();
 const store = mockStore({
   app: { locale: 'en' },
 });
+jest.mock('react-toastify');
 
 describe('Form', () => {
   beforeEach(() => {
@@ -83,8 +86,8 @@ describe('Form', () => {
     expect(mockReset).toHaveBeenCalledTimes(1);
   });
 
-  it('should handle error when sending email', async () => {
-    api.post.mockRejectedValue({});
+  it('should handle basic error when sending email', async () => {
+    api.post.mockRejectedValue(new Error('the error'));
 
     const wrapper = mount(
       <Provider store={store}>
@@ -110,6 +113,68 @@ describe('Form', () => {
     expect(wrapper.find('button.btn-submit').prop('disabled')).toBeTruthy();
     expect(api.post).toHaveBeenCalledTimes(1);
     expect(mockReset).toHaveBeenCalledTimes(1);
+    expect(toast.error).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle backend error when sending email', async () => {
+    api.post.mockRejectedValue(new ApiError('the error', 500));
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Contact profileMain={profileMain} />
+      </Provider>,
+    );
+    const captcha = wrapper.find('.submit input[type="checkbox"]');
+    const form = wrapper.find('#contactForm');
+
+    wrapper.find('#contactEmail').getDOMNode().value = 'fakeMail@fake.com';
+    wrapper.find('#contactEmail').getDOMNode().dispatchEvent(new Event('input'));
+    wrapper.find('#contactMessage').getDOMNode().value = 'the message to send';
+    wrapper.find('#contactMessage').getDOMNode().dispatchEvent(new Event('input'));
+    wrapper.find('#contactSubject').getDOMNode().value = 'subject';
+    wrapper.find('#contactSubject').getDOMNode().dispatchEvent(new Event('input'));
+
+    await act(async () => {
+      captcha.simulate('change');
+      form.simulate('submit');
+    });
+    wrapper.update();
+
+    expect(api.post).toHaveBeenCalledTimes(1);
+    expect(mockReset).toHaveBeenCalledTimes(1);
+    expect(toast.error).toHaveBeenCalledTimes(1);
+    expect(wrapper.find('span.error')).toHaveLength(0);
+  });
+
+  it('should handle form validation error when sending email', async () => {
+    api.post.mockRejectedValue(new ApiError('form error', 400, {errors: [{email: ['the error']}]}));
+    api.buildFormErrors.mockReturnValue({email: {message: 'the error', type: 'pattern'}});
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <Contact profileMain={profileMain} />
+      </Provider>,
+    );
+    const captcha = wrapper.find('.submit input[type="checkbox"]');
+    const form = wrapper.find('#contactForm');
+
+    wrapper.find('#contactEmail').getDOMNode().value = 'fakeMail@fake.com';
+    wrapper.find('#contactEmail').getDOMNode().dispatchEvent(new Event('input'));
+    wrapper.find('#contactMessage').getDOMNode().value = 'the message to send';
+    wrapper.find('#contactMessage').getDOMNode().dispatchEvent(new Event('input'));
+    wrapper.find('#contactSubject').getDOMNode().value = 'subject';
+    wrapper.find('#contactSubject').getDOMNode().dispatchEvent(new Event('input'));
+
+    await act(async () => {
+      captcha.simulate('change');
+      form.simulate('submit');
+    });
+    wrapper.update();
+
+    expect(api.post).toHaveBeenCalledTimes(1);
+    expect(mockReset).toHaveBeenCalledTimes(0);
+    expect(toast.error).toHaveBeenCalledTimes(0);
+    expect(wrapper.find('span.error')).toHaveLength(1);
   });
 
   it('should form display spinner when sending an email', async () => {

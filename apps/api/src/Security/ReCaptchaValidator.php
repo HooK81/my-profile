@@ -2,12 +2,12 @@
 
 namespace App\Security;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * ReCaptchaValidator
- * Validate a reCaptcha response
+ * Validate a reCaptcha response.
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
@@ -18,9 +18,8 @@ class ReCaptchaValidator
     private $secret;
 
     /**
-     * Constructor
-     * 
-     * @param RequestStack $requestStack
+     * Constructor.
+     *
      * @param string $passPhrase
      */
     public function __construct(RequestStack $requestStack, string $secret)
@@ -30,18 +29,19 @@ class ReCaptchaValidator
     }
 
     /**
-     * Check a recaptcha response
+     * Check a recaptcha response.
      *
-     * @param string $response
+     * @param string $reCaptchaResponse
+     *
      * @return bool
      */
-    public function checkReCaptchaResponse($response)
+    public function checkReCaptchaResponse($reCaptchaResponse)
     {
         $httpClient = HttpClient::create();
         $response = $httpClient->request('POST', self::URL, ['body' => [
-            'secret'   => $this->secret,
-            'response' => $response,
-            'remoteip' => $this->request->getClientIp()
+            'secret' => $this->secret,
+            'response' => $reCaptchaResponse,
+            'remoteip' => $this->request->getClientIp(),
         ]]);
 
         $rawData = $response->getContent(false);

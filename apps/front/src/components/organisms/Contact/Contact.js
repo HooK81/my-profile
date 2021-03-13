@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectAppLocale } from '../../../redux/app/selectors';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { api } from '../../../api/index';
+import { api, ApiError } from '../../../api/index';
 import { toast } from 'react-toastify';
 import i18n from 'i18next';
 import { ProtectedText } from 'react-protected-text';
@@ -22,6 +22,7 @@ import './Contact.scss';
 export function Contact(props) {
   const [verified, setVerified] = useState(false);
   const [pending, setPending] = useState(false);
+  const [backErrors, setBackErrors] = useState({});
   const [recaptchaResponse, setRecaptchaResponse] = useState('');
   const recaptchaRef = useRef();
   const appLocale = useSelector((state) => selectAppLocale(state));
@@ -41,17 +42,27 @@ export function Contact(props) {
   const onExpired = () => clearCaptcha(false);
 
   /*** FORM */
-  const { register, handleSubmit, errors } = useForm();
+  let { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     setPending(true);
+    setBackErrors({});
 
     api
-      .post('post_email', {
-        reCaptchaResponse: recaptchaResponse,
-        from: data?.email,
-        object: data?.subject,
-        message: data?.message,
-      })
+      .post(
+        'post_email',
+        {
+          reCaptchaResponse: recaptchaResponse,
+          from: data?.email,
+          subject: data?.subject,
+          message: data?.message,
+        },
+        {
+          _locale: appLocale,
+        },
+        {
+          showError: false,
+        },
+      )
       .then((res) => {
         clearCaptcha(true);
         toast.success(i18n.t('contact.form.submitted'), {
@@ -60,10 +71,24 @@ export function Contact(props) {
         setPending(false);
       })
       .catch((error) => {
-        clearCaptcha(true);
         setPending(false);
+
+        if (error instanceof Error && typeof error.httpStatus === 'number' && error.httpStatus === 400) {
+          // Form validation error
+          setBackErrors(api.buildFormErrors(error.data?.errors, { from: 'email' }));
+          return;
+        }
+
+        toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        clearCaptcha(true);
       });
   };
+
+  if (Object.entries(backErrors).length > 0) {
+    errors = backErrors;
+  }
 
   const submitDisabled = !verified || pending;
   const { t } = useTranslation();

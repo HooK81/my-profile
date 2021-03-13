@@ -6,17 +6,36 @@ import i18n from 'i18next';
 import { routing } from './routing/index';
 import _ from 'lodash';
 
+export const HTTP_OK = 200;
+export const HTTP_UNAUTHORIZED = 401;
+export const HTTP_MULTIPLE_CHOICES = 300;
+export const HTTP_INTERNAL_SERVER_ERROR = 500;
+
+/**
+ * Api error base class
+ * @author Julien CROCHET <julien@crochet.me>
+ */
+export class ApiError extends Error {
+  constructor(message, httpStatus = null, data = null) {
+    super(message);
+    this.name = this.constructor.name;
+    this.httpStatus = httpStatus;
+    this.data = data;
+  }
+}
+
 /**
  * Api base class
  * Used to inject token into requests
  * @author Julien CROCHET <julien@crochet.me>
  */
 export class Api {
+
   constructor(props) {
     this.props = props;
 
     this.passwordEncoder = new PasswordEncoder();
-    this.setToken(null);
+    this.setHasToken(false);
     this.axios = axios.create({
       timeout: 30000,
     });
@@ -30,31 +49,24 @@ export class Api {
   /* istanbul ignore next */
   setInterceptors() {
     const that = this;
-    this.axios.interceptors.request.use(
-      (config) => {
-        if (that.token) {
-          config.headers.authorization = `Bearer ${that.token}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
 
+    /* Refresh token when API return 401 error */
     this.axios.interceptors.response.use(
       (response) => response,
       (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if (error.response.status === HTTP_UNAUTHORIZED && !originalRequest._retry) {
+          that.setHasToken(false);
           originalRequest._retry = true;
           return that.refreshToken().then((res) => {
-            if ([200, 201].indexOf(res.status) !== -1) {
-              axios.defaults.headers.common['Authorization'] = `Bearer ${that.token}`;
+            if (res.status >= HTTP_OK && res.status < HTTP_MULTIPLE_CHOICES) {
+              // Relaunch original request with new token
               return that.axios(originalRequest);
             }
-          })
+          });
         }
         return Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -78,7 +90,10 @@ export class Api {
             autoClose: errorAutoClose,
           });
         }
-        throw new Error(errorMEssage);
+        if (error.constructor.name === 'ApiError') {
+          throw error;
+        }
+        throw new ApiError(errorMEssage, error.response.status, error.response.data);
       });
     } catch (e) {
       console.error('API GET', routeName, e.message);
@@ -108,7 +123,10 @@ export class Api {
             autoClose: errorAutoClose,
           });
         }
-        throw new Error(errorMEssage);
+        if (error.constructor.name === 'ApiError') {
+          throw error;
+        }
+        throw new ApiError(errorMEssage, error.response.status, error.response.data);
       });
     } catch (e) {
       console.error('API POST', routeName, e.message);
@@ -127,12 +145,19 @@ export class Api {
   }
 
   /**
-   * Set API Token
-   * It will be used in subsequent request
-   * @param {string} token API Token
+   * Set Token Cookie flag
+   * @param {*} tokenCookieIsPresent
    */
-  setToken(token) {
-    this.token = token;
+  setHasToken(tokenCookieIsPresent) {
+    this.hasToken = tokenCookieIsPresent;
+  }
+
+  /**
+   * Is Token cookie present ?
+   * @returns bool
+   */
+  getHasToken() {
+    return this.hasToken;
   }
 
   /**
@@ -155,35 +180,16 @@ export class Api {
    * If parameters is null, assume routeName is a full qualified URL
    * @param {string} routeName
    * @param {object} routeParameters
-   * @param {boolean} addToken
    * @throws         Error if routeName does not exists
    */
-  buildUrl(routeName, routeParameters = {}, addToken = false, absolute = false) {
+  buildUrl(routeName, routeParameters = {}, absolute = false) {
     let url;
-    if (addToken) {
-      routeParameters = this.addTokenInParameters(routeParameters);
-    }
     if (routeParameters !== null) {
       url = routing.generate(routeName, routeParameters, absolute);
     } else {
       url = routing.generate(routeName, {}, absolute);
     }
     return url;
-  }
-
-  /**
-   * Add Token into URL query string
-   * @param {object} routeParameters
-   * @returns {object}
-   */
-  addTokenInParameters(routeParameters = {}) {
-    if (routeParameters === null) {
-      routeParameters = {};
-    }
-    if (this.token) {
-      routeParameters.bearer = this.token;
-    }
-    return routeParameters;
   }
 
   /**
@@ -200,5 +206,29 @@ export class Api {
       msg = errorMessage;
     }
     return msg;
+  }
+
+  /**
+   * Build form error object
+   * @param {object} errors from API
+   * @param {object} fields name mapping
+   */
+  buildFormErrors(errors, fieldsMapping = {}) {
+    let backErrors = {};
+    if (typeof errors !== 'object') {
+      return backErrors;
+    }
+
+    errors.map((error) => {
+      for (const field in error) {
+        let fieldName = field;
+        if (typeof fieldsMapping[field] === 'string') {
+          fieldName = fieldsMapping[field];
+        }
+        backErrors[fieldName] = { message: error[field][0], type: 'pattern' };
+      }
+    });
+
+    return backErrors;
   }
 }

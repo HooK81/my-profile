@@ -60,6 +60,19 @@ describe('Api Get', () => {
     expect(toast.error).toHaveBeenCalled();
   });
 
+  it('Should Get rethrow an ApiError without toast', async () => {
+    axios.get.mockImplementation(() => {
+      return Promise.reject(new ApiError('mock', 500, 'bla'));
+    });
+
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect.assertions(2);
+    await expect(api.get('get_user', { id: 'test' }, {showError: false})).rejects.toEqual(new ApiError('mock', 500, 'bla'));
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
   it('Should Get throw an invalid route error', async () => {
     axios.create.mockReturnValue(axios);
 
@@ -88,6 +101,19 @@ describe('Api Post', () => {
   it('Should Post throw an error without toast', async () => {
     axios.post.mockImplementation(() => {
       return Promise.reject({message: 'mock', response: {status: 500, data: 'bla'}});
+    });
+
+    axios.create.mockReturnValue(axios);
+
+    const api = new Api();
+    expect.assertions(2);
+    await expect(api.post('login', null, {}, {showError: false})).rejects.toEqual(new ApiError('mock', 500, 'bla'));
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it('Should Post rethrow an ApiError without toast', async () => {
+    axios.post.mockImplementation(() => {
+      return Promise.reject(new ApiError('mock', 500, 'bla'));
     });
 
     axios.create.mockReturnValue(axios);
@@ -145,14 +171,14 @@ describe('Api Basics', () => {
     expect(api.props).toBeFalsy();
   });
 
-  it('Should setToken returns without crash ', () => {
+  it('Should setHasToken returns without crash ', () => {
     axios.create.mockReturnValue(axios);
     const api = new Api();
 
-    const expected = 'bla';
-    api.setToken(expected);
+    const expected = true;
+    api.setHasToken(expected);
 
-    expect(api.token).toBe(expected);
+    expect(api.getHasToken()).toBe(expected);
   });
 
   it('Should getCredentials returns without crash ', () => {
@@ -175,54 +201,12 @@ describe('Api Basics', () => {
     expect(api.buildUrl(route, null)).toEqual(expected);
   });
 
-  it('Should buildUrl add token in URL', () => {
-    axios.create.mockReturnValue(axios);
-
-    const api = new Api();
-    api.token = "foo";
-    const route = "login";
-    const expected= "/auth/login?foo=bar&bearer=foo"
-
-    expect(api.buildUrl(route, {foo: 'bar'}, true)).toEqual(expected);
-  });
-
-  it('Should buildUrl add token in URL without parameters', () => {
-    axios.create.mockReturnValue(axios);
-
-    const api = new Api();
-    api.token = "foo";
-    const route = "login";
-    const expected= "/auth/login?bearer=foo"
-
-    expect(api.buildUrl(route, null, true)).toEqual(expected);
-  });
-
-  it('Should buildUrl not add token in URL', () => {
-    axios.create.mockReturnValue(axios);
-
-    const api = new Api();
-    const route = "login";
-    const expected= "/auth/login"
-
-    expect(api.buildUrl(route, null, true)).toEqual(expected);
-  });
-
   it('Should buildUrl without route throw an error', () => {
     axios.create.mockReturnValue(axios);
 
     const api = new Api();
 
     expect(() => api.buildUrl()).toThrow();
-  });
-
-  it('Should addTokenInParameters without parameters not crash', () => {
-    axios.create.mockReturnValue(axios);
-
-    const api = new Api();
-    api.token = "foo";
-    const expected= {bearer: "foo"};
-
-    expect(api.addTokenInParameters()).toEqual(expected);
   });
 
   it('Should buildApiErrorMessage returns i18n', async () => {

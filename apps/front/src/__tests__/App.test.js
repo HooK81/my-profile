@@ -33,6 +33,18 @@ Object.defineProperty(window, 'location', {
 api.refreshToken = jest.fn();
 api.refreshToken.mockResolvedValue('token');
 
+const getProfileResolved = () => {
+  return new Promise((resolve, reject) => {
+    resolve();
+  });
+};
+
+const getProfileRejected = () => {
+  return new Promise((resolve, reject) => {
+    reject();
+  });
+};
+
 describe('App', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -40,14 +52,10 @@ describe('App', () => {
   });
 
   it('Should App not loaded render without crash', () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
     wrapper.setProps({
       isLoaded: false,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
     });
 
     expect(wrapper.containsMatchingElement(<AppLoader isLoaded={false} />)).toBe(true);
@@ -56,14 +64,10 @@ describe('App', () => {
   });
 
   it('Should App loaded render without crash', () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -72,16 +76,10 @@ describe('App', () => {
   });
 
   it('Should App load profile without crash', () => {
-    api.refreshToken.mockResolvedValue('token');
-
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -90,14 +88,10 @@ describe('App', () => {
   });
 
   it('Should App load profile with error without crash', async () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          reject();
-        }),
       profile: profile,
       apiError: 'error',
       setIsLoaded: jest.fn(),
@@ -114,9 +108,7 @@ describe('App', () => {
   });
 
   it('Should App load with token error without crash', () => {
-    api.refreshToken.mockRejectedValue('err');
-
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileRejected}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
@@ -131,14 +123,10 @@ describe('App', () => {
   });
 
   it('Should App handle same locale without crash', () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -146,26 +134,16 @@ describe('App', () => {
     expect(wrapper.find(Home)).toHaveLength(1);
 
     wrapper.setProps({
-      isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
-      profile: profile,
     });
     expect(wrapper.find(Home)).toHaveLength(1);
   });
 
   it('Should App handle locale change without crash', () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -173,26 +151,16 @@ describe('App', () => {
     expect(wrapper.find(Home)).toHaveLength(1);
 
     wrapper.setProps({
-      isLoaded: true,
       appLocale: 'fr',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
-      profile: profile,
     });
     expect(wrapper.find(Home)).toHaveLength(1);
   });
 
   it('Should App handle locale change with error without crash', () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -214,14 +182,10 @@ describe('App', () => {
   it('Should App reload when user leave error page', () => {
     const locationError = { pathname: '/', key: 'bla' };
     const locationAfter = { pathname: '/', key: 'bar' };
-    const wrapper = shallow(<App location={locationError} />);
+    const wrapper = shallow(<App location={locationError} getProfile={getProfileResolved}/>);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       apiError: 'error',
       profile: profile,
     });
@@ -230,14 +194,6 @@ describe('App', () => {
     expect(wrapper.find(Error)).toHaveLength(1);
 
     wrapper.setProps({
-      isLoaded: true,
-      appLocale: 'en',
-      apiError: 'error',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
-      profile: profile,
       location: locationAfter,
       setIsLoaded: jest.fn(),
     });
@@ -245,14 +201,10 @@ describe('App', () => {
   });
 
   it('Should App call react GA when app is loaded', async () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
     });
 
@@ -265,14 +217,10 @@ describe('App', () => {
   });
 
   it('Should App call react GA when location change', async () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
       location: {
         pathname: '/foo',
@@ -304,14 +252,10 @@ describe('App', () => {
   });
 
   it('Should App call react GA when hash change', async () => {
-    const wrapper = shallow(<App location={location} />);
+    const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
     wrapper.setProps({
       isLoaded: true,
       appLocale: 'en',
-      getProfile: () =>
-        new Promise((resolve, reject) => {
-          resolve();
-        }),
       profile: profile,
       location: {
         pathname: '/foo',

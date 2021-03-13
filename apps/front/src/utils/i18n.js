@@ -29,10 +29,7 @@ i18n
         if (format === 'upperFirst') return value.charAt(0).toUpperCase() + value.slice(1);
         return value;
       },
-    },
-    react: {
-      wait: true,
-    },
+    }
   });
 
 moment.locale(locales);

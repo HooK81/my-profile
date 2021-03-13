@@ -14,7 +14,6 @@ import { selectApiTokenError } from './redux/token/selectors';
 import { selectAppIsLoaded, selectAppLocale } from './redux/app/selectors';
 import { getProfile } from './redux/profile/actions';
 import { setIsLoaded } from './redux/app/actions';
-import { api } from './api/index';
 import moment from 'moment';
 
 import './App.scss';
@@ -29,13 +28,8 @@ import { Error } from './components/pages/Error/Error';
  */
 export class App extends PureComponent {
   componentDidMount() {
-    // Get Access Token & Profile
-    api
-      .refreshToken()
-      .then(() => {
-        this.props.getProfile().catch(() => {});
-      })
-      .catch(() => {});
+    // Get Profile
+    this.props.getProfile().catch(() => {});
   }
 
   componentDidUpdate(prevProps) {

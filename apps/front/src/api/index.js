@@ -1,16 +1,16 @@
 /**
  * Export connected API with Redux and Synfony routing
  */
-import { Api }      from './Api';
-import { store }    from '../utils/configureStore';
+import { Api, ApiError } from './Api';
+import { store } from '../utils/configureStore';
 import { getToken } from '../redux/token/actions';
-import { routing }  from './routing/index';
+import { routing } from './routing/index';
 
 const mapDispatchToProps = () => {
   return {
-    onGetToken: () => store.dispatch(getToken())
+    onGetToken: () => store.dispatch(getToken()),
   };
 };
 
 const api = new Api(mapDispatchToProps());
-export { api, routing };
+export { api, ApiError, routing };

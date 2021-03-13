@@ -7,6 +7,7 @@ import { API_TOKEN_STARTED, API_TOKEN_SUCCESS, API_TOKEN_ERROR } from './constan
 import { api } from '../../api';
 import { setIsLoaded } from '../app/actions';
 
+
 /**
  * Get API Token Action
  */
@@ -16,6 +17,7 @@ export const getToken = () => {
     // Get credentials and unique key
     const credentials = api.getCredentials();
     const { key, ...usernameAndPassword } = credentials;
+    api.setHasToken(false);
 
     return api
       .post(
@@ -30,12 +32,12 @@ export const getToken = () => {
         },
       ) // Get login
       .then((res) => {
-        api.setToken(res.data.token);
+        api.setHasToken(res.data.token !== "");
         dispatch(getTokenSuccess(res.data.token));
         return res;
       })
       .catch((error) => {
-        api.setToken(null);
+        api.setHasToken(false);
         dispatch(getTokenError(error.message));
         dispatch(setIsLoaded()); // set app loaded
         throw error;

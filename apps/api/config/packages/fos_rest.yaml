@@ -4,9 +4,7 @@ fos_rest:
   serializer:
     groups: ["Default"]
     serialize_null: false
-  exception:
-    enabled: true
-    serializer_error_renderer: true
+  exception: false
   view:
     view_response_listener: true
   body_listener:

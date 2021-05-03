@@ -44,8 +44,11 @@ export class App extends PureComponent {
       this.props.getProfile().catch(() => {});
     }
 
-    // Init moment when user change locale
+    // User change locale
     if (this.props.appLocale !== prevProps.appLocale) {
+      // Update HTML lang attribute
+      document.documentElement.lang = this.props.appLocale;
+      // Init moment
       moment.locale(this.props.appLocale);
     }
 

@@ -137,6 +137,7 @@ describe('App', () => {
       appLocale: 'en',
     });
     expect(wrapper.find(Home)).toHaveLength(1);
+    expect(document.documentElement.lang).toBe('en');
   });
 
   it('Should App handle locale change without crash', () => {
@@ -149,11 +150,13 @@ describe('App', () => {
 
     expect(wrapper.containsMatchingElement(<AppLoader isLoaded={true} />)).toBe(true);
     expect(wrapper.find(Home)).toHaveLength(1);
+    expect(document.documentElement.lang).toBe('en');
 
     wrapper.setProps({
       appLocale: 'fr',
     });
     expect(wrapper.find(Home)).toHaveLength(1);
+    expect(document.documentElement.lang).toBe('fr');
   });
 
   it('Should App handle locale change with error without crash', () => {

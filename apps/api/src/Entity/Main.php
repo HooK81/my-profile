@@ -18,7 +18,14 @@ class Main
      *
      * @var string
      */
-    protected $name;
+    protected $lastName;
+
+    /**
+     * @JMS\Type("string")
+     *
+     * @var string
+     */
+    protected $firstName;
 
     /**
      * @JMS\Type("string")
@@ -88,6 +95,13 @@ class Main
      *
      * @var string
      */
+    protected $website;
+
+    /**
+     * @JMS\Type("string")
+     *
+     * @var string
+     */
     protected $resumePdf;
 
     /**
@@ -108,13 +122,23 @@ class Main
     }
 
     /**
-     * Get the value of name.
+     * Get the value of lastName.
      *
      * @return string
      */
-    public function getName()
+    public function getLastName()
     {
-        return $this->name;
+        return $this->lastName;
+    }
+
+    /**
+     * Get the value of firstName.
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
     }
 
     /**
@@ -205,6 +229,16 @@ class Main
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Get the value of website.
+     *
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 
     /**

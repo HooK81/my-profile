@@ -23,7 +23,7 @@ export function HomeHeader(props) {
     <>
       <div className="row banner">
         <div className="banner-text">
-          <h1 className="responsive-headline">{t('header.head_line', { name: props.profileMain.name })}</h1>
+          <h1 className="responsive-headline">{t('header.head_line', { name: props.profileMain.firstName })}</h1>
           <h3>
             <ReactMarkdown>{t('header.description', {base: props.profileMain.base, occupation: props.profileMain.occupation})}</ReactMarkdown>
             <ReactMarkdown>{props.profileMain.description}</ReactMarkdown>

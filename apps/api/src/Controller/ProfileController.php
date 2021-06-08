@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Generator\VCardGenerator;
 use App\Manager\ProfileManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -29,12 +30,15 @@ class ProfileController extends AbstractFOSRestController
 {
     /** @var ProfileManager */
     protected $profileManager;
+    /** @var VCardGenerator */
+    protected $vCardGenerator;
     /** @var Request */
     protected $request;
 
-    public function __construct(RequestStack $requestStack, ProfileManager $profileManager)
+    public function __construct(RequestStack $requestStack, ProfileManager $profileManager, VCardGenerator $vCardGenerator)
     {
         $this->profileManager = $profileManager;
+        $this->vCardGenerator = $vCardGenerator;
         $this->request = $requestStack->getMasterRequest();
     }
 
@@ -64,10 +68,8 @@ class ProfileController extends AbstractFOSRestController
      *
      * @param string $id
      * @param string $file
-     *
-     * @return BinaryFileResponse
      */
-    public function getUserFile($id, $file): Response
+    public function getUserFile($id, $file): BinaryFileResponse
     {
         $filename = $this->profileManager->getFilesPath($id, $file);
         if (null === $filename) {
@@ -82,6 +84,25 @@ class ProfileController extends AbstractFOSRestController
         if ('attachment' === $disposition) {
             $response->setContentDisposition('attachment', $file);
         }
+
+        return $response;
+    }
+
+    /**
+     * Get a user vcard.
+     *
+     * @Rest\Get("/{id}/vcard", name="get_user_vcard")
+     *
+     * @param string $id
+     */
+    public function getUserVCard($id): Response
+    {
+        $profile = $this->getUserProfile($id);
+        $vcard = $this->vCardGenerator->generateProfileVCard($profile);
+        $response = new Response($vcard->getVCFStream());
+        $response->setMaxAge(9600);
+        $response->headers->set('Content-Type', 'text/x-vcard');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $vcard->getFilename()));
 
         return $response;
     }

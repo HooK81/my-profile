@@ -11,6 +11,7 @@ import { selectAppLocale } from '../../../redux/app/selectors';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api, ApiError } from '../../../api/index';
 import { toast } from 'react-toastify';
+import { VCardButton } from '../../atoms/VCardButton/VCardButton';
 import i18n from 'i18next';
 import { ProtectedText } from 'react-protected-text';
 import './Contact.scss';
@@ -180,7 +181,10 @@ export function Contact(props) {
 
         <aside className="four column footer-widgets">
           <div className="widget widget_contact">
-            <h4>{t('contact.address')}</h4>
+            <h4 className="title">
+              <VCardButton />
+              {t('contact.address')}
+            </h4>
             <p className="address">
               <ProtectedText text={props.profileMain.fullName} />
               {props.profileMain.address.street && (

@@ -9,6 +9,7 @@ import { api } from '../../../api/index';
 import { selectAppLocale } from '../../../redux/app/selectors';
 
 import { ProfilePicture } from '../../atoms/ProfilePicture/ProfilePicture';
+import { VCardButton } from '../../atoms/VCardButton/VCardButton';
 import { ProtectedText } from 'react-protected-text';
 import { useTranslation } from 'react-i18next';
 import './About.scss';
@@ -21,17 +22,14 @@ export function About(props) {
   // Component State
   const [pictureUrl, setPictureUrl] = useState(null);
   const [resumeUrl, setResumeUrl] = useState(null);
-  const appLocale = useSelector(state => selectAppLocale(state));
+  const appLocale = useSelector((state) => selectAppLocale(state));
 
   // Get profile picture URL
   useEffect(() => {
-    const url = api.buildUrl(
-      'get_user_file',
-      {
-        id: process.env.REACT_APP_PROFILE_ID,
-        file: props.profileMain.image,
-      }
-    );
+    const url = api.buildUrl('get_user_file', {
+      id: process.env.REACT_APP_PROFILE_ID,
+      file: props.profileMain.image,
+    });
     setPictureUrl(url);
   }, [props.profileMain.image]);
 
@@ -56,7 +54,7 @@ export function About(props) {
     <section id="about">
       <div className="row">
         <div className="three column">
-          <ProfilePicture name={props.profileMain.name} url={pictureUrl} />
+          <ProfilePicture name={props.profileMain.firstName} url={pictureUrl} />
         </div>
         <div className="nine column main-col">
           <h2>{t('about.title')}</h2>
@@ -65,7 +63,10 @@ export function About(props) {
           </div>
           <div className="row">
             <div className="column contact-details">
-              <h2>{t('about.contact_details')}</h2>
+              <h2>
+                <VCardButton />
+                {t('about.contact_details')}
+              </h2>
               <p className="address">
                 <ProtectedText text={props.profileMain.fullName} />
                 {props.profileMain.address.street && (

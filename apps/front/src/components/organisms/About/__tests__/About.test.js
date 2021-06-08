@@ -26,6 +26,7 @@ describe('About', () => {
     const profile = {
       name: '',
       fullName: '',
+      firstName: '',
       image: 'foo',
       address: {
         street: '',
@@ -46,6 +47,7 @@ describe('About', () => {
     const profile = {
       name: '',
       fullName: '',
+      firstName: '',
       image: 'foo',
       address: {
         street: '1 infinite loop',
@@ -63,6 +65,7 @@ describe('About', () => {
     const profile = {
       name: '',
       fullName: '',
+      firstName: '',
       image: 'foo',
       address: {
         street: '',

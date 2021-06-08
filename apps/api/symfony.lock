@@ -112,6 +112,15 @@
     "ramsey/uuid": {
         "version": "3.9.2"
     },
+    "sabre/uri": {
+        "version": "2.2.1"
+    },
+    "sabre/vobject": {
+        "version": "4.3.5"
+    },
+    "sabre/xml": {
+        "version": "2.2.3"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {

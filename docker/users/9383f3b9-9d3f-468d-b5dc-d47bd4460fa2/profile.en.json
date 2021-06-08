@@ -1,7 +1,8 @@
 {
   "id": "9383f3b9-9d3f-468d-b5dc-d47bd4460fa2",
   "main": {
-    "name": "John",
+    "firstName": "John",
+    "lastName": "Doe",
     "fullName": "John Doe",
     "occupation": "My Occupation",
     "description": "Lorem **ipsum** dolor sit _amet_, consectetur **adipiscing** elit.\nsed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -16,6 +17,7 @@
       "country": "USA"
     },
     "phone": "+1 800-275-8777",
+    "website": "https://www.doe.com",
     "resumePdf": "resume.pdf",
     "social": [
       {

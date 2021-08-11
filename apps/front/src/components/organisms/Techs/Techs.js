@@ -15,13 +15,32 @@ export function Techs(props) {
   // Process each tech
   const [techs, setTechs] = useState([]);
 
-  useEffect(() => {
-      // Generate a promises array for lazy loading of each tech element
-    const techsPromises = props.techs.map(async function (tech, i) {
-      let imageSrc;
-      await import(`./assets/${tech.image}`).then((image) => {
+  /**
+   * Load images in assets folder
+   * @param {*} fileName
+   * @returns
+   */
+  const loadFile = async (fileName) => {
+    let imageSrc;
+
+    try {
+      await import(`./assets/${fileName}`).then((image) => {
         imageSrc = image.default;
       });
+    } catch (e) {
+      console.error(`Missing assets in Techs [${fileName}]`, e);
+      await import(`./assets/missing.png`).then((image) => {
+        imageSrc = image.default;
+      });
+    }
+
+    return imageSrc;
+  };
+
+  useEffect(() => {
+    // Generate a promises array for lazy loading of each tech element
+    const techsPromises = props.techs.map(async function (tech, i) {
+      const imageSrc = await loadFile(tech.image);
 
       return (
         <li key={i} className="bgrid-column feature-item">
@@ -31,6 +50,7 @@ export function Techs(props) {
         </li>
       );
     });
+
     Promise.all(techsPromises).then((techs) => {
       // Set all elements into state for rendering
       setTechs(techs);

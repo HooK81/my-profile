@@ -3,7 +3,7 @@
  * @author Julien CROCHET <julien@crochet.me>
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Hobby.scss';
 
@@ -13,18 +13,6 @@ import './Hobby.scss';
  */
 export function Hobby(props) {
   const [isHover, setIsHover] = useState(false);
-  const [image, setImage] = useState('');
-
-  // Load image dynamicaly
-  useEffect(() => {
-    const loadImage = (imageName) => {
-      import(`./assets/${imageName}`).then((image) => {
-        setImage(image.default);
-      });
-    };
-
-    loadImage(props.image);
-  }, [props.image]);
 
   let overlay = null;
   if (isHover) {
@@ -44,7 +32,7 @@ export function Hobby(props) {
   return (
     <div className="bgrid-column hobby-item">
       <div className="item-wrap" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-        {image && <img alt={props.title} src={image} />}
+        {props.image && <img alt={props.title} src={props.image} />}
         <div className={`overlay ${overlayClass}`}>{overlay}</div>
       </div>
     </div>

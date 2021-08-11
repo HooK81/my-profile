@@ -105,17 +105,17 @@
   "hobbies": [
     {
       "title": "Cinema",
-      "image": "cinema.png",
+      "image": "cinema.jpg",
       "icon": "fas fa-film"
     },
     {
       "title": "Video Game",
-      "image": "gaming.png",
+      "image": "gaming.jpg",
       "icon": "fas fa-gamepad"
     },
     {
       "title": "Reading",
-      "image": "reading.png",
+      "image": "reading.jpg",
       "icon": "fas fa-book-reader"
     }
   ]

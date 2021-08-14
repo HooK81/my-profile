@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Profile;
@@ -18,10 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * ProfileController.
  *
  * @Route(
- *     "/{_locale}/{version}/users",
- *     requirements={ "_locale" = "%app.locales%" },
- *     options={ "expose" = true },
- *     defaults={ "_locale" = "%app.default_locale%", "version" = "v1"}
+ *     path="/{_locale}/{version}/users",
+ *     requirements={ "_locale": "%app.locales%" },
+ *     options={ "expose": true },
+ *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
  * )
  *
  * @author Julien CROCHET <julien@crochet.me>
@@ -39,18 +41,16 @@ class ProfileController extends AbstractFOSRestController
     {
         $this->profileManager = $profileManager;
         $this->vCardGenerator = $vCardGenerator;
-        $this->request = $requestStack->getMasterRequest();
+        $this->request = $requestStack->getMainRequest();
     }
 
     /**
      * Get a user profile.
      *
-     * @Rest\Get("/{id}", name="get_user")
-     * @Rest\View()
-     *
-     * @param string $id
+     * @Rest\Get(path="/{id}", name="get_user")
+     * @Rest\View
      */
-    public function getUserProfile($id): Profile
+    public function getUserProfile(string $id): Profile
     {
         /** @var Profile $profile */
         $profile = $this->profileManager->getProfile($id);
@@ -64,21 +64,18 @@ class ProfileController extends AbstractFOSRestController
     /**
      * Get a user file.
      *
-     * @Rest\Get("/{id}/files/{file}", name="get_user_file")
-     *
-     * @param string $id
-     * @param string $file
+     * @Rest\Get(path="/{id}/files/{file}", name="get_user_file")
      */
-    public function getUserFile($id, $file): BinaryFileResponse
+    public function getUserFile(string $id, string $file): BinaryFileResponse
     {
         $filename = $this->profileManager->getFilesPath($id, $file);
         if (null === $filename) {
             // not found
             throw new NotFoundHttpException(sprintf('file %s not found', $file));
         }
-        BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($filename);
         $response->setMaxAge(9600);
+        $response->trustXSendfileTypeHeader();
 
         $disposition = $this->request->get('disposition');
         if ('attachment' === $disposition) {
@@ -91,11 +88,9 @@ class ProfileController extends AbstractFOSRestController
     /**
      * Get a user vcard.
      *
-     * @Rest\Get("/{id}/vcard", name="get_user_vcard")
-     *
-     * @param string $id
+     * @Rest\Get(path="/{id}/vcard", name="get_user_vcard")
      */
-    public function getUserVCard($id): Response
+    public function getUserVCard(string $id): Response
     {
         $profile = $this->getUserProfile($id);
         $vcard = $this->vCardGenerator->generateProfileVCard($profile);

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -13,14 +16,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ReCaptchaValidator
 {
-    const URL = 'https://www.google.com/recaptcha/api/siteverify';
-    private $request;
-    private $secret;
+    public const URL = 'https://www.google.com/recaptcha/api/siteverify';
+    private Request $request;
+    private string $secret;
 
     /**
      * Constructor.
-     *
-     * @param string $passPhrase
      */
     public function __construct(RequestStack $requestStack, string $secret)
     {
@@ -33,9 +34,9 @@ class ReCaptchaValidator
      *
      * @param string $reCaptchaResponse
      *
-     * @return bool
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function checkReCaptchaResponse($reCaptchaResponse)
+    public function checkReCaptchaResponse($reCaptchaResponse): bool
     {
         $httpClient = HttpClient::create();
         $response = $httpClient->request('POST', self::URL, ['body' => [
@@ -46,7 +47,7 @@ class ReCaptchaValidator
 
         $rawData = $response->getContent(false);
         $data = json_decode($rawData, true);
-        if (empty($data) || !is_array($data) || !isset($data['success'])) {
+        if (empty($data) || !\is_array($data) || !isset($data['success'])) {
             return false;
         }
 

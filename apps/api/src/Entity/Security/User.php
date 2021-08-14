@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Security;
 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -11,12 +14,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private $username;
-    private $password;
+    private string $username;
+    private string $password;
 
-    public function __construct($username, $password = '')
+    public function __construct(string $username, string $password = '')
     {
         $this->username = $username;
         $this->password = $password;
@@ -32,22 +35,22 @@ class User implements UserInterface
         return null;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }
 
     public function eraseCredentials()
     {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
     }
 }

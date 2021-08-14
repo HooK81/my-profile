@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,51 +17,39 @@ class Hobby
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $title;
+    protected string $title;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $image;
+    protected string $image;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $icon;
+    protected string $icon;
 
     /**
      * Get the value of title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
      * Get the value of image.
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
 
     /**
      * Get the value of icon.
-     *
-     * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }

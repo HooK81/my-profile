@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -15,7 +17,7 @@ class ExceptionNormalizerFactory
     /**
      * @var NormalizerInterface[]
      */
-    private $normalizers;
+    private iterable $normalizers;
 
     /**
      * NormalizerFactory constructor.
@@ -26,13 +28,9 @@ class ExceptionNormalizerFactory
     }
 
     /**
-     * Returns the normalizer by supported data.
-     *
-     * @param mixed $data
-     *
-     * @return NormalizerInterface|null
+     * Returns the normalizer by supported data
      */
-    public function getNormalizer($data)
+    public function getNormalizer(object $data): ?NormalizerInterface
     {
         foreach ($this->normalizers as $normalizer) {
             if ($normalizer instanceof NormalizerInterface && $normalizer->supportsNormalization($data)) {

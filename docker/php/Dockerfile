@@ -3,13 +3,17 @@ LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 ARG PHP_ENV=DEV
 
 RUN apt-get update && \
-    apt-get install -y zlib1g-dev libzip-dev unzip nano curl && \
+    apt-get install -y zlib1g-dev libzip-dev libicu-dev unzip nano curl && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /home/user && \
     chmod 777 /home/user && \
     HOME=/home/user && \
     echo 'alias ll="ls -la"' >> /home/user/.bashrc && \
     PATH=$PATH:/usr/src/api/vendor/bin:bin
+
+RUN pecl install xdebug-3.0.2 && \
+    docker-php-ext-configure intl && docker-php-ext-install intl && \
+    docker-php-ext-enable xdebug
 
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -18,12 +22,8 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
     php -r "unlink('composer-setup.php');" && \
     mv composer /usr/local/bin/composer
 
-RUN pecl install xdebug-3.0.2 && \
-    docker-php-ext-enable xdebug
-
 COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DIR/conf.d/
 
 WORKDIR /usr/src/api
 
 COPY apps/api /usr/src/api
-RUN apt-get install curl

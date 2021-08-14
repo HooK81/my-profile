@@ -20,6 +20,7 @@
 /apps/api/var/
 /apps/api/vendor/
 /apps/api/resources/users/
+/apps/api/.php-cs-fixer.cache
 
 #NODE
 /apps/front/node_modules

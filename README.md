@@ -19,7 +19,6 @@ cp apps/front/.env.dist apps/front/.env
 #### PROD
 ```shell
 cp .env.dist .env
-cp apps/front/.env.dist apps/front/.env
 cp docker/node/secrets/.env.production.dist docker/node/secrets/.env.production
 ```
 
@@ -34,9 +33,8 @@ cp XXXX/prod.jwt.private.pem     docker/php/secrets/prod.jwt.private.pem
 ```shell
 cp docker-compose.override.yml.dist docker-compose.override.yml
 docker-compose build
-docker-compose run node yarn 
-docker-compose run php composer build-dev 
-docker-compose down
+docker-compose run --rm node yarn 
+docker-compose run --rm php composer build-dev 
 ```
 
 ### PROD
@@ -48,9 +46,33 @@ docker-compose -f docker-compose.prod.yml build --compress --force-rm
 ### DEV
 ```shell
 docker-compose up -d
-
 ```
 ### PROD
 ```shell
 docker-compose -f docker-compose.prod.yml up -d
+```
+
+## Development
+### Run PHP CS Fixer
+```shell
+docker-compose exec -T php composer phpcs
+```
+### Run PHP Mess Detector
+```shell
+docker-compose exec -T php composer phpmd
+```
+
+### Run PHP Stan
+```shell
+docker-compose exec -T php composer phpstan
+```
+
+### Run all PHP quality tools
+This will run 
+- PHP CS Fixer
+- PHP Mess Detector
+- PHP Stan
+
+```shell
+docker-compose exec -T php composer phpchecks
 ```

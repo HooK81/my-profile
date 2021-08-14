@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,59 +17,43 @@ class Main
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $lastName;
+    protected string $lastName;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $firstName;
+    protected string $firstName;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $fullName;
+    protected string $fullName;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $occupation;
+    protected string $occupation;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $description;
+    protected string $description;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $image;
+    protected string $image;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $bio;
+    protected string $bio;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $email;
+    protected string $email;
 
     /**
      * @JMS\Type("string")
@@ -78,38 +64,30 @@ class Main
 
     /**
      * @JMS\Type("App\Entity\Address")
-     *
-     * @var Address
      */
-    protected $address;
+    protected Address $address;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $phone;
+    protected string $phone;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $website;
+    protected string $website;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $resumePdf;
+    protected string $resumePdf;
 
     /**
      * @JMS\Type("array<App\Entity\Social>")
      *
      * @var Social[]
      */
-    protected $social;
+    protected array $social;
 
     /**
      * Constructor.
@@ -118,135 +96,108 @@ class Main
     {
         $this->address = new Address();
         $this->social = [];
-        $this->descriptionHighlightedWords = [];
     }
 
     /**
      * Get the value of lastName.
-     *
-     * @return string
      */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
     /**
      * Get the value of firstName.
-     *
-     * @return string
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
     /**
      * Get the value of fullName.
-     *
-     * @return string
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }
 
     /**
      * Get the value of occupation.
-     *
-     * @return string
      */
-    public function getOccupation()
+    public function getOccupation(): string
     {
         return $this->occupation;
     }
 
     /**
      * Get the value of description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
      * Get the value of image.
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
 
     /**
      * Get the value of bio.
-     *
-     * @return string
      */
-    public function getBio()
+    public function getBio(): string
     {
         return $this->bio;
     }
 
     /**
      * Get the value of email.
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
      * Get the value of base.
-     *
-     * @return string
      */
-    public function getBase()
+    public function getBase(): string
     {
         return $this->base;
     }
 
     /**
      * Get the value of address.
-     *
-     * @return string
      */
-    public function getAddress()
+    public function getAddress(): Address
     {
         return $this->address;
     }
 
     /**
      * Get the value of phone.
-     *
-     * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
     /**
      * Get the value of website.
-     *
-     * @return string
      */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
 
     /**
      * Get the value of resumePdf.
-     *
-     * @return string
      */
-    public function getResumePdf()
+    public function getResumePdf(): string
     {
         return $this->resumePdf;
     }

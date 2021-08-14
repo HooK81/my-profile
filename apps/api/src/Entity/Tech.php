@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,51 +17,39 @@ class Tech
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $image;
+    protected string  $image;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $desc;
+    protected string $desc;
 
     /**
      * Get the value of name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get the value of image.
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
 
     /**
      * Get the value of desc.
-     *
-     * @return string
      */
-    public function getDesc()
+    public function getDesc(): string
     {
         return $this->desc;
     }

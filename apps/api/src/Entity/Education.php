@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,47 +17,35 @@ class Education
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $degree;
+    protected string $degree;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $school;
+    protected string $school;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $city;
+    protected string $city;
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $date;
+    protected string $date;
 
     /**
      * Get the value of degree.
-     *
-     * @return string
      */
-    public function getDegree()
+    public function getDegree(): string
     {
         return $this->degree;
     }
 
     /**
      * Get the value of school.
-     *
-     * @return string
      */
-    public function getSchool()
+    public function getSchool(): string
     {
         return $this->school;
     }
@@ -63,17 +53,15 @@ class Education
     /**
      * Get the value of city.
      */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
     /**
      * Get the value of date.
-     *
-     * @return string
      */
-    public function getDate()
+    public function getDate(): string
     {
         return $this->date;
     }

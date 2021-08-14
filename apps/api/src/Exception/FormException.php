@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exception;
 
 use Symfony\Component\Form\FormErrorIterator;
@@ -13,13 +15,12 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class FormException extends HttpException
 {
-    /**
-     * @var FormInterface
-     */
-    protected $form;
+    protected FormInterface $form;
 
     /**
      * HttpFormException constructor.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(FormInterface $form, int $statusCode = 400, string $message = 'Invalid form', \Exception $previous = null, array $headers = [], ?int $code = 0)
     {
@@ -28,18 +29,14 @@ class FormException extends HttpException
         $this->form = $form;
     }
 
-    /**
-     * @return FormInterface
-     */
-    public function getForm()
+
+    public function getForm(): FormInterface
     {
         return $this->form;
     }
 
-    /**
-     * @return FormErrorIterator
-     */
-    public function getErrors()
+
+    public function getErrors(): FormErrorIterator
     {
         return $this->form->getErrors(true);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Normalizer\ExceptionNormalizerFactory;
@@ -18,10 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class ExceptionSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var ExceptionNormalizerFactory
-     */
-    private $normalizerFactory;
+    private ExceptionNormalizerFactory $normalizerFactory;
 
     public function __construct(ExceptionNormalizerFactory $normalizerFactory)
     {
@@ -32,10 +31,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
      * Return the subscribed events, their methods and priorities.
      *
      * @codeCoverageIgnore
-     *
-     * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => 'processException',
@@ -44,10 +41,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
     /**
      * Replace exception response by a JSON stream.
-     *
-     * @return void
      */
-    public function processException(ExceptionEvent $event)
+    public function processException(ExceptionEvent $event): void
     {
         $response = new Response();
         $exception = $event->getThrowable();
@@ -58,10 +53,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
     /**
      * Creates the JsonResponse from any Exception.
-     *
-     * @return JsonResponse
      */
-    private function createApiResponse(\Throwable $exception)
+    private function createApiResponse(\Throwable $exception): JsonResponse
     {
         $normalizer = $this->normalizerFactory->getNormalizer($exception);
         $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;

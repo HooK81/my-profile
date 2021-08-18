@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,68 +17,52 @@ class Address
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $street;
+    protected ?string $street;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $city;
+    protected ?string $city;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $zip;
+    protected ?string $zip;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $country;
+    protected ?string $country;
 
     /**
      * Get the value of street.
-     *
-     * @return string
      */
-    public function getStreet()
+    public function getStreet(): ?string
     {
         return $this->street;
     }
 
     /**
      * Get the value of city.
-     *
-     * @return string
      */
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
     /**
      * Get the value of zip.
-     *
-     * @return string
      */
-    public function getZip()
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
     /**
      * Get the value of country.
-     *
-     * @return string
      */
-    public function getCountry()
+    public function getCountry(): ?string
     {
         return $this->country;
     }

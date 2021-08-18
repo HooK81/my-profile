@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager;
 
 use App\Entity\Profile;
@@ -15,25 +17,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ProfileManager
 {
-    const FILES_FOLDER = 'files/';
-    const PROFILE_FILANAME = 'profile.%s.json';
+    public const FILES_FOLDER = 'files/';
+    public const PROFILE_FILANAME = 'profile.%s.json';
 
-    /** @var string */
-    protected $usersPath;
-    /** @var string */
-    protected $defaultLocale;
-    /** @var SerializerInterface */
-    protected $serializer;
-    /** @var Request */
-    protected $request;
+    protected string $usersPath;
+    protected string $defaultLocale;
+    protected SerializerInterface $serializer;
+    protected Request $request;
 
-    /**
-     * @param string $usersPath
-     * @param string $defaultLocale
-     */
-    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, $usersPath, $defaultLocale)
+    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, string $usersPath, string $defaultLocale)
     {
-        $this->request = $requestStack->getMasterRequest();
+        $this->request = $requestStack->getMainRequest();
         $this->serializer = $serialize;
         $this->usersPath = $usersPath;
         $this->defaultLocale = $defaultLocale;
@@ -41,31 +35,22 @@ class ProfileManager
 
     /**
      * Return user path.
-     *
-     * @param string $id
-     *
-     * @return string
      */
-    public function getPath($id)
+    public function getPath(string $id): string
     {
-        return $this->usersPath.$id.'/';
+        return $this->usersPath . $id . '/';
     }
 
     /**
      * Return user files path.
-     *
-     * @param string $id
-     * @param string $file
-     *
-     * @return string
      */
-    public function getFilesPath($id, $file)
+    public function getFilesPath(string $id, string $file): ?string
     {
-        $filename = $this->getPath($id).self::FILES_FOLDER.$file;
+        $filename = $this->getPath($id) . self::FILES_FOLDER . $file;
         if (!file_exists($filename)) {
             $pathInfo = pathinfo($filename);
             $locale = $this->request->getLocale();
-            $filename = $pathInfo['dirname'].'/'.$pathInfo['filename'].'.'.$locale.'.'.$pathInfo['extension'];
+            $filename = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.' . $locale . '.' . $pathInfo['extension'];
         }
         if (!file_exists($filename)) {
             $filename = null;
@@ -76,17 +61,13 @@ class ProfileManager
 
     /**
      * Load Profile from id.
-     *
-     * @param string $id
-     *
-     * @return Profile
      */
-    public function getProfile($id)
+    public function getProfile(string $id): ?Profile
     {
         $locales = [$this->request->getLocale(), $this->defaultLocale];
         $found = false;
         foreach ($locales as $locale) {
-            $filename = $this->getPath($id).sprintf(self::PROFILE_FILANAME, $locale);
+            $filename = $this->getPath($id) . sprintf(self::PROFILE_FILANAME, $locale);
             if (file_exists($filename)) {
                 $found = true;
                 break;

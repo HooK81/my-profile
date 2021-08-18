@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Normalizer;
 
 use App\Exception\FormException;
@@ -10,16 +12,15 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * Format a FormException for API Response.
  *
  * @author Julien CROCHET <julien@crochet.me>
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class FormExceptionNormalizer implements NormalizerInterface
 {
     /**
      * @param FormException $exception
      * @param null          $format
-     *
-     * @return array|bool|float|int|string|void
      */
-    public function normalize($exception, $format = null, array $context = [])
+    public function normalize($exception, string $format = null, array $context = []): array
     {
         $data = [];
         $errors = $exception->getErrors();
@@ -31,13 +32,7 @@ class FormExceptionNormalizer implements NormalizerInterface
         return [$data];
     }
 
-    /**
-     * @param mixed $data
-     * @param null  $format
-     *
-     * @return bool|void
-     */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $data instanceof FormException;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Exception\FormException;
@@ -17,23 +19,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * EmailController.
  *
  * @Route(
- *     "/{_locale}/{version}",
- *     requirements={ "_locale" = "%app.locales%" },
- *     options={ "expose" = true },
- *     defaults={ "_locale" = "%app.default_locale%", "version" = "v1"}
+ *     path="/{_locale}/{version}",
+ *     requirements={ "_locale": "%app.locales%" },
+ *     options={ "expose": true },
+ *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
  * )
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
 class EmailController extends AbstractFOSRestController
 {
-    private $mailer;
-    private $reCaptchaValidator;
+    private MailerInterface $mailer;
+    private ReCaptchaValidator $reCaptchaValidator;
+    private string $mailSubject;
+    private string $mailSubjectPrefix;
+    private string $mailTimeZone;
 
-    /**
-     * @param MailerInterface    $mailer             Mail service
-     * @param ReCaptchaValidator $reCaptchaValidator reCaptcha Validator
-     */
     public function __construct(MailerInterface $mailer, ReCaptchaValidator $reCaptchaValidator)
     {
         $this->mailer = $mailer;
@@ -41,14 +42,25 @@ class EmailController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/email", name="post_email")
+     * Inject env vars for sending mail
+     */
+    public function setMailEnvVars(string $mailSubject, string $mailSubjectPrefix, string $mailTimeZone)
+    {
+        $this->mailSubject = $mailSubject;
+        $this->mailSubjectPrefix = $mailSubjectPrefix;
+        $this->mailTimeZone = $mailTimeZone;
+    }
+
+    /**
+     * @Rest\Post(path="/email", name="post_email")
      * @Rest\View(statusCode=204)
      */
-    public function postEmail(Request $request)
+    public function postEmail(Request $request): void
     {
         $msg = json_decode($request->getContent(), true);
         $form = $this->createForm(MailType::class);
         $form->submit($msg);
+
         if (!$form->isValid()) {
             throw new FormException($form);
         }
@@ -56,16 +68,16 @@ class EmailController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('Invalid reCaptcha response provided');
         }
         if (empty($msg['subject'])) {
-            $msg['subject'] = $_ENV['MAILER_SUBJECT_DEFAULT'];
+            $msg['subject'] = $this->mailSubject;
         }
 
         $body = $this->renderView(
             'emails/contact.text.twig', [
                 'msg' => $msg,
-                'timezone' => $_ENV['MAILTER_TIMEZONE'],
+                'timezone' => $this->mailTimeZone,
             ]
         );
-        $subject = sprintf('%s %s', trim($_ENV['MAILER_SUBJECT_PREFIX']), $msg['subject']);
+        $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $msg['subject']);
 
         $res = $this->mailer->sendMailToTeam($subject, $body, 'text/plain');
         if (false === $res) {

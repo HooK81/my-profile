@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Security\TokenManager;
@@ -19,8 +21,8 @@ use Symfony\Component\HttpFoundation\Cookie;
  */
 class JWTListener
 {
-    const COOKIE_LIFETIME = 86400; // 24 hours
-    const COOKIE_NAME = 'Bearer';
+    public const COOKIE_LIFETIME = 86400; // 24 hours
+    public const COOKIE_NAME = 'Bearer';
 
     private $tokenManager;
     private $env;
@@ -34,7 +36,7 @@ class JWTListener
     /**
      * Add secret property.
      */
-    public function onJWTCreated(JWTCreatedEvent $event)
+    public function onJWTCreated(JWTCreatedEvent $event): void
     {
         $payload = $event->getData();
         $payload['secret'] = $this->tokenManager->createTokenSecret();
@@ -44,7 +46,7 @@ class JWTListener
     /**
      * Check secret property.
      */
-    public function onJWTDecoded(JWTDecodedEvent $event)
+    public function onJWTDecoded(JWTDecodedEvent $event): void
     {
         $payload = $event->getPayload();
         if (!isset($payload['secret'])) {
@@ -57,10 +59,8 @@ class JWTListener
 
     /**
      * Add bearer cookie into authentication response.
-     *
-     * @return void
      */
-    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {
         $data = $event->getData();
 

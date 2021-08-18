@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
-
 
 /**
  * Social.
@@ -16,51 +17,39 @@ class Social
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $url;
+    protected string $url;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $icon;
+    protected string $icon;
 
     /**
      * Get the value of name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get the value of url.
-     *
-     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
      * Get the value of icon.
-     *
-     * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }

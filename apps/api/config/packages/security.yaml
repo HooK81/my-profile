@@ -1,5 +1,9 @@
 security:
-    encoders:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: true
+
+    # https://symfony.com/doc/current/security.html#c-hashing-passwords
+    password_hashers:
         App\Entity\Security\User:
             algorithm: plaintext
 
@@ -16,7 +20,6 @@ security:
         auth:
             pattern:  ^/auth/
             stateless: true
-            anonymous: true
             json_login:
                 check_path: /auth/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -28,13 +31,7 @@ security:
             stateless: true
             anonymous: false
             provider: api_user_provider
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-    
-        #main:
-        #    anonymous: lazy
-        #    provider: users_in_memory
+            jwt: ~
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

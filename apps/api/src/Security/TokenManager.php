@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -13,11 +16,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class TokenManager
 {
-    const HEADER_KEY = 'Key';
-    private $request;
-    private $passPhrase;
-    private $cipher;
-    private $env;
+    public const HEADER_KEY = 'Key';
+    private Request $request;
+    private string $passPhrase;
+    private string $cipher;
+    private string $env;
 
     public function __construct(RequestStack $requestStack, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
     {
@@ -30,32 +33,28 @@ class TokenManager
     /**
      * Create a security property for JWT token
      * Bases on client IP and UserAgent.
-     *
-     * @return string
      */
-    public function createTokenSecret()
+    public function createTokenSecret(): string
     {
         $data = $this->getRawSecret();
         $ivlen = openssl_cipher_iv_length($this->cipher);
         $iv = openssl_random_pseudo_bytes($ivlen);
         $ciphertext = openssl_encrypt($data, $this->cipher, $this->passPhrase, 0, $iv);
 
-        return base64_encode($iv.$ciphertext);
+        return base64_encode($iv . $ciphertext);
     }
 
     /**
      * Check secret token for current request.
      *
-     * @param string $secret
-     *
-     * @return bool
+     * @param string $b64Secret
      */
-    public function checkTokenSecret($secret)
+    public function checkTokenSecret($b64Secret): bool
     {
-        $c = base64_decode($secret);
+        $secret = base64_decode($b64Secret);
         $ivlen = openssl_cipher_iv_length($this->cipher);
-        $iv = substr($c, 0, $ivlen);
-        $data = substr($c, $ivlen);
+        $iv = substr($secret, 0, $ivlen);
+        $data = substr($secret, $ivlen);
         $decoded = openssl_decrypt($data, $this->cipher, $this->passPhrase, 0, $iv);
 
         return $this->getRawSecret() === $decoded;
@@ -64,9 +63,9 @@ class TokenManager
     /**
      * Get salt used by client to encode password.
      *
-     * @return string
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function getClientSaltFromRequest()
+    public function getClientSaltFromRequest(): string
     {
         $salt = $this->request->headers->get(self::HEADER_KEY, '');
         if (!$salt) {
@@ -81,11 +80,9 @@ class TokenManager
 
     /**
      * Get raw data for secret.
-     *
-     * @return string
      */
-    protected function getRawSecret()
+    protected function getRawSecret(): string
     {
-        return ('dev' !== $this->env ? $this->request->getClientIp() : '').'='.$this->request->headers->get('User-Agent');
+        return ('dev' !== $this->env ? $this->request->getClientIp() : '') . '=' . $this->request->headers->get('User-Agent');
     }
 }

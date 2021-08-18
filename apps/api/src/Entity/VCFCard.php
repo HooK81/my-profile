@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 /**
@@ -11,10 +13,10 @@ namespace App\Entity;
  */
 class VCFCard
 {
-    protected $filename;
-    protected $VCFStream;
+    protected string $filename;
+    protected string $VCFStream;
 
-    public function __construct($filename, $VCFStream)
+    public function __construct(string $filename, string $VCFStream)
     {
         $this->filename = $filename;
         $this->VCFStream = $VCFStream;
@@ -23,7 +25,7 @@ class VCFCard
     /**
      * Get the value of filename.
      */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -31,7 +33,7 @@ class VCFCard
     /**
      * Get the value of VCFStream.
      */
-    public function getVCFStream()
+    public function getVCFStream(): string
     {
         return $this->VCFStream;
     }

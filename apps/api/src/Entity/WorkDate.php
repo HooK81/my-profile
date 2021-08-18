@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,34 +17,26 @@ class WorkDate
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $start;
+    protected string $start;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $end;
+    protected ?string $end;
 
     /**
      * Get the value of start.
-     *
-     * @return string
      */
-    public function getStart()
+    public function getStart(): string
     {
         return $this->start;
     }
 
     /**
      * Get the value of end.
-     *
-     * @return string
      */
-    public function getEnd()
+    public function getEnd(): ?string
     {
         return $this->end;
     }

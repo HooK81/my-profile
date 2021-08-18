@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
 
 /**
  * Resume.
- *
- * @see Resume
  *
  * @author Julien CROCHET <julien@crochet.me>
  */
@@ -18,21 +18,21 @@ class Resume
      *
      * @var Work[]
      */
-    protected $works;
+    protected array $works;
 
     /**
      * @JMS\Type("array<App\Entity\Education>")
      *
      * @var Education[]
      */
-    protected $educations;
+    protected array $educations;
 
     /**
      * @JMS\Type("array<App\Entity\Skill>")
      *
      * @var Skill[]
      */
-    protected $skills;
+    protected array $skills;
 
     /**
      * Constructor.
@@ -49,7 +49,7 @@ class Resume
      *
      * @return Skill[]
      */
-    public function getSkills()
+    public function getSkills(): array
     {
         return $this->skills;
     }
@@ -59,7 +59,7 @@ class Resume
      *
      * @return Education[]
      */
-    public function getEducations()
+    public function getEducations(): array
     {
         return $this->educations;
     }
@@ -69,7 +69,7 @@ class Resume
      *
      * @return Work[]
      */
-    public function getWorks()
+    public function getWorks(): array
     {
         return $this->works;
     }

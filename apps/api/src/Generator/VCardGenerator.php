@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Generator;
 
 use App\Entity\Profile;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class VCardGenerator
 {
-    private $profileManager;
+    private ProfileManager $profileManager;
 
     public function __construct(ProfileManager $profileManager)
     {
@@ -34,7 +36,7 @@ class VCardGenerator
             'URL;type=pref' => $profile->getMain()->getWebsite(),
         ]);
         $photo = $this->getPhotoInfo($profile);
-        if (is_array($photo)) {
+        if (\is_array($photo)) {
             $vcard->add('PHOTO', $photo['data'], ['ENCODING' => 'b', 'TYPE' => $photo['type']]);
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,34 +17,26 @@ class Skill
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $level;
+    protected string $level;
 
     /**
      * Get the value of name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get the value of level.
-     *
-     * @return string
      */
-    public function getLevel()
+    public function getLevel(): string
     {
         return $this->level;
     }

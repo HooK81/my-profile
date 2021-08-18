@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -14,76 +16,61 @@ class Profile
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $id;
+    protected string $id;
 
     /**
      * @JMS\Type("App\Entity\Main")
-     *
-     * @var Main
      */
-    protected $main;
+    protected Main $main;
 
     /**
      * @JMS\Type("App\Entity\Resume")
-     *
-     * @var Resume
      */
-    protected $resume;
+    protected Resume $resume;
 
     /**
      * @JMS\Type("array<App\Entity\Hobby>")
      *
      * @var Hobby[]
      */
-    protected $hobbies;
+    protected array $hobbies;
 
     /**
      * @JMS\Type("array<App\Entity\Tech>")
      *
      * @var Tech[]
      */
-    protected $techs;
+    protected array $techs;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->main = new Main();
-        $this->Resume = new Resume();
+        $this->resume = new Resume();
         $this->hobbies = [];
         $this->techs = [];
     }
 
     /**
      * Get the value of id.
-     *
-     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Get the value of main.
-     *
-     * @return Main
      */
-    public function getMain()
+    public function getMain(): Main
     {
         return $this->main;
     }
 
     /**
      * Get the value of resume.
-     *
-     * @return Resume
      */
-    public function getResume()
+    public function getResume(): Resume
     {
         return $this->resume;
     }
@@ -93,7 +80,7 @@ class Profile
      *
      * @return Hobby[]
      */
-    public function getHobbies()
+    public function getHobbies(): array
     {
         return $this->hobbies;
     }
@@ -103,7 +90,7 @@ class Profile
      *
      * @return Tech[]
      */
-    public function getTechs()
+    public function getTechs(): array
     {
         return $this->techs;
     }

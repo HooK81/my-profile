@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use JMS\Serializer\Annotation as JMS;
@@ -15,38 +17,28 @@ class Work
 {
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $title;
+    protected string $title;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $company;
+    protected string $company;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $city;
+    protected string $city;
 
     /**
      * @JMS\Type("App\Entity\WorkDate")
-     *
-     * @var WorkDate
      */
-    protected $date;
+    protected WorkDate $date;
 
     /**
      * @JMS\Type("string")
-     *
-     * @var string
      */
-    protected $description;
+    protected string $description;
 
     public function __construct()
     {
@@ -55,50 +47,40 @@ class Work
 
     /**
      * Get the value of title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
      * Get the value of company.
-     *
-     * @return string
      */
-    public function getCompany()
+    public function getCompany(): string
     {
         return $this->company;
     }
 
     /**
      * Get the value of city.
-     *
-     * @return string
      */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
     /**
      * Get the value of date.
-     *
-     * @return string
      */
-    public function getDate()
+    public function getDate(): WorkDate
     {
         return $this->date;
     }
 
     /**
      * Get the value of description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }

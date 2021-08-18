@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\Security\User;
@@ -15,15 +17,16 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  * Only check if password match UUID structure.
  *
  * @author Julien CROCHET <julien@crochet.me>
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class UserProvider implements UserProviderInterface
 {
-    private $passwordEncoder;
-    private $tokenManager;
+    private PasswordHasher $passwordHasher;
+    private TokenManager $tokenManager;
 
-    public function __construct(PasswordEncoder $passwordEncoder, TokenManager $tokenManager)
+    public function __construct(PasswordHasher $passwordHasher, TokenManager $tokenManager)
     {
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->tokenManager = $tokenManager;
     }
 
@@ -34,16 +37,19 @@ class UserProvider implements UserProviderInterface
      * If you're not using these features, you do not need to implement
      * this method.
      *
-     * @return UserInterface
-     *
      * @throws UsernameNotFoundException if the user is not found
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): UserInterface
+    {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    public function loadUserByIdentifier($identifier): UserInterface
     {
         // Build password according username
-        $password = $this->passwordEncoder->encodePassword($username, $this->tokenManager->getClientSaltFromRequest());
+        $password = $this->passwordHasher->hash($identifier, $this->tokenManager->getClientSaltFromRequest());
 
-        return new User($username, $password);
+        return new User($identifier, $password);
     }
 
     /**
@@ -56,10 +62,8 @@ class UserProvider implements UserProviderInterface
      *
      * If your firewall is "stateless: true" (for a pure API), this
      * method is not called.
-     *
-     * @return UserInterface
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         throw new UnsupportedUserException();
     }
@@ -67,7 +71,7 @@ class UserProvider implements UserProviderInterface
     /**
      * Tells Symfony to use this provider for this User class.
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return User::class === $class;
     }

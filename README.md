@@ -39,7 +39,7 @@ docker-compose run --rm php composer build-dev
 
 ### PROD
 ```shell
-docker-compose -f docker-compose.prod.yml build --compress --force-rm
+TAG=X.Y.Z docker-compose -f docker-compose.prod.yml build --force-rm
 ```
 
 ## Start Docker Containers
@@ -49,7 +49,11 @@ docker-compose up -d
 ```
 ### PROD
 ```shell
-docker-compose -f docker-compose.prod.yml up -d
+TAG=X.Y.Z docker-compose -f docker-compose.prod.yml up -d
+```
+In order to restart PHP FPM in production env
+```shell
+docker exec mp_php_prod kill -USR2 12
 ```
 
 ## Development

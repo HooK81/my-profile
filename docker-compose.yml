@@ -15,6 +15,8 @@ services:
         build: 
             context: .
             dockerfile: docker/nginx/Dockerfile
+            args:
+                APP_VERSION: ${TAG}
         image: myprofile_nginx:${TAG}
         container_name: mp_nginx
         restart: "no"

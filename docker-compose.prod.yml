@@ -5,6 +5,8 @@ services:
         build: 
             context: .
             dockerfile: docker/php/Dockerfile.prod
+            args:
+                APP_VERSION: ${TAG}
         container_name: mp_php_prod
         image: myprofile_php:${TAG}
         volumes:

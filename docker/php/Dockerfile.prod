@@ -4,6 +4,10 @@ ARG PHP_ENV=PROD
 
 RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS && \
     apk add --update --no-cache bash acl icu-dev && \
+    mkdir -p /home/user && \
+    chmod 777 /home/user && \
+    HOME=/home/user && \
+    echo 'alias ll="ls -la"' >> /home/user/.bashrc && \
     PATH=$PATH:/usr/src/api/vendor/bin:bin && \
     cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -16,16 +20,15 @@ RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS && \
     docker-php-ext-install opcache intl && \
     docker-php-ext-enable apcu && \
     pecl clear-cache && \
-    apk del .build-dependencies && \
-    echo 'alias ll="ls -la"' >> ~/.bashrc
+    apk del .build-dependencies
 
 WORKDIR /usr/src/api
 COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DIR/conf.d/
+COPY docker/php/scripts/symfony-entrypoint.sh /usr/local/bin/symfony-entrypoint.sh
 COPY apps/api /usr/src/api
 COPY docker/php/secrets/prod.decrypt.private.php /usr/src/api/config/secrets/prod/prod.decrypt.private.php
 COPY --chown=www-data docker/php/secrets/prod.jwt.private.pem /usr/src/api/config/jwt/prod/private.pem
 RUN cd /usr/src/api && \
-    mkdir -p var && \
-    setfacl -dR -m u:www-data:rwX -m u:$(whoami):rwX var && \
-    setfacl -R -m u:www-data:rwX -m u:$(whoami):rwX var && \
     composer build-prod
+
+ENTRYPOINT [ "symfony-entrypoint.sh" ]

@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: docker/php/Dockerfile.prod
             args:
-                APP_VERSION: ${TAG}
+                APP_VERSION: ${TAG}   
         container_name: mp_php_prod
         image: myprofile_php:${TAG}
         volumes:
@@ -19,6 +19,8 @@ services:
         build: 
             context: .
             dockerfile: docker/nginx/Dockerfile.prod
+            args:
+                APP_VERSION: ${TAG}
         container_name: mp_nginx_prod
         image: myprofile_nginx:${TAG}
         restart: "always"

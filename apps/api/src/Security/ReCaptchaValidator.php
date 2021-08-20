@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,14 +19,16 @@ class ReCaptchaValidator
 {
     public const URL = 'https://www.google.com/recaptcha/api/siteverify';
     private Request $request;
+    private LoggerInterface $logger;
     private string $secret;
 
     /**
      * Constructor.
      */
-    public function __construct(RequestStack $requestStack, string $secret)
+    public function __construct(RequestStack $requestStack, LoggerInterface $httpLogger, string $secret)
     {
         $this->request = $requestStack->getCurrentRequest();
+        $this->logger = $httpLogger;
         $this->secret = $secret;
     }
 
@@ -39,13 +42,17 @@ class ReCaptchaValidator
     public function checkReCaptchaResponse($reCaptchaResponse): bool
     {
         $httpClient = HttpClient::create();
-        $response = $httpClient->request('POST', self::URL, ['body' => [
+        $body = [
             'secret' => $this->secret,
             'response' => $reCaptchaResponse,
             'remoteip' => $this->request->getClientIp(),
-        ]]);
+        ];
+        $this->logger->info('[ReCaptchaValidator][checkReCaptchaResponse] Post request', ['method' => 'POST', 'url' => self::URL, 'body' => $body]);
+        $response = $httpClient->request('POST', self::URL, ['body' => $body]);
 
         $rawData = $response->getContent(false);
+        $this->logger->info('[ReCaptchaValidator][checkReCaptchaResponse] Response', ['method' => 'POST', 'url' => self::URL, 'httpStatus' => $response->getStatusCode(), 'headers' => $response->getHeaders(), 'response' => $rawData]);
+
         $data = json_decode($rawData, true);
         if (empty($data) || !\is_array($data) || !isset($data['success'])) {
             return false;

@@ -32,3 +32,6 @@ RUN cd /usr/src/api && \
     composer build-prod
 
 ENTRYPOINT [ "symfony-entrypoint.sh" ]
+
+ARG APP_VERSION=latest
+ENV APP_VERSION $APP_VERSION

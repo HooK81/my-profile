@@ -2,6 +2,7 @@
 FROM node:lts-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
+
 RUN mkdir -p /home/user && \
     chmod 777 /home/user && \
     HOME=/home/user
@@ -11,3 +12,6 @@ RUN apk add --no-cache bash && \
 
 RUN PATH=$PATH:/usr/src/front/node_modules/.bin/
 WORKDIR /usr/src/front
+
+ARG APP_VERSION=latest
+ENV APP_VERSION $APP_VERSION

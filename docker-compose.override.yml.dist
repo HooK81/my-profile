@@ -19,6 +19,8 @@ services:
         build: 
             context: .
             dockerfile: docker/node/Dockerfile
+            args:
+                APP_VERSION: ${TAG}
         image: myprofile_node:${TAG}
         container_name: mp_node
         user: ${LOCAL_USER}

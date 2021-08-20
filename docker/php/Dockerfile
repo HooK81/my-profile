@@ -27,3 +27,6 @@ COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DI
 WORKDIR /usr/src/api
 
 COPY apps/api /usr/src/api
+
+ARG APP_VERSION=latest
+ENV APP_VERSION $APP_VERSION

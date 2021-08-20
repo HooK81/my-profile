@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,13 +19,15 @@ class TokenManager
 {
     public const HEADER_KEY = 'Key';
     private Request $request;
+    private LoggerInterface $logger;
     private string $passPhrase;
     private string $cipher;
     private string $env;
 
-    public function __construct(RequestStack $requestStack, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
+    public function __construct(RequestStack $requestStack, LoggerInterface $appLogger, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
     {
         $this->request = $requestStack->getCurrentRequest();
+        $this->logger = $appLogger;
         $this->passPhrase = $passPhrase;
         $this->cipher = $cipher;
         $this->env = $env;
@@ -57,7 +60,12 @@ class TokenManager
         $data = substr($secret, $ivlen);
         $decoded = openssl_decrypt($data, $this->cipher, $this->passPhrase, 0, $iv);
 
-        return $this->getRawSecret() === $decoded;
+        $res = $this->getRawSecret() === $decoded;
+        if (!$res) {
+            $this->logger->warning('[TokenManager][checkTokenSecret] Invalid secret key provided', ['clientIp' => $this->request->getClientIp(), 'userAgent' => $this->request->headers->get('User-Agent')]);
+        }
+
+        return $res;
     }
 
     /**

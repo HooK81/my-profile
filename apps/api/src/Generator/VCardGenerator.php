@@ -7,7 +7,9 @@ namespace App\Generator;
 use App\Entity\Profile;
 use App\Entity\VCFCard;
 use App\Manager\ProfileManager;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -19,10 +21,12 @@ use Symfony\Component\HttpFoundation\File\File;
 class VCardGenerator
 {
     private ProfileManager $profileManager;
+    private LoggerInterface $logger;
 
-    public function __construct(ProfileManager $profileManager)
+    public function __construct(ProfileManager $profileManager, LoggerInterface $appLogger)
     {
         $this->profileManager = $profileManager;
+        $this->logger = $appLogger;
     }
 
     public function generateProfileVCard(Profile $profile): VCFCard
@@ -63,14 +67,22 @@ class VCardGenerator
     private function getPhotoInfo(Profile $profile): ?array
     {
         $photoFileName = $this->profileManager->getFilesPath($profile->getId(), $profile->getMain()->getImage());
+        if (null === $photoFileName) {
+            return null;
+        }
         $file = new File($photoFileName);
         $type = $file->getMimeType();
         if (empty($type)) {
+            $this->logger->warning('[VCardGenerator][GetPhotoInfo] Unable to determine MimeType', ['profileId' => $profile->getId(), 'filename' => $photoFileName]);
+
             return null;
         }
         $type = strtoupper(str_replace('images/', '', $type));
-        $photoRaw = file_get_contents($file->getPathname());
-        if (false === $photoRaw) {
+        try {
+            $photoRaw = $file->getContent();
+        } catch (FileException $e) {
+            $this->logger->error('[VCardGenerator][GetPhotoInfo] Unable to read the photo file', ['profileId' => $profile->getId(), 'filename' => $photoFileName, 'exception' => $e]);
+
             return null;
         }
 

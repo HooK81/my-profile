@@ -21,12 +21,12 @@ use Symfony\Component\HttpFoundation\File\File;
 class VCardGenerator
 {
     private ProfileManager $profileManager;
-    private LoggerInterface $logger;
+    private LoggerInterface $mainLogger;
 
-    public function __construct(ProfileManager $profileManager, LoggerInterface $appLogger)
+    public function __construct(ProfileManager $profileManager, LoggerInterface $mainLogger)
     {
         $this->profileManager = $profileManager;
-        $this->logger = $appLogger;
+        $this->mainLogger = $mainLogger;
     }
 
     public function generateProfileVCard(Profile $profile): VCFCard
@@ -73,7 +73,7 @@ class VCardGenerator
         $file = new File($photoFileName);
         $type = $file->getMimeType();
         if (empty($type)) {
-            $this->logger->warning('[VCardGenerator][GetPhotoInfo] Unable to determine MimeType', ['profileId' => $profile->getId(), 'filename' => $photoFileName]);
+            $this->mainLogger->warning('[VCardGenerator][GetPhotoInfo] Unable to determine MimeType', ['profileId' => $profile->getId(), 'filename' => $photoFileName]);
 
             return null;
         }
@@ -81,7 +81,7 @@ class VCardGenerator
         try {
             $photoRaw = $file->getContent();
         } catch (FileException $e) {
-            $this->logger->error('[VCardGenerator][GetPhotoInfo] Unable to read the photo file', ['profileId' => $profile->getId(), 'filename' => $photoFileName, 'exception' => $e]);
+            $this->mainLogger->error('[VCardGenerator][GetPhotoInfo] Unable to read the photo file', ['profileId' => $profile->getId(), 'filename' => $photoFileName, 'exception' => $e]);
 
             return null;
         }

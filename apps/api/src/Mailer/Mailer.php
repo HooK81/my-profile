@@ -12,12 +12,12 @@ class Mailer implements MailerInterface
     private string $defaultSenderMail;
     private string $teamMail;
     private \Swift_Mailer $mailer;
-    private LoggerInterface $logger;
+    private LoggerInterface $mainLogger;
 
-    public function __construct(\Swift_Mailer $mailer, LoggerInterface $appLogger, $defaultSenderMail, $teamMail)
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $mainLogger, $defaultSenderMail, $teamMail)
     {
         $this->mailer = $mailer;
-        $this->logger = $appLogger;
+        $this->mainLogger = $mainLogger;
         $this->defaultSenderMail = $defaultSenderMail;
         $this->teamMail = $teamMail;
     }
@@ -40,8 +40,10 @@ class Mailer implements MailerInterface
         ;
         $failedRecipients = [];
         $res = $this->mailer->send($mail, $failedRecipients) > 0;
-        if (!$res) {
-            $this->logger->error('[Mailer][sendMail] Mail not sent', ['from' => $from, 'to' => $to, 'failedReciîents' => $failedRecipients]);
+        if ($res) {
+            $this->mainLogger->info('[Mailer][sendMail] Mail sent', ['from' => $from, 'to' => $to]);
+        } else {
+            $this->mainLogger->error('[Mailer][sendMail] Mail not sent', ['from' => $from, 'to' => $to, 'failedReciîents' => $failedRecipients]);
         }
 
         return $res;

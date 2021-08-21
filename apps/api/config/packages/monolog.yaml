@@ -1,2 +1,2 @@
 monolog:
-    channels: ['app', 'http']
+    channels: ['main', 'http']

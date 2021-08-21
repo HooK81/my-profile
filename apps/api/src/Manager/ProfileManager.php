@@ -25,13 +25,13 @@ class ProfileManager
     protected string $defaultLocale;
     protected SerializerInterface $serializer;
     protected Request $request;
-    protected LoggerInterface $logger;
+    protected LoggerInterface $mainLogger;
 
-    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, LoggerInterface $appLogger, string $usersPath, string $defaultLocale)
+    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, LoggerInterface $mainLogger, string $usersPath, string $defaultLocale)
     {
         $this->request = $requestStack->getMainRequest();
         $this->serializer = $serialize;
-        $this->logger = $appLogger;
+        $this->mainLogger = $mainLogger;
         $this->usersPath = $usersPath;
         $this->defaultLocale = $defaultLocale;
     }
@@ -56,7 +56,7 @@ class ProfileManager
             $filename = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.' . $locale . '.' . $pathInfo['extension'];
         }
         if (!file_exists($filename)) {
-            $this->logger->error('[ProfileManager][getFilesPath] Missing profile file', ['profileId' => $id, 'file' => $file, 'filename' => $filename]);
+            $this->mainLogger->error('[ProfileManager][getFilesPath] Missing profile file', ['profileId' => $id, 'file' => $file, 'filename' => $filename]);
             $filename = null;
         }
 
@@ -80,7 +80,7 @@ class ProfileManager
             }
         }
         if (!$found) {
-            $this->logger->error('[ProfileManager][getProfile] Unable to get a profile', ['profileId' => $id, 'locale' => $locale, 'filename' => $filename]);
+            $this->mainLogger->error('[ProfileManager][getProfile] Unable to get a profile', ['profileId' => $id, 'locale' => $locale, 'filename' => $filename]);
 
             return null;
         }
@@ -88,7 +88,7 @@ class ProfileManager
         try {
             $profile = $this->serializer->deserialize($jsonStream, Profile::class, 'json');
         } catch (Exception $e) {
-            $this->logger->error('[ProfileManager][getProfile] Unable to deserialize a profile', ['profileId' => $id, 'locale' => $locale, 'filename' => $filename]);
+            $this->mainLogger->error('[ProfileManager][getProfile] Unable to deserialize a profile', ['profileId' => $id, 'locale' => $locale, 'filename' => $filename]);
 
             return null;
         }

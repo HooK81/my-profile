@@ -18,16 +18,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class TokenManager
 {
     public const HEADER_KEY = 'Key';
-    private Request $request;
-    private LoggerInterface $logger;
+    private ?Request $request;
+    private LoggerInterface $mainLogger;
     private string $passPhrase;
     private string $cipher;
     private string $env;
 
-    public function __construct(RequestStack $requestStack, LoggerInterface $appLogger, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
+    public function __construct(RequestStack $requestStack, LoggerInterface $mainLogger, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
     {
         $this->request = $requestStack->getCurrentRequest();
-        $this->logger = $appLogger;
+        $this->mainLogger = $mainLogger;
         $this->passPhrase = $passPhrase;
         $this->cipher = $cipher;
         $this->env = $env;
@@ -62,7 +62,7 @@ class TokenManager
 
         $res = $this->getRawSecret() === $decoded;
         if (!$res) {
-            $this->logger->warning('[TokenManager][checkTokenSecret] Invalid secret key provided', ['clientIp' => $this->request->getClientIp(), 'userAgent' => $this->request->headers->get('User-Agent')]);
+            $this->mainLogger->warning('[TokenManager][checkTokenSecret] Invalid secret key provided', ['clientIp' => $this->request->getClientIp(), 'userAgent' => $this->request->headers->get('User-Agent')]);
         }
 
         return $res;

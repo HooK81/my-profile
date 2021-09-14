@@ -1,6 +1,5 @@
 /**
  * Hobbies
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -16,39 +15,44 @@ export function Hobbies(props) {
   const [hobbies, setHobbies] = useState([]);
 
   /**
-   * Load images in assets folder
-   * @param {*} fileName
-   * @returns
+   * Add imageSrc property into hobby
+   * @param {*} hobby
+   * @returns {Object}
    */
-  const loadFile = async (fileName) => {
-    let imageSrc;
+  const addHobbyImageSrcProp = async (hobby) => {
+    const getImageSrc = async (filename) => {
+      try {
+        return (await import(`./assets/${filename}`)).default;
+      } catch (e) {
+        console.error(`Missing assets in Hobbies [${filename}]`, e);
+        return (await import('./assets/missing.png')).default;
+      }
+    };
 
-    try {
-      await import(`./assets/${fileName}`).then((image) => {
-        imageSrc = image.default;
-      });
-    } catch (e) {
-      console.error(`Missing assets in Hobbies [${fileName}]`, e);
-      await import(`./assets/missing.png`).then((image) => {
-        imageSrc = image.default;
-      });
-    }
-
-    return imageSrc;
+    return {
+      ...hobby,
+      imageSrc: await getImageSrc(hobby.image),
+    };
   };
 
   useEffect(() => {
-    // Generate a promises array for lazy loading of each hobby image
-    const hobbiesPromises = props.hobbies.map(async function (hobby, i) {
-      const imageSrc = await loadFile(hobby.image);
-
-      return <Hobby key={i} title={hobby.title} image={imageSrc} icon={hobby.icon} />;
-    });
-
-    Promise.all(hobbiesPromises).then((hobbies) => {
+    (async () => {
+      // Generate a promises array for lazy loading of each hobby image
+      const hobbiesPromises = props.hobbies.map((hobby) =>
+        addHobbyImageSrcProp(hobby),
+      );
+      // Build hobbies
+      const hobbies = (await Promise.all(hobbiesPromises)).map((hobby, i) => (
+        <Hobby
+          key={i}
+          title={hobby.title}
+          image={hobby.imageSrc}
+          icon={hobby.icon}
+        />
+      ));
       // Set all elements into state for rendering
       setHobbies(hobbies);
-    });
+    })();
   }, [props.hobbies]);
 
   const { t } = useTranslation();
@@ -58,7 +62,10 @@ export function Hobbies(props) {
       <div className="row">
         <div className="twelve column collapsed">
           <h1>{t('hobbies.title')}</h1>
-          <div id="hobbies-wrapper" className="bgrid bgrid-quarters s-bgrid-thirds">
+          <div
+            id="hobbies-wrapper"
+            className="bgrid bgrid-quarters s-bgrid-thirds"
+          >
             {hobbies}
           </div>
         </div>
@@ -72,13 +79,21 @@ Hobbies.defaultProps = {
 };
 /* istanbul ignore next */
 Hobbies.propTypes = {
-  hobbies: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+  hobbies: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
     if (
-      !propValue[key].hasOwnProperty('title') ||
-      !propValue[key].hasOwnProperty('image') ||
-      !propValue[key].hasOwnProperty('icon')
+      !('title' in propValue[key]) ||
+      !('image' in propValue[key]) ||
+      !('icon' in propValue[key])
     ) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

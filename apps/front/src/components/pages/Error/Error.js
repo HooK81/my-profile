@@ -1,6 +1,5 @@
 /**
  * Error Page
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';

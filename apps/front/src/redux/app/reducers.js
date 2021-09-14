@@ -1,6 +1,5 @@
 /**
  * Profile redux reducers
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import { IS_LOADED, SET_LOCALE } from './constants';
@@ -10,7 +9,7 @@ import { IS_LOADED, SET_LOCALE } from './constants';
  */
 export const initialValue = {
   isLoaded: false,
-  locale: null
+  locale: null,
 };
 
 /**
@@ -20,18 +19,17 @@ export const initialValue = {
  */
 export function appReducer(previousState = initialValue, action = {}) {
   switch (action.type) {
-
     case IS_LOADED:
       return {
         ...previousState,
         isLoaded: action.payload,
       };
 
-      case SET_LOCALE:
-        return {
-          ...previousState,
-          locale: action.payload,
-        };
+    case SET_LOCALE:
+      return {
+        ...previousState,
+        locale: action.payload,
+      };
 
     default:
       return previousState;

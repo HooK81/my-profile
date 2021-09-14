@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  * User is used for JWT token.
  * Only check if password match UUID structure.
  *
- * @author Julien CROCHET <julien@crochet.me>
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class UserProvider implements UserProviderInterface

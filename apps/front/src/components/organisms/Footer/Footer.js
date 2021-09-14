@@ -1,6 +1,5 @@
 /**
  * Footer
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -35,18 +34,18 @@ export function Footer(props) {
         <ScrollButton type={'top'} />
       </div>
       <CookieConsent
-          location="bottom"
-          cookieName="cookieConsent"
-          expires={999}
-          acceptOnScroll={true}
-          acceptOnScrollPercentage={5}
-          sameSite="strict"
-          containerClasses="cookie-consent"
-          buttonWrapperClasses="cookie-consent-button"
-          buttonText={t('footer.cookie.accept_btn')}
-        >
-          {t('footer.cookie.message')}
-        </CookieConsent>
+        location="bottom"
+        cookieName="cookieConsent"
+        expires={999}
+        acceptOnScroll={true}
+        acceptOnScrollPercentage={5}
+        sameSite="strict"
+        containerClasses="cookie-consent"
+        buttonWrapperClasses="cookie-consent-button"
+        buttonText={t('footer.cookie.accept_btn')}
+      >
+        {t('footer.cookie.message')}
+      </CookieConsent>
     </footer>
   );
 }

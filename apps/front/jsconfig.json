@@ -9,5 +9,8 @@
     }
   },
   "exclude": ["node_modules", "build", "coverage"],
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "typeAcquisition": {
+    "exclude": [ "dotenv" ]
+  }
 }

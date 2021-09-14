@@ -1,6 +1,5 @@
 /**
  * Profile redux selectors
- * @author Julien CROCHET <julien@crochet.me>
  */
 export function selectApiProfile(state) {
   return state.api.profile;

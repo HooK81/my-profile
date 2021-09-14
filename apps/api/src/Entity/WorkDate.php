@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as JMS;
  * WorkDate.
  *
  * @see Work
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class WorkDate
 {

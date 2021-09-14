@@ -1,6 +1,5 @@
 /**
  * Profile redux selectors
- * @author Julien CROCHET <julien@crochet.me>
  */
 import i18n from 'i18next';
 

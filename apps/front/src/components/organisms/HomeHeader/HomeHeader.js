@@ -1,6 +1,5 @@
 /**
  * Home Header
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -23,9 +22,16 @@ export function HomeHeader(props) {
     <>
       <div className="row banner">
         <div className="banner-text">
-          <h1 className="responsive-headline">{t('header.head_line', { name: props.profileMain.firstName })}</h1>
+          <h1 className="responsive-headline">
+            {t('header.head_line', { name: props.profileMain.firstName })}
+          </h1>
           <h3>
-            <ReactMarkdown>{t('header.description', {base: props.profileMain.base, occupation: props.profileMain.occupation})}</ReactMarkdown>
+            <ReactMarkdown>
+              {t('header.description', {
+                base: props.profileMain.base,
+                occupation: props.profileMain.occupation,
+              })}
+            </ReactMarkdown>
             <ReactMarkdown>{props.profileMain.description}</ReactMarkdown>
           </h3>
           <hr />
@@ -33,7 +39,6 @@ export function HomeHeader(props) {
         </div>
       </div>
       <ScrollButton type={'down'} linkTo={'about'} />
-
     </>
   );
 }
@@ -45,8 +50,8 @@ HomeHeader.defaultProps = {
     occupation: '',
     base: '',
     social: [],
-  }
-}
+  },
+};
 HomeHeader.propTypes = {
   profileMain: PropTypes.object.isRequired,
 };

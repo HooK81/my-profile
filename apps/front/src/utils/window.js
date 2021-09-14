@@ -1,9 +1,8 @@
 /**
  * Window Utility
- * @author Julien CROCHET <julien@crochet.me>
  */
 
-const isBrowser = typeof window !== `undefined`;
+const isBrowser = typeof window !== 'undefined';
 const useWindow = false;
 
 /**
@@ -18,7 +17,9 @@ export function getScrollPosition(element = null) {
   const position = target.getBoundingClientRect();
 
   /* istanbul ignore next */
-  return useWindow ? { x: window.scrollX, y: window.scrollY } : { x: position.left, y: Math.abs(position.top) };
+  return useWindow
+    ? { x: window.scrollX, y: window.scrollY }
+    : { x: position.left, y: Math.abs(position.top) };
 }
 
 /**
@@ -35,13 +36,13 @@ export function getElementHeight(element = null, kind = null) {
     } else if (kind === 'tag') {
       const list = document.getElementsByTagName(element);
       if (list.length > 0) {
-        target = list[0];
+        target = list.item(0);
       }
     } else {
       //Assume it is class
       const list = document.getElementsByClassName(element);
       if (list.length > 0) {
-        target = list[0];
+        target = list.item(0);
       }
     }
   } else {

@@ -1,6 +1,5 @@
 /**
  * ProfilePicture
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -11,7 +10,13 @@ import './ProfilePicture.scss';
  * @param {object} props
  */
 export function ProfilePicture(props) {
-  return <img className="profile-pic" src={props.data ? `data:;base64,${props.data}` : props.url} alt={props.name} />;
+  return (
+    <img
+      className="profile-pic"
+      src={props.data ? `data:;base64,${props.data}` : props.url}
+      alt={props.name}
+    />
+  );
 }
 
 ProfilePicture.propTypes = {

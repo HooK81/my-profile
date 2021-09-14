@@ -11,8 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * User Class.
  * There is no user for API because it's public
  * User is used for JWT token.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

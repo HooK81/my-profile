@@ -20,6 +20,7 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
+            - '../src/Message/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
@@ -40,9 +41,9 @@ services:
     App\Security\ReCaptchaValidator:
         $secret: "%env(RECAPTCHA_SECRET)%"
 
-    App\Mailer\Mailer:
+    App\Mailer\AppMailer:
         $defaultSenderMail: "%env(MAILER_SENDER)%"
-        $teamMail: "%env(MAILER_RECEIVER)%"
+        $teamMail: "%env(MAILER_TEAM_MAIL)%"
 
     App\Security\PasswordHasher:
         $jwtUserUuid: "%env(APP_JWT_USER_UUID)%"

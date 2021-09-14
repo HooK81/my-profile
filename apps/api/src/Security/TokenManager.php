@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * TokenManager
  * Create and check secret property of JWT Token.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class TokenManager
 {

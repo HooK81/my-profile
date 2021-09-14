@@ -10,8 +10,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * FormException.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class FormException extends HttpException
 {

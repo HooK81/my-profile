@@ -1,6 +1,5 @@
 /**
  * Hobby
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React, { useState } from 'react';
@@ -31,7 +30,11 @@ export function Hobby(props) {
 
   return (
     <div className="bgrid-column hobby-item">
-      <div className="item-wrap" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+      <div
+        className="item-wrap"
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
         {props.image && <img alt={props.title} src={props.image} />}
         <div className={`overlay ${overlayClass}`}>{overlay}</div>
       </div>

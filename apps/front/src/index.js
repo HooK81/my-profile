@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { Suspense } from 'react';
@@ -14,7 +16,6 @@ import './utils/ga';
 
 /**
  * MyProfile
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 // Render App

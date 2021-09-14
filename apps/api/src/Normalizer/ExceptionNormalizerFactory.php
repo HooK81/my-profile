@@ -9,8 +9,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 /**
  * ExceptionNormalizerFactory
  * Get normalizer for an exception.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class ExceptionNormalizerFactory
 {

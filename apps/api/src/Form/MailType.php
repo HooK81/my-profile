@@ -15,12 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Mail Form
  *
- * @author Julien CROCHET <julien@crochet.me>
+
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class MailType extends AbstractType
 {
-    public const SUBJECT_MIN_LENGTH = 10;
+    public const MESSAGE_MIN_LENGTH = 20;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,7 +29,7 @@ class MailType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(['min' => self::SUBJECT_MIN_LENGTH]),
+                    new Assert\Length(['min' => self::MESSAGE_MIN_LENGTH]),
                 ],
             ])
             ->add('from', EmailType::class, [

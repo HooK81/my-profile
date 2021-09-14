@@ -1,4 +1,5 @@
 /* eslint-disable */
+/* istanbul ignore file */
 
 (function (root, factory) {
   var routing = factory();

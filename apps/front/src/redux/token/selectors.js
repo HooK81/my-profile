@@ -1,6 +1,5 @@
 /**
  * Token redux selectors
- * @author Julien CROCHET <julien@crochet.me>
  */
 export function selectApiToken(state) {
   return state.api.token;

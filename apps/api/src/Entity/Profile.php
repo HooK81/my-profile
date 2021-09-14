@@ -9,8 +9,6 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * Profile.
  * Contains all data for a user profile.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class Profile
 {

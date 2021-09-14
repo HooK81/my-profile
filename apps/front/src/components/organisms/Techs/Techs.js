@@ -1,6 +1,5 @@
 /**
  * Fav Techs
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -16,45 +15,43 @@ export function Techs(props) {
   const [techs, setTechs] = useState([]);
 
   /**
-   * Load images in assets folder
-   * @param {*} fileName
-   * @returns
+   * Add imageSrc property into tech object
+   * @param {*} tech
+   * @returns {Object}
    */
-  const loadFile = async (fileName) => {
-    let imageSrc;
+  const addTechImageSrcProp = async (tech) => {
+    const getImageSrc = async (filename) => {
+      try {
+        return (await import(`./assets/${filename}`)).default;
+      } catch (e) {
+        console.error(`Missing assets in Techs [${filename}]`, e);
+        return (await import('./assets/missing.png')).default;
+      }
+    };
 
-    try {
-      await import(`./assets/${fileName}`).then((image) => {
-        imageSrc = image.default;
-      });
-    } catch (e) {
-      console.error(`Missing assets in Techs [${fileName}]`, e);
-      await import(`./assets/missing.png`).then((image) => {
-        imageSrc = image.default;
-      });
-    }
-
-    return imageSrc;
+    return {
+      ...tech,
+      imageSrc: await getImageSrc(tech.image),
+    };
   };
 
   useEffect(() => {
-    // Generate a promises array for lazy loading of each tech element
-    const techsPromises = props.techs.map(async function (tech, i) {
-      const imageSrc = await loadFile(tech.image);
-
-      return (
+    (async () => {
+      // Generate a promises array for lazy loading of each tech element
+      const techsPromises = props.techs.map((tech) =>
+        addTechImageSrcProp(tech),
+      );
+      // Build techs
+      const techs = (await Promise.all(techsPromises)).map((tech, i) => (
         <li key={i} className="bgrid-column feature-item">
-          <img alt={tech.name} src={imageSrc} width="100%" />
+          <img alt={tech.name} src={tech.imageSrc} width="100%" />
           <h5>{tech.name}</h5>
           <p>{tech.desc}</p>
         </li>
-      );
-    });
-
-    Promise.all(techsPromises).then((techs) => {
+      ));
       // Set all elements into state for rendering
       setTechs(techs);
-    });
+    })();
   }, [props.techs]);
 
   const { t } = useTranslation();
@@ -85,13 +82,21 @@ Techs.defaultProps = {
 };
 /* istanbul ignore next */
 Techs.propTypes = {
-  techs: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+  techs: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
     if (
-      !propValue[key].hasOwnProperty('name') ||
-      !propValue[key].hasOwnProperty('image') ||
-      !propValue[key].hasOwnProperty('desc')
+      !('name' in propValue[key]) ||
+      !('image' in propValue[key]) ||
+      !('desc' in propValue[key])
     ) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

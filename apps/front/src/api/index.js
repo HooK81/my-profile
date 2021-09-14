@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /**
  * Export connected API with Redux and Synfony routing
  */

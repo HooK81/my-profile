@@ -1,6 +1,5 @@
 /**
  * VCard Button
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React, { useEffect, useState } from 'react';
@@ -32,8 +31,11 @@ export function VCardButton(props) {
   const { t } = useTranslation();
 
   return (
-    <a className={props.className + ' vcard'} href={vCardUrl}>
-      <i className="far fa-address-card fa-lg" title={t('about.download_vcf')}></i>
+    <a className={`${props.className} vcard`} href={vCardUrl}>
+      <i
+        className="far fa-address-card fa-lg"
+        title={t('about.download_vcf')}
+      ></i>
     </a>
   );
 }

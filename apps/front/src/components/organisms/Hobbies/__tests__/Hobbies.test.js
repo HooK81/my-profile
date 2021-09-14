@@ -1,6 +1,5 @@
 /**
  * Hobbies Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React from 'react';

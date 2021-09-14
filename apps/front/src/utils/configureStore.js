@@ -1,7 +1,7 @@
 /**
  * Redux Store configuration
- * @author Julien CROCHET <julien@crochet.me>
  */
+/* istanbul ignore file */
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -13,18 +13,16 @@ import { appReducer } from '../redux/app/reducers';
 const rootReducer = combineReducers({
   api: combineReducers({
     token: apiTokenReducer,
-    profile: apiProfileReducer
+    profile: apiProfileReducer,
   }),
-  app: appReducer
+  app: appReducer,
 });
 
 // Thunk middleware
-const middlewares = [ thunk ];
+const middlewares = [thunk];
 
 // Create store
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(...middlewares)
-  )
+  composeWithDevTools(applyMiddleware(...middlewares)),
 );

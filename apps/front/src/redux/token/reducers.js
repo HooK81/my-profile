@@ -1,9 +1,12 @@
 /**
  * Token redux reducers
- * @author Julien CROCHET <julien@crochet.me>
  */
 
-import { API_TOKEN_STARTED, API_TOKEN_SUCCESS, API_TOKEN_ERROR } from './constants';
+import {
+  API_TOKEN_STARTED,
+  API_TOKEN_SUCCESS,
+  API_TOKEN_ERROR,
+} from './constants';
 
 /**
  * Default token state
@@ -11,7 +14,7 @@ import { API_TOKEN_STARTED, API_TOKEN_SUCCESS, API_TOKEN_ERROR } from './constan
 export const initialValue = {
   pending: false,
   token: null,
-  error: null
+  error: null,
 };
 
 /**
@@ -21,7 +24,6 @@ export const initialValue = {
  */
 export function apiTokenReducer(previousState = initialValue, action = {}) {
   switch (action.type) {
-
     case API_TOKEN_STARTED:
       return {
         ...previousState,

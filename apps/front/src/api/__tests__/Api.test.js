@@ -1,6 +1,5 @@
 /**
  * API Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import axios from 'axios';

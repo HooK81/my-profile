@@ -1,0 +1,38 @@
+{
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "sonarjs"
+  ],
+  "ignorePatterns": [
+    "**/__tests__/*.js",
+    "**/__mocks__/*.js"
+  ],
+  "rules": {
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "prefer-template": [
+      "error"
+    ],
+    "prettier/prettier": [
+      "warn"
+    ]
+  }
+}

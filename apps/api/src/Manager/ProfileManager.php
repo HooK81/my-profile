@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * ProfileManager.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class ProfileManager
 {

@@ -1,6 +1,5 @@
 /**
  * i18n Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 import '../i18n';
 import i18n from 'i18next';

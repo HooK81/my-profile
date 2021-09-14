@@ -1,6 +1,5 @@
 /**
  * Contact Form Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import { mount } from 'enzyme';
@@ -10,7 +9,6 @@ import { Contact } from '../Contact.js';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { toast } from 'react-toastify';
-import _ from 'lodash/fp';
 import { api } from '../../../../api/index';
 import { ApiError } from '../../../../api/Api';
 

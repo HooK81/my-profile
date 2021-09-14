@@ -1,6 +1,5 @@
 /**
  * Nav Item
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React from 'react';
@@ -36,7 +35,10 @@ export function NavItem(props) {
         offset={props.smoothOffset}
         duration={props.smoothDuration}
         activeClass={props.smoothActiveClass}
-        onClick={(e) => {checkTargetHashLink(props.to); props.onItemSelect(e, props.to)}}
+        onClick={(e) => {
+          checkTargetHashLink(props.to);
+          props.onItemSelect(e, props.to);
+        }}
         onSetActive={(hashName) => props.onSetActive(hashName)}
       >
         {props.label}
@@ -44,7 +46,12 @@ export function NavItem(props) {
     );
   } else {
     link = (
-      <NavHashLink to={props.to} exact activeClassName={props.smoothActiveClass} onClick={(e) => props.onItemSelect(e)}>
+      <NavHashLink
+        to={props.to}
+        exact
+        activeClassName={props.smoothActiveClass}
+        onClick={(e) => props.onItemSelect(e)}
+      >
         {props.label}
       </NavHashLink>
     );

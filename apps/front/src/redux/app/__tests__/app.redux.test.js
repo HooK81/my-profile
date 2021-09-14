@@ -1,6 +1,5 @@
 /**
  * App Redux Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import * as actions from '../actions';

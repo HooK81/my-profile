@@ -1,6 +1,5 @@
 /**
  * Skills
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -31,8 +30,12 @@ export function Skills(props) {
     return () => window.removeEventListener('resize', handleResize);
   }, [resolution]);
 
-  const evenSkills = !hasOneCol ? props.skills.filter((skill, i) => i % 2 === 0) : null;
-  const oddSkills = !hasOneCol ? props.skills.filter((skill, i) => i % 2 !== 0) : null;
+  const evenSkills = !hasOneCol
+    ? props.skills.filter((_skill, i) => i % 2 === 0)
+    : null;
+  const oddSkills = !hasOneCol
+    ? props.skills.filter((_skill, i) => i % 2 !== 0)
+    : null;
 
   return (
     <div className="skills">
@@ -73,9 +76,17 @@ Skills.defaultProps = {
 };
 /* istanbul ignore next */
 Skills.propTypes = {
-  skills: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
-    if (!propValue[key].hasOwnProperty('name') || !propValue[key].hasOwnProperty('level')) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+  skills: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
+    if (!('name' in propValue[key]) || !('level' in propValue[key])) {
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

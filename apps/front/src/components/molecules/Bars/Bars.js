@@ -1,6 +1,5 @@
 /**
  * Bars
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -29,9 +28,17 @@ export function Bars(props) {
 
 /* istanbul ignore next */
 Bars.propTypes = {
-  items: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
-    if (!propValue[key].hasOwnProperty('name') || !propValue[key].hasOwnProperty('level')) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+  items: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
+    if (!('name' in propValue[key]) || !('level' in propValue[key])) {
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

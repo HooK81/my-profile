@@ -1,6 +1,5 @@
 /**
  * Unsupported browser detector
- * @author Julien CROCHET <julien@crochet.me>
  */
 
  /**

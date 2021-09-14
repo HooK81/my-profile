@@ -1,10 +1,9 @@
 /**
  * Education
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment'
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { upperFirst } from 'lodash';
 import './Education.scss';
@@ -25,7 +24,11 @@ export function Education(props) {
       <p className="info">
         <span className="city">{props.city}</span>
         <span>&bull;</span>
-        <span className="date">{upperFirst(moment(props.date).format(t("resume.educations.date_format")))}</span>
+        <span className="date">
+          {upperFirst(
+            moment(props.date).format(t('resume.educations.date_format')),
+          )}
+        </span>
       </p>
     </div>
   );

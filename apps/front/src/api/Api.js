@@ -4,7 +4,7 @@ import { PasswordEncoder } from './passwordEncoder';
 import { toast } from 'react-toastify';
 import i18n from 'i18next';
 import { routing } from './routing/index';
-import _ from 'lodash';
+import { defaults } from 'lodash';
 
 export const HTTP_OK = 200;
 export const HTTP_UNAUTHORIZED = 401;
@@ -13,7 +13,6 @@ export const HTTP_INTERNAL_SERVER_ERROR = 500;
 
 /**
  * Api error base class
- * @author Julien CROCHET <julien@crochet.me>
  */
 export class ApiError extends Error {
   constructor(message, httpStatus = null, data = null) {
@@ -27,10 +26,8 @@ export class ApiError extends Error {
 /**
  * Api base class
  * Used to inject token into requests
- * @author Julien CROCHET <julien@crochet.me>
  */
 export class Api {
-
   constructor(props) {
     this.props = props;
 
@@ -55,7 +52,10 @@ export class Api {
       (response) => response,
       (error) => {
         const originalRequest = error.config;
-        if (error.response.status === HTTP_UNAUTHORIZED && !originalRequest._retry) {
+        if (
+          error.response.status === HTTP_UNAUTHORIZED &&
+          !originalRequest._retry
+        ) {
           that.setHasToken(false);
           originalRequest._retry = true;
           return that.refreshToken().then((res) => {
@@ -70,6 +70,27 @@ export class Api {
     );
   }
 
+  handleApiError(error, routeName, axiosConfig, _bla) {
+    // error
+    const { showError, errorAutoClose } = axiosConfig;
+
+    const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
+    if (showError) {
+      toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: errorAutoClose,
+      });
+    }
+    if (error.constructor.name === 'ApiError') {
+      throw error;
+    }
+    throw new ApiError(
+      errorMEssage,
+      error.response.status,
+      error.response.data,
+    );
+  }
+
   /**
    * GET
    * @param {string} Name
@@ -77,23 +98,11 @@ export class Api {
    * @param {AxiosRequestConfig} config
    */
   async get(routeName, routeParameters = {}, config = {}) {
-    config = _.defaults(config, { showError: true, errorAutoClose: true });
+    config = defaults(config, { showError: true, errorAutoClose: true });
     try {
-      const { showError, errorAutoClose, ...axiosConfig } = config;
       const url = this.buildUrl(routeName, routeParameters);
-      return await this.axios.get(url, axiosConfig).catch((error) => {
-        // error
-        const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
-        if (showError) {
-          toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: errorAutoClose,
-          });
-        }
-        if (error.constructor.name === 'ApiError') {
-          throw error;
-        }
-        throw new ApiError(errorMEssage, error.response.status, error.response.data);
+      return await this.axios.get(url, config).catch((error) => {
+        this.handleApiError(error, routeName, config);
       });
     } catch (e) {
       console.error('API GET', routeName, e.message);
@@ -109,24 +118,12 @@ export class Api {
    * @param {AxiosRequestConfig} config
    */
   async post(routeName, data = null, routeParameters = {}, config = {}) {
-    config = _.defaults(config, { showError: true, errorAutoClose: true });
+    config = defaults(config, { showError: true, errorAutoClose: true });
     try {
-      const { showError, errorAutoClose, ...axiosConfig } = config;
       const url = this.buildUrl(routeName, routeParameters);
 
-      return await this.axios.post(url, data, axiosConfig).catch((error) => {
-        // error
-        const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
-        if (showError) {
-          toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: errorAutoClose,
-          });
-        }
-        if (error.constructor.name === 'ApiError') {
-          throw error;
-        }
-        throw new ApiError(errorMEssage, error.response.status, error.response.data);
+      return await this.axios.post(url, data, config).catch((error) => {
+        this.handleApiError(error, routeName, config);
       });
     } catch (e) {
       console.error('API POST', routeName, e.message);
@@ -183,13 +180,10 @@ export class Api {
    * @throws         Error if routeName does not exists
    */
   buildUrl(routeName, routeParameters = {}, absolute = false) {
-    let url;
     if (routeParameters !== null) {
-      url = routing.generate(routeName, routeParameters, absolute);
-    } else {
-      url = routing.generate(routeName, {}, absolute);
+      return routing.generate(routeName, routeParameters, absolute);
     }
-    return url;
+    return routing.generate(routeName, {}, absolute);
   }
 
   /**
@@ -199,36 +193,39 @@ export class Api {
    */
   buildApiErrorMessage(routeName, errorMessage) {
     const key = `api.error.${routeName}`;
-    let msg = '';
     if (i18n.exists(key)) {
-      msg = i18n.t(key, { msg: errorMessage });
-    } else {
-      msg = errorMessage;
+      return i18n.t(key, { msg: errorMessage });
     }
-    return msg;
+    return errorMessage;
   }
 
   /**
    * Build form error object
-   * @param {object} errors from API
+   * @param {Array.<Object>} errors from API
    * @param {object} fields name mapping
    */
   buildFormErrors(errors, fieldsMapping = {}) {
-    let backErrors = {};
     if (typeof errors !== 'object') {
-      return backErrors;
+      return {};
     }
 
-    errors.map((error) => {
-      for (const field in error) {
-        let fieldName = field;
-        if (typeof fieldsMapping[field] === 'string') {
-          fieldName = fieldsMapping[field];
-        }
-        backErrors[fieldName] = { message: error[field][0], type: 'pattern' };
-      }
-    });
+    return errors.reduce((backErrors, error) => {
+      // Each error can contains multiple fields
+      const newError = Object.keys(error).reduce((newError, field) => {
+        const fieldName =
+          typeof fieldsMapping[field] === 'string'
+            ? fieldsMapping[field]
+            : field;
+        return {
+          ...newError,
+          [fieldName]: { message: error[field][0], type: 'pattern' },
+        };
+      }, {});
 
-    return backErrors;
+      return {
+        ...backErrors,
+        ...newError,
+      };
+    }, {});
   }
 }

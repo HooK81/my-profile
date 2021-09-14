@@ -6,12 +6,12 @@ namespace App\Controller;
 
 use App\Exception\FormException;
 use App\Form\MailType;
-use App\Mailer\MailerInterface;
+use App\Mailer\AppMailer;
+use App\Message\SendTeamEmailMessage;
 use App\Security\ReCaptchaValidator;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,20 +24,16 @@ use Symfony\Component\Routing\Annotation\Route;
  *     options={ "expose": true },
  *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
  * )
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class EmailController extends AbstractFOSRestController
 {
-    private MailerInterface $mailer;
     private ReCaptchaValidator $reCaptchaValidator;
     private string $mailSubject;
     private string $mailSubjectPrefix;
     private string $mailTimeZone;
 
-    public function __construct(MailerInterface $mailer, ReCaptchaValidator $reCaptchaValidator)
+    public function __construct(ReCaptchaValidator $reCaptchaValidator)
     {
-        $this->mailer = $mailer;
         $this->reCaptchaValidator = $reCaptchaValidator;
     }
 
@@ -79,9 +75,6 @@ class EmailController extends AbstractFOSRestController
         );
         $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $msg['subject']);
 
-        $res = $this->mailer->sendMailToTeam($subject, $body, 'text/plain');
-        if (false === $res) {
-            throw new ConflictHttpException('The e-mail message cannot be sent. Make sure the e-mail has a valid recipient.');
-        }
+        $this->dispatchMessage(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $msg['from']));
     }
 }

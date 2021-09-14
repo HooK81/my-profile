@@ -1,4 +1,0 @@
-swiftmailer:
-    url: '%env(MAILER_URL)%&username=%env(MAILER_USERNAME)%&password=%env(MAILER_PASSWORD)%'
-    sender_address: '%env(MAILER_SENDER)%'
-    spool: { type: 'memory' }

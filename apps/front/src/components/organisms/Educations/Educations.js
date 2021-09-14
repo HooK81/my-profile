@@ -1,6 +1,5 @@
 /**
  * Educations
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -52,14 +51,22 @@ Educations.defaultProps = {
 
 /* istanbul ignore next */
 Educations.propTypes = {
-  educations: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+  educations: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
     if (
-      !propValue[key].hasOwnProperty('school') ||
-      !propValue[key].hasOwnProperty('degree') ||
-      !propValue[key].hasOwnProperty('city') ||
-      !propValue[key].hasOwnProperty('date')
+      !('school' in propValue[key]) ||
+      !('degree' in propValue[key]) ||
+      !('city' in propValue[key]) ||
+      !('date' in propValue[key])
     ) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

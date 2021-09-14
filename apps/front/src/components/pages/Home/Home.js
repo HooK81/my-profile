@@ -1,6 +1,5 @@
 /**
  * Home
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -38,9 +37,9 @@ Home.defaultProps = {
     main: {},
     resume: {},
     techs: [],
-    hobbies: []
-  }
-}
+    hobbies: [],
+  },
+};
 Home.propTypes = {
   profile: PropTypes.object.isRequired,
 };

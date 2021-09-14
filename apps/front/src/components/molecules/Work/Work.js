@@ -1,10 +1,9 @@
 /**
  * Work
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment'
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { upperFirst } from 'lodash';
 import ReactMarkdown from 'react-markdown';
@@ -21,13 +20,21 @@ export function Work(props) {
     let nbMonths = duration.months() + (duration.days() > 0 ? 1 : 0);
     const nbYears = duration.years() + (nbMonths === 12 ? 1 : 0);
     if (nbMonths === 12) nbMonths = 0;
-    const years = nbYears >= 1 ? t("resume.works.duration_years", {count: nbYears}) : "";
-    const months = nbMonths > 0 ? t("resume.works.duration_months", {count: nbMonths}) : "";
-    return t("resume.works.duration", {years: years, months: months}).trim();
+    const years =
+      nbYears >= 1 ? t('resume.works.duration_years', { count: nbYears }) : '';
+    const months =
+      nbMonths > 0
+        ? t('resume.works.duration_months', { count: nbMonths })
+        : '';
+    return t('resume.works.duration', { years: years, months: months }).trim();
   }
 
-  const dateStart = upperFirst(moment(props.date.start).format(t("resume.works.moment_format")));
-  const dateEnd = props.date.end ? upperFirst(moment(props.date.end).format(t("resume.works.moment_format"))) : t("resume.works.today");
+  const dateStart = upperFirst(
+    moment(props.date.start).format(t('resume.works.moment_format')),
+  );
+  const dateEnd = props.date.end
+    ? upperFirst(moment(props.date.end).format(t('resume.works.moment_format')))
+    : t('resume.works.today');
 
   // Calculate duration
   const endDate = props.date.end ? moment(props.date.end) : moment();
@@ -43,7 +50,13 @@ export function Work(props) {
         <span>&bull;</span>
         <span className="city">{props.city}</span>
         <span className="date_separator">&bull;</span>
-        <span className="date">{t("resume.works.date", {start: dateStart, end: dateEnd, duration: durationString})}</span>
+        <span className="date">
+          {t('resume.works.date', {
+            start: dateStart,
+            end: dateEnd,
+            duration: durationString,
+          })}
+        </span>
       </p>
       <ReactMarkdown className="description">{props.description}</ReactMarkdown>
     </div>
@@ -57,6 +70,6 @@ Work.propTypes = {
   description: PropTypes.string.isRequired,
   date: PropTypes.shape({
     start: PropTypes.string.isRequired,
-    end: PropTypes.string.isRequired
+    end: PropTypes.string.isRequired,
   }).isRequired,
 };

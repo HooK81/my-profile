@@ -1,6 +1,5 @@
 /**
  * Social Links
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -27,13 +26,21 @@ export function SocialLinks(props) {
 
 /* istanbul ignore next */
 SocialLinks.propTypes = {
-  networks: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+  networks: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
     if (
-      !propValue[key].hasOwnProperty('name') ||
-      !propValue[key].hasOwnProperty('url') ||
-      !propValue[key].hasOwnProperty('icon')
+      !('name' in propValue[key]) ||
+      !('url' in propValue[key]) ||
+      !('icon' in propValue[key])
     ) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

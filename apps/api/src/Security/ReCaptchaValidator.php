@@ -12,8 +12,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * ReCaptchaValidator
  * Validate a reCaptcha response.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class ReCaptchaValidator
 {

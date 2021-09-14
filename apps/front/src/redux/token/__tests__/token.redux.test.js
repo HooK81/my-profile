@@ -1,6 +1,5 @@
 /**
  * Token Redux Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import configureMockStore from 'redux-mock-store';

@@ -1,6 +1,5 @@
 /**
  * About Site
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import { Header } from '../../organisms/Header/Header';
@@ -11,7 +10,7 @@ import './AboutSite.scss';
  * About Site
  * @param {object} props
  */
-export function AboutSite(props) {
+export function AboutSite() {
   const { t } = useTranslation();
 
   return (
@@ -42,30 +41,21 @@ export function AboutSite(props) {
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.library.item2">
                   HTTP Client:{' '}
-                  <a href="https://github.com/axios/axios">
-                    Axios
-                  </a>
+                  <a href="https://github.com/axios/axios">Axios</a>
                 </Trans>
               </dd>
               <dd>
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.library.item3">
-                  State Container:{' '}
-                  <a href="https://redux.js.org/">
-                    Redux
-                  </a> and{' '}
-                  <a href="https://redux.js.org/">
-                    Redux Thunk
-                  </a>
+                  State Container: <a href="https://redux.js.org/">Redux</a> and{' '}
+                  <a href="https://redux.js.org/">Redux Thunk</a>
                 </Trans>
               </dd>
               <dd>
                 &bull;{' '}
                 <Trans i18nKey="about_site.front.library.item4">
                   Form:{' '}
-                  <a href="https://react-hook-form.com/">
-                    React Hook Form
-                  </a>
+                  <a href="https://react-hook-form.com/">React Hook Form</a>
                 </Trans>
               </dd>
               <dd>&bull; {t('about_site.front.library.item5')}</dd>

@@ -24,12 +24,13 @@ i18n
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
-      format: function (value, format, lng) {
+      format: function (value, format) {
         if (format === 'uppercase') return value.toUpperCase();
-        if (format === 'upperFirst') return value.charAt(0).toUpperCase() + value.slice(1);
+        if (format === 'upperFirst')
+          return value.charAt(0).toUpperCase() + value.slice(1);
         return value;
       },
-    }
+    },
   });
 
 moment.locale(locales);

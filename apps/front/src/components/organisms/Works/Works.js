@@ -1,6 +1,5 @@
 /**
  * Works
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -47,20 +46,28 @@ export function Works(props) {
 }
 
 Works.defaultProps = {
-  works: []
-}
+  works: [],
+};
 
 /* istanbul ignore next */
 Works.propTypes = {
-  works: PropTypes.arrayOf(function (propValue, key, componentName, location, propName) {
+  works: PropTypes.arrayOf(function (
+    propValue,
+    key,
+    componentName,
+    _location,
+    propName,
+  ) {
     if (
-      !propValue[key].hasOwnProperty('company') ||
-      !propValue[key].hasOwnProperty('title') ||
-      !propValue[key].hasOwnProperty('date') ||
-      !propValue[key].hasOwnProperty('city') ||
-      !propValue[key].hasOwnProperty('description')
+      !('company' in propValue[key]) ||
+      !('title' in propValue[key]) ||
+      !('date' in propValue[key]) ||
+      !('city' in propValue[key]) ||
+      !('description' in propValue[key])
     ) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   }).isRequired,
 };

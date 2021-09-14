@@ -6,7 +6,6 @@ import { sha256 } from 'js-sha256';
  * Encode password specific way
  * Caution algorithm shared with API.
  *
- * @author Julien CROCHET <julien@crochet.me>
  */
 export class PasswordEncoder {
   constructor(iterations = 42) {
@@ -34,7 +33,7 @@ export class PasswordEncoder {
    * @param {string} salt
    */
   mergePasswordAndSalt(raw, salt) {
-    return raw + (salt ? '{' + salt + '}' : '');
+    return raw + (salt ? `{${salt}}` : '');
   }
 
   /**

@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Cookie;
  * onJWTCreated : Add secret property
  * onJWTDecoded : Check secret property
  * onJWTCreated : Add token into Bearer cookie.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class JWTListener
 {

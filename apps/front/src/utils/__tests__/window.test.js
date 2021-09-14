@@ -1,6 +1,5 @@
 /**
  * Scroll Utility Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import * as scroll from '../window';

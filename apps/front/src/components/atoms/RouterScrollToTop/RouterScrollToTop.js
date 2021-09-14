@@ -1,6 +1,5 @@
 /**
  * RouterScrollToTop
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import { useEffect } from 'react';

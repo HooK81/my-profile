@@ -8,8 +8,6 @@ namespace App\Entity;
  * VCF Card Entity.
  *
  * @see VCardGenerator
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class VCFCard
 {

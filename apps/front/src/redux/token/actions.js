@@ -1,18 +1,20 @@
 /**
  * Token redux action
- * @author Julien CROCHET <julien@crochet.me>
  */
 
-import { API_TOKEN_STARTED, API_TOKEN_SUCCESS, API_TOKEN_ERROR } from './constants';
+import {
+  API_TOKEN_STARTED,
+  API_TOKEN_SUCCESS,
+  API_TOKEN_ERROR,
+} from './constants';
 import { api } from '../../api';
 import { setIsLoaded } from '../app/actions';
-
 
 /**
  * Get API Token Action
  */
 export const getToken = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(getTokenStarted());
     // Get credentials and unique key
     const credentials = api.getCredentials();
@@ -32,7 +34,7 @@ export const getToken = () => {
         },
       ) // Get login
       .then((res) => {
-        api.setHasToken(res.data.token !== "");
+        api.setHasToken(res.data.token !== '');
         dispatch(getTokenSuccess(res.data.token));
         return res;
       })

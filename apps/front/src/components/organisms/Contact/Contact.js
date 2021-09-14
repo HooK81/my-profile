@@ -1,6 +1,5 @@
 /**
  * Contact
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectAppLocale } from '../../../redux/app/selectors';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { api, ApiError } from '../../../api/index';
+import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
 import { VCardButton } from '../../atoms/VCardButton/VCardButton';
 import i18n from 'i18next';
@@ -43,13 +42,13 @@ export function Contact(props) {
   const onExpired = () => clearCaptcha(false);
 
   /*** FORM */
-  let { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => {
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = async (data) => {
     setPending(true);
     setBackErrors({});
 
-    api
-      .post(
+    try {
+      await api.post(
         'post_email',
         {
           reCaptchaResponse: recaptchaResponse,
@@ -63,33 +62,36 @@ export function Contact(props) {
         {
           showError: false,
         },
-      )
-      .then((res) => {
-        clearCaptcha(true);
-        toast.success(i18n.t('contact.form.submitted'), {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        setPending(false);
-      })
-      .catch((error) => {
-        setPending(false);
-
-        if (error instanceof Error && typeof error.httpStatus === 'number' && error.httpStatus === 400) {
-          // Form validation error
-          setBackErrors(api.buildFormErrors(error.data?.errors, { from: 'email' }));
-          return;
-        }
-
-        toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        clearCaptcha(true);
+      );
+      clearCaptcha(true);
+      toast.success(i18n.t('contact.form.submitted'), {
+        position: toast.POSITION.TOP_CENTER,
       });
+      setPending(false);
+    } catch (error) {
+      setPending(false);
+
+      if (
+        error instanceof Error &&
+        typeof error.httpStatus === 'number' &&
+        error.httpStatus === 400
+      ) {
+        // Form validation error
+        setBackErrors(
+          api.buildFormErrors(error.data?.errors, { from: 'email' }),
+        );
+        return;
+      }
+
+      toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      clearCaptcha(true);
+    }
   };
 
-  if (Object.entries(backErrors).length > 0) {
-    errors = backErrors;
-  }
+  const formErrors =
+    Object.entries(backErrors).length > 0 ? backErrors : errors;
 
   const submitDisabled = !verified || pending;
   const { t } = useTranslation();
@@ -110,11 +112,16 @@ export function Contact(props) {
 
       <div className="row">
         <div className="eight column">
-          <form id="contactForm" name="contactForm" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            id="contactForm"
+            name="contactForm"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <fieldset>
               <div>
                 <label htmlFor="contactEmail">
-                  {t('contact.message.email')} <span className="required">*</span>
+                  {t('contact.message.email')}{' '}
+                  <span className="required">*</span>
                 </label>
                 <input
                   type="text"
@@ -129,17 +136,28 @@ export function Contact(props) {
                     },
                   })}
                 />
-                {errors.email && <span className="error">* {errors.email?.message}</span>}
+                {formErrors.email && (
+                  <span className="error">* {formErrors.email?.message}</span>
+                )}
               </div>
 
               <div>
-                <label htmlFor="contactSubject">{t('contact.message.subject')}</label>
-                <input type="text" size="35" id="contactSubject" name="subject" ref={register} />
+                <label htmlFor="contactSubject">
+                  {t('contact.message.subject')}
+                </label>
+                <input
+                  type="text"
+                  size="35"
+                  id="contactSubject"
+                  name="subject"
+                  ref={register}
+                />
               </div>
 
               <div>
                 <label htmlFor="contactMessage">
-                  {t('contact.message.message')} <span className="required">*</span>
+                  {t('contact.message.message')}{' '}
+                  <span className="required">*</span>
                 </label>
                 <textarea
                   cols="50"
@@ -154,7 +172,9 @@ export function Contact(props) {
                     },
                   })}
                 ></textarea>
-                {errors.message && <span className="error">* {errors.message?.message}</span>}
+                {formErrors.message && (
+                  <span className="error">* {formErrors.message?.message}</span>
+                )}
               </div>
 
               <div className="submit cf">
@@ -171,7 +191,9 @@ export function Contact(props) {
                 <div className="btn-submit-wrapper">
                   <button className="btn-submit" disabled={submitDisabled}>
                     {t('contact.message.submit')}
-                    {pending && <i className="fas fa-spinner fa-spin fa-lg"></i>}
+                    {pending && (
+                      <i className="fas fa-spinner fa-spin fa-lg"></i>
+                    )}
                   </button>
                 </div>
               </div>
@@ -192,13 +214,18 @@ export function Contact(props) {
                   <br />
                   <ProtectedText text={props.profileMain.address.street} />
                   <br />
-                  <ProtectedText text={`${props.profileMain.address.zip} ${props.profileMain.address.city}`} />
+                  <ProtectedText
+                    text={`${props.profileMain.address.zip} ${props.profileMain.address.city}`}
+                  />
                   <br />
                   <ProtectedText text={props.profileMain.address.country} />
                 </>
               )}
               <br />
-              <ProtectedText text={props.profileMain.email} href={`mailto:${props.profileMain.email}`} />
+              <ProtectedText
+                text={props.profileMain.email}
+                href={`mailto:${props.profileMain.email}`}
+              />
               {props.profileMain.phone && (
                 <>
                   <br />

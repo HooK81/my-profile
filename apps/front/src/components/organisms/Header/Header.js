@@ -1,13 +1,12 @@
 /**
  * Header
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Nav } from '../../organisms/Nav/Nav';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import { getWindowResolution } from '../../../utils/window';
 import './Header.scss';
 
@@ -27,7 +26,7 @@ export function Header(props) {
     function handleResize() {
       setResolution(getWindowResolution());
     }
-    const debouncedResize = _.debounce(handleResize, 300);
+    const debouncedResize = debounce(handleResize, 300);
     if (props.home) {
       window.addEventListener('resize', debouncedResize);
       headerRef.current.style.height = `${resolution.height}px`;
@@ -40,14 +39,18 @@ export function Header(props) {
   /*	Browser history on active link
   ------------------------------------------------------*/
   const history = useHistory();
-  const debouncedHistoryPush = _.debounce(history.push, 300);
+  const debouncedHistoryPush = debounce(history.push, 300);
 
   /**
    * A link has been changed to "active"
    * @param {string} hash
    */
   function setActive(hash) {
-    if (props.home && (!location.hash || location.hash === '#home') && (!hash || hash === 'home')) {
+    if (
+      props.home &&
+      (!location.hash || location.hash === '#home') &&
+      (!hash || hash === 'home')
+    ) {
       // Do not add an history for home
       return;
     }

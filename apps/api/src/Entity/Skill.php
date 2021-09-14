@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as JMS;
  * Skill.
  *
  * @see Profile
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class Skill
 {

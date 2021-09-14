@@ -1,6 +1,5 @@
 /**
  * Scroll Button
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React from 'react';
@@ -18,7 +17,8 @@ export function ScrollButton(props) {
     scroll.scrollToTop();
   }
 
-  const iconClassName = props.type === 'down' ? 'fas fa-chevron-circle-down' : 'fas fa-angle-up';
+  const iconClassName =
+    props.type === 'down' ? 'fas fa-chevron-circle-down' : 'fas fa-angle-up';
 
   let link;
   if (props.type === 'top') {
@@ -51,7 +51,9 @@ ScrollButton.propTypes = {
   type: PropTypes.oneOf(['down', 'up', 'top']).isRequired,
   linkTo: function (props, propName, componentName) {
     if (props.type !== 'top' && !props[propName]) {
-      return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`);
+      return new Error(
+        `Invalid prop "${propName}" supplied to "${componentName}". Validation failed.`,
+      );
     }
   },
   offset: PropTypes.number,

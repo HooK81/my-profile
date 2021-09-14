@@ -25,8 +25,6 @@ use Symfony\Component\Routing\Annotation\Route;
  *     options={ "expose": true },
  *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
  * )
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class ProfileController extends AbstractFOSRestController
 {

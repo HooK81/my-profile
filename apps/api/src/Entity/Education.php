@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as JMS;
  * Education.
  *
  * @see Profile
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class Education
 {

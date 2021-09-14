@@ -1,6 +1,5 @@
 /**
  * Resume
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -20,7 +19,7 @@ export function Resume(props) {
       <Educations educations={props.resume.educations} />
       <Skills skills={props.resume.skills} />
     </section>
-  )
+  );
 }
 
 Resume.defaultProps = {
@@ -28,8 +27,8 @@ Resume.defaultProps = {
     works: [],
     educations: [],
     skills: [],
-  }
-}
+  },
+};
 Resume.propTypes = {
   resume: PropTypes.shape({
     works: PropTypes.array,

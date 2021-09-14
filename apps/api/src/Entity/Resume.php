@@ -8,8 +8,6 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * Resume.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class Resume
 {

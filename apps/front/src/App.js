@@ -1,6 +1,5 @@
 /**
  * MyProfile App
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -8,8 +7,11 @@ import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import _ from 'lodash';
-import { selectApiProfileData, selectApiProfileError } from './redux/profile/selectors';
+import { debounce } from 'lodash';
+import {
+  selectApiProfileData,
+  selectApiProfileError,
+} from './redux/profile/selectors';
 import { selectApiTokenError } from './redux/token/selectors';
 import { selectAppIsLoaded, selectAppLocale } from './redux/app/selectors';
 import { getProfile } from './redux/profile/actions';
@@ -34,13 +36,20 @@ export class App extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // Reload page when user was on error page cauded by API and change location
-    if (this.props.apiError && prevProps.location.key !== this.props.location.key) {
+    if (
+      this.props.apiError &&
+      prevProps.location.key !== this.props.location.key
+    ) {
       this.props.setIsLoaded(false);
       window.location.reload();
     }
 
     // Reload profile when user change locale
-    if (this.props.isLoaded && this.props.appLocale !== prevProps.appLocale && !this.props.apiError) {
+    if (
+      this.props.isLoaded &&
+      this.props.appLocale !== prevProps.appLocale &&
+      !this.props.apiError
+    ) {
       this.props.getProfile().catch(() => {});
     }
 
@@ -63,11 +72,14 @@ export class App extends PureComponent {
       prevProps.location.pathname !== this.props.location.pathname ||
       prevProps.location.hash !== this.props.location.hash
     ) {
-      this.updateReactGA(this.props.location.pathname + (this.props.location.hash ? this.props.location.hash : ''));
+      this.updateReactGA(
+        this.props.location.pathname +
+          (this.props.location.hash ? this.props.location.hash : ''),
+      );
     }
   }
 
-  updateReactGA = _.debounce((path) => {
+  updateReactGA = debounce((path) => {
     ReactGA.pageview(path.replace('#home', ''));
   }, 1000);
 
@@ -113,7 +125,9 @@ export class App extends PureComponent {
 /* istanbul ignore next */
 const mapStateToProps = (state) => ({
   profile: selectApiProfileData(state),
-  apiError: selectApiTokenError(state) ? selectApiTokenError(state) : selectApiProfileError(state),
+  apiError: selectApiTokenError(state)
+    ? selectApiTokenError(state)
+    : selectApiProfileError(state),
   isLoaded: selectAppIsLoaded(state),
   appLocale: selectAppLocale(state),
 });
@@ -126,4 +140,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Connected App, with Translation
-export default withRouter(compose(connect(mapStateToProps, mapDispatchToProps), withTranslation())(App));
+export default withRouter(
+  compose(connect(mapStateToProps, mapDispatchToProps), withTranslation())(App),
+);

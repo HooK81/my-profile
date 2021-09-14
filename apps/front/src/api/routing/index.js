@@ -1,21 +1,31 @@
+/* istanbul ignore file */
 /**
  * FOS JS Routing
  * To generate routes.json :
  * php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import Routing from './router';
 import routes from './fos_js_routes.json';
 
-if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST) {
-  routes.host   = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST;
-  routes.port   = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PORT;
-  routes.scheme = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.substring(0, process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.length - 1);;
+if (
+  process.env.NODE_ENV === 'development' &&
+  process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST
+) {
+  routes.host = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_HOST;
+  routes.port = process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PORT;
+  routes.scheme =
+    process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.substring(
+      0,
+      process.env.REACT_APP_API_ABSOLUTE_OVERRIDE_PROTOCOL.length - 1,
+    );
 } else if (window) {
-  routes.host   = window.location.hostname;
-  routes.port   = window.location.port;
-  routes.scheme = window.location.protocol.substring(0, window.location.protocol.length - 1);
+  routes.host = window.location.hostname;
+  routes.port = window.location.port;
+  routes.scheme = window.location.protocol.substring(
+    0,
+    window.location.protocol.length - 1,
+  );
 }
 
 // Set data

@@ -1,6 +1,5 @@
 /**
  * About
- * @author Julien CROCHET <julien@crochet.me>
  */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -80,7 +79,10 @@ export function About(props) {
                   </>
                 )}
                 <br />
-                <ProtectedText text={props.profileMain.email} href={`mailto:${props.profileMain.email}`} />
+                <ProtectedText
+                  text={props.profileMain.email}
+                  href={`mailto:${props.profileMain.email}`}
+                />
                 {props.profileMain.phone && (
                   <>
                     <br />

@@ -1,6 +1,5 @@
 /**
  * Nav Test Suites with scroll on home page
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React from 'react';

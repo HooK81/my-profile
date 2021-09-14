@@ -1,6 +1,5 @@
 /**
  * Password Encoder Test Suites
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import { PasswordEncoder } from '../passwordEncoder';

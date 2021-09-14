@@ -1,12 +1,11 @@
 /**
  * AppLoader Component
  * Caution DOM is outside react for displaying before render
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import { PureComponent } from 'react';
-import PropTypes         from 'prop-types';
-import                        './AppLoader.scss';
+import PropTypes from 'prop-types';
+import './AppLoader.scss';
 
 /**
  * App Loader Component
@@ -51,5 +50,5 @@ export class AppLoader extends PureComponent {
 
 /* istanbul ignore next */
 AppLoader.propTypes = {
-  isLoaded: PropTypes.bool.isRequired
+  isLoaded: PropTypes.bool.isRequired,
 };

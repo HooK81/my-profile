@@ -1,8 +1,11 @@
 /**
  * Profile redux actions
- * @author Julien CROCHET <julien@crochet.me>
  */
-import { GET_PROFILE_STARTED, GET_PROFILE_SUCCESS, GET_PROFILE_ERROR } from './constants';
+import {
+  GET_PROFILE_STARTED,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_ERROR,
+} from './constants';
 import { api } from '../../api';
 import { setIsLoaded } from '../app/actions';
 import { selectAppLocale } from '../app/selectors';

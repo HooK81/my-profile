@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * VCardGenerator.
  * Generate a VCard 3.0 stream based on a user profile.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class VCardGenerator
 {

@@ -15,8 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Exception Subscriber / Listener : Ensure to always return a JSON response
  * when an exception is thrown.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class ExceptionSubscriber implements EventSubscriberInterface
 {

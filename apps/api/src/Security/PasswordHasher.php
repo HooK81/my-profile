@@ -11,8 +11,6 @@ use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
  * Password Hasher
  * Encode password specific way
  * Caution algorithm shared with front.
- *
- * @author Julien CROCHET <julien@crochet.me>
  */
 class PasswordHasher extends PlaintextPasswordHasher
 {

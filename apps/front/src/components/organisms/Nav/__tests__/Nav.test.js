@@ -1,6 +1,5 @@
 /**
  * Nav Test Suites for home page
- * @author Julien CROCHET <julien@crochet.me>
  */
 
 import React from 'react';

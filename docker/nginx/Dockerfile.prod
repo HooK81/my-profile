@@ -10,6 +10,7 @@ COPY apps/front/yarn.lock /usr/src/front/
 RUN yarn install --prod
 COPY apps/front /usr/src/front
 COPY docker/node/secrets/.env.production /usr/src/front/
+COPY docker/node/.eslintrc.prod /usr/src/front/.eslintrc
 ARG APP_VERSION=latest
 ENV APP_VERSION $APP_VERSION
 RUN yarn build

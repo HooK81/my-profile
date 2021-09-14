@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class MailType extends AbstractType
 {
-    public const MESSAGE_MIN_LENGTH = 20;
+    public const MESSAGE_MIN_LENGTH = 10;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

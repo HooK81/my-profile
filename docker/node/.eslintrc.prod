@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "react-app"
+  ],
+  "ignorePatterns": [
+    "**/__tests__/*.js",
+    "**/__mocks__/*.js"
+  ]
+}

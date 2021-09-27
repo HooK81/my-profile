@@ -17,14 +17,15 @@ framework:
     php_errors:
         log: true
 
+    # Symfony Serializer
     serializer:
-        enabled: false # Disable Symfony Serializer
+        enabled: true
 
     # HTTP Clients
     http_client:
         default_options:
             http_version: '2.0'
-        
+
         scoped_clients:
             recaptcha.client:
                 base_uri: '%env(RECAPTCHA_API_BASE_URL)%'

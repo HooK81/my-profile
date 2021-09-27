@@ -23,7 +23,7 @@ export function Footer(props) {
     <footer>
       <div className="row">
         <div className="twelve column">
-          <SocialLinks networks={props.profileMain.social} />
+          <SocialLinks networks={props.profileMain.networks} />
           <ul className="copyright">
             <li>
               v{process.env.REACT_APP_VERSION} &copy; Copyright {year}{' '}
@@ -52,7 +52,7 @@ export function Footer(props) {
 
 Footer.defaultProps = {
   profileMain: {
-    social: [],
+    socials: [],
     fullName: '',
   },
 };

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Main.
  *
@@ -13,190 +11,208 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Main
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $lastName;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $firstName;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $fullName;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $occupation;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $description;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $image;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $bio;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $email;
-
-    /**
-     * @JMS\Type("string")
-     *
-     * @var string
-     */
-    protected $base;
-
-    /**
-     * @JMS\Type("App\Entity\Address")
-     */
+    protected string $base;
     protected Address $address;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $phone;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $website;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $resumePdf;
 
     /**
-     * @JMS\Type("array<App\Entity\Social>")
-     *
-     * @var Social[]
+     * @var Network[]
      */
-    protected array $social;
+    protected array $networks;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->address = new Address();
-        $this->social = [];
+        $this->networks = [];
     }
 
-    /**
-     * Get the value of lastName.
-     */
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * Get the value of firstName.
-     */
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * Get the value of fullName.
-     */
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
     public function getFullName(): string
     {
         return $this->fullName;
     }
 
-    /**
-     * Get the value of occupation.
-     */
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
     public function getOccupation(): string
     {
         return $this->occupation;
     }
 
-    /**
-     * Get the value of description.
-     */
+    public function setOccupation(string $occupation): self
+    {
+        $this->occupation = $occupation;
+
+        return $this;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * Get the value of image.
-     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function getImage(): string
     {
         return $this->image;
     }
 
-    /**
-     * Get the value of bio.
-     */
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getBio(): string
     {
         return $this->bio;
     }
 
-    /**
-     * Get the value of email.
-     */
+    public function setBio(string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * Get the value of base.
-     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getBase(): string
     {
         return $this->base;
     }
 
-    /**
-     * Get the value of address.
-     */
+    public function setBase(string $base): self
+    {
+        $this->base = $base;
+
+        return $this;
+    }
+
     public function getAddress(): Address
     {
         return $this->address;
     }
 
-    /**
-     * Get the value of phone.
-     */
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
     public function getPhone(): string
     {
         return $this->phone;
     }
 
-    /**
-     * Get the value of website.
-     */
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     public function getWebsite(): string
     {
         return $this->website;
     }
 
-    /**
-     * Get the value of resumePdf.
-     */
+    public function setWebsite(string $website): self
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
     public function getResumePdf(): string
     {
         return $this->resumePdf;
+    }
+
+    public function setResumePdf(string $resumePdf): self
+    {
+        $this->resumePdf = $resumePdf;
+
+        return $this;
+    }
+
+    /**
+     * @return Network[]
+     */
+    public function getNetworks(): array
+    {
+        return $this->networks;
+    }
+
+    public function addNetwork(Network $network): self
+    {
+        $this->networks[] = $network;
+
+        return $this;
+    }
+
+    public function removeNetwork(Network $network): self
+    {
+        if (($key = array_search($network, $this->networks)) !== false) {
+            unset($this->networks[$key]);
+        }
+
+        return $this;
     }
 }

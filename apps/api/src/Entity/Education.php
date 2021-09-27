@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Education.
  *
@@ -13,54 +11,56 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Education
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $degree;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $school;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $city;
-    /**
-     * @JMS\Type("string")
-     */
     protected string $date;
 
-    /**
-     * Get the value of degree.
-     */
     public function getDegree(): string
     {
         return $this->degree;
     }
 
-    /**
-     * Get the value of school.
-     */
+    public function setDegree(string $degree): self
+    {
+        $this->degree = $degree;
+
+        return $this;
+    }
+
     public function getSchool(): string
     {
         return $this->school;
     }
 
-    /**
-     * Get the value of city.
-     */
+    public function setSchool(string $school): self
+    {
+        $this->school = $school;
+
+        return $this;
+    }
+
     public function getCity(): string
     {
         return $this->city;
     }
 
-    /**
-     * Get the value of date.
-     */
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
     public function getDate(): string
     {
         return $this->date;
+    }
+
+    public function setDate(string $date): self
+    {
+        $this->date = $date;
+
+        return $this;
     }
 }

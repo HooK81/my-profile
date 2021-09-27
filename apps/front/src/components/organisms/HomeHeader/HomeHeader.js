@@ -35,7 +35,7 @@ export function HomeHeader(props) {
             <ReactMarkdown>{props.profileMain.description}</ReactMarkdown>
           </h3>
           <hr />
-          <SocialLinks networks={props.profileMain.social} />
+          <SocialLinks networks={props.profileMain.networks} />
         </div>
       </div>
       <ScrollButton type={'down'} linkTo={'about'} />
@@ -49,7 +49,7 @@ HomeHeader.defaultProps = {
     description: '',
     occupation: '',
     base: '',
-    social: [],
+    socials: [],
   },
 };
 HomeHeader.propTypes = {

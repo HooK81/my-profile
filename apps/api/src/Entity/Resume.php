@@ -4,37 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Resume.
  */
 class Resume
 {
     /**
-     * @JMS\Type("array<App\Entity\Work>")
-     *
      * @var Work[]
      */
     protected array $works;
 
     /**
-     * @JMS\Type("array<App\Entity\Education>")
-     *
      * @var Education[]
      */
     protected array $educations;
 
     /**
-     * @JMS\Type("array<App\Entity\Skill>")
-     *
      * @var Skill[]
      */
     protected array $skills;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->works = [];
@@ -43,8 +32,6 @@ class Resume
     }
 
     /**
-     * Get the value of skills.
-     *
      * @return Skill[]
      */
     public function getSkills(): array
@@ -52,9 +39,23 @@ class Resume
         return $this->skills;
     }
 
+    public function addSkill(Skill $skill): self
+    {
+        $this->skills[] = $skill;
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        if (($key = array_search($skill, $this->skills)) !== false) {
+            unset($this->skills[$key]);
+        }
+
+        return $this;
+    }
+
     /**
-     * Get the value of educations.
-     *
      * @return Education[]
      */
     public function getEducations(): array
@@ -62,13 +63,43 @@ class Resume
         return $this->educations;
     }
 
+    public function addEducation(Education $education): self
+    {
+        $this->educations[] = $education;
+
+        return $this;
+    }
+
+    public function removeEducation(Education $education): self
+    {
+        if (($key = array_search($education, $this->educations)) !== false) {
+            unset($this->educations[$key]);
+        }
+
+        return $this;
+    }
+
     /**
-     * Get the value of works.
-     *
      * @return Work[]
      */
     public function getWorks(): array
     {
         return $this->works;
+    }
+
+    public function addWork(Work $work): self
+    {
+        $this->works[] = $work;
+
+        return $this;
+    }
+
+    public function removeWork(Work $work): self
+    {
+        if (($key = array_search($work, $this->works)) !== false) {
+            unset($this->works[$key]);
+        }
+
+        return $this;
     }
 }

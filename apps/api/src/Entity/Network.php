@@ -4,51 +4,50 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
- * Social.
+ * Network.
  *
  * @see Profile
  */
-class Social
+class Network
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $name;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $url;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $icon;
 
-    /**
-     * Get the value of name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get the value of url.
-     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * Get the value of icon.
-     */
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
     public function getIcon(): string
     {
         return $this->icon;
+    }
+
+    public function setIcon(string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
     }
 }

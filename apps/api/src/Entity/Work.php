@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Work.
  *
@@ -13,29 +11,10 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Work
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $title;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $company;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $city;
-
-    /**
-     * @JMS\Type("App\Entity\WorkDate")
-     */
     protected WorkDate $date;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected string $description;
 
     public function __construct()
@@ -43,43 +22,63 @@ class Work
         $this->date = new WorkDate();
     }
 
-    /**
-     * Get the value of title.
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Get the value of company.
-     */
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
     public function getCompany(): string
     {
         return $this->company;
     }
 
-    /**
-     * Get the value of city.
-     */
+    public function setCompany(string $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
     public function getCity(): string
     {
         return $this->city;
     }
 
-    /**
-     * Get the value of date.
-     */
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
     public function getDate(): WorkDate
     {
         return $this->date;
     }
 
-    /**
-     * Get the value of description.
-     */
+    public function setDate(WorkDate $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

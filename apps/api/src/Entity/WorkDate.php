@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * WorkDate.
  *
@@ -13,29 +11,30 @@ use JMS\Serializer\Annotation as JMS;
  */
 class WorkDate
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $start;
-
-    /**
-     * @JMS\Type("string")
-     */
     protected ?string $end;
 
-    /**
-     * Get the value of start.
-     */
     public function getStart(): string
     {
         return $this->start;
     }
 
-    /**
-     * Get the value of end.
-     */
+    public function setStart(string $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
     public function getEnd(): ?string
     {
         return $this->end;
+    }
+
+    public function setEnd(?string $end): self
+    {
+        $this->end = $end;
+
+        return $this;
     }
 }

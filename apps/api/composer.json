@@ -15,7 +15,6 @@
         "ext-iconv": "*",
         "friendsofsymfony/jsrouting-bundle": "^2.5",
         "friendsofsymfony/rest-bundle": "^3.0",
-        "jms/serializer-bundle": "^3.5",
         "lexik/jwt-authentication-bundle": "^2.12",
         "ramsey/uuid": "^3.9",
         "sabre/vobject": "^4.0",

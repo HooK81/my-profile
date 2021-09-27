@@ -19,7 +19,7 @@
     "phone": "+1 800-275-8777",
     "website": "https://www.doe.com",
     "resumePdf": "resume.pdf",
-    "social": [
+    "networks": [
       {
         "name": "linkedin",
         "url": "https://www.linkedin.com/in/j-doe/",
@@ -77,11 +77,11 @@
     "skills": [
       {
         "name": "Lorem",
-        "level": "90%"
+        "level": 90
       },
       {
         "name": "Ipsum",
-        "level": "50%"
+        "level": 50
       }
     ]
   },

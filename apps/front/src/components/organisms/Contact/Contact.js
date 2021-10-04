@@ -1,57 +1,42 @@
 /**
  * Contact
  */
-import React, { useState, useRef } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useReCaptchaToken } from '../../../utils/reCaptcha';
 import { selectAppLocale } from '../../../redux/app/selectors';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
 import { VCardButton } from '../../atoms/VCardButton/VCardButton';
 import i18n from 'i18next';
 import { ProtectedText } from 'react-protected-text';
 import './Contact.scss';
+const RECAPTCHA_ACTION = 'sendContactMail';
 
 /**
  * Contact Component
  * @param {object} props
  */
 export function Contact(props) {
-  const [verified, setVerified] = useState(false);
   const [pending, setPending] = useState(false);
   const [backErrors, setBackErrors] = useState({});
-  const [recaptchaResponse, setRecaptchaResponse] = useState('');
-  const recaptchaRef = useRef();
   const appLocale = useSelector((state) => selectAppLocale(state));
-
-  /*** CAPTCHA */
-  const onVerify = (recaptchaResponse) => {
-    setVerified(true);
-    setRecaptchaResponse(recaptchaResponse);
-  };
-  const clearCaptcha = (reset) => {
-    setVerified(false);
-    setRecaptchaResponse('');
-    if (reset) {
-      recaptchaRef.current.reset();
-    }
-  };
-  const onExpired = () => clearCaptcha(false);
+  const getReCaptchaToken = useReCaptchaToken();
 
   /*** FORM */
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = async (data) => {
     setPending(true);
     setBackErrors({});
-
     try {
       await api.post(
         'post_email',
         {
-          reCaptchaResponse: recaptchaResponse,
+          reCaptchaAction: RECAPTCHA_ACTION,
+          reCaptchaToken: await getReCaptchaToken(RECAPTCHA_ACTION),
           from: data?.email,
           subject: data?.subject,
           message: data?.message,
@@ -63,7 +48,6 @@ export function Contact(props) {
           showError: false,
         },
       );
-      clearCaptcha(true);
       toast.success(i18n.t('contact.form.submitted'), {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -71,11 +55,7 @@ export function Contact(props) {
     } catch (error) {
       setPending(false);
 
-      if (
-        error instanceof Error &&
-        typeof error.httpStatus === 'number' &&
-        error.httpStatus === 400
-      ) {
+      if (error instanceof Error && error.httpStatus === 400) {
         // Form validation error
         setBackErrors(
           api.buildFormErrors(error.data?.errors, { from: 'email' }),
@@ -86,14 +66,13 @@ export function Contact(props) {
       toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`, {
         position: toast.POSITION.TOP_CENTER,
       });
-      clearCaptcha(true);
     }
   };
 
   const formErrors =
     Object.entries(backErrors).length > 0 ? backErrors : errors;
 
-  const submitDisabled = !verified || pending;
+  const submitDisabled = pending;
   const { t } = useTranslation();
 
   return (
@@ -175,19 +154,11 @@ export function Contact(props) {
                 {formErrors.message && (
                   <span className="error">* {formErrors.message?.message}</span>
                 )}
+                {formErrors.mail && (
+                  <span className="error">* {formErrors.mail?.message}</span>
+                )}
               </div>
-
               <div className="submit cf">
-                <ReCAPTCHA
-                  className="captcha"
-                  hl={appLocale}
-                  ref={recaptchaRef}
-                  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                  onChange={onVerify}
-                  onExpired={onExpired}
-                  theme="dark"
-                  size="compact"
-                />
                 <div className="btn-submit-wrapper">
                   <button className="btn-submit" disabled={submitDisabled}>
                     {t('contact.message.submit')}

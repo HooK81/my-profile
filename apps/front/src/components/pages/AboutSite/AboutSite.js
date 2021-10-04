@@ -1,7 +1,6 @@
 /**
  * About Site
  */
-import React from 'react';
 import { Header } from '../../organisms/Header/Header';
 import { Trans, useTranslation } from 'react-i18next';
 import './AboutSite.scss';

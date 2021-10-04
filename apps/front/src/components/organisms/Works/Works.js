@@ -1,7 +1,6 @@
 /**
  * Works
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Work } from '../../molecules/Work/Work';
 import { useTranslation } from 'react-i18next';

@@ -21,13 +21,14 @@
       }
     ],
     "no-unused-vars": [
-      "error",
+      "warn",
       {
         "ignoreRestSiblings": true,
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_"
       }
     ],
+    "no-debugger": ["warn"],
     "prefer-template": [
       "error"
     ],

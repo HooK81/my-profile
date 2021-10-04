@@ -26,7 +26,7 @@ footer .social li a:focus {
 
 /* copyright */
 footer .copyright {
-  margin: 0;
+  margin: 10px 0 0 0;
   padding: 0;
 }
 footer .copyright li {
@@ -77,6 +77,10 @@ footer .scroll-button {
 ---------------------------------------------------------------------- */
 
 @media only screen and (max-width: 767px) {
+  footer {
+    padding-top: 35px;
+  }
+
   /* Go To Top Button */
   footer .scroll-button {
     top: -25px;
@@ -88,6 +92,7 @@ footer .scroll-button {
       line-height: 50px;
     }
   }
+
   .cookie-consent-button {
     flex: auto;
   }

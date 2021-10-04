@@ -44,7 +44,13 @@ class MailType extends AbstractType
             ->add('subject', TextType::class, [
                 'required' => false,
             ])
-            ->add('reCaptchaResponse', HiddenType::class, [
+            ->add('reCaptchaAction', HiddenType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
+            ->add('reCaptchaToken', HiddenType::class, [
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),

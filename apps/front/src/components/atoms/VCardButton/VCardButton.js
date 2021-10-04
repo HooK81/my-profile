@@ -2,7 +2,7 @@
  * VCard Button
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../../../api/index';
 import { useTranslation } from 'react-i18next';
 

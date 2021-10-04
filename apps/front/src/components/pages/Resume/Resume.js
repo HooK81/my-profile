@@ -1,7 +1,6 @@
 /**
  * Resume
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import './Resume.scss';
 import { Skills } from '../../organisms/Skills/Skills';

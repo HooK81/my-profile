@@ -1,7 +1,6 @@
 /**
  * Home Header
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ScrollButton } from '../../atoms/ScrollButton/ScrollButton';
@@ -49,7 +48,7 @@ HomeHeader.defaultProps = {
     description: '',
     occupation: '',
     base: '',
-    socials: [],
+    networks: [],
   },
 };
 HomeHeader.propTypes = {

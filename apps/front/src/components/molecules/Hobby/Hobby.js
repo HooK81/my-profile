@@ -2,7 +2,7 @@
  * Hobby
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Hobby.scss';
 

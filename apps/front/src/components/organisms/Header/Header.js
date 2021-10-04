@@ -1,12 +1,12 @@
 /**
  * Header
  */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Nav } from '../../organisms/Nav/Nav';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { getWindowResolution } from '../../../utils/window';
 import './Header.scss';
 

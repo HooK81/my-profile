@@ -38,8 +38,9 @@ services:
         $passPhrase: "%env(JWT_PASSPHRASE)%"
         $env: "%kernel.environment%"
 
-    App\Security\ReCaptchaValidator:
-        $secret: "%env(RECAPTCHA_SECRET)%"
+    App\ReCaptcha\ReCaptchaValidator:
+        $secret: "%env(RECAPTCHA_V3_SECRET)%"
+        $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"
 
     App\Mailer\AppMailer:
         $defaultSenderMail: "%env(MAILER_SENDER)%"

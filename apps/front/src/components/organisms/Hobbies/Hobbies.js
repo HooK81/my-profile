@@ -1,7 +1,7 @@
 /**
  * Hobbies
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Hobby } from '../../molecules/Hobby/Hobby';
 import { useTranslation } from 'react-i18next';

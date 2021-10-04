@@ -8,7 +8,7 @@ import { Bars } from '../Bars.js';
 
 describe('Bars', () => {
   it('Should Bars render 2 items without crash', () => {
-    const items = [{ name: 'foo', level: '50%' },{ name: 'bar', level: '25%' }];
+    const items = [{ name: 'foo', level: 50 },{ name: 'bar', level: 25 }];
     const wrapper = shallow(<Bars items={items} />);
 
     expect(wrapper.find('.bars > ul > li')).toHaveLength(2);

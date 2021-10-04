@@ -1,7 +1,6 @@
 /**
  * Educations
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Education } from '../../molecules/Education/Education';
 import { useTranslation } from 'react-i18next';

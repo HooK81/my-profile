@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Skill.
  *
@@ -13,29 +11,30 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Skill
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $name;
+    protected int $level;
 
-    /**
-     * @JMS\Type("string")
-     */
-    protected string $level;
-
-    /**
-     * Get the value of name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get the value of level.
-     */
-    public function getLevel(): string
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getLevel(): int
     {
         return $this->level;
+    }
+
+    public function setLEvel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
     }
 }

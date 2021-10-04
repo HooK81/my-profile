@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import {
   selectApiProfileData,
   selectApiProfileError,

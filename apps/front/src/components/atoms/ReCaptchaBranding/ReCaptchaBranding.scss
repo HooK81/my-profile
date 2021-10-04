@@ -1,0 +1,13 @@
+/* ------------------------------------------------------------------ */
+/* ReCaptchaBranding Styles
+/* ------------------------------------------------------------------ */
+@import '../../variables.scss';
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.recaptcha-branding {
+  display: block;
+  line-height: 15px;
+}

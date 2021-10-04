@@ -6,10 +6,10 @@ namespace App\Manager;
 
 use App\Entity\Profile;
 use Exception;
-use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * ProfileManager.
@@ -25,10 +25,10 @@ class ProfileManager
     protected Request $request;
     protected LoggerInterface $mainLogger;
 
-    public function __construct(RequestStack $requestStack, SerializerInterface $serialize, LoggerInterface $mainLogger, string $usersPath, string $defaultLocale)
+    public function __construct(RequestStack $requestStack, SerializerInterface $serializer, LoggerInterface $mainLogger, string $usersPath, string $defaultLocale)
     {
         $this->request = $requestStack->getMainRequest();
-        $this->serializer = $serialize;
+        $this->serializer = $serializer;
         $this->mainLogger = $mainLogger;
         $this->usersPath = $usersPath;
         $this->defaultLocale = $defaultLocale;

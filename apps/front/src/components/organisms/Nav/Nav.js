@@ -1,9 +1,9 @@
 /**
  * Nav
  */
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { getScrollPosition, getElementHeight } from '../../../utils/window';
 import { useDispatch } from 'react-redux';
 import { setLocale } from '../../../redux/app/actions';

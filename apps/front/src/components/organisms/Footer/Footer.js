@@ -1,7 +1,6 @@
 /**
  * Footer
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CookieConsent from 'react-cookie-consent';
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ProtectedText } from 'react-protected-text';
 import { SocialLinks } from '../../molecules/SocialLinks/SocialLinks';
 import { ScrollButton } from '../../atoms/ScrollButton/ScrollButton';
+import { ReCaptchaBranding } from '../../atoms/ReCaptchaBranding/ReCaptchaBranding';
 import './Footer.scss';
 
 /**
@@ -23,7 +23,8 @@ export function Footer(props) {
     <footer>
       <div className="row">
         <div className="twelve column">
-          <SocialLinks networks={props.profileMain.social} />
+          <SocialLinks networks={props.profileMain.networks} />
+          <ReCaptchaBranding />
           <ul className="copyright">
             <li>
               v{process.env.REACT_APP_VERSION} &copy; Copyright {year}{' '}
@@ -52,7 +53,7 @@ export function Footer(props) {
 
 Footer.defaultProps = {
   profileMain: {
-    social: [],
+    socials: [],
     fullName: '',
   },
 };

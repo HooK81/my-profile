@@ -4,39 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Profile.
  * Contains all data for a user profile.
  */
 class Profile
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $id;
-
-    /**
-     * @JMS\Type("App\Entity\Main")
-     */
     protected Main $main;
-
-    /**
-     * @JMS\Type("App\Entity\Resume")
-     */
     protected Resume $resume;
 
     /**
-     * @JMS\Type("array<App\Entity\Hobby>")
-     *
      * @var Hobby[]
      */
     protected array $hobbies;
 
     /**
-     * @JMS\Type("array<App\Entity\Tech>")
-     *
      * @var Tech[]
      */
     protected array $techs;
@@ -49,33 +32,43 @@ class Profile
         $this->techs = [];
     }
 
-    /**
-     * Get the value of id.
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * Get the value of main.
-     */
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getMain(): Main
     {
         return $this->main;
     }
 
-    /**
-     * Get the value of resume.
-     */
+    public function setMain(Main $main): self
+    {
+        $this->main = $main;
+
+        return $this;
+    }
+
     public function getResume(): Resume
     {
         return $this->resume;
     }
 
+    public function setResume(Resume $resume): self
+    {
+        $this->resume = $resume;
+
+        return $this;
+    }
+
     /**
-     * Get the value of hobbies.
-     *
      * @return Hobby[]
      */
     public function getHobbies(): array
@@ -83,13 +76,43 @@ class Profile
         return $this->hobbies;
     }
 
+    public function addHobby(Hobby $hobby): self
+    {
+        $this->hobbies[] = $hobby;
+
+        return $this;
+    }
+
+    public function removeHobby(Hobby $hobby): self
+    {
+        if (($key = array_search($hobby, $this->hobbies)) !== false) {
+            unset($this->hobbies[$key]);
+        }
+
+        return $this;
+    }
+
     /**
-     * Get the value of techs.
-     *
      * @return Tech[]
      */
     public function getTechs(): array
     {
         return $this->techs;
+    }
+
+    public function addTech(Tech $tech): self
+    {
+        $this->techs[] = $tech;
+
+        return $this;
+    }
+
+    public function removeTech(Tech $tech): self
+    {
+        if (($key = array_search($tech, $this->techs)) !== false) {
+            unset($this->techs[$key]);
+        }
+
+        return $this;
     }
 }

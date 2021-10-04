@@ -1,11 +1,10 @@
 /**
  * Education
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { upperFirst } from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 import './Education.scss';
 
 /**

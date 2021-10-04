@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use JMS\Serializer\Annotation as JMS;
-
 /**
  * Tech.
  *
@@ -13,42 +11,43 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Tech
 {
-    /**
-     * @JMS\Type("string")
-     */
     protected string $name;
-
-    /**
-     * @JMS\Type("string")
-     */
-    protected string  $image;
-
-    /**
-     * @JMS\Type("string")
-     */
+    protected string $image;
     protected string $desc;
 
-    /**
-     * Get the value of name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get the value of image.
-     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function getImage(): string
     {
         return $this->image;
     }
 
-    /**
-     * Get the value of desc.
-     */
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getDesc(): string
     {
         return $this->desc;
+    }
+
+    public function setDesc(string $desc): self
+    {
+        $this->desc = $desc;
+
+        return $this;
     }
 }

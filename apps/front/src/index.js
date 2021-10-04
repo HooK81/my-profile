@@ -6,6 +6,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import './utils/i18n';
 import './utils/toastify';
 import { RouterScrollToTop } from './components/atoms/RouterScrollToTop/RouterScrollToTop';
@@ -22,11 +23,17 @@ import './utils/ga';
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback="loading">
-      <BrowserRouter>
-        <RouterScrollToTop>
-          <App />
-        </RouterScrollToTop>
-      </BrowserRouter>
+      <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.REACT_APP_RECAPTCHA_V3_SITE_KEY}
+        scriptProps={{ async: true }}
+        useRecaptchaNet={true}
+      >
+        <BrowserRouter>
+          <RouterScrollToTop>
+            <App />
+          </RouterScrollToTop>
+        </BrowserRouter>
+      </GoogleReCaptchaProvider>
     </Suspense>
   </Provider>,
   document.getElementById('root'),

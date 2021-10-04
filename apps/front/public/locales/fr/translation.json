@@ -76,7 +76,7 @@
       "title": "Front-end",
       "library": {
         "title": "Librairie",
-        "item1": "React 16",
+        "item1": "React 17.0",
         "item2": "Client HTTP: <2>Axios</2>",
         "item3": "Conteneur d'État: <1>Redux</1> & <4>Redux Thunk</4>",
         "item4": "Formulaire: <2>React Hook Form</2>",
@@ -129,5 +129,8 @@
       "404": "Ce que tu cherches a peut-être été perdu dans la Mémoire à Long Terme.",
       "500": "Ce que tu cherches est pour le moment cassé. Revient dans un petit moment."
     }
+  },
+  "recaptcha-branding": {
+    "text": "Ce site est protégé par reCAPTCHA et les <2>Règles de Confidentialité</2> et <6>Conditions d'Utilisation</6> de Google s'appliquent."
   }
 }

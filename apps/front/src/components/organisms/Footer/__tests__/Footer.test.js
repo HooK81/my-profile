@@ -14,7 +14,7 @@ describe('Footer', () => {
   });
 
   it('Should Footer render without crash', () => {
-    const wrapper = shallow(<Footer profileMain={{social: [], fullName: 'John DOE'}} />);
+    const wrapper = shallow(<Footer profileMain={{networks: [], fullName: 'John DOE'}} />);
     expect(wrapper.find('footer')).toHaveLength(1);
     expect(wrapper.find(SocialLinks)).toHaveLength(1);
     expect(wrapper.find(ScrollButton)).toHaveLength(1);

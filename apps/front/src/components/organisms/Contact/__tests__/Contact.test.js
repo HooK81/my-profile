@@ -8,7 +8,6 @@ import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { Contact } from '../Contact.js';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { ProtectedText } from 'react-protected-text';
 
 const profileMain = {
@@ -44,8 +43,6 @@ describe('Contact', () => {
       </Provider>,
     );
     expect(wrapper.find('section#contact')).toHaveLength(1);
-    expect(wrapper.find(ReCAPTCHA)).toHaveLength(1);
-    expect(wrapper.find('.btn-submit').prop('disabled')).toBe(true);
     expect(wrapper.find(ProtectedText)).toHaveLength(2);
   });
 

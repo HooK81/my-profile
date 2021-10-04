@@ -8,11 +8,11 @@ use App\Exception\FormException;
 use App\Form\MailType;
 use App\Mailer\AppMailer;
 use App\Message\SendTeamEmailMessage;
-use App\Security\ReCaptchaValidator;
+use App\ReCaptcha\ReCaptchaValidator;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -56,25 +56,29 @@ class EmailController extends AbstractFOSRestController
         $msg = json_decode($request->getContent(), true);
         $form = $this->createForm(MailType::class);
         $form->submit($msg);
-
         if (!$form->isValid()) {
             throw new FormException($form);
         }
-        if (!$this->reCaptchaValidator->checkReCaptchaResponse($msg['reCaptchaResponse'])) {
-            throw new NotAcceptableHttpException('Invalid reCaptcha response provided');
+
+        $mailData = $form->getNormData();
+        $captchaResponse = $this->reCaptchaValidator->checkReCaptchaResponse($mailData['reCaptchaAction'], $mailData['reCaptchaToken']);
+        if (!$captchaResponse->isSuccess()) {
+            $form->addError(new FormError($captchaResponse->getMessage()));
+            throw new FormException($form);
         }
-        if (empty($msg['subject'])) {
-            $msg['subject'] = $this->mailSubject;
+
+        if (empty($mailData['subject'])) {
+            $mailData['subject'] = $this->mailSubject;
         }
 
         $body = $this->renderView(
             'emails/contact.text.twig', [
-                'msg' => $msg,
+                'msg' => $mailData,
                 'timezone' => $this->mailTimeZone,
             ]
         );
-        $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $msg['subject']);
+        $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $mailData['subject']);
 
-        $this->dispatchMessage(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $msg['from']));
+        $this->dispatchMessage(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $mailData['from']));
     }
 }

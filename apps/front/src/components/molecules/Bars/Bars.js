@@ -1,7 +1,6 @@
 /**
  * Bars
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import './Bars.scss';
 
@@ -13,7 +12,10 @@ export function Bars(props) {
   const items = props.items.map(function (skills) {
     return (
       <li key={skills.name}>
-        <span style={{ width: skills.level }} className="bar-expand"></span>
+        <span
+          style={{ width: `${skills.level}%` }}
+          className="bar-expand"
+        ></span>
         <em>{skills.name}</em>
       </li>
     );

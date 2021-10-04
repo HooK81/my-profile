@@ -4,7 +4,7 @@ import { PasswordEncoder } from './passwordEncoder';
 import { toast } from 'react-toastify';
 import i18n from 'i18next';
 import { routing } from './routing/index';
-import { defaults } from 'lodash';
+import defaults from 'lodash/defaults';
 
 export const HTTP_OK = 200;
 export const HTTP_UNAUTHORIZED = 401;

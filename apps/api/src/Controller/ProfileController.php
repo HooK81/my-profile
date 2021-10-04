@@ -28,12 +28,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProfileController extends AbstractFOSRestController
 {
-    /** @var ProfileManager */
-    protected $profileManager;
-    /** @var VCardGenerator */
-    protected $vCardGenerator;
-    /** @var Request */
-    protected $request;
+    protected ProfileManager $profileManager;
+    protected VCardGenerator $vCardGenerator;
+    protected Request $request;
 
     public function __construct(RequestStack $requestStack, ProfileManager $profileManager, VCardGenerator $vCardGenerator)
     {

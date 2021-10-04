@@ -1,7 +1,6 @@
 /**
  * Error Page
  */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Header } from '../../organisms/Header/Header';

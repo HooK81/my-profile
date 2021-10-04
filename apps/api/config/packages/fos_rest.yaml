@@ -2,7 +2,6 @@
 fos_rest:
   versioning: true
   serializer:
-    groups: ["Default"]
     serialize_null: false
   exception: false
   view:

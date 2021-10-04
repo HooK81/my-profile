@@ -1,0 +1,5 @@
+recaptcha.score.too_low: Google Captcha verification failed. Please try again.
+recaptcha.token.invalid: Invalid Captcha token provided.
+recaptcha.action.invalid: Invalid Captcha action provided.
+recaptcha.response.invalid: Invalid Captcha service response.
+recaptcha.response.unknown: Unknown Captcha error.

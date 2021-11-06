@@ -1,4 +1,4 @@
-# profile
+# Profile
 My Profile
 
 # Installation
@@ -32,8 +32,8 @@ cp XXXX/prod.jwt.private.pem     docker/php/secrets/prod.jwt.private.pem
 ### DEV
 ```shell
 cp docker-compose.override.yml.dist docker-compose.override.yml
+yarn --cwd apps/front
 docker-compose build
-docker-compose run --rm node yarn 
 docker-compose run --rm php composer build-dev 
 ```
 

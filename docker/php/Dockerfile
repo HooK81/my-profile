@@ -11,8 +11,8 @@ RUN apt-get update && \
     echo 'alias ll="ls -la"' >> /home/user/.bashrc && \
     PATH=$PATH:/usr/src/api/vendor/bin:bin
 
-RUN pecl install xdebug-3.0.2 && \
-    docker-php-ext-configure intl && docker-php-ext-install intl && \
+RUN pecl install xdebug-3.1.1 && \
+    docker-php-ext-configure intl && docker-php-ext-install opcache intl && \
     docker-php-ext-enable xdebug
 
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \

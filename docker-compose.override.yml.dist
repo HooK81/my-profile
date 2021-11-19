@@ -2,17 +2,17 @@ version: '3.7'
 services: 
 
     php:
-        user: ${LOCAL_USER}
         volumes: 
-            - './apps/api/:/usr/src/api'
-            - './docker/users:/usr/src/api/resources/users:ro'
+            - ./apps/api/:/usr/src/api:cached
+            - ./docker/users:/usr/src/api/resources/users:ro
+            - symfony_cache:/usr/src/api/var/cache
         environment:
             HOME: /home/user
-            #XDEBUG_CONFIG: discover_client_host=true client_host=192.168.X.Y
+            #XDEBUG_CONFIG: discover_client_host=true client_host=host.docker.internal
 
     nginx:
         volumes: 
-            - './apps/api/public/:/usr/src/api'
+            - ./apps/api/public/:/usr/src/api:cached
 
     # Node container used only for dev
     node:
@@ -23,14 +23,17 @@ services:
                 APP_VERSION: ${TAG}
         image: myprofile_node:${TAG}
         container_name: mp_node
-        user: ${LOCAL_USER}
         restart: "no"
         volumes:
-            - './apps/front/:/usr/src/front'
+            - ./apps/front/:/usr/src/front:cached
+            - node_modules:/usr/src/front/node_modules
         ports: 
             - '${NODE_DEV_PORT}:3000'
         environment:
             HOME: /home/user
         stdin_open: true # Interactive stdin for yarn start
         tty: true
-        command: sh -c "yarn install && yarn start"
+
+volumes:
+    node_modules:
+    symfony_cache:

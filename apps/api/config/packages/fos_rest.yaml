@@ -1,6 +1,9 @@
 # Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
 fos_rest:
   versioning: true
+  param_fetcher_listener:  true
+  allowed_methods_listener:  true
+  routing_loader: false
   serializer:
     serialize_null: false
   exception: false

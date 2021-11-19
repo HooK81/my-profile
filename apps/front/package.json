@@ -26,45 +26,49 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^14.14.2",
+    "@types/node": "^16.11.6",
     "@types/react": "^17.0.0",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3",
-    "axios": "^0.19.2",
-    "flag-icon-css": "^3.5.0",
-    "i18next": "^19.1.0",
+    "axios": "^0.24.0",
+    "flag-icon-css": "^4.1.4",
+    "i18next": "^21.3.3",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
     "js-sha256": "^0.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.0",
-    "react-app-polyfill": "^1.0.6",
-    "react-cookie-consent": "^5.2.0",
+    "react-app-polyfill": "^2.0.0",
+    "react-cookie-consent": "^6.4.1",
     "react-dom": "^17.0.0",
     "react-ga": "^3.1.2",
     "react-google-recaptcha-v3": "^1.9.5",
-    "react-hook-form": "^6.10.1",
+    "react-hook-form": "^7.18.0",
     "react-i18next": "^11.3.2",
-    "react-markdown": "^5.0.0",
+    "react-markdown": "^7.1.0",
     "react-protected-text": "^1.0.0",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-router-hash-link": "^2.0.0",
     "react-scripts": "^4.0.0",
     "react-scroll": "^1.8.1",
-    "react-toastify": "^5.5.0",
+    "react-toastify": "^8.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "uuid": "^3.4.0"
+    "sass": "^1.43.4",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.11.1",
     "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^12.1.0",
+    "@testing-library/user-event": "^13.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "enzyme": "^3.11.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^8.3.0",
@@ -75,7 +79,7 @@
     "redux-mock-store": "^1.5.4"
   },
   "optionalDependencies": {
-    "typescript": "3.5.3"
+    "typescript": "4.5.2"
   },
   "proxy": "http://nginx/",
   "browserslist": {
@@ -95,6 +99,9 @@
     "coveragePathIgnorePatterns": [
       "constants.js",
       "selectors.js"
+    ],
+    "transformIgnorePatterns": [
+      "/!node_modules\\/react-markdown/"
     ]
   }
 }

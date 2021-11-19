@@ -1,4 +1,4 @@
-# profile
+# Profile
 My Profile
 
 # Installation
@@ -32,8 +32,8 @@ cp XXXX/prod.jwt.private.pem     docker/php/secrets/prod.jwt.private.pem
 ### DEV
 ```shell
 cp docker-compose.override.yml.dist docker-compose.override.yml
+yarn --cwd apps/front
 docker-compose build
-docker-compose run --rm node yarn 
 docker-compose run --rm php composer build-dev 
 ```
 
@@ -57,6 +57,14 @@ docker exec mp_php_prod kill -USR2 12
 ```
 
 ## Development
+### Dependencies
+Each time packages.json is updated, followings command must be run to keep dependencies folder up to date on host and inside container.
+```shell
+yarn --cwd apps/front
+docker-compose down
+docker-compose up -d
+```
+
 ### Run PHP CS Fixer
 ```shell
 docker-compose exec -T php composer phpcs

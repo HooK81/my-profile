@@ -20,7 +20,11 @@ export function SocialLinks(props) {
     );
   });
 
-  return <ul className="social">{networks}</ul>;
+  return (
+    <ul className="social" title="social-links">
+      {networks}
+    </ul>
+  );
 }
 
 /* istanbul ignore next */

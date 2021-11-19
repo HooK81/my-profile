@@ -27,7 +27,11 @@ export function Contact(props) {
   const getReCaptchaToken = useReCaptchaToken();
 
   /*** FORM */
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const onSubmit = async (data) => {
     setPending(true);
     setBackErrors({});
@@ -48,9 +52,7 @@ export function Contact(props) {
           showError: false,
         },
       );
-      toast.success(i18n.t('contact.form.submitted'), {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.success(i18n.t('contact.form.submitted'));
       setPending(false);
     } catch (error) {
       setPending(false);
@@ -63,9 +65,7 @@ export function Contact(props) {
         return;
       }
 
-      toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`${error.message}\n${i18n.t('api.error.please_try_later')}`);
     }
   };
 
@@ -76,7 +76,7 @@ export function Contact(props) {
   const { t } = useTranslation();
 
   return (
-    <section id="contact">
+    <section id="contact" title="contact">
       <div className="row section-head">
         <div className="two column header-col">
           <h1>
@@ -94,6 +94,7 @@ export function Contact(props) {
           <form
             id="contactForm"
             name="contactForm"
+            title="contact-form"
             onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset>
@@ -107,7 +108,7 @@ export function Contact(props) {
                   size="35"
                   id="contactEmail"
                   name="email"
-                  ref={register({
+                  {...register('email', {
                     required: t('contact.form.required'),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -116,7 +117,9 @@ export function Contact(props) {
                   })}
                 />
                 {formErrors.email && (
-                  <span className="error">* {formErrors.email?.message}</span>
+                  <span className="error" role="alert">
+                    * {formErrors.email?.message}
+                  </span>
                 )}
               </div>
 
@@ -129,7 +132,7 @@ export function Contact(props) {
                   size="35"
                   id="contactSubject"
                   name="subject"
-                  ref={register}
+                  {...register('subject')}
                 />
               </div>
 
@@ -143,7 +146,7 @@ export function Contact(props) {
                   rows="8"
                   id="contactMessage"
                   name="message"
-                  ref={register({
+                  {...register('message', {
                     required: t('contact.form.required'),
                     minLength: {
                       value: 10,
@@ -152,10 +155,14 @@ export function Contact(props) {
                   })}
                 ></textarea>
                 {formErrors.message && (
-                  <span className="error">* {formErrors.message?.message}</span>
+                  <span className="error" role="alert">
+                    * {formErrors.message?.message}
+                  </span>
                 )}
                 {formErrors.mail && (
-                  <span className="error">* {formErrors.mail?.message}</span>
+                  <span className="error" role="alert">
+                    * {formErrors.mail?.message}
+                  </span>
                 )}
               </div>
               <div className="submit cf">
@@ -163,7 +170,10 @@ export function Contact(props) {
                   <button className="btn-submit" disabled={submitDisabled}>
                     {t('contact.message.submit')}
                     {pending && (
-                      <i className="fas fa-spinner fa-spin fa-lg"></i>
+                      <i
+                        className="fas fa-spinner fa-spin fa-lg"
+                        title="spinner"
+                      ></i>
                     )}
                   </button>
                 </div>

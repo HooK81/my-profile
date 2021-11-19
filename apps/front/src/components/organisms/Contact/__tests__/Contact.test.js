@@ -3,12 +3,11 @@
  */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { Contact } from '../Contact.js';
-import { ProtectedText } from 'react-protected-text';
 
 const profileMain = {
   fullName: '',
@@ -37,13 +36,16 @@ describe('Contact', () => {
   });
 
   it('Should Contact render without crash', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Provider store={store}>
         <Contact profileMain={profileMain} />
       </Provider>,
     );
-    expect(wrapper.find('section#contact')).toHaveLength(1);
-    expect(wrapper.find(ProtectedText)).toHaveLength(2);
+    expect(screen.getAllByTitle('contact')).toHaveLength(1);
+    expect(screen.getAllByRole('form', { name: 'contact-form' })).toHaveLength(
+      1,
+    );
+    expect(container.querySelectorAll('.protected-text')).toHaveLength(2);
   });
 
   it('Should Contact render with address', () => {
@@ -57,24 +59,24 @@ describe('Contact', () => {
       },
     };
 
-    const wrapper = mount(
+    const { container } = render(
       <Provider store={store}>
         <Contact profileMain={profile} />
       </Provider>,
     );
-    expect(wrapper.find(ProtectedText)).toHaveLength(5);
+    expect(container.querySelectorAll('.protected-text')).toHaveLength(5);
   });
 
   it('Should Contact render with phone', () => {
     const profile = {
       ...profileMain,
       phone: '0000',
-    }
-    const wrapper = mount(
+    };
+    const { container } = render(
       <Provider store={store}>
         <Contact profileMain={profile} />
       </Provider>,
     );
-    expect(wrapper.find(ProtectedText)).toHaveLength(3);
+    expect(container.querySelectorAll('.protected-text')).toHaveLength(3);
   });
 });

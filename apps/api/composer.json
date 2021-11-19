@@ -44,7 +44,8 @@
         "phpmd/phpmd": "@stable",
         "phpstan/phpstan": "@stable",
         "symfony/maker-bundle": "^1.29",
-        "symfony/profiler-pack": "^1.0"
+        "symfony/stopwatch": "5.3.*",
+        "symfony/web-profiler-bundle": "5.3.*"
     },
     "config": {
         "preferred-install": {

@@ -5,7 +5,7 @@ import 'moment/locale/fr';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-export const locales = ['en', 'fr'];
+export const supportedLngs = ['en', 'fr'];
 
 // I18Next configuration
 i18n
@@ -13,8 +13,8 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
-    whitelist: locales,
+    fallbackLng: supportedLngs[0],
+    supportedLngs,
     debug: process.env.NODE_ENV === 'development',
     detection: {
       order: ['cookie', 'localStorage', 'navigator', 'path'],
@@ -33,4 +33,4 @@ i18n
     },
   });
 
-moment.locale(locales);
+moment.locale(supportedLngs);

@@ -57,6 +57,14 @@ docker exec mp_php_prod kill -USR2 12
 ```
 
 ## Development
+### Dependencies
+Each time packages.json is updated, followings command must be run to keep dependencies folder up to date on host and inside container.
+```shell
+yarn --cwd apps/front
+docker-compose down
+docker-compose up -d
+```
+
 ### Run PHP CS Fixer
 ```shell
 docker-compose exec -T php composer phpcs

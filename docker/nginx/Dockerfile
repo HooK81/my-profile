@@ -1,6 +1,5 @@
-FROM nginx:1.18-alpine
+FROM nginx:1.21-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
-
 
 RUN apk add --no-cache bash && \
     echo 'alias ll="ls -la"' >> ~/.bashrc

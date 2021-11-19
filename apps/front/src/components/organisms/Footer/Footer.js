@@ -18,14 +18,16 @@ import './Footer.scss';
 export function Footer(props) {
   const year = moment().year();
   const { t } = useTranslation();
-
+  const socialLinks = props?.profileMain?.networks ? (
+    <SocialLinks networks={props.profileMain.networks} />
+  ) : null;
   return (
-    <footer>
+    <footer title="footer">
       <div className="row">
         <div className="twelve column">
-          <SocialLinks networks={props.profileMain.networks} />
+          {socialLinks}
           <ReCaptchaBranding />
-          <ul className="copyright">
+          <ul className="copyright" title="copyright">
             <li>
               v{process.env.REACT_APP_VERSION} &copy; Copyright {year}{' '}
               <ProtectedText text={props.profileMain.fullName} />

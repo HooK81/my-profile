@@ -1,22 +1,17 @@
 security:
-    # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
-
-    # https://symfony.com/doc/current/security.html#c-hashing-passwords
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         App\Entity\Security\User:
             algorithm: plaintext
-
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         api_user_provider:
             id: App\Security\UserProvider
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         auth:
             pattern:  ^/auth/
             stateless: true
@@ -25,7 +20,6 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
-
         api:
             pattern:  ^/
             stateless: true
@@ -34,7 +28,7 @@ security:
             jwt: ~
 
             # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+            # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true

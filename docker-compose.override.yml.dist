@@ -3,8 +3,8 @@ services:
 
     php:
         volumes: 
-            - './apps/api/:/usr/src/api'
-            - './docker/users:/usr/src/api/resources/users:ro'
+            - ./apps/api/:/usr/src/api:cached
+            - ./docker/users:/usr/src/api/resources/users:ro
             - symfony_cache:/usr/src/api/var/cache
         environment:
             HOME: /home/user
@@ -12,7 +12,7 @@ services:
 
     nginx:
         volumes: 
-            - './apps/api/public/:/usr/src/api'
+            - ./apps/api/public/:/usr/src/api:cached
 
     # Node container used only for dev
     node:
@@ -25,7 +25,7 @@ services:
         container_name: mp_node
         restart: "no"
         volumes:
-            - './apps/front/:/usr/src/front'
+            - ./apps/front/:/usr/src/front:cached
             - node_modules:/usr/src/front/node_modules
         ports: 
             - '${NODE_DEV_PORT}:3000'
@@ -33,7 +33,6 @@ services:
             HOME: /home/user
         stdin_open: true # Interactive stdin for yarn start
         tty: true
-        command: sh -c "yarn install && yarn start"
 
 volumes:
     node_modules:

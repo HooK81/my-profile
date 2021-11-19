@@ -16,7 +16,7 @@ ENV APP_VERSION $APP_VERSION
 RUN yarn build
 
 # Stage 2 - build the final image
-FROM nginx:1.18-alpine
+FROM nginx:1.21-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
 RUN apk add --no-cache bash && \

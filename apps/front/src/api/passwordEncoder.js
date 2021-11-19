@@ -1,4 +1,4 @@
-import uuidv5 from 'uuid/v5';
+import { v5 as uuidv5 } from 'uuid';
 import { sha256 } from 'js-sha256';
 
 /**

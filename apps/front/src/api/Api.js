@@ -1,5 +1,5 @@
 import axios from 'axios';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { PasswordEncoder } from './passwordEncoder';
 import { toast } from 'react-toastify';
 import i18n from 'i18next';
@@ -77,7 +77,6 @@ export class Api {
     const errorMEssage = this.buildApiErrorMessage(routeName, error.message);
     if (showError) {
       toast.error(`${errorMEssage}\n${i18n.t('api.error.please_try_later')}`, {
-        position: toast.POSITION.TOP_CENTER,
         autoClose: errorAutoClose,
       });
     }

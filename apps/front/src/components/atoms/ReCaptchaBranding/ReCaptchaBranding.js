@@ -12,7 +12,7 @@ import './ReCaptchaBranding.scss';
  */
 export const ReCaptchaBranding = () => {
   return (
-    <small className="recaptcha-branding">
+    <small className="recaptcha-branding" title="recaptcha-branding">
       <Trans i18nKey="recaptcha-branding.text">
         This site is protected by reCAPTCHA and the Google{' '}
         <a

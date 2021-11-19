@@ -19,9 +19,6 @@ RUN yarn build
 FROM nginx:1.21-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
-RUN apk add --no-cache bash && \
-    echo 'alias ll="ls -la"' >> ~/.bashrc
-
 WORKDIR /usr/src
 COPY apps/api/public /usr/src/api
 COPY --from=build /usr/src/front/build /usr/src/front

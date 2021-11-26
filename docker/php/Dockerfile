@@ -22,6 +22,8 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
     php -r "unlink('composer-setup.php');" && \
     mv composer /usr/local/bin/composer
 
+RUN curl https://get.symfony.com/cli/installer | bash && mv ~/.symfony/bin/symfony /usr/local/bin/symfony
+
 COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DIR/conf.d/
 
 WORKDIR /usr/src/api

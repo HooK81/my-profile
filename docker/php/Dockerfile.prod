@@ -15,6 +15,7 @@ RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS && \
     php composer-setup.php --filename=composer && \
     php -r "unlink('composer-setup.php');" && \
     mv composer /usr/local/bin/composer && \
+    curl https://get.symfony.com/cli/installer | bash && mv ~/.symfony/bin/symfony /usr/local/bin/symfony && \
     pecl install apcu && \
     docker-php-ext-configure intl && \
     docker-php-ext-install opcache intl && \
@@ -29,7 +30,7 @@ COPY apps/api /usr/src/api
 COPY docker/php/secrets/prod.decrypt.private.php /usr/src/api/config/secrets/prod/prod.decrypt.private.php
 COPY --chown=www-data docker/php/secrets/prod.jwt.private.pem /usr/src/api/config/jwt/prod/private.pem
 RUN cd /usr/src/api && \
-    composer build-prod
+    composer build:prod
 
 ENTRYPOINT [ "symfony-entrypoint.sh" ]
 

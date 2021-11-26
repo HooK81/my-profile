@@ -87,6 +87,7 @@ class ReCaptchaValidator
         }
 
         $this->mainLogger->info('[ReCaptchaValidator][checkReCaptchaResponse] Token Validated', ['requestedAction' => $action, 'score' => $responseData['score']]);
+
         return $this->reCaptchaResponseFactory->factory(true);
     }
 

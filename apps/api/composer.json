@@ -75,20 +75,20 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "build-clear": [
+        "build:clear": [
             "rm -f .env*.local",
             "rm -f .env.local.php"
         ],
-        "build-dev": [
-            "@build-clear",
+        "build:dev": [
+            "@build:clear",
             "@composer install",
             "@composer dumpautoload --no-interaction",
             "bin/console secrets:decrypt-to-local --env=dev",
             "@composer dump-env dev",
             "bin/console cache:clear --env=dev"
         ],
-        "build-prod": [
-            "@build-clear",
+        "build:prod": [
+            "@build:clear",
             "@composer install",
             "@composer dumpautoload --no-interaction --no-dev --classmap-authoritative",
             "bin/console secrets:decrypt-to-local --env=prod",
@@ -100,19 +100,23 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "phpcs": [
+        "php:cs": [
             "./vendor/bin/php-cs-fixer fix"
         ],
-        "phpmd": [
+        "php:md": [
             "./vendor/bin/phpmd src/ ansi phpmd.xml"
         ],
-        "phpstan": [
+        "php:phpstan": [
             "./vendor/bin/phpstan analyse"
         ],
-        "phpchecks": [
-            "@phpcs",
-            "@phpmd",
-            "@phpstan"
+        "security:check": [
+            "symfony security:check"
+        ],
+        "php:quality": [
+            "@php:cs",
+            "@php:md",
+            "@php:phpstan",
+            "@security:check"
         ]
     },
     "conflict": {

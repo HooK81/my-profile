@@ -34,7 +34,7 @@ cp XXXX/prod.jwt.private.pem     docker/php/secrets/prod.jwt.private.pem
 cp docker-compose.override.yml.dist docker-compose.override.yml
 yarn --cwd apps/front
 docker-compose build
-docker-compose run --rm php composer build-dev 
+docker-compose run --rm php composer build:dev 
 ```
 
 ### PROD
@@ -47,6 +47,7 @@ TAG=X.Y.Z docker-compose -f docker-compose.prod.yml build --force-rm
 ```shell
 docker-compose up -d
 ```
+
 ### PROD
 ```shell
 TAG=X.Y.Z docker-compose -f docker-compose.prod.yml up -d
@@ -67,16 +68,21 @@ docker-compose up -d
 
 ### Run PHP CS Fixer
 ```shell
-docker-compose exec -T php composer phpcs
+docker-compose exec -T php composer php:cs
 ```
 ### Run PHP Mess Detector
 ```shell
-docker-compose exec -T php composer phpmd
+docker-compose exec -T php composer php:md
 ```
 
 ### Run PHP Stan
 ```shell
-docker-compose exec -T php composer phpstan
+docker-compose exec -T php composer php:phpstan
+```
+
+### Run Symfony Security Check
+```shell
+docker-compose exec -T php composer security:check
 ```
 
 ### Run all PHP quality tools
@@ -84,7 +90,8 @@ This will run
 - PHP CS Fixer
 - PHP Mess Detector
 - PHP Stan
+- Symfony Security Check
 
 ```shell
-docker-compose exec -T php composer phpchecks
+docker-compose exec -T php composer php:quality
 ```

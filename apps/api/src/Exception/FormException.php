@@ -27,11 +27,6 @@ class FormException extends HttpException
         $this->form = $form;
     }
 
-    public function getForm(): FormInterface
-    {
-        return $this->form;
-    }
-
     public function getErrors(): FormErrorIterator
     {
         return $this->form->getErrors(true);

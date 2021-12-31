@@ -49,7 +49,7 @@ class ReCaptchaValidator
         return $this->isReCaptchaTokenValid($action, $responseData);
     }
 
-    private function sendRequest(string $token): array
+    private function sendRequest(string $token): ?array
     {
         $body = [
             'response' => $token,
@@ -63,7 +63,7 @@ class ReCaptchaValidator
         return json_decode($response->getContent(false), true);
     }
 
-    private function isReCaptchaTokenValid(string $action, array $responseData): ReCaptchaResponse
+    private function isReCaptchaTokenValid(string $action, ?array $responseData): ReCaptchaResponse
     {
         if (empty($responseData) || !\is_array($responseData) || !isset($responseData['success']) || !isset($responseData['score'])) {
             $this->mainLogger->debug('[ReCaptchaValidator][checkReCaptchaResponse] Invalid response', ['requestedAction' => $action]);

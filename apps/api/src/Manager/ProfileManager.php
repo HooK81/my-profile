@@ -51,7 +51,7 @@ class ProfileManager
         if (!file_exists($filename)) {
             $pathInfo = pathinfo($filename);
             $locale = $this->request->getLocale();
-            $filename = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.' . $locale . '.' . $pathInfo['extension'];
+            $filename = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.' . $locale . '.' . ($pathInfo['extension'] ?? '');
         }
         if (!file_exists($filename)) {
             $this->mainLogger->error('[ProfileManager][getFilesPath] Missing profile file', ['profileId' => $id, 'file' => $file, 'filename' => $filename]);

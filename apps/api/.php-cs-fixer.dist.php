@@ -6,6 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('tests/Fixtures')
     ->exclude(__DIR__.'/src/Migrations')
     ->in(__DIR__.'/src')
+    ->in(__DIR__.'/tests')
 ;
 
 $config = new PhpCsFixer\Config();
@@ -29,7 +30,6 @@ $config
         'native_constant_invocation' => true,
         'native_function_invocation' => ['include' => ['@compiler_optimized']],
         'array_syntax' => ['syntax' => 'short'],
-        'ordered_imports' => ['imports_order' => ['class', 'const', 'function']],
         'list_syntax' => ['syntax' => 'short'],
     ])
     ->setFinder($finder)

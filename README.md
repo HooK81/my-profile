@@ -58,34 +58,62 @@ docker exec mp_php_prod kill -USR2 12
 ```
 
 ## Development
-### Dependencies
+### Front
+#### Dependencies
 Each time packages.json is updated, followings command must be run to keep dependencies folder up to date on host and inside container.
 ```shell
 yarn --cwd apps/front
 docker-compose down
 docker-compose up -d
 ```
-
-### Run PHP CS Fixer
+#### Tests
+Run all tests
 ```shell
-docker-compose exec -T php composer php:cs
-```
-### Run PHP Mess Detector
-```shell
-docker-compose exec -T php composer php:md
+docker-compose exec node yarn tests
 ```
 
-### Run PHP Stan
+Run all tests with coverage report
 ```shell
-docker-compose exec -T php composer php:phpstan
+docker-compose exec node yarn tests:cov
+```
+### Back
+
+#### Tests
+Prepare environnement
+```shell
+cp .env.dev.local .env.test.local
 ```
 
-### Run Symfony Security Check
+Run all tests
 ```shell
-docker-compose exec -T php composer security:check
+docker-compose exec php composer tests
+```
+Run all tests with coverage report
+```shell
+docker-compose exec php composer tests:cov
 ```
 
-### Run all PHP quality tools
+#### Run PHP CS Fixer
+```shell
+docker-compose exec php composer php:cs
+```
+
+#### Run PHP Mess Detector
+```shell
+docker-compose exec php composer php:md
+```
+
+#### Run PHP Stan
+```shell
+docker-compose exec php composer php:phpstan
+```
+
+#### Run Symfony Security Check
+```shell
+docker-compose exec php composer security:check
+```
+
+#### Run all PHP quality tools
 This will run 
 - PHP CS Fixer
 - PHP Mess Detector
@@ -93,5 +121,5 @@ This will run
 - Symfony Security Check
 
 ```shell
-docker-compose exec -T php composer php:quality
+docker-compose exec php composer php:quality
 ```

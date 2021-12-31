@@ -40,7 +40,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username): UserInterface
     {
-        return $this->loadUserByIdentifier($username);
+        throw new UnsupportedUserException();
     }
 
     public function loadUserByIdentifier($identifier): UserInterface

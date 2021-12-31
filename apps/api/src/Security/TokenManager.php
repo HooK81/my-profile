@@ -16,19 +16,26 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class TokenManager
 {
     public const HEADER_KEY = 'Key';
+    public const DEFAULT_CIPHER = 'aes-128-cbc';
+    public const TOKEN_LIFETIME_DELTA = 300; // 5mn
     private ?Request $request;
     private LoggerInterface $mainLogger;
     private string $passPhrase;
     private string $cipher;
     private string $env;
+    private int $tokenTtl;
 
-    public function __construct(RequestStack $requestStack, LoggerInterface $mainLogger, string $passPhrase, string $cipher = 'aes-128-cbc', string $env = '')
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(RequestStack $requestStack, LoggerInterface $mainLogger, string $passPhrase, string $cipher = self::DEFAULT_CIPHER, string $env = '', int $tokenTtl = 0)
     {
         $this->request = $requestStack->getCurrentRequest();
         $this->mainLogger = $mainLogger;
         $this->passPhrase = $passPhrase;
         $this->cipher = $cipher;
         $this->env = $env;
+        $this->tokenTtl = $tokenTtl;
     }
 
     /**
@@ -90,5 +97,10 @@ class TokenManager
     protected function getRawSecret(): string
     {
         return ('dev' !== $this->env ? $this->request->getClientIp() : '') . '=' . $this->request->headers->get('User-Agent');
+    }
+
+    public function calculateTokenMaxLifeTime(): int
+    {
+        return time() - self::TOKEN_LIFETIME_DELTA + $this->tokenTtl;
     }
 }

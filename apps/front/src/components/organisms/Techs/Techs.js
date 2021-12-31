@@ -44,7 +44,7 @@ export function Techs(props) {
       // Build techs
       const techs = (await Promise.all(techsPromises)).map((tech, i) => (
         <li key={i} className="bgrid-column feature-item">
-          <img alt={tech.name} src={tech.imageSrc} width="100%" />
+          <img alt={tech.name} src={tech.imageSrc} />
           <h5>{tech.name}</h5>
           <p>{tech.desc}</p>
         </li>

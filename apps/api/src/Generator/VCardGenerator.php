@@ -68,15 +68,17 @@ class VCardGenerator
         if (null === $photoFileName) {
             return null;
         }
-        $file = new File($photoFileName);
-        $type = $file->getMimeType();
-        if (empty($type)) {
-            $this->mainLogger->warning('[VCardGenerator][GetPhotoInfo] Unable to determine MimeType', ['profileId' => $profile->getId(), 'filename' => $photoFileName]);
-
-            return null;
-        }
-        $type = strtoupper(str_replace('images/', '', $type));
         try {
+            $file = new File($photoFileName);
+            $type = $file->getMimeType();
+            // @codeCoverageIgnoreStart
+            if (empty($type)) {
+                $this->mainLogger->warning('[VCardGenerator][GetPhotoInfo] Unable to determine MimeType', ['profileId' => $profile->getId(), 'filename' => $photoFileName]);
+
+                return null;
+            }
+            // @codeCoverageIgnoreEnd
+            $type = strtoupper(str_replace('images/', '', $type));
             $photoRaw = $file->getContent();
         } catch (FileException $e) {
             $this->mainLogger->error('[VCardGenerator][GetPhotoInfo] Unable to read the photo file', ['profileId' => $profile->getId(), 'filename' => $photoFileName, 'exception' => $e]);

@@ -19,8 +19,11 @@ use Symfony\Component\HttpFoundation\Cookie;
  */
 class JWTListener
 {
-    public const COOKIE_LIFETIME = 86400; // 24 hours
     public const COOKIE_NAME = 'Bearer';
+    public const COOKIE_STRICT = 'strict';
+    public const PROD_ENV = 'prod';
+    public const DATA_TOKEN = 'token';
+    public const DATA_SECRET = 'secret';
 
     private $tokenManager;
     private $env;
@@ -37,7 +40,7 @@ class JWTListener
     public function onJWTCreated(JWTCreatedEvent $event): void
     {
         $payload = $event->getData();
-        $payload['secret'] = $this->tokenManager->createTokenSecret();
+        $payload[self::DATA_SECRET] = $this->tokenManager->createTokenSecret();
         $event->setData($payload);
     }
 
@@ -47,10 +50,12 @@ class JWTListener
     public function onJWTDecoded(JWTDecodedEvent $event): void
     {
         $payload = $event->getPayload();
-        if (!isset($payload['secret'])) {
+        if (!isset($payload[self::DATA_SECRET])) {
             $event->markAsInvalid();
+
+            return;
         }
-        if (!$this->tokenManager->checkTokenSecret($payload['secret'])) {
+        if (!$this->tokenManager->checkTokenSecret($payload[self::DATA_SECRET])) {
             $event->markAsInvalid();
         }
     }
@@ -66,14 +71,14 @@ class JWTListener
         $response->headers->setCookie(
             new Cookie(
                 self::COOKIE_NAME,
-                $data['token'],
-                time() + self::COOKIE_LIFETIME,
+                $data[self::DATA_TOKEN],
+                $this->tokenManager->calculateTokenMaxLifeTime(),
                 '/',
                 null,
-                'dev' !== $this->env, // Secure
+                self::PROD_ENV === $this->env, // Secure
                 true,  // Http Only
                 false,
-                'strict'
+                self::COOKIE_STRICT
             )
         );
     }

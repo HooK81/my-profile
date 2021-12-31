@@ -53,7 +53,7 @@ class AppMailer
             $this->mailer->send($email);
             $this->mainLogger->info('[Mailer][sendMail] Mail sent', ['from' => $from, 'to' => $to]);
         } catch (TransportExceptionInterface $e) {
-            $this->mainLogger->error('[Mailer][sendMail] Mail not sent', ['from' => $from, 'to' => $to]);
+            $this->mainLogger->error('[Mailer][sendMail] Mail not sent', ['from' => $from, 'to' => $to, 'e' => $e->getMessage()]);
             throw $e;
         }
     }

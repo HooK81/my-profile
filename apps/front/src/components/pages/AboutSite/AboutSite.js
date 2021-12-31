@@ -105,6 +105,7 @@ export function AboutSite() {
                   </a>
                 </Trans>
               </dd>
+              <dd>&bull; {t('about_site.back.framework.item4')}</dd>
             </dl>
           </div>
         </div>

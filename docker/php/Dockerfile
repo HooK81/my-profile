@@ -12,8 +12,10 @@ RUN apt-get update && \
     PATH=$PATH:/usr/src/api/vendor/bin:bin
 
 RUN pecl install xdebug-3.1.1 && \
+    pecl install pcov && \
     docker-php-ext-configure intl && docker-php-ext-install opcache intl && \
-    docker-php-ext-enable xdebug
+    docker-php-ext-enable xdebug && \
+    docker-php-ext-enable pcov
 
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \

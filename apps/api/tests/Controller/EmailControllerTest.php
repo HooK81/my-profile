@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Mailer\AppMailer;
 use App\ReCaptcha\ReCaptchaResponse;
 use App\ReCaptcha\ReCaptchaValidator;
 use App\Tests\Traits\LoggedUserTrait;
@@ -15,6 +16,7 @@ final class EmailControllerTest extends WebTestCase
 {
     use LoggedUserTrait;
 
+    public const MAIL_DATE_FORMAT = 'd/m/Y H:i';
     public const ERROR_INVALID_FORM = 'Invalid form';
 
     private KernelBrowser $client;
@@ -26,9 +28,10 @@ final class EmailControllerTest extends WebTestCase
     }
 
     /**
-     * @dataProvider bodyProvider
+     * @dataProvider mailDataProvider
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public function testSendMailSuccess(array $body): void
+    public function testSendMailSuccess(array $mailData, string $locale, string $mockFile): void
     {
         // Mock ReCaptchaValidator
         $reCaptchaValidatorMock = $this->getMockBuilder(ReCaptchaValidator::class)
@@ -39,9 +42,31 @@ final class EmailControllerTest extends WebTestCase
         $reCaptchaValidatorMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(true, '', ''));
         static::getContainer()->set('App\ReCaptcha\ReCaptchaValidator', $reCaptchaValidatorMock);
 
+        // Mock AppMailer
+        $mailerMock = $this->getMockBuilder(AppMailer::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        static::getContainer()->set('App\Mailer\AppMailer', $mailerMock);
+        $mailerMock->expects($this->once())
+            ->method('sendMailToTeam')
+            ->with(
+                $this->stringContains($mailData['subject'] ?? $_ENV['MAILER_SUBJECT_DEFAULT']),
+                $this->callback(function (string $body) use ($mockFile) {
+                    $now = (new \DateTime('now'))->setTimezone(new \DateTimeZone($_ENV['MAILTER_TIMEZONE']))->format(self::MAIL_DATE_FORMAT);
+                    $this->assertEquals(
+                        str_replace('%%NOW%%', $now, file_get_contents($mockFile)),
+                        $body
+                    );
+
+                    return true;
+                })
+            )
+        ;
+
         $this->client->request(
             'POST',
-            '/en/v1/email',
+            "/{$locale}/v1/email",
             [],
             [],
             [],
@@ -50,17 +75,17 @@ final class EmailControllerTest extends WebTestCase
                 'reCaptchaToken' => 'foo',
                 'message' => 'message to be sent',
                 'from' => 'john@doe.com',
-            ], $body))
+            ], $mailData))
         );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
     }
 
-    public function bodyProvider(): array
+    public function mailDataProvider(): array
     {
         return [
-            [[]],
-            [['subject' => 'subject of the message']],
+            [[], 'en', __DIR__ . '/__mocks__/emailBody1.txt'],
+            [['subject' => 'subject of the message'], 'fr', __DIR__ . '/__mocks__/emailBody2.txt'],
         ];
     }
 

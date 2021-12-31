@@ -5,6 +5,9 @@ services:
         public: true
 
     App\ReCaptcha\ReCaptchaValidator:
-        arguments:
-            $secret: "%env(RECAPTCHA_V3_SECRET)%"
-            $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"
+        $secret: "%env(RECAPTCHA_V3_SECRET)%"
+        $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"
+
+    App\Mailer\AppMailer:
+        $defaultSenderMail: "%env(MAILER_SENDER)%"
+        $teamMail: "%env(MAILER_TEAM_MAIL)%"

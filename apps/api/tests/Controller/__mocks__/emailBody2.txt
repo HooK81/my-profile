@@ -1,0 +1,7 @@
+From   : john@doe.com
+Object : subject of the message
+Date   : %%NOW%%
+Locale : fr
+-------------------------------------
+message to be sent
+-------------------------------------

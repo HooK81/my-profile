@@ -78,6 +78,7 @@ class EmailController extends AbstractFOSRestController
             'emails/contact.text.twig', [
                 'msg' => $mailData,
                 'timezone' => $this->mailTimeZone,
+                'locale' => $request->getLocale(),
             ]
         );
         $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $mailData['subject']);

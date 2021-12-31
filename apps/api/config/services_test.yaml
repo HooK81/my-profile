@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    App\ReCaptcha\ReCaptchaValidator:
+        arguments:
+            $secret: "%env(RECAPTCHA_V3_SECRET)%"
+            $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"

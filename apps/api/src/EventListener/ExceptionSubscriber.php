@@ -25,11 +25,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $this->normalizerFactory = $normalizerFactory;
     }
 
-    /**
-     * Return the subscribed events, their methods and priorities.
-     *
-     * @codeCoverageIgnore
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -42,7 +37,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     public function processException(ExceptionEvent $event): void
     {
-        $response = new Response();
         $exception = $event->getThrowable();
 
         $response = $this->createApiResponse($exception);

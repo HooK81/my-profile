@@ -23,12 +23,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
-    public function getUsername()
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
 
-    public function getSalt()
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
+    public function getSalt(): ?string
     {
         return null;
     }
@@ -43,12 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return ['ROLE_USER'];
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->username;
     }
 }

@@ -80,7 +80,7 @@
         "item2": "Client HTTP: <2>Axios</2>",
         "item3": "State Container: <1>Redux</1> & <4>Redux Thunk</4>",
         "item4": "Form: <2>React Hook Form</2>",
-        "item5": "Unit Tests: Jest + Enzyme (100% code coverage)"
+        "item5": "Unit Tests: Jest + Testing Library/Enzyme (100% code coverage)"
       },
       "design": {
         "title": "Design",
@@ -95,9 +95,10 @@
       },
       "framework": {
         "title": "Framework",
-        "item1": "Symfony 5.3",
+        "item1": "Symfony 5.4",
         "item2": "Rest API by <2>FOSRestBundle</2>",
-        "item3": "JWT token authentication by <2>LexikJWTAuthenticationBundle</2>"
+        "item3": "JWT token authentication by <2>LexikJWTAuthenticationBundle</2>",
+        "item4": "Unit/Integration Tests: PHPUnit (100% code coverage)"
       }
     },
     "infra": {

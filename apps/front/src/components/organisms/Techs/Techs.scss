@@ -34,7 +34,8 @@
   padding-right: 2em;
 }
 #techs .feature-item img {
-  max-width: 65%;
+  height: 108px;
+  aspect-ratio: 120/110;
 }
 
 /* screenwidth less than 900px
@@ -67,7 +68,7 @@
     margin-top: 2.5em;
   }
   #techs .feature-item img {
-    max-width: 50%;
+    height: 120px;
   }
   #techs p.lead {
     text-align: center;;

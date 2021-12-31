@@ -9,6 +9,7 @@ use App\Generator\VCardGenerator;
 use App\Manager\ProfileManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,18 +26,20 @@ use Symfony\Component\Routing\Annotation\Route;
  *     options={ "expose": true },
  *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
  * )
+ * @Cache(maxage=self::MAX_CACHE_TTL)
  */
 class ProfileController extends AbstractFOSRestController
 {
+    public const MAX_CACHE_TTL = 7200; // 2 h
     protected ProfileManager $profileManager;
     protected VCardGenerator $vCardGenerator;
     protected Request $request;
 
     public function __construct(RequestStack $requestStack, ProfileManager $profileManager, VCardGenerator $vCardGenerator)
     {
+        $this->request = $requestStack->getMainRequest();
         $this->profileManager = $profileManager;
         $this->vCardGenerator = $vCardGenerator;
-        $this->request = $requestStack->getMainRequest();
     }
 
     /**
@@ -47,6 +50,7 @@ class ProfileController extends AbstractFOSRestController
      */
     public function getUserProfile(string $id): Profile
     {
+
         /** @var Profile $profile */
         $profile = $this->profileManager->getProfile($id);
         if (!$profile) {
@@ -69,7 +73,6 @@ class ProfileController extends AbstractFOSRestController
             throw new NotFoundHttpException(sprintf('file %s not found', $file));
         }
         $response = new BinaryFileResponse($filename);
-        $response->setMaxAge(9600);
         $response->trustXSendfileTypeHeader();
 
         $disposition = $this->request->get('disposition');
@@ -90,7 +93,6 @@ class ProfileController extends AbstractFOSRestController
         $profile = $this->getUserProfile($id);
         $vcard = $this->vCardGenerator->generateProfileVCard($profile);
         $response = new Response($vcard->getVCFStream());
-        $response->setMaxAge(9600);
         $response->headers->set('Content-Type', 'text/x-vcard');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $vcard->getFilename()));
 

@@ -7,6 +7,7 @@ parameters:
     container.dumper.inline_factories: true # Dump container in a single file
     app.locales: "en|fr"
     app.default_locale: "en"
+    app.security.jwt_token_ttl: 28800 # 8 hours
 
 services:
     # default configuration for services in *this* file
@@ -38,6 +39,7 @@ services:
     App\Security\TokenManager:
         $passPhrase: "%env(JWT_PASSPHRASE)%"
         $env: "%kernel.environment%"
+        $tokenTtl: "%app.security.jwt_token_ttl%"
 
     App\ReCaptcha\ReCaptchaValidator:
         $secret: "%env(RECAPTCHA_V3_SECRET)%"

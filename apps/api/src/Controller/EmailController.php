@@ -13,6 +13,7 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,13 +29,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmailController extends AbstractFOSRestController
 {
     private ReCaptchaValidator $reCaptchaValidator;
+    private MessageBusInterface $bus;
     private string $mailSubject;
     private string $mailSubjectPrefix;
     private string $mailTimeZone;
 
-    public function __construct(ReCaptchaValidator $reCaptchaValidator)
+    public function __construct(ReCaptchaValidator $reCaptchaValidator, MessageBusInterface $bus)
     {
         $this->reCaptchaValidator = $reCaptchaValidator;
+        $this->bus = $bus;
     }
 
     /**
@@ -79,6 +82,6 @@ class EmailController extends AbstractFOSRestController
         );
         $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $mailData['subject']);
 
-        $this->dispatchMessage(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $mailData['from']));
+        $this->bus->dispatch(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $mailData['from']));
     }
 }

@@ -53,10 +53,9 @@ describe('Profile Action GetProfile', () => {
     ];
 
     // Call getProfile with success
-    await store.dispatch(actions.getProfile()).then(() => {
-      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-      expect(api.get.mock.calls.length).toBe(1);
-    });
+    await store.dispatch(actions.getProfile());
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+    expect(api.get.mock.calls.length).toBe(1);
   });
 
   it('Should getProfile action return an error', async () => {
@@ -70,10 +69,9 @@ describe('Profile Action GetProfile', () => {
     ];
 
     // Call getProfile with error
-    await store.dispatch(actions.getProfile()).catch(() => {
-      expect(api.get.mock.calls.length).toBe(1);
-      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-    });
+    await store.dispatch(actions.getProfile());
+    expect(api.get.mock.calls.length).toBe(1);
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
 
@@ -85,7 +83,9 @@ describe('Profile Redux Actions', () => {
   });
 
   it('Should apiProfileReducer return new state for action getProfileStarted', () => {
-    expect(reducers.apiProfileReducer(initialValue, actions.getProfileStarted())).toEqual({
+    expect(
+      reducers.apiProfileReducer(initialValue, actions.getProfileStarted()),
+    ).toEqual({
       pending: true,
       data: null,
       error: null,
@@ -98,7 +98,12 @@ describe('Profile Redux Actions', () => {
       baz: ['qux', 'quux'],
     };
 
-    expect(reducers.apiProfileReducer(initialValue, actions.getProfileSuccess($expectedProfile))).toEqual({
+    expect(
+      reducers.apiProfileReducer(
+        initialValue,
+        actions.getProfileSuccess($expectedProfile),
+      ),
+    ).toEqual({
       pending: false,
       data: $expectedProfile,
       error: null,
@@ -106,7 +111,9 @@ describe('Profile Redux Actions', () => {
   });
 
   it('Should apiProfileReducer return new state for action getProfileError', () => {
-    expect(reducers.apiProfileReducer(initialValue, actions.getProfileError('bar'))).toEqual({
+    expect(
+      reducers.apiProfileReducer(initialValue, actions.getProfileError('bar')),
+    ).toEqual({
       pending: false,
       data: null,
       error: 'bar',

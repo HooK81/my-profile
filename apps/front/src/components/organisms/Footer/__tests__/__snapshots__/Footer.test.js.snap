@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should Footer render without crash 1`] = `
+<DocumentFragment>
+  <footer
+    title="footer"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="twelve column"
+      >
+        <ul
+          class="social"
+          title="social-links"
+        />
+        <small
+          class="recaptcha-branding"
+          title="recaptcha-branding"
+        >
+          This site is protected by reCAPTCHA and the Google 
+          <a
+            href="https://policies.google.com/privacy"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and 
+          <a
+            href="https://policies.google.com/terms"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Terms of Service
+          </a>
+           apply.
+        </small>
+        <ul
+          class="copyright"
+          title="copyright"
+        >
+          <li>
+            vlatest © Copyright 2022 
+            <span
+              class="protected-text  s-671534137"
+            >
+              <style
+                type="text/css"
+              >
+                .s-671534137  * {
+ unicode-bidi: bidi-override; direction: rtl; }
+.s-671534137  *:before {
+ content: "EOD" }
+.s-671534137  *:after {
+ content: "oJ" }
+
+              </style>
+              <span>
+                 nh
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="scroll-button top"
+      >
+        <i
+          class="fas fa-angle-up"
+        />
+      </div>
+    </div>
+    <div
+      class="cookie-consent"
+      style="align-items: baseline; background: rgb(53, 53, 53); color: white; display: flex; flex-wrap: wrap; justify-content: space-between; left: 0px; position: fixed; width: 100%; z-index: 999; bottom: 0px;"
+    >
+      <div
+        class=""
+        style="flex: 1 0 300px; margin: 15px;"
+      >
+        footer.cookie.message
+      </div>
+      <div
+        class="cookie-consent-button"
+      >
+        <button
+          aria-label="Accept cookies"
+          class=""
+          id="rcc-confirm-button"
+          style="background: rgb(255, 212, 45); border: 0px; border-radius: 0px; box-shadow: none; color: black; cursor: pointer; flex: 0 0 auto; padding: 5px 10px; margin: 15px;"
+        >
+          footer.cookie.accept_btn
+        </button>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;
+
+exports[`Footer should Footer render without crash when props missing 1`] = `
+<DocumentFragment>
+  <footer
+    title="footer"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="twelve column"
+      >
+        <small
+          class="recaptcha-branding"
+          title="recaptcha-branding"
+        >
+          This site is protected by reCAPTCHA and the Google 
+          <a
+            href="https://policies.google.com/privacy"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>
+           and 
+          <a
+            href="https://policies.google.com/terms"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Terms of Service
+          </a>
+           apply.
+        </small>
+        <ul
+          class="copyright"
+          title="copyright"
+        >
+          <li>
+            vlatest © Copyright 2022 
+            <span
+              class="protected-text  s893923648"
+            >
+              <style
+                type="text/css"
+              >
+                .s893923648  * {
+ unicode-bidi: bidi-override; direction: rtl; }
+.s893923648  *:before {
+ content: "" }
+.s893923648  *:after {
+ content: "" }
+
+              </style>
+              <span />
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="scroll-button top"
+      >
+        <i
+          class="fas fa-angle-up"
+        />
+      </div>
+    </div>
+    <div
+      class="cookie-consent"
+      style="align-items: baseline; background: rgb(53, 53, 53); color: white; display: flex; flex-wrap: wrap; justify-content: space-between; left: 0px; position: fixed; width: 100%; z-index: 999; bottom: 0px;"
+    >
+      <div
+        class=""
+        style="flex: 1 0 300px; margin: 15px;"
+      >
+        footer.cookie.message
+      </div>
+      <div
+        class="cookie-consent-button"
+      >
+        <button
+          aria-label="Accept cookies"
+          class=""
+          id="rcc-confirm-button"
+          style="background: rgb(255, 212, 45); border: 0px; border-radius: 0px; box-shadow: none; color: black; cursor: pointer; flex: 0 0 auto; padding: 5px 10px; margin: 15px;"
+        >
+          footer.cookie.accept_btn
+        </button>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;

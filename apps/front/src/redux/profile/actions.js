@@ -37,7 +37,7 @@ export const getProfile = () => {
       .catch((error) => {
         dispatch(getProfileError(error.message));
         dispatch(setIsLoaded()); // set app loaded
-        throw error;
+        return error;
       });
   };
 };

@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Work should Work exactly 1 year render without crash 1`] = `
+<DocumentFragment>
+  <div
+    class="work"
+  >
+    <h3>
+      god
+    </h3>
+    <p
+      class="info"
+    >
+      <span
+        class="company"
+      >
+        world
+      </span>
+      <span>
+        •
+      </span>
+      <span
+        class="city"
+      >
+        paris
+      </span>
+      <span
+        class="date_separator"
+      >
+        •
+      </span>
+      <span
+        class="date"
+      >
+        January 2019/December 2019/1/
+      </span>
+    </p>
+    <div
+      class="description"
+    >
+      <p>
+        foo 
+        <strong>
+          bar
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Work should Work exactly 2 years render without crash 1`] = `
+<DocumentFragment>
+  <div
+    class="work"
+  >
+    <h3>
+      god
+    </h3>
+    <p
+      class="info"
+    >
+      <span
+        class="company"
+      >
+        world
+      </span>
+      <span>
+        •
+      </span>
+      <span
+        class="city"
+      >
+        paris
+      </span>
+      <span
+        class="date_separator"
+      >
+        •
+      </span>
+      <span
+        class="date"
+      >
+        January 2019/December 2020/2/
+      </span>
+    </p>
+    <div
+      class="description"
+    >
+      <p>
+        foo 
+        <strong>
+          bar
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Work should Work less than 1 year render without crash 1`] = `
+<DocumentFragment>
+  <div
+    class="work"
+  >
+    <h3>
+      god
+    </h3>
+    <p
+      class="info"
+    >
+      <span
+        class="company"
+      >
+        world
+      </span>
+      <span>
+        •
+      </span>
+      <span
+        class="city"
+      >
+        paris
+      </span>
+      <span
+        class="date_separator"
+      >
+        •
+      </span>
+      <span
+        class="date"
+      >
+        March 2019/May 2019/2
+      </span>
+    </p>
+    <div
+      class="description"
+    >
+      <p>
+        foo 
+        <strong>
+          bar
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Work should Work longer than 1 year render without crash 1`] = `
+<DocumentFragment>
+  <div
+    class="work"
+  >
+    <h3>
+      god
+    </h3>
+    <p
+      class="info"
+    >
+      <span
+        class="company"
+      >
+        world
+      </span>
+      <span>
+        •
+      </span>
+      <span
+        class="city"
+      >
+        paris
+      </span>
+      <span
+        class="date_separator"
+      >
+        •
+      </span>
+      <span
+        class="date"
+      >
+        January 2019/January 2020/1/1
+      </span>
+    </p>
+    <div
+      class="description"
+    >
+      <p>
+        foo 
+        <strong>
+          bar
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Work should Work without end date render without crash 1`] = `
+<DocumentFragment>
+  <div
+    class="work"
+  >
+    <h3>
+      god
+    </h3>
+    <p
+      class="info"
+    >
+      <span
+        class="company"
+      >
+        world
+      </span>
+      <span>
+        •
+      </span>
+      <span
+        class="city"
+      >
+        paris
+      </span>
+      <span
+        class="date_separator"
+      >
+        •
+      </span>
+      <span
+        class="date"
+      >
+        January 2019/today/1/5
+      </span>
+    </p>
+    <div
+      class="description"
+    >
+      <p>
+        foo 
+        <strong>
+          bar
+        </strong>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

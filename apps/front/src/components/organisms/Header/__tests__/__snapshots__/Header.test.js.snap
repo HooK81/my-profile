@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should Header render without crash 1`] = `
+<DocumentFragment>
+  <header
+    id="foo"
+    style="height: 768px;"
+  >
+    <nav
+      class="opaque "
+      id="nav-wrap"
+    >
+      <i
+        class="mobile-btn mobile-btn-show"
+        title="Show navigation"
+      >
+        Show navigation
+      </i>
+      <i
+        class="mobile-btn mobile-btn-hide"
+        title="Hide navigation"
+      >
+        Hide navigation
+      </i>
+      <ul
+        class="nav"
+        id="nav"
+      >
+        <li>
+          <a>
+            menu.home
+          </a>
+        </li>
+        <li>
+          <a>
+            menu.about_me
+          </a>
+        </li>
+        <li>
+          <a>
+            menu.resume
+          </a>
+        </li>
+        <li>
+          <a>
+            menu.techs
+          </a>
+        </li>
+        <li>
+          <a>
+            menu.contact
+          </a>
+        </li>
+        <li>
+          <a
+            href="/about-site"
+          >
+            menu.about_site
+          </a>
+        </li>
+        <li
+          class="languages"
+        >
+          <span
+            class="language"
+            title="English"
+          >
+            <span
+              class="flag-icon flag-icon-gb"
+            />
+          </span>
+          <span
+            class="language"
+            title="Français"
+          >
+            <span
+              class="flag-icon flag-icon-fr"
+            />
+          </span>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</DocumentFragment>
+`;

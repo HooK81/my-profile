@@ -50,7 +50,6 @@ class ProfileController extends AbstractFOSRestController
      */
     public function getUserProfile(string $id): Profile
     {
-
         /** @var Profile $profile */
         $profile = $this->profileManager->getProfile($id);
         if (!$profile) {

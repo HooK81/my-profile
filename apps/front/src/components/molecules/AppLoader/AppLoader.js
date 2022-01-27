@@ -3,49 +3,44 @@
  * Caution DOM is outside react for displaying before render
  */
 
-import { PureComponent } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import './AppLoader.scss';
 
 /**
  * App Loader Component
  */
-export class AppLoader extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.loaderTimeout = null;
-    this.loader = document.getElementById('site-loader');
-  }
-
-  componentDidMount() {
-    if (this.props.isLoaded && !this.loaderTimeout) {
-      // Hide loader when app is loaded
-      this.loaderTimeout = setTimeout(this.hideLoader, 500);
-    }
-  }
-
-  /**
-   * Hide then Remove main loader which is outside react
-   */
-  hideLoader = () => {
-    if (!this.loader) {
-      return;
-    }
-    this.loader.classList.add('hide');
-    setTimeout(this.removeLoader, 500);
-  };
+export function AppLoader(props) {
+  const loader = document.getElementById('site-loader');
 
   /**
    * Remove loader
    */
-  removeLoader = () => {
-    this.loader.parentNode.removeChild(this.loader);
-  };
+  const removeLoader = useCallback(() => {
+    loader.parentNode.removeChild(loader);
+  }, [loader]);
 
-  render() {
-    // Nothing to render. DOM is not in react
-    return null;
-  }
+  /**
+   * Hide then Remove main loader which is outside react
+   */
+  const hideLoader = useCallback(() => {
+    if (!loader) {
+      return;
+    }
+    loader.classList.add('hide');
+    setTimeout(removeLoader, 500);
+  }, [loader, removeLoader]);
+
+  const [loaderTimeout, setLoaderTimeout] = useState(null);
+
+  useEffect(() => {
+    if (props.isLoaded && !loaderTimeout) {
+      // Hide loader when app is loaded
+      setLoaderTimeout(setTimeout(hideLoader, 500));
+    }
+  }, [props.isLoaded, loaderTimeout, hideLoader]);
+
+  return null; // Nothing to render. DOM is not in react
 }
 
 /* istanbul ignore next */

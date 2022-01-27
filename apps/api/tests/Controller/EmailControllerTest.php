@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Mailer\AppMailer;
+use App\ReCaptcha\ReCaptchaClient;
 use App\ReCaptcha\ReCaptchaResponse;
-use App\ReCaptcha\ReCaptchaValidator;
 use App\Tests\Traits\LoggedUserTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -33,14 +33,14 @@ final class EmailControllerTest extends WebTestCase
      */
     public function testSendMailSuccess(array $mailData, string $locale, string $mockFile): void
     {
-        // Mock ReCaptchaValidator
-        $reCaptchaValidatorMock = $this->getMockBuilder(ReCaptchaValidator::class)
+        // Mock ReCaptchaClient
+        $reCaptchaClientMock = $this->getMockBuilder(ReCaptchaClient::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['checkReCaptchaResponse'])
             ->getMock()
         ;
-        $reCaptchaValidatorMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(true, '', ''));
-        static::getContainer()->set('App\ReCaptcha\ReCaptchaValidator', $reCaptchaValidatorMock);
+        $reCaptchaClientMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(true, '', ''));
+        static::getContainer()->set('App\ReCaptcha\ReCaptchaClient', $reCaptchaClientMock);
 
         // Mock AppMailer
         $mailerMock = $this->getMockBuilder(AppMailer::class)
@@ -91,15 +91,15 @@ final class EmailControllerTest extends WebTestCase
 
     public function testSendMailCaptchaError(): void
     {
-        // Mock ReCaptchaValidator
+        // Mock ReCaptchaClient
         $expectedError = 'captcha error';
-        $reCaptchaValidatorMock = $this->getMockBuilder(ReCaptchaValidator::class)
+        $reCaptchaClientMock = $this->getMockBuilder(ReCaptchaClient::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['checkReCaptchaResponse'])
             ->getMock()
         ;
-        $reCaptchaValidatorMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(false, $expectedError, ''));
-        static::getContainer()->set('App\ReCaptcha\ReCaptchaValidator', $reCaptchaValidatorMock);
+        $reCaptchaClientMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(false, $expectedError, ''));
+        static::getContainer()->set('App\ReCaptcha\ReCaptchaClient', $reCaptchaClientMock);
 
         $this->client->request(
             'POST',

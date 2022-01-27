@@ -35,20 +35,16 @@ describe('Contact', () => {
     jest.clearAllMocks();
   });
 
-  it('Should Contact render without crash', () => {
-    const { container } = render(
+  it('should Contact render without crash', () => {
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profileMain} />
       </Provider>,
     );
-    expect(screen.getAllByTitle('contact')).toHaveLength(1);
-    expect(screen.getAllByRole('form', { name: 'contact-form' })).toHaveLength(
-      1,
-    );
-    expect(container.querySelectorAll('.protected-text')).toHaveLength(2);
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Contact render with address', () => {
+  it('should Contact render with address', () => {
     const profile = {
       ...profileMain,
       address: {
@@ -59,24 +55,24 @@ describe('Contact', () => {
       },
     };
 
-    const { container } = render(
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profile} />
       </Provider>,
     );
-    expect(container.querySelectorAll('.protected-text')).toHaveLength(5);
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Contact render with phone', () => {
+  it('should Contact render with phone', () => {
     const profile = {
       ...profileMain,
       phone: '0000',
     };
-    const { container } = render(
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profile} />
       </Provider>,
     );
-    expect(container.querySelectorAll('.protected-text')).toHaveLength(3);
+    expect(asFragment()).toMatchSnapshot();
   });
 });

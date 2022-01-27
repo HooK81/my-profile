@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\ReCaptcha;
 
+use App\ReCaptcha\ReCaptchaClient;
 use App\ReCaptcha\ReCaptchaResponse;
 use App\ReCaptcha\ReCaptchaResponseFactory;
-use App\ReCaptcha\ReCaptchaValidator;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class ReCaptchaValidatorTest extends TestCase
+final class ReCaptchaClientTest extends TestCase
 {
     private Request $currentRequest;
     /** @var RequestStack|MockObject */
@@ -39,9 +39,9 @@ final class ReCaptchaValidatorTest extends TestCase
         $this->reCaptchaResponseFactory = $this->getMockBuilder(ReCaptchaResponseFactory::class)->disableOriginalConstructor()->getMock();
     }
 
-    private function buildValidator(MockHttpClient $mockHttpClient): ReCaptchaValidator
+    private function buildValidator(MockHttpClient $mockHttpClient): ReCaptchaClient
     {
-        return new ReCaptchaValidator(
+        return new ReCaptchaClient(
             $this->requestStack,
             $mockHttpClient,
             $this->reCaptchaResponseFactory,

@@ -1,10 +1,10 @@
 /**
  * ProfilePicture Test Suites
  */
-
 import React from 'react';
-import { shallow, mount} from 'enzyme';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { NavItem } from '../NavItem.js';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('NavItem', () => {
   beforeEach(() => {
@@ -15,23 +15,25 @@ describe('NavItem', () => {
       '<div style="height: 5000px;"><div id="upper" style="height: 4000px;">test</div><div id="hash">hash</div></div>';
   });
 
-  it('Should NavItem render link to inner hash without crash', async () => {
+  it('should NavItem render link to inner hash without crash', async () => {
     const onItemSelect = jest.fn();
     const onSetActive = jest.fn();
 
     // Mock rect of hash element
-    global.document.getElementById('hash').getBoundingClientRect = jest.fn(() => ({
-      top: 0,
-      left: 0,
-      right: 500,
-      bottom: 1000,
-      width: 500,
-      height: 1000
-    }));
+    global.document.getElementById('hash').getBoundingClientRect = jest.fn(
+      () => ({
+        top: 0,
+        left: 0,
+        right: 500,
+        bottom: 1000,
+        width: 500,
+        height: 1000,
+      }),
+    );
 
-    const wrapper = mount(
+    const { asFragment } = render(
       <NavItem
-        label="label"
+        label="anchor label"
         to={{ pathname: '/', hash: 'hash' }}
         activeClass="active"
         smoothDuration={1}
@@ -40,37 +42,33 @@ describe('NavItem', () => {
         onItemSelect={onItemSelect}
       />,
     );
-    const dom = wrapper.find('li > Link');
-    expect(dom).toHaveLength(1);
-
-    // Click on link
-    dom.simulate('click');
-
-    await new Promise(done => setTimeout(() => {
-      expect(onItemSelect).toHaveBeenCalled();
-      expect(onSetActive).toHaveBeenCalled();
-      done();
-    }, 1000));
+    const link = await screen.findByText('anchor label');
+    fireEvent.click(link);
+    await waitFor(() => expect(onItemSelect).toHaveBeenCalled());
+    await waitFor(() => expect(onSetActive).toHaveBeenCalled());
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should NavItem handle click on wrong inner hash link', async () => {
+  it('should NavItem handle click on wrong inner hash link', async () => {
     const onItemSelect = jest.fn();
     const onSetActive = jest.fn();
     const onScrollLinkError = jest.fn();
 
     // Mock rect of hash element
-    global.document.getElementById('hash').getBoundingClientRect = jest.fn(() => ({
-      top: 0,
-      left: 0,
-      right: 500,
-      bottom: 1000,
-      width: 500,
-      height: 1000
-    }));
+    global.document.getElementById('hash').getBoundingClientRect = jest.fn(
+      () => ({
+        top: 0,
+        left: 0,
+        right: 500,
+        bottom: 1000,
+        width: 500,
+        height: 1000,
+      }),
+    );
 
-    const wrapper = mount(
+    const { asFragment } = render(
       <NavItem
-        label="label"
+        label="anchor label"
         to={{ pathname: '/', hash: 'foo' }}
         activeClass="active"
         smoothDuration={1}
@@ -80,29 +78,30 @@ describe('NavItem', () => {
         onScrollLinkError={onScrollLinkError}
       />,
     );
-    const dom = wrapper.find('li > Link');
-    expect(dom).toHaveLength(1);
 
-    // Click on link
-    dom.simulate('click');
-
-    await new Promise(done => setTimeout(() => {
-      expect(onItemSelect).toHaveBeenCalled();
-      expect(onScrollLinkError).toHaveBeenCalled();
-      expect(onSetActive).not.toHaveBeenCalled();
-      done();
-    }, 1000));
+    const link = await screen.findByText('anchor label');
+    fireEvent.click(link);
+    await waitFor(() => expect(onItemSelect).toHaveBeenCalled());
+    await waitFor(() => expect(onScrollLinkError).toHaveBeenCalled());
+    await waitFor(() => expect(onSetActive).not.toHaveBeenCalled());
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should NavItem render link to other page without crash', () => {
+  it('should NavItem render link to other page without crash', async () => {
     const onItemSelect = jest.fn();
 
-    const wrapper = shallow(
-      <NavItem label="label" to={{ pathname: '/other' }} onItemSelect={onItemSelect} />
+    const { asFragment } = render(
+      <BrowserRouter>
+        <NavItem
+          label="label"
+          to={{ pathname: '/other' }}
+          onItemSelect={onItemSelect}
+        />
+      </BrowserRouter>,
     );
-    const dom = wrapper.find('li > NavHashLink');
-    expect(dom).toHaveLength(1);
-    dom.simulate('click');
+    const link = await screen.findByRole('link');
+    expect(asFragment()).toMatchSnapshot();
+    fireEvent.click(link);
     expect(onItemSelect).toHaveBeenCalled();
   });
 });

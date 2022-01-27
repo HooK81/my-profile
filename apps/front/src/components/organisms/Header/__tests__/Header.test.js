@@ -1,13 +1,10 @@
 /**
  * Header Test Suites
  */
-
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
 import { Header } from '../Header.js';
-import { Nav } from '../../../organisms/Nav/Nav';
 import { historyPushMock, setDefaultLcationMock } from 'react-router-dom';
 
 jest.mock('react-redux', () => ({
@@ -15,134 +12,161 @@ jest.mock('react-redux', () => ({
   useDispatch: () => jest.fn(),
 }));
 
+const initializeDom = (hashId) => {
+  document.body.innerHTML =
+    `<div style="height: 5000px;"><div id="upper" style="height: 4000px;">test</div><div id="${hashId}">${hashId}</div></div>`;
+
+  global.document.getElementById(hashId).getBoundingClientRect = jest.fn(
+    () => ({
+      top: 0,
+      left: 0,
+      right: 500,
+      bottom: 1000,
+      width: 500,
+      height: 1000,
+    }),
+  );
+};
+
+const setViewPortSize = (width, height) => {
+  window.innerWidth = width;
+  window.innerHeight = height;
+  fireEvent(window, new Event('resize'));
+}
+
 describe('Header', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Should Header render without crash', () => {
-    const wrapper = shallow(<Header id="foo" home={true} />);
-    expect(wrapper.find('header#foo')).toHaveLength(1);
-    expect(wrapper.find(Nav)).toHaveLength(1);
-  });
-
-  it('Should Header can update header height property on resize on home page', async () => {
-    // First mount with a specific size
-    global.innerHeight = '1000';
-    const wrapper = mount(
+  it('should Header render without crash', () => {
+    const { asFragment } = render(
       <BrowserRouter>
-        <Header id="foo" home={true}/>
+        <Header id="foo" home={true} />
       </BrowserRouter>,
     );
-    expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe('height: 1000px;');
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should Header can update header height property on resize on home page', async () => {
+    setViewPortSize(1000,1000);
+    const onResizeMock = jest.fn();
+    render(
+      <BrowserRouter>
+        <Header id="foo" home={true} onResize={onResizeMock} />
+      </BrowserRouter>,
+    );
+    await waitFor(() =>
+      expect(onResizeMock).toHaveBeenLastCalledWith({
+        height: 1000,
+        width: 1000,
+      }),
+    );
 
     // Then update size of window
-    global.innerHeight = '300';
-    await act(async () => {
-      global.dispatchEvent(new Event('resize'));
+    setViewPortSize(300,1000);
+    await waitFor(() =>
+      expect(onResizeMock).toHaveBeenLastCalledWith({
+        height: 1000,
+        width: 300,
+      }),
+    );
+  });
 
-      await new Promise((done) =>
-        setTimeout(() => {
-          expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe('height: 300px;');
-          done();
-        }, 400),
-      );
+  it("should Header don't update header height property on resize for non home page", async () => {
+    setDefaultLcationMock({
+      pathname: '/foo',
+      hash: '',
+    });
+    setViewPortSize(1000,1000);
+    const onResizeMock = jest.fn();
+    render(
+      <BrowserRouter>
+        <Header id="foo" home={false} onResize={onResizeMock} />
+      </BrowserRouter>,
+    );
+    await waitFor(() => expect(onResizeMock).not.toHaveBeenCalled(), {
+      timeout: 400,
     });
   });
 
-  it('Should Header don\'t update header height property on resize for non home page', async () => {
+  it('should Header add history after scroll to hash', async () => {
+    initializeDom('resume');
     setDefaultLcationMock({
-      pathname: '/foo',
-      hash: ''
-    })
-    // First mount with a specific size
-    global.innerHeight = '1000';
-    const wrapper = mount(
+      pathname: '/',
+      hash: 'resume',
+    });
+    render(
       <BrowserRouter>
-        <Header id="foo" home={false}/>
+        <Header id="foo" home={true} />
       </BrowserRouter>,
     );
-    expect(wrapper.find('header#foo').instance().getAttribute('style')).toBe(null);
-  });
+    const link = await screen.findByText('menu.resume');
+    fireEvent.click(link);
 
-  it('Should Header add history after scroll to hash', async () => {
-    setDefaultLcationMock({
-      pathname: '/',
-      hash: 'foo'
-    })
-    const wrapper = shallow(<Header id="foo" home={true}/>);
-    wrapper.find(Nav).prop('onSetActiveAfterScroll')('foo');
-
-    await new Promise((done) =>
-      setTimeout(() => {
-        expect(historyPushMock).toHaveBeenCalledWith({hash: 'foo', pathname: '/'});
-        done();
-      }, 400),
+    await waitFor(() =>
+      expect(historyPushMock).toHaveBeenCalledWith({
+        hash: 'resume',
+        pathname: '/',
+      }),
     );
   });
 
-  it('Should Header do not add history 1', async () => {
+  it('should Header do not add history - home - click on home', async () => {
+    initializeDom('home');
     setDefaultLcationMock({
       pathname: '/',
-      hash: '#home'
-    })
-    const wrapper = shallow(<Header id="foo" home={true}/>);
-    wrapper.find(Nav).prop('onSetActiveAfterScroll')('home');
-
-    await new Promise((done) =>
-      setTimeout(() => {
-        expect(historyPushMock).toHaveBeenCalledTimes(0);
-        done();
-      }, 400),
+      hash: '#home',
+    });
+    render(
+      <BrowserRouter>
+        <Header id="foo" home={true} />
+      </BrowserRouter>,
     );
+    const link = await screen.findByText('menu.home');
+    fireEvent.click(link);
+
+    await waitFor(() => expect(historyPushMock).not.toHaveBeenCalled(), {
+      timeout: 400,
+    });
   });
 
-  it('Should Header do not add history 2', async () => {
+  it('should Header do not add history - no location - click on home', async () => {
+    initializeDom('resume');
     setDefaultLcationMock({
       pathname: '/',
-      hash: ''
-    })
-    const wrapper = shallow(<Header id="foo" home={true}/>);
-    wrapper.find(Nav).prop('onSetActiveAfterScroll')('home');
-
-    await new Promise((done) =>
-      setTimeout(() => {
-        expect(historyPushMock).toHaveBeenCalledTimes(0);
-        done();
-      }, 400),
+      hash: '',
+    });
+    render(
+      <BrowserRouter>
+        <Header id="foo" home={true} />
+      </BrowserRouter>,
     );
+    const link = await screen.findByText('menu.home');
+    fireEvent.click(link);
+    await waitFor(() => expect(historyPushMock).not.toHaveBeenCalled(), {
+      timeout: 400,
+    });
   });
 
-  it('Should Header do not add history 3', async () => {
+  it('should Header handle invalid hash link', async () => {
+    initializeDom('home');
     setDefaultLcationMock({
       pathname: '/',
-      hash: ''
-    })
-    const wrapper = shallow(<Header id="foo" home={true}/>);
-    wrapper.find(Nav).prop('onSetActiveAfterScroll')('');
-
-    await new Promise((done) =>
-      setTimeout(() => {
-        expect(historyPushMock).toHaveBeenCalledTimes(0);
-        done();
-      }, 400),
+      hash: '',
+    });
+    render(
+      <BrowserRouter>
+        <Header id="foo" home={true} />
+      </BrowserRouter>,
+    );
+    const link = await screen.findByText('menu.resume');
+    fireEvent.click(link);
+    await waitFor(() =>
+      expect(historyPushMock).toHaveBeenCalledWith({
+        hash: 'resume',
+        pathname: '/',
+      }),
     );
   });
-
-  it('Should Header handle invalid hash link', async () => {
-    setDefaultLcationMock({
-      pathname: '/',
-      hash: 'foo'
-    })
-    const wrapper = shallow(<Header id="foo" home={true}/>);
-    wrapper.find(Nav).prop('onScrollLinkError')({pathname: '/', hash: 'foo'});
-
-    await new Promise((done) =>
-      setTimeout(() => {
-        expect(historyPushMock).toHaveBeenCalledWith({hash: 'foo', pathname: '/'});
-        done();
-      }, 400),
-    );
-  });
-
 });

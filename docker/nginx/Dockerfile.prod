@@ -3,7 +3,7 @@ FROM node:lts-alpine as build
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
 WORKDIR /usr/src/front
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 ENV PATH /app/node_modules/.bin:$PATH
 COPY apps/front/package.json /usr/src/front/
 COPY apps/front/yarn.lock /usr/src/front/

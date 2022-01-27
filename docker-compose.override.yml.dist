@@ -1,7 +1,7 @@
 version: '3.7'
 services: 
 
-    php:
+    app:
         volumes: 
             - ./apps/api/:/usr/src/api:cached
             - ./docker/users:/usr/src/api/resources/users:ro
@@ -10,9 +10,10 @@ services:
             HOME: /home/user
             #XDEBUG_CONFIG: discover_client_host=true client_host=host.docker.internal
 
-    nginx:
+    web:
         volumes: 
             - ./apps/api/public/:/usr/src/api:cached
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
     # Node container used only for dev
     node:
@@ -21,7 +22,7 @@ services:
             dockerfile: docker/node/Dockerfile
             args:
                 APP_VERSION: ${TAG}
-        image: myprofile_node:${TAG}
+        image: mp_node:${TAG}
         container_name: mp_node
         restart: "no"
         volumes:

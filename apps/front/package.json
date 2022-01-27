@@ -81,7 +81,7 @@
   "optionalDependencies": {
     "typescript": "4.5.2"
   },
-  "proxy": "http://nginx/",
+  "proxy": "http://web/",
   "browserslist": {
     "production": [
       ">0.2%",

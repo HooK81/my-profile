@@ -25,15 +25,17 @@ export function Header(props) {
   useEffect(() => {
     function handleResize() {
       setResolution(getWindowResolution());
+      props.onResize(resolution);
     }
     const debouncedResize = debounce(handleResize, 300);
     if (props.home) {
       window.addEventListener('resize', debouncedResize);
       headerRef.current.style.height = `${resolution.height}px`;
+      props.onResize(resolution);
     }
 
     return () => window.removeEventListener('resize', debouncedResize);
-  }, [resolution, props.home]);
+  }, [resolution, props]);
 
   /*----------------------------------------------------*/
   /*	Browser history on active link
@@ -49,7 +51,7 @@ export function Header(props) {
     if (
       props.home &&
       (!location.hash || location.hash === '#home') &&
-      (!hash || hash === 'home')
+      hash === 'home'
     ) {
       // Do not add an history for home
       return;
@@ -97,8 +99,10 @@ export function Header(props) {
 }
 Header.defaultProps = {
   home: false,
+  onResize: () => {},
 };
 Header.propTypes = {
   id: PropTypes.string.isRequired,
   home: PropTypes.bool,
+  onResize: PropTypes.func,
 };

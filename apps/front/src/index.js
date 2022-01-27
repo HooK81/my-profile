@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import './utils/i18n';
 import './utils/toastify';
 import { RouterScrollToTop } from './components/atoms/RouterScrollToTop/RouterScrollToTop';
-import App from './App';
+import { ConnectedApp, NewAppConnected } from './App';
 import { store } from './utils/configureStore';
 import { sendVitalsToAnalytics } from './utils/ga';
 
@@ -31,7 +31,7 @@ ReactDOM.render(
         >
           <BrowserRouter>
             <RouterScrollToTop>
-              <App />
+              <ConnectedApp />
             </RouterScrollToTop>
           </BrowserRouter>
         </GoogleReCaptchaProvider>

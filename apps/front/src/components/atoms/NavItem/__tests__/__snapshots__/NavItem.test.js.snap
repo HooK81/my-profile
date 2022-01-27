@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavItem should NavItem handle click on wrong inner hash link 1`] = `
+<DocumentFragment>
+  <li>
+    <a>
+      anchor label
+    </a>
+  </li>
+</DocumentFragment>
+`;
+
+exports[`NavItem should NavItem render link to inner hash without crash 1`] = `
+<DocumentFragment>
+  <li>
+    <a
+      class="active"
+    >
+      anchor label
+    </a>
+  </li>
+</DocumentFragment>
+`;
+
+exports[`NavItem should NavItem render link to other page without crash 1`] = `
+<DocumentFragment>
+  <li>
+    <a
+      href="/other"
+    >
+      label
+    </a>
+  </li>
+</DocumentFragment>
+`;

@@ -1,30 +1,30 @@
 version: '3.7'
 services: 
 
-    php:
+    app:
         build: 
             context: .
             dockerfile: docker/php/Dockerfile.prod
             args:
                 APP_VERSION: ${TAG}   
-        container_name: mp_php_prod
-        image: myprofile_php:${TAG}
+        container_name: mp_app
+        image: mp_app:${TAG}
         volumes:
             - './docker/users:/usr/src/api/resources/users:ro'
-        restart: always
+        restart: unless-stopped
         environment:
             HOME: /home/user
 
-    nginx:
+    web:
         build: 
             context: .
             dockerfile: docker/nginx/Dockerfile.prod
             args:
                 APP_VERSION: ${TAG}
-        container_name: mp_nginx_prod
-        image: myprofile_nginx:${TAG}
-        restart: "always"
+        container_name: mp_web
+        image: mp_web:${TAG}
+        restart: unless-stopped
         depends_on: 
-            - php
+            - app
         ports: 
             - '${NGINX_PORT}:80'

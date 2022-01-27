@@ -3,9 +3,8 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Work } from '../Work.js';
-import ReactMarkdown from 'react-markdown';
 
 jest.mock('react-i18next', () => ({
   ...jest.requireActual('react-i18next'),
@@ -39,8 +38,9 @@ describe('Work', () => {
     jest.clearAllMocks();
   });
 
-  it('Should Work without end date render without crash', () => {
-    const wrapper = shallow(
+  it('should Work without end date render without crash', () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => new Date("2020-05-13T12:33:37.000Z"));
+    const { asFragment } = render(
       <Work
         city="paris"
         company="world"
@@ -49,19 +49,11 @@ describe('Work', () => {
         description="foo **bar**"
       />,
     );
-    expect(wrapper.find('.work')).toHaveLength(1);
-    expect(wrapper.find('.work p.info')).toHaveLength(1);
-    expect(wrapper.find('.work h3').contains('god')).toBe(true);
-    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
-    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').text()).toMatch('January 2019');
-    expect(wrapper.find('.work span.date').text()).toMatch('today');
-    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
-    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Work exactly 1 year render without crash', () => {
-    const wrapper = shallow(
+  it('should Work exactly 1 year render without crash', () => {
+    const { asFragment } = render(
       <Work
         city="paris"
         company="world"
@@ -70,18 +62,11 @@ describe('Work', () => {
         description="foo **bar**"
       />,
     );
-    expect(wrapper.find('.work')).toHaveLength(1);
-    expect(wrapper.find('.work p.info')).toHaveLength(1);
-    expect(wrapper.find('.work h3').contains('god')).toBe(true);
-    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
-    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/December 2019/1/')).toBe(true);
-    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
-    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Work exactly 2 years render without crash', () => {
-    const wrapper = shallow(
+  it('should Work exactly 2 years render without crash', () => {
+    const { asFragment } = render(
       <Work
         city="paris"
         company="world"
@@ -90,18 +75,11 @@ describe('Work', () => {
         description="foo **bar**"
       />,
     );
-    expect(wrapper.find('.work')).toHaveLength(1);
-    expect(wrapper.find('.work p.info')).toHaveLength(1);
-    expect(wrapper.find('.work h3').contains('god')).toBe(true);
-    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
-    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/December 2020/2/')).toBe(true);
-    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
-    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Work longer than 1 year render without crash', () => {
-    const wrapper = shallow(
+  it('should Work longer than 1 year render without crash', () => {
+    const { asFragment } = render(
       <Work
         city="paris"
         company="world"
@@ -110,18 +88,11 @@ describe('Work', () => {
         description="foo **bar**"
       />,
     );
-    expect(wrapper.find('.work')).toHaveLength(1);
-    expect(wrapper.find('.work p.info')).toHaveLength(1);
-    expect(wrapper.find('.work h3').contains('god')).toBe(true);
-    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
-    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('January 2019/January 2020/1/1')).toBe(true);
-    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
-    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('Should Work less than 1 year render without crash', () => {
-    const wrapper = shallow(
+  it('should Work less than 1 year render without crash', () => {
+    const { asFragment } = render(
       <Work
         city="paris"
         company="world"
@@ -130,13 +101,6 @@ describe('Work', () => {
         description="foo **bar**"
       />,
     );
-    expect(wrapper.find('.work')).toHaveLength(1);
-    expect(wrapper.find('.work p.info')).toHaveLength(1);
-    expect(wrapper.find('.work h3').contains('god')).toBe(true);
-    expect(wrapper.find('.work span.city').contains('paris')).toBe(true);
-    expect(wrapper.find('.work span.company').contains('world')).toBe(true);
-    expect(wrapper.find('.work span.date').contains('March 2019/May 2019/2')).toBe(true);
-    expect(wrapper.find(ReactMarkdown)).toHaveLength(1);
-    expect(wrapper.find(ReactMarkdown).prop('className')).toBe('description');
+    expect(asFragment()).toMatchSnapshot();
   });
 });

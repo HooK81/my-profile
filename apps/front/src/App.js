@@ -1,11 +1,12 @@
 /**
  * MyProfile App
  */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import debounce from 'lodash/debounce';
 import {
@@ -25,13 +26,108 @@ import { AboutSite } from './components/pages/AboutSite/AboutSite';
 import { Footer } from './components/organisms/Footer/Footer';
 import { Error } from './components/pages/Error/Error';
 
+const updateReactGA = debounce((path) => {
+  console.log('GA updated', path);
+  ReactGA.pageview(path.replace('#home', ''));
+}, 1000);
+
+function NewApp(props) {
+  const location = useLocation();
+  const { isLoaded, setIsLoaded, apiError, appLocale, getProfile, profile } =
+    props;
+
+  const firstLoadComplete = useRef(false);
+  const errorOccured = useRef(false);
+  errorOccured.current = apiError !== null;
+
+  // Load Profile
+  useEffect(() => {
+    (async () => {
+      await getProfile();
+      firstLoadComplete.current = true;
+    })();
+  }, [getProfile]);
+
+  // Reload profile when user change locale
+  useEffect(() => {
+    if (firstLoadComplete.current && appLocale && !apiError) {
+      getProfile();
+    }
+  }, [appLocale, apiError, getProfile]);
+
+  // Reload page when user was on error page cauded by API and change location
+  useEffect(() => {
+    if (errorOccured.current) {
+      setIsLoaded(false);
+      window.location.reload();
+    }
+  }, [location.key, setIsLoaded]);
+
+  // User change locale
+  useEffect(() => {
+    if (appLocale) {
+      // Update HTML lang attribute
+      document.documentElement.lang = appLocale;
+      // Init moment
+      moment.locale(appLocale);
+    }
+  }, [appLocale]);
+
+  useEffect(() => {
+    if (isLoaded && profile) {
+      document.title = `${profile.main.firstName} - ${profile.main.occupation}`;
+    }
+  }, [isLoaded, profile]);
+
+  const pathGA = location.pathname + (location.hash ? location.hash : '');
+  useEffect(() => {
+    updateReactGA(pathGA);
+  }, [pathGA]);
+
+  if (!props.isLoaded) {
+    return <AppLoader isLoaded={false} />;
+  }
+
+  if (props.apiError) {
+    return (
+      <div className="App">
+        <AppLoader isLoaded={true} />
+        <Switch>
+          <Route>
+            <Error type="500" message={props.apiError} />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="App">
+      <AppLoader isLoaded={true} />
+      <Switch>
+        <Route exact path="/">
+          <Home profile={props.profile} />
+        </Route>
+        <Route exact path="/about-site">
+          <AboutSite />
+        </Route>
+        <Route>
+          <Error type="404" />
+        </Route>
+      </Switch>
+      <Footer profileMain={props.profile.main} />
+    </div>
+  );
+}
+
 /**
  * App Component
  */
-export class App extends PureComponent {
+class App extends PureComponent {
   componentDidMount() {
     // Get Profile
-    this.props.getProfile().catch(() => {});
+    this.props.getProfile();
   }
 
   componentDidUpdate(prevProps) {
@@ -140,6 +236,16 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Connected App, with Translation
-export default withRouter(
+/* export default withRouter(
+  compose(connect(mapStateToProps, mapDispatchToProps), withTranslation())(App),
+); */
+const ConnectedApp = withRouter(
   compose(connect(mapStateToProps, mapDispatchToProps), withTranslation())(App),
 );
+
+const NewAppConnected = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withTranslation(),
+)(NewApp);
+
+export { App, NewApp, ConnectedApp, NewAppConnected };

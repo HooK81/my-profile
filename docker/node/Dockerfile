@@ -1,4 +1,3 @@
-# Node 12.19 LTS
 FROM node:lts-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 

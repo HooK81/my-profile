@@ -44,14 +44,14 @@ describe('Form 2', () => {
   });
 
   it('should form display required error when value are invalid', async () => {
-    render(
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profileMain} />
       </Provider>,
     );
     fireEvent.submit(screen.getByRole("button", {name: /contact.message.submit/i}));
-
-    expect(await screen.findAllByRole("alert")).toHaveLength(2);
+    await screen.findAllByRole("alert");
+    expect(asFragment()).toMatchSnapshot();
     expect(getReCaptchaToken).toHaveBeenCalledTimes(0);
     expect(api.post).toHaveBeenCalledTimes(0);
   });
@@ -77,12 +77,11 @@ describe('Form 2', () => {
         value: "text to send"
       }
     });
-
     fireEvent.submit(screen.getByRole("button", {name: /contact.message.submit/i}));
+
     await waitFor(() => expect(screen.queryAllByTitle('spinner')).toHaveLength(1));
     await waitFor(() => expect(screen.queryAllByTitle('spinner')).toHaveLength(0));
     await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(0));
-
     expect(getReCaptchaToken).toHaveBeenCalledTimes(1);
     expect(api.post).toHaveBeenCalledTimes(1);
   });
@@ -141,7 +140,7 @@ describe('Form 2', () => {
     api.post.mockRejectedValue(new ApiError('form error', 400, {errors: [{email: ['the error']}]}));
     api.buildFormErrors.mockReturnValue({email: {message: 'the error', type: 'pattern'}});
 
-    render(
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profileMain} />
       </Provider>,
@@ -158,7 +157,8 @@ describe('Form 2', () => {
     });
     fireEvent.submit(screen.getByRole("button", {name: /contact.message.submit/i}));
 
-    expect(await screen.findAllByRole("alert")).toHaveLength(1);
+    await screen.findAllByRole("alert");
+    expect(asFragment()).toMatchSnapshot();
     expect(api.post).toHaveBeenCalledTimes(1);
     expect(toast.error).toHaveBeenCalledTimes(0);
   });
@@ -167,7 +167,7 @@ describe('Form 2', () => {
     api.post.mockRejectedValue(new ApiError('form error', 400, {errors: [{mail: ['form error']}]}));
     api.buildFormErrors.mockReturnValue({mail: {message: 'form error', type: 'pattern'}});
 
-    render(
+    const { asFragment } = render(
       <Provider store={store}>
         <Contact profileMain={profileMain} />
       </Provider>,
@@ -184,7 +184,8 @@ describe('Form 2', () => {
     });
     fireEvent.submit(screen.getByRole("button", {name: /contact.message.submit/i}));
 
-    expect(await screen.findAllByRole("alert")).toHaveLength(1);
+    await screen.findAllByRole("alert");
+    expect(asFragment()).toMatchSnapshot();
     expect(api.post).toHaveBeenCalledTimes(1);
     expect(toast.error).toHaveBeenCalledTimes(0);
   });

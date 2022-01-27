@@ -40,7 +40,7 @@ const getProfileResolved = () => {
 
 const getProfileRejected = () => {
   return new Promise((resolve, reject) => {
-    reject();
+    resolve("error");
   });
 };
 
@@ -52,7 +52,7 @@ describe('App', () => {
 
   it('Should App not loaded render without crash', () => {
     const wrapper = shallow(<App location={location} getProfile={getProfileResolved} />);
-    wrapper.setProps({
+    wrapper.setProps({// use rerender ? https://testing-library.com/docs/example-update-props/
       isLoaded: false,
       appLocale: 'en',
     });

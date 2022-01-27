@@ -8,7 +8,7 @@ use App\Exception\FormException;
 use App\Form\MailType;
 use App\Mailer\AppMailer;
 use App\Message\SendTeamEmailMessage;
-use App\ReCaptcha\ReCaptchaValidator;
+use App\ReCaptcha\ReCaptchaClient;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Form\FormError;
@@ -28,15 +28,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EmailController extends AbstractFOSRestController
 {
-    private ReCaptchaValidator $reCaptchaValidator;
+    private ReCaptchaClient $recaptchaClient;
     private MessageBusInterface $bus;
     private string $mailSubject;
     private string $mailSubjectPrefix;
     private string $mailTimeZone;
 
-    public function __construct(ReCaptchaValidator $reCaptchaValidator, MessageBusInterface $bus)
+    public function __construct(ReCaptchaClient $recaptchaClient, MessageBusInterface $bus)
     {
-        $this->reCaptchaValidator = $reCaptchaValidator;
+        $this->recaptchaClient = $recaptchaClient;
         $this->bus = $bus;
     }
 
@@ -64,7 +64,7 @@ class EmailController extends AbstractFOSRestController
         }
 
         $mailData = $form->getNormData();
-        $captchaResponse = $this->reCaptchaValidator->checkReCaptchaResponse($mailData['reCaptchaAction'], $mailData['reCaptchaToken']);
+        $captchaResponse = $this->recaptchaClient->checkReCaptchaResponse($mailData['reCaptchaAction'], $mailData['reCaptchaToken']);
         if (!$captchaResponse->isSuccess()) {
             $form->addError(new FormError($captchaResponse->getMessage()));
             throw new FormException($form);

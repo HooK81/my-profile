@@ -54,7 +54,7 @@ TAG=X.Y.Z docker-compose -f docker-compose.prod.yml up -d
 ```
 In order to restart PHP FPM in production env
 ```shell
-docker exec mp_php_prod kill -USR2 12
+docker exec mp_php kill -USR2 12
 ```
 
 ## Development

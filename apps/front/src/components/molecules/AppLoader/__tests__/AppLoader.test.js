@@ -1,9 +1,8 @@
 /**
  * AppLoader Test Suites
  */
-
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/react';
 import { AppLoader } from '../AppLoader.js';
 
 describe('AppLoader', () => {
@@ -14,37 +13,31 @@ describe('AppLoader', () => {
     document.body.innerHTML = '<div id="site-loader">loading</div>';
   });
 
-  it('Should AppLoader render without crash', () => {
-    const wrapper = mount(<AppLoader isLoaded={false} />);
-    const loader = document.getElementById('site-loader');
-    expect(wrapper.contains(<AppLoader isLoaded={false} />)).toBe(true);
-    expect(loader).toBeDefined();
-  });
-
-  it('Should AppLoader disappear without crash', async () => {
-    const wrapper = mount(<AppLoader isLoaded={true} />);
-    expect(wrapper.contains(<AppLoader isLoaded={true} />)).toBe(true);
-    await new Promise((done) =>
-      setTimeout(() => {
-        const loader = document.getElementById('site-loader');
-        expect(loader).toBeNull();
-        done();
-      }, 2000),
+  it('should AppLoader be visible during loading', async () => {
+    const { asFragment } = render(<AppLoader isLoaded={false} />);
+    expect(asFragment()).toMatchSnapshot();
+    await waitFor(() =>
+      expect(screen.queryByText('loading')).toBeInTheDocument(),
     );
   });
 
-  it('Should AppLoader does not crash when dov is missing', async () => {
-    document.body.innerHTML = '<div id="other">not a loading</div>';
-    const wrapper = mount(<AppLoader isLoaded={true} />);
-    expect(wrapper.contains(<AppLoader isLoaded={true} />)).toBe(true);
+  it('should AppLoader disappear when loaded', async () => {
+    render(<AppLoader isLoaded={true} />);
+    await waitFor(
+      () => expect(screen.queryByText('loading')).not.toBeInTheDocument(),
+      { timeout: 1200 },
+    );
+  });
+
+  it('should AppLoader do nothing when loading div is missing', async () => {
+    document.body.innerHTML = '<div id="other">not-loader</div>';
+
+    render(<AppLoader isLoaded={true} />);
     await new Promise((done) =>
       setTimeout(() => {
-        const loader = document.getElementById('site-loader');
-        expect(loader).toBeNull();
+        expect(screen.queryByText('not-loader')).toBeInTheDocument();
         done();
-      }, 2000),
+      }, 600),
     );
   });
 });
-
-

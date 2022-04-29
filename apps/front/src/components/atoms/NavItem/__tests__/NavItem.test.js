@@ -6,6 +6,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { NavItem } from '../NavItem.js';
 import { BrowserRouter } from 'react-router-dom';
 
+const onClick = jest.fn();
+const onSetActive = jest.fn();
+const onScrollLinkError = jest.fn();
+
 describe('NavItem', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -16,8 +20,6 @@ describe('NavItem', () => {
   });
 
   it('should NavItem render link to inner hash without crash', async () => {
-    const onItemSelect = jest.fn();
-    const onSetActive = jest.fn();
 
     // Mock rect of hash element
     global.document.getElementById('hash').getBoundingClientRect = jest.fn(
@@ -39,21 +41,17 @@ describe('NavItem', () => {
         smoothDuration={1}
         smoothOffset={0}
         onSetActive={onSetActive}
-        onItemSelect={onItemSelect}
+        onClick={onClick}
       />,
     );
     const link = await screen.findByText('anchor label');
     fireEvent.click(link);
-    await waitFor(() => expect(onItemSelect).toHaveBeenCalled());
+    await waitFor(() => expect(onClick).toHaveBeenCalled());
     await waitFor(() => expect(onSetActive).toHaveBeenCalled());
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should NavItem handle click on wrong inner hash link', async () => {
-    const onItemSelect = jest.fn();
-    const onSetActive = jest.fn();
-    const onScrollLinkError = jest.fn();
-
     // Mock rect of hash element
     global.document.getElementById('hash').getBoundingClientRect = jest.fn(
       () => ({
@@ -74,34 +72,32 @@ describe('NavItem', () => {
         smoothDuration={1}
         smoothOffset={0}
         onSetActive={onSetActive}
-        onItemSelect={onItemSelect}
+        onClick={onClick}
         onScrollLinkError={onScrollLinkError}
       />,
     );
 
     const link = await screen.findByText('anchor label');
     fireEvent.click(link);
-    await waitFor(() => expect(onItemSelect).toHaveBeenCalled());
+    await waitFor(() => expect(onClick).toHaveBeenCalled());
     await waitFor(() => expect(onScrollLinkError).toHaveBeenCalled());
     await waitFor(() => expect(onSetActive).not.toHaveBeenCalled());
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should NavItem render link to other page without crash', async () => {
-    const onItemSelect = jest.fn();
-
     const { asFragment } = render(
       <BrowserRouter>
         <NavItem
           label="label"
           to={{ pathname: '/other' }}
-          onItemSelect={onItemSelect}
+          onClick={onClick}
         />
       </BrowserRouter>,
     );
     const link = await screen.findByRole('link');
     expect(asFragment()).toMatchSnapshot();
     fireEvent.click(link);
-    expect(onItemSelect).toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalled();
   });
 });

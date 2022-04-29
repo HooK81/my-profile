@@ -1,7 +1,7 @@
 /**
  * Nav
  */
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import { getScrollPosition, getElementHeight } from '../../../utils/window';
@@ -11,28 +11,39 @@ import { NavItem } from '../../atoms/NavItem/NavItem';
 import i18n from 'i18next';
 import './Nav.scss';
 
+const BurgerMenu = (props) => {
+  return (
+    <Fragment>
+      <i
+        className="mobile-btn mobile-btn-show"
+        title="Show navigation"
+        onClick={() => props.onClick(true)}
+      >
+        Show navigation
+      </i>
+      <i
+        className="mobile-btn mobile-btn-hide"
+        title="Hide navigation"
+        onClick={() => props.onClick(false)}
+      >
+        Hide navigation
+      </i>
+    </Fragment>
+  );
+};
+/* istanbul ignore next */
+BurgerMenu.defaultProps = {
+  onClick: () => {},
+};
+BurgerMenu.propTypes = {
+  onClick: PropTypes.func,
+};
+
 /**
  * Nav Component
  * @param {object} props
  */
 export function Nav(props) {
-  /*----------------------------------------------------*/
-  /*	Hide mobile menu on click
-  ------------------------------------------------------*/
-  const [isMenuDisplayed, setMenuDisplayed] = useState(false);
-  useEffect(() => {
-    function handleOutsideClick() {
-      // Hide menu on click, if menu is displayed
-      if (!isMenuDisplayed) {
-        return;
-      }
-      setMenuDisplayed(false);
-    }
-
-    document.addEventListener('click', handleOutsideClick);
-    return () => document.removeEventListener('click', handleOutsideClick);
-  }, [isMenuDisplayed]);
-
   /*----------------------------------------------------*/
   /*	Fade In/Out Primary Navigation
   ------------------------------------------------------*/
@@ -69,8 +80,6 @@ export function Nav(props) {
     return () => window.removeEventListener('scroll', eventScroll);
   }, [props.home, onHomeScroll]);
 
-  const menuClass = `${menuState} ${isMenuDisplayed ? 'opened' : ''}`;
-
   /*----------------------------------------------------*/
   /*	Change language
   ------------------------------------------------------*/
@@ -78,24 +87,31 @@ export function Nav(props) {
   const changeLanguage = async (lng) => {
     await i18n.changeLanguage(lng);
     dispatch(setLocale(lng));
+    setMenuDisplayed(false);
   };
+
+  /*----------------------------------------------------*/
+  /*	Burger Menu
+  ------------------------------------------------------*/
+  const [isMenuDisplayed, setMenuDisplayed] = useState(false);
+  useEffect(() => {
+    function handleOutsideClick() {
+      // Hide menu on click, if menu is displayed
+      if (!isMenuDisplayed) {
+        return;
+      }
+      setMenuDisplayed(false);
+    }
+
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, [isMenuDisplayed]);
+
+  const menuClass = `${menuState} ${isMenuDisplayed ? 'opened' : ''}`;
 
   return (
     <nav id="nav-wrap" className={menuClass}>
-      <i
-        className="mobile-btn mobile-btn-show"
-        title="Show navigation"
-        onClick={() => setMenuDisplayed(true)}
-      >
-        Show navigation
-      </i>
-      <i
-        className="mobile-btn mobile-btn-hide"
-        title="Hide navigation"
-        onClick={() => setMenuDisplayed(false)}
-      >
-        Hide navigation
-      </i>
+      {<BurgerMenu onClick={setMenuDisplayed} />}
 
       <ul id="nav" className="nav">
         {props.items.map((item) => (
@@ -114,6 +130,7 @@ export function Nav(props) {
             })}
             onSetActive={(hash) => props.onSetActiveAfterScroll(hash)}
             onScrollLinkError={(to) => props.onScrollLinkError(to)}
+            onClick={() => setMenuDisplayed(false)}
           />
         ))}
         <li className="languages">
@@ -141,7 +158,6 @@ export function Nav(props) {
 Nav.defaultProps = {
   onSetActiveAfterScroll: () => {},
   onScrollLinkError: () => {},
-  onItemSelect: () => {},
   home: false,
 };
 Nav.propTypes = {
@@ -149,5 +165,4 @@ Nav.propTypes = {
   home: PropTypes.bool,
   onSetActiveAfterScroll: PropTypes.func,
   onScrollLinkError: PropTypes.func,
-  onItemSelect: PropTypes.func,
 };

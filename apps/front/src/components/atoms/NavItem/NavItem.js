@@ -36,7 +36,7 @@ export function NavItem(props) {
         activeClass={props.smoothActiveClass}
         onClick={(e) => {
           checkTargetHashLink(props.to);
-          props.onItemSelect(e, props.to);
+          props.onClick(e, props.to);
         }}
         onSetActive={(hashName) => props.onSetActive(hashName)}
       >
@@ -49,7 +49,7 @@ export function NavItem(props) {
         to={props.to}
         exact
         activeClassName={props.smoothActiveClass}
-        onClick={(e) => props.onItemSelect(e)}
+        onClick={(e) => props.onClick(e)}
       >
         {props.label}
       </NavHashLink>
@@ -65,7 +65,7 @@ NavItem.defaultProps = {
   smoothOffset: 0,
   smoothDuration: 800,
   smoothActiveClass: 'active',
-  onItemSelect: () => {},
+  onClick: () => {},
   onSetActive: () => {},
   onScrollLinkError: () => {},
 };
@@ -77,7 +77,7 @@ NavItem.propTypes = {
   smoothOffset: PropTypes.number,
   smoothDuration: PropTypes.number,
   smoothActiveClass: PropTypes.string,
-  onItemSelect: PropTypes.func,
+  onClick: PropTypes.func,
   onSetActive: PropTypes.func,
   onScrollLinkError: PropTypes.func,
 };

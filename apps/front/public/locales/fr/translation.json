@@ -51,10 +51,10 @@
       "today": "Aujourd'hui",
       "date": "{{start}} - {{end}} - {{duration}}",
       "duration": "{{ years }} {{ months }}",
-      "duration_years": "{{count}} an",
-      "duration_years_plural": "{{count}} ans",
-      "duration_months": "{{count}} mois",
-      "duration_months_plural": "{{count}} mois",
+      "duration_years_one": "{{count}} an",
+      "duration_years_other": "{{count}} ans",
+      "duration_months_one": "{{count}} mois",
+      "duration_months_other": "{{count}} mois",
       "moment_format": "MMMM YYYY"
     },
     "skills": {

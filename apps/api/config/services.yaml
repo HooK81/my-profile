@@ -30,7 +30,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Controller\EmailController:
         calls:
-            - setMailEnvVars: ["%env(MAILER_SUBJECT_DEFAULT)%", "%env(MAILER_SUBJECT_PREFIX)%", "%env(MAILTER_TIMEZONE)%"]
+            - setMailEnvVars: ["%env(MAILER_SUBJECT_PREFIX)%", "%env(MAILTER_TIMEZONE)%"]
 
     App\Manager\ProfileManager:
         $usersPath: "%kernel.project_dir%/%env(USERS_PATH)%"
@@ -41,13 +41,12 @@ services:
         $env: "%kernel.environment%"
         $tokenTtl: "%app.security.jwt_token_ttl%"
 
-    App\ReCaptcha\ReCaptchaClient:
-        $secret: "%env(RECAPTCHA_V3_SECRET)%"
-        $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"
-
     App\Mailer\AppMailer:
         $defaultSenderMail: "%env(MAILER_SENDER)%"
         $teamMail: "%env(MAILER_TEAM_MAIL)%"
+
+    App\Form\MailType:
+        $mailSubject: "%env(MAILER_SUBJECT_DEFAULT)%"
 
     App\Security\PasswordHasher:
         $jwtUserUuid: "%env(APP_JWT_USER_UUID)%"

@@ -4,10 +4,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: true
 
-    App\ReCaptcha\ReCaptchaClient:
-        $secret: "%env(RECAPTCHA_V3_SECRET)%"
-        $minValidateScore: "%env(float:RECAPTCHA_MIN_VALIDATE_SCORE)%"
-
     App\Mailer\AppMailer:
         $defaultSenderMail: "%env(MAILER_SENDER)%"
         $teamMail: "%env(MAILER_TEAM_MAIL)%"

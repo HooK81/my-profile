@@ -130,8 +130,5 @@
       "404": "Ce que tu cherches a peut-être été perdu dans la Mémoire à Long Terme.",
       "500": "Ce que tu cherches est pour le moment cassé. Revient dans un petit moment."
     }
-  },
-  "recaptcha-branding": {
-    "text": "Ce site est protégé par reCAPTCHA et les <2>Règles de Confidentialité</2> et <6>Conditions d'Utilisation</6> de Google s'appliquent."
   }
 }

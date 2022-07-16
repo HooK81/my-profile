@@ -6,7 +6,6 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MailType extends AbstractType
 {
     public const MESSAGE_MIN_LENGTH = 10;
+    private string $mailSubject;
+
+    public function __construct(string $mailSubject)
+    {
+        $this->mailSubject = $mailSubject;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -43,18 +48,7 @@ class MailType extends AbstractType
             ])
             ->add('subject', TextType::class, [
                 'required' => false,
-            ])
-            ->add('reCaptchaAction', HiddenType::class, [
-                'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
-            ])
-            ->add('reCaptchaToken', HiddenType::class, [
-                'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+                'empty_data' => $this->mailSubject,
             ])
         ;
     }

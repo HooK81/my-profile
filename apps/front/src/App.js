@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import ReactGA from 'react-ga';
-import debounce from 'lodash/debounce';
 import {
   selectApiProfileData,
   selectApiProfileError,
@@ -65,23 +63,7 @@ class App extends PureComponent {
     if (this.props.isLoaded && !this.props.apiError) {
       document.title = `${this.props.profile.main.firstName} - ${this.props.profile.main.occupation}`;
     }
-
-    // Call React GA on location change
-    if (
-      prevProps.isLoaded !== this.props.isLoaded ||
-      prevProps.location.pathname !== this.props.location.pathname ||
-      prevProps.location.hash !== this.props.location.hash
-    ) {
-      this.updateReactGA(
-        this.props.location.pathname +
-          (this.props.location.hash ? this.props.location.hash : ''),
-      );
-    }
   }
-
-  updateReactGA = debounce((path) => {
-    ReactGA.pageview(path.replace('#home', ''));
-  }, 1000);
 
   render() {
     if (!this.props.isLoaded) {

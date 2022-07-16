@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 import { toast } from 'react-toastify';
 import { api } from '../../../../api/index';
 import { ApiError } from '../../../../api/Api';
-import { getReCaptchaToken } from '../../../../utils/reCaptcha';
 
 const profileMain = {
   fullName: '',
@@ -35,9 +34,6 @@ const store = mockStore({
 // Mock Toastify
 jest.mock('react-toastify');
 
-// Mock reCaptcha HooK
-jest.mock('../../../../utils/reCaptcha');
-
 describe('Form 2', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -52,7 +48,6 @@ describe('Form 2', () => {
     fireEvent.submit(screen.getByRole("button", {name: /contact.message.submit/i}));
     await screen.findAllByRole("alert");
     expect(asFragment()).toMatchSnapshot();
-    expect(getReCaptchaToken).toHaveBeenCalledTimes(0);
     expect(api.post).toHaveBeenCalledTimes(0);
   });
 
@@ -82,7 +77,6 @@ describe('Form 2', () => {
     await waitFor(() => expect(screen.queryAllByTitle('spinner')).toHaveLength(1));
     await waitFor(() => expect(screen.queryAllByTitle('spinner')).toHaveLength(0));
     await waitFor(() => expect(screen.queryAllByRole("alert")).toHaveLength(0));
-    expect(getReCaptchaToken).toHaveBeenCalledTimes(1);
     expect(api.post).toHaveBeenCalledTimes(1);
   });
 
@@ -189,5 +183,4 @@ describe('Form 2', () => {
     expect(api.post).toHaveBeenCalledTimes(1);
     expect(toast.error).toHaveBeenCalledTimes(0);
   });
-
 });

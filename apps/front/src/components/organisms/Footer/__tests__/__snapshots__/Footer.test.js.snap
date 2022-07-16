@@ -15,28 +15,6 @@ exports[`Footer should Footer render without crash 1`] = `
           class="social"
           title="social-links"
         />
-        <small
-          class="recaptcha-branding"
-          title="recaptcha-branding"
-        >
-          This site is protected by reCAPTCHA and the Google 
-          <a
-            href="https://policies.google.com/privacy"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Privacy Policy
-          </a>
-           and 
-          <a
-            href="https://policies.google.com/terms"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Terms of Service
-          </a>
-           apply.
-        </small>
         <ul
           class="copyright"
           title="copyright"
@@ -110,28 +88,6 @@ exports[`Footer should Footer render without crash when props missing 1`] = `
       <div
         class="twelve column"
       >
-        <small
-          class="recaptcha-branding"
-          title="recaptcha-branding"
-        >
-          This site is protected by reCAPTCHA and the Google 
-          <a
-            href="https://policies.google.com/privacy"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Privacy Policy
-          </a>
-           and 
-          <a
-            href="https://policies.google.com/terms"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Terms of Service
-          </a>
-           apply.
-        </small>
         <ul
           class="copyright"
           title="copyright"

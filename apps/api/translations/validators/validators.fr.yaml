@@ -1,5 +1,0 @@
-recaptcha.score.too_low: Google Captcha a rejetée la demande. Veuillez re-essayer.
-recaptcha.token.invalid: La clé de la vérification Captcha n'est pas valide.
-recaptcha.action.invalid: L'action de la vérification Captcha n'est pas valide.
-recaptcha.response.invalid: La réponse du service Captcha n'est pas valide.
-recaptcha.response.unknown: Erreur inconnue pendant la vérification Captcha.

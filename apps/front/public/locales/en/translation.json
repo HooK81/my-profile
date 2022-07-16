@@ -130,8 +130,5 @@
       "404": "What you’re looking for may have been misplaced in Long Term Memory.",
       "500": "What you’re looking for seems broken. Come back in a little while."
     }
-  },
-  "recaptcha-branding": {
-    "text": "This site is protected by reCAPTCHA and the Google <2>Privacy Policy</2> and <6>Terms of Service</6> apply."
   }
 }

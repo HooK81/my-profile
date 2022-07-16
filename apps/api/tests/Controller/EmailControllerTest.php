@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Mailer\AppMailer;
-use App\ReCaptcha\ReCaptchaClient;
-use App\ReCaptcha\ReCaptchaResponse;
 use App\Tests\Traits\LoggedUserTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -33,15 +31,6 @@ final class EmailControllerTest extends WebTestCase
      */
     public function testSendMailSuccess(array $mailData, string $locale, string $mockFile): void
     {
-        // Mock ReCaptchaClient
-        $reCaptchaClientMock = $this->getMockBuilder(ReCaptchaClient::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['checkReCaptchaResponse'])
-            ->getMock()
-        ;
-        $reCaptchaClientMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(true, '', ''));
-        static::getContainer()->set('App\ReCaptcha\ReCaptchaClient', $reCaptchaClientMock);
-
         // Mock AppMailer
         $mailerMock = $this->getMockBuilder(AppMailer::class)
             ->disableOriginalConstructor()
@@ -71,8 +60,6 @@ final class EmailControllerTest extends WebTestCase
             [],
             [],
             json_encode(array_merge([
-                'reCaptchaAction' => 'foo',
-                'reCaptchaToken' => 'foo',
                 'message' => 'message to be sent',
                 'from' => 'john@doe.com',
             ], $mailData))
@@ -87,43 +74,6 @@ final class EmailControllerTest extends WebTestCase
             [[], 'en', __DIR__ . '/__mocks__/emailBody1.txt'],
             [['subject' => 'subject of the message'], 'fr', __DIR__ . '/__mocks__/emailBody2.txt'],
         ];
-    }
-
-    public function testSendMailCaptchaError(): void
-    {
-        // Mock ReCaptchaClient
-        $expectedError = 'captcha error';
-        $reCaptchaClientMock = $this->getMockBuilder(ReCaptchaClient::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['checkReCaptchaResponse'])
-            ->getMock()
-        ;
-        $reCaptchaClientMock->method('checkReCaptchaResponse')->willReturn(new ReCaptchaResponse(false, $expectedError, ''));
-        static::getContainer()->set('App\ReCaptcha\ReCaptchaClient', $reCaptchaClientMock);
-
-        $this->client->request(
-            'POST',
-            '/en/v1/email',
-            [],
-            [],
-            [],
-            json_encode([
-                'reCaptchaAction' => 'foo',
-                'reCaptchaToken' => 'foo',
-                'message' => 'message to be sent',
-                'subject' => 'subject of the message',
-                'from' => 'john@doe.com',
-            ])
-        );
-        $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertEquals([
-            'code' => Response::HTTP_BAD_REQUEST,
-            'message' => self::ERROR_INVALID_FORM,
-            'errors' => [
-                ['mail' => [$expectedError]],
-            ],
-        ], $response);
     }
 
     /**
@@ -153,42 +103,24 @@ final class EmailControllerTest extends WebTestCase
     public function validationErrorProvider(): array
     {
         return [
-            [[], ['reCaptchaAction', 'reCaptchaToken', 'message', 'from']],
+            [[], ['message', 'from']],
             [
                 [
-                    'reCaptchaAction' => 'action',
-                ],
-                ['reCaptchaToken', 'message', 'from'],
-            ],
-            [
-                [
-                    'reCaptchaAction' => 'action',
-                    'reCaptchaToken' => 'token',
-                ],
-                ['message', 'from'],
-            ],
-            [
-                [
-                    'reCaptchaAction' => 'action',
-                    'reCaptchaToken' => 'token',
                     'message' => 'too short',
                 ],
                 ['message', 'from'],
             ],
             [
                 [
-                    'reCaptchaAction' => 'action',
-                    'reCaptchaToken' => 'token',
                     'message' => 'this is a valid message',
                 ],
                 ['from'],
             ],
             [
                 [
-                    'reCaptchaAction' => 'action',
-                    'reCaptchaToken' => 'token',
                     'message' => 'this is a valid message',
                     'from' => 'not an email',
+                    'subject' => 'custom subject',
                 ],
                 ['from'],
             ],

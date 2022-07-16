@@ -30,10 +30,6 @@ framework:
         default_options:
             http_version: '2.0'
 
-        scoped_clients:
-            recaptcha.client:
-                base_uri: '%env(RECAPTCHA_API_BASE_URL)%'
-
 when@test:
     framework:
         test: true

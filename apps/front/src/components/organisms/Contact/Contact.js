@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { useReCaptchaToken } from '../../../utils/reCaptcha';
 import { selectAppLocale } from '../../../redux/app/selectors';
 import { api } from '../../../api/index';
 import { toast } from 'react-toastify';
@@ -14,7 +13,6 @@ import { VCardButton } from '../../atoms/VCardButton/VCardButton';
 import i18n from 'i18next';
 import { ProtectedText } from 'react-protected-text';
 import './Contact.scss';
-const RECAPTCHA_ACTION = 'sendContactMail';
 
 /**
  * Contact Component
@@ -24,7 +22,6 @@ export function Contact(props) {
   const [pending, setPending] = useState(false);
   const [backErrors, setBackErrors] = useState({});
   const appLocale = useSelector((state) => selectAppLocale(state));
-  const getReCaptchaToken = useReCaptchaToken();
 
   /*** FORM */
   const {
@@ -39,8 +36,6 @@ export function Contact(props) {
       await api.post(
         'post_email',
         {
-          reCaptchaAction: RECAPTCHA_ACTION,
-          reCaptchaToken: await getReCaptchaToken(RECAPTCHA_ACTION),
           from: data?.email,
           subject: data?.subject,
           message: data?.message,

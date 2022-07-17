@@ -17,37 +17,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * ProfileController.
- *
- * @Route(
- *     path="/{_locale}/{version}/users",
- *     requirements={ "_locale": "%app.locales%" },
- *     options={ "expose": true },
- *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
- * )
- * @Cache(maxage=self::MAX_CACHE_TTL)
- */
+#[Route(
+    path: '/{_locale}/{version}/users',
+    requirements: ['_locale' => '%app.locales%'],
+    options: ['expose' => true],
+    defaults: ['_locale' => '%app.default_locale%', 'version' => 'v1']
+)]
+#[Cache(maxage: self::MAX_CACHE_TTL)]
 class ProfileController extends AbstractFOSRestController
 {
     public const MAX_CACHE_TTL = 7200; // 2 h
-    protected ProfileManager $profileManager;
-    protected VCardGenerator $vCardGenerator;
     protected Request $request;
 
-    public function __construct(RequestStack $requestStack, ProfileManager $profileManager, VCardGenerator $vCardGenerator)
+    public function __construct(protected ProfileManager $profileManager, protected VCardGenerator $vCardGenerator, protected RequestStack $requestStack)
     {
         $this->request = $requestStack->getMainRequest();
-        $this->profileManager = $profileManager;
-        $this->vCardGenerator = $vCardGenerator;
     }
 
-    /**
-     * Get a user profile.
-     *
-     * @Rest\Get(path="/{id}", name="get_user")
-     * @Rest\View
-     */
+    #[Rest\Get(path: '/{id}', name: 'get_user')]
+    #[Rest\View()]
     public function getUserProfile(string $id): Profile
     {
         /** @var Profile $profile */
@@ -59,11 +47,7 @@ class ProfileController extends AbstractFOSRestController
         return $profile;
     }
 
-    /**
-     * Get a user file.
-     *
-     * @Rest\Get(path="/{id}/files/{file}", name="get_user_file")
-     */
+    #[Rest\Get(path: '/{id}/files/{file}', name: 'get_user_file')]
     public function getUserFile(string $id, string $file): BinaryFileResponse
     {
         $filename = $this->profileManager->getFilesPath($id, $file);
@@ -82,11 +66,7 @@ class ProfileController extends AbstractFOSRestController
         return $response;
     }
 
-    /**
-     * Get a user vcard.
-     *
-     * @Rest\Get(path="/{id}/vcard", name="get_user_vcard")
-     */
+    #[Rest\Get(path: '/{id}/vcard', name: 'get_user_vcard')]
     public function getUserVCard(string $id): Response
     {
         $profile = $this->getUserProfile($id);

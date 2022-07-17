@@ -35,7 +35,7 @@ final class TokenManagerTest extends TestCase
     {
         ($this->currentRequest = new Request())
             ->initialize([], [], [], [], [], ['REMOTE_ADDR' => '127.0.0.1', 'HTTP_Key' => self::HEADER_KEY, 'HTTP_User-Agent' => 'PHPUnit'])
-    ;
+        ;
 
         $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
         $this->requestStack->method('getCurrentRequest')->willReturn($this->currentRequest);

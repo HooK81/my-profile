@@ -18,11 +18,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class ExceptionSubscriber implements EventSubscriberInterface
 {
-    private ExceptionNormalizerFactory $normalizerFactory;
-
-    public function __construct(ExceptionNormalizerFactory $normalizerFactory)
+    public function __construct(private ExceptionNormalizerFactory $normalizerFactory)
     {
-        $this->normalizerFactory = $normalizerFactory;
     }
 
     public static function getSubscribedEvents(): array

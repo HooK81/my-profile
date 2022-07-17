@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Message;
 
-use App\Mailer\AppMailer;
+use App\Enum\MailContentType;
 use App\Message\SendEmailMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ final class SendEmailMessageTest extends TestCase
             self::SUBJECT,
             self::BODY,
             self::TO,
-            AppMailer::MAILER_CONTENT_TYPE_HTML,
+            MailContentType::Html,
             self::FROM,
             self::CC,
             self::CCI,
@@ -46,7 +46,7 @@ final class SendEmailMessageTest extends TestCase
         $this->assertEquals(self::BODY, $body);
 
         $contentType = $this->message->getContentType();
-        $this->assertEquals(AppMailer::MAILER_CONTENT_TYPE_HTML, $contentType);
+        $this->assertEquals(MailContentType::Html, $contentType);
 
         $from = $this->message->getFrom();
         $this->assertEquals(self::FROM, $from);

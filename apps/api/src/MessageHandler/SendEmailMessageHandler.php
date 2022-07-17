@@ -17,11 +17,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
  */
 final class SendEmailMessageHandler implements MessageHandlerInterface
 {
-    private AppMailer $mailer;
-
-    public function __construct(AppMailer $mailer)
+    public function __construct(private AppMailer $mailer)
     {
-        $this->mailer = $mailer;
     }
 
     public function __invoke(SendEmailMessage $message)

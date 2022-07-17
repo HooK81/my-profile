@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Enum\MailContentType;
 use App\Exception\FormException;
 use App\Form\MailType;
-use App\Mailer\AppMailer;
 use App\Message\SendTeamEmailMessage;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -14,25 +14,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * EmailController.
- *
- * @Route(
- *     path="/{_locale}/{version}",
- *     requirements={ "_locale": "%app.locales%" },
- *     options={ "expose": true },
- *     defaults={ "_locale": "%app.default_locale%", "version": "v1"}
- * )
- */
+#[Route(
+    path: '/{_locale}/{version}',
+    requirements: ['_locale' => '%app.locales%'],
+    options: ['expose' => true],
+    defaults: ['_locale' => '%app.default_locale%', 'version' => 'v1']
+)]
 class EmailController extends AbstractFOSRestController
 {
-    private MessageBusInterface $bus;
     private string $mailSubjectPrefix;
     private string $mailTimeZone;
 
-    public function __construct(MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus)
     {
-        $this->bus = $bus;
     }
 
     /**
@@ -44,10 +38,8 @@ class EmailController extends AbstractFOSRestController
         $this->mailTimeZone = $mailTimeZone;
     }
 
-    /**
-     * @Rest\Post(path="/email", name="post_email")
-     * @Rest\View(statusCode=204)
-     */
+    #[Rest\Post(path: '/email', name: 'post_email')]
+    #[Rest\View(statusCode: 204)]
     public function postEmail(Request $request): void
     {
         $msg = json_decode($request->getContent(), true);
@@ -67,6 +59,6 @@ class EmailController extends AbstractFOSRestController
         );
         $subject = sprintf('%s %s', trim($this->mailSubjectPrefix), $mailData['subject']);
 
-        $this->bus->dispatch(new SendTeamEmailMessage($subject, $body, AppMailer::MAILER_CONTENT_TYPE_TEXT, $mailData['from']));
+        $this->bus->dispatch(new SendTeamEmailMessage($subject, $body, MailContentType::Text, $mailData['from']));
     }
 }

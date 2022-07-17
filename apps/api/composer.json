@@ -10,14 +10,14 @@
         "cv"
     ],
     "require": {
-        "php": "^7.4.0",
+        "php": "^8.1.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/jsrouting-bundle": "^2.5",
         "friendsofsymfony/rest-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.12",
-        "ramsey/uuid": "^3.9",
-        "sabre/vobject": "^4.0",
+        "ramsey/uuid": "^4.3",
+        "sabre/vobject": "^4.4",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
@@ -57,7 +57,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "7.4"
+            "php": "8.1"
         },
         "allow-plugins": {
             "symfony/flex": true,
@@ -118,8 +118,15 @@
             "@php:phpstan",
             "@security:check"
         ],
-        "tests": "./bin/phpunit",
-        "tests:cov": "./bin/phpunit --coverage-html ./coverage"
+        "tests:prepare": "cp .env.dev.local .env.test.local",
+        "tests": [
+            "@tests:prepare",
+             "./bin/phpunit"
+        ],
+        "tests:cov": [
+            "@tests:prepare",
+            "./bin/phpunit --coverage-html ./coverage"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"

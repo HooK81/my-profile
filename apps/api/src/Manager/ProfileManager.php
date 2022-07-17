@@ -11,27 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * ProfileManager.
- */
 class ProfileManager
 {
     public const FILES_FOLDER = 'files/';
     public const PROFILE_FILANAME = 'profile.%s.json';
 
-    protected string $usersPath;
-    protected string $defaultLocale;
-    protected SerializerInterface $serializer;
-    protected Request $request;
-    protected LoggerInterface $mainLogger;
+    private Request $request;
 
-    public function __construct(RequestStack $requestStack, SerializerInterface $serializer, LoggerInterface $mainLogger, string $usersPath, string $defaultLocale)
+    public function __construct(private RequestStack $requestStack, private SerializerInterface $serializer, private LoggerInterface $mainLogger, private string $usersPath, private string $defaultLocale)
     {
         $this->request = $requestStack->getMainRequest();
-        $this->serializer = $serializer;
-        $this->mainLogger = $mainLogger;
-        $this->usersPath = $usersPath;
-        $this->defaultLocale = $defaultLocale;
     }
 
     /**

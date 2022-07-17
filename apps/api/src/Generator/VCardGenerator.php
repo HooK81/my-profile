@@ -18,13 +18,8 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class VCardGenerator
 {
-    private ProfileManager $profileManager;
-    private LoggerInterface $mainLogger;
-
-    public function __construct(ProfileManager $profileManager, LoggerInterface $mainLogger)
+    public function __construct(private ProfileManager $profileManager, private LoggerInterface $mainLogger)
     {
-        $this->profileManager = $profileManager;
-        $this->mainLogger = $mainLogger;
     }
 
     public function generateProfileVCard(Profile $profile): VCFCard

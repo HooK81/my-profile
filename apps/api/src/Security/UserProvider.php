@@ -20,13 +20,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserProvider implements UserProviderInterface
 {
-    private PasswordHasher $passwordHasher;
-    private TokenManager $tokenManager;
-
-    public function __construct(PasswordHasher $passwordHasher, TokenManager $tokenManager)
+    public function __construct(private PasswordHasher $passwordHasher, private TokenManager $tokenManager)
     {
-        $this->passwordHasher = $passwordHasher;
-        $this->tokenManager = $tokenManager;
     }
 
     /**

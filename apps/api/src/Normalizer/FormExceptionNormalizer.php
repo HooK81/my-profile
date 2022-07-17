@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * FormExceptionNormalizer
  * Format a FormException for API Response.
  *
-
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class FormExceptionNormalizer implements NormalizerInterface

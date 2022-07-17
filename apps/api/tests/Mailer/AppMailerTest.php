@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Mailer;
 
+use App\Enum\MailContentType;
 use App\Mailer\AppMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -49,7 +50,7 @@ final class AppMailerTest extends TestCase
             ->method('info')
         ;
 
-        $this->appMailer->sendMail('john@doe.com', 'subject', 'body', AppMailer::MAILER_CONTENT_TYPE_HTML, null, null);
+        $this->appMailer->sendMail('john@doe.com', 'subject', 'body', MailContentType::Html, null, null);
     }
 
     public function testSendTextMailSuccessWithFromAndReply()
@@ -67,7 +68,7 @@ final class AppMailerTest extends TestCase
             )
         ;
 
-        $this->appMailer->sendMail('john@doe.com', 'subject', 'body', AppMailer::MAILER_CONTENT_TYPE_TEXT, 'custom@from.com', 'reply@to.com');
+        $this->appMailer->sendMail('john@doe.com', 'subject', 'body', MailContentType::Text, 'custom@from.com', 'reply@to.com');
     }
 
     public function testSendMailException()

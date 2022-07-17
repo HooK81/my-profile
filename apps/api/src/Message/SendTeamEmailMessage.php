@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-use App\Mailer\AppMailer;
+use App\Enum\MailContentType;
 
 /**
  * SendTeamEmailMessage
@@ -15,7 +15,7 @@ use App\Mailer\AppMailer;
  */
 class SendTeamEmailMessage extends SendEmailMessage
 {
-    public function __construct(string $subject, string $body, string $contentType = AppMailer::MAILER_CONTENT_TYPE_HTML, ?string $from = null)
+    public function __construct(string $subject, string $body, MailContentType $contentType = MailContentType::Html, ?string $from = null)
     {
         parent::__construct($subject, $body, null, $contentType, $from);
     }

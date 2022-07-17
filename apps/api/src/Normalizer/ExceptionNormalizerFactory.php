@@ -13,16 +13,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ExceptionNormalizerFactory
 {
     /**
-     * @var NormalizerInterface[]
+     * @param NormalizerInterface[] $normalizers
      */
-    private iterable $normalizers;
-
-    /**
-     * NormalizerFactory constructor.
-     */
-    public function __construct(iterable $normalizers)
+    public function __construct(private iterable $normalizers)
     {
-        $this->normalizers = $normalizers;
     }
 
     /**

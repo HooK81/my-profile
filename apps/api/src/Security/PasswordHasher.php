@@ -14,22 +14,15 @@ use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
  */
 class PasswordHasher extends PlaintextPasswordHasher
 {
-    private int $iterations;
-    private string $algorithm;
     private int $hashLength = -1;
-    private string $jwtUserUuid;
 
     /**
      * @param string $jwtUserUuid JWT User UUID from Env
      * @param string $algorithm   The digest algorithm to use
      * @param int    $iterations  The number of iterations to use to stretch the password hash
      */
-    public function __construct(string $jwtUserUuid, string $algorithm = 'sha256', int $iterations = 42)
+    public function __construct(private string $jwtUserUuid, private string $algorithm = 'sha256', private int $iterations = 42)
     {
-        $this->iterations = $iterations;
-        $this->algorithm = $algorithm;
-        $this->jwtUserUuid = $jwtUserUuid;
-
         try {
             $this->hashLength = \strlen($this->hash('', 'salt'));
         } catch (\LogicException $e) {
@@ -37,9 +30,6 @@ class PasswordHasher extends PlaintextPasswordHasher
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hash(string $plainPassword, string $salt = null): string
     {
         if (!\in_array($this->algorithm, hash_algos(), true)) {

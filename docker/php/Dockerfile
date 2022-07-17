@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 ARG PHP_ENV=DEV
 
@@ -11,7 +11,7 @@ RUN apt-get update && \
     echo 'alias ll="ls -la"' >> /home/user/.bashrc && \
     PATH=$PATH:/usr/src/api/vendor/bin:bin
 
-RUN pecl install xdebug-3.1.1 && \
+RUN pecl install xdebug-3.1.5 && \
     pecl install pcov && \
     docker-php-ext-configure intl && docker-php-ext-install opcache intl && \
     docker-php-ext-enable xdebug && \

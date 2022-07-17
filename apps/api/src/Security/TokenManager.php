@@ -19,23 +19,19 @@ class TokenManager
     public const DEFAULT_CIPHER = 'aes-128-cbc';
     public const TOKEN_LIFETIME_DELTA = 300; // 5mn
     private ?Request $request;
-    private LoggerInterface $mainLogger;
-    private string $passPhrase;
-    private string $cipher;
-    private string $env;
-    private int $tokenTtl;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(RequestStack $requestStack, LoggerInterface $mainLogger, string $passPhrase, string $cipher = self::DEFAULT_CIPHER, string $env = '', int $tokenTtl = 0)
-    {
+    public function __construct(
+        private RequestStack $requestStack,
+        private LoggerInterface $mainLogger,
+        private string $passPhrase,
+        private string $cipher = self::DEFAULT_CIPHER,
+        private string $env = '',
+        private int $tokenTtl = 0
+    ) {
         $this->request = $requestStack->getCurrentRequest();
-        $this->mainLogger = $mainLogger;
-        $this->passPhrase = $passPhrase;
-        $this->cipher = $cipher;
-        $this->env = $env;
-        $this->tokenTtl = $tokenTtl;
     }
 
     /**

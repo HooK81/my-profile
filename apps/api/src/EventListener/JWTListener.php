@@ -25,13 +25,8 @@ class JWTListener
     public const DATA_TOKEN = 'token';
     public const DATA_SECRET = 'secret';
 
-    private $tokenManager;
-    private $env;
-
-    public function __construct(TokenManager $tokenManager, $env)
+    public function __construct(private TokenManager $tokenManager, private string $env)
     {
-        $this->tokenManager = $tokenManager;
-        $this->env = $env;
     }
 
     /**

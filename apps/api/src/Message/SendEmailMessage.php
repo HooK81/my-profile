@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-use App\Mailer\AppMailer;
+use App\Enum\MailContentType;
 
 /**
  * SendEmailMessage
@@ -15,28 +15,19 @@ use App\Mailer\AppMailer;
  */
 class SendEmailMessage
 {
-    private string $subject;
-    private string $body;
-    private ?string $to;
-    private ?string $cc;
-    private ?string $cci;
-    private ?string $from;
-    private ?string $replyTo;
-    private string $contentType;
-
     /**
      *  @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(string $subject, string $body, ?string $to, string $contentType = AppMailer::MAILER_CONTENT_TYPE_HTML, ?string $from = null, ?string $cc = null, ?string $cci = null, ?string $replyTo = null)
-    {
-        $this->to = $to;
-        $this->subject = $subject;
-        $this->body = $body;
-        $this->contentType = $contentType;
-        $this->from = $from;
-        $this->cc = $cc;
-        $this->cci = $cci;
-        $this->replyTo = $replyTo;
+    public function __construct(
+        private string $subject,
+        private string $body,
+        private ?string $to,
+        private MailContentType $contentType = MailContentType::Html,
+        private ?string $from = null,
+        private ?string $cc = null,
+        private ?string $cci = null,
+        private ?string $replyTo = null
+    ) {
     }
 
     public function getTo(): string
@@ -54,7 +45,7 @@ class SendEmailMessage
         return $this->body;
     }
 
-    public function getContentType(): string
+    public function getContentType(): MailContentType
     {
         return $this->contentType;
     }

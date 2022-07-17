@@ -7,20 +7,10 @@ namespace App\Entity\Security;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * User Class.
- * There is no user for API because it's public
- * User is used for JWT token.
- */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private string $username;
-    private string $password;
-
-    public function __construct(string $username, string $password = '')
+    public function __construct(private string $username, private string $password = '')
     {
-        $this->username = $username;
-        $this->password = $password;
     }
 
     public function getUserIdentifier(): string

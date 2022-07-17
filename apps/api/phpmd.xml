@@ -75,6 +75,7 @@
     <exclude-pattern>src/DataFixtures</exclude-pattern>
     <exclude-pattern>src/Mock</exclude-pattern>
     <exclude-pattern>src/Entity</exclude-pattern>
+    <exclude-pattern>src/Enum</exclude-pattern>
     <exclude-pattern>var/</exclude-pattern>
     <exclude-pattern>vendor/</exclude-pattern>
 </ruleset>

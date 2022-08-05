@@ -14,7 +14,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: () => mockDispatch,
 }));
-jest.mock('i18next-xhr-backend');
+jest.mock('i18next-http-backend');
 
 import { Nav } from '../Nav.js';
 import i18n from 'i18next';
@@ -243,8 +243,7 @@ describe('Nav for Home', () => {
 
       // Click outside menu
       act(() => {
-        var evt = document.createEvent('HTMLEvents');
-        evt.initEvent('click', false, true);
+        const evt = new MouseEvent('click', {"bubbles":false, "cancelable":true})
         document.dispatchEvent(evt);
       });
       wrapper.update();

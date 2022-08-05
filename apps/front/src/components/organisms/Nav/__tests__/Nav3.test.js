@@ -13,7 +13,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: () => mockDispatch,
 }));
-jest.mock('i18next-xhr-backend');
+jest.mock('i18next-http-backend');
 jest.mock('../../../../utils/window');
 
 import { Nav } from '../Nav.js';

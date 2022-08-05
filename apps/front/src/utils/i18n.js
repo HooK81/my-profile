@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import Backend from 'i18next-xhr-backend';
+import HttpApi from 'i18next-http-backend';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { initReactI18next } from 'react-i18next';
@@ -9,7 +9,7 @@ export const supportedLngs = ['en', 'fr'];
 
 // I18Next configuration
 i18n
-  .use(Backend)
+  .use(HttpApi)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -30,6 +30,10 @@ i18n
           return value.charAt(0).toUpperCase() + value.slice(1);
         return value;
       },
+    },
+
+    backend: {
+      queryStringParams: { v: process.env.REACT_APP_VERSION },
     },
   });
 

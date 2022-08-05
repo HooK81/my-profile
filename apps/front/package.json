@@ -17,8 +17,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "tests": "react-scripts test",
-    "tests:cov": "react-scripts test --coverage --silent",
+    "test": "react-scripts test",
+    "test:cov": "react-scripts test --coverage --silent",
     "eslint": "eslint src/ --fix",
     "install:clean": "rm -rf node_modules/ && rm -rf yarn.lock && rm -rf yarn-error.log && rm -rf build && rm -rf coverage && yarn install && yarn start"
   },
@@ -34,7 +34,7 @@
     "flag-icon-css": "^4.1.4",
     "i18next": "^21.3.3",
     "i18next-browser-languagedetector": "^6.0.1",
-    "i18next-xhr-backend": "^3.2.2",
+    "i18next-http-backend": "^1.4.1",
     "js-sha256": "^0.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",

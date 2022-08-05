@@ -69,12 +69,12 @@ docker-compose up -d
 #### Tests
 Run all tests
 ```shell
-docker-compose exec node yarn tests
+docker-compose exec node yarn test
 ```
 
 Run all tests with coverage report
 ```shell
-docker-compose exec node yarn tests:cov
+docker-compose exec node yarn test:cov
 ```
 ### Back
 
@@ -86,11 +86,11 @@ cp .env.dev.local .env.test.local
 
 Run all tests
 ```shell
-docker-compose exec php composer tests
+docker-compose exec php composer test
 ```
 Run all tests with coverage report
 ```shell
-docker-compose exec php composer tests:cov
+docker-compose exec php composer test:cov
 ```
 
 #### Run PHP CS Fixer

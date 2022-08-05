@@ -118,13 +118,13 @@
             "@php:phpstan",
             "@security:check"
         ],
-        "tests:prepare": "cp .env.dev.local .env.test.local",
-        "tests": [
-            "@tests:prepare",
+        "test:prepare": "cp .env.dev.local .env.test.local",
+        "test": [
+            "@test:prepare",
              "./bin/phpunit"
         ],
-        "tests:cov": [
-            "@tests:prepare",
+        "test:cov": [
+            "@test:prepare",
             "./bin/phpunit --coverage-html ./coverage"
         ]
     },

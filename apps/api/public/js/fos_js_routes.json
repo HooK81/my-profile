@@ -1,72 +1,72 @@
 {
-  "base_url": "",
-  "routes": {
-    "post_email": {
-      "tokens": [
-        ["text", "/email"],
-        ["variable", "/", "[^/]++", "version"],
-        ["variable", "/", "en|fr", "_locale"]
-      ],
-      "defaults": { "_locale": "en", "version": "v1" },
-      "requirements": { "_locale": "en|fr" },
-      "hosttokens": [],
-      "methods": ["POST"],
-      "schemes": []
+    "base_url": "",
+    "routes": {
+        "post_email": {
+            "tokens": [
+                ["text", "/email"],
+                ["variable", "/", "[^/]++", "version", true],
+                ["variable", "/", "en|fr", "_locale", true]
+            ],
+            "defaults": { "_locale": "en", "version": "v1" },
+            "requirements": { "_locale": "en|fr" },
+            "hosttokens": [],
+            "methods": ["POST"],
+            "schemes": []
+        },
+        "get_user": {
+            "tokens": [
+                ["variable", "/", "[^/]++", "id", true],
+                ["text", "/users"],
+                ["variable", "/", "[^/]++", "version", true],
+                ["variable", "/", "en|fr", "_locale", true]
+            ],
+            "defaults": { "_locale": "en", "version": "v1" },
+            "requirements": { "_locale": "en|fr" },
+            "hosttokens": [],
+            "methods": ["GET"],
+            "schemes": []
+        },
+        "get_user_file": {
+            "tokens": [
+                ["variable", "/", "[^/]++", "file", true],
+                ["text", "/files"],
+                ["variable", "/", "[^/]++", "id", true],
+                ["text", "/users"],
+                ["variable", "/", "[^/]++", "version", true],
+                ["variable", "/", "en|fr", "_locale", true]
+            ],
+            "defaults": { "_locale": "en", "version": "v1" },
+            "requirements": { "_locale": "en|fr" },
+            "hosttokens": [],
+            "methods": ["GET"],
+            "schemes": []
+        },
+        "get_user_vcard": {
+            "tokens": [
+                ["text", "/vcard"],
+                ["variable", "/", "[^/]++", "id", true],
+                ["text", "/users"],
+                ["variable", "/", "[^/]++", "version", true],
+                ["variable", "/", "en|fr", "_locale", true]
+            ],
+            "defaults": { "_locale": "en", "version": "v1" },
+            "requirements": { "_locale": "en|fr" },
+            "hosttokens": [],
+            "methods": ["GET"],
+            "schemes": []
+        },
+        "login": {
+            "tokens": [["text", "/auth/login"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": ["POST"],
+            "schemes": []
+        }
     },
-    "get_user": {
-      "tokens": [
-        ["variable", "/", "[^/]++", "id"],
-        ["text", "/users"],
-        ["variable", "/", "[^/]++", "version"],
-        ["variable", "/", "en|fr", "_locale"]
-      ],
-      "defaults": { "_locale": "en", "version": "v1" },
-      "requirements": { "_locale": "en|fr" },
-      "hosttokens": [],
-      "methods": ["GET"],
-      "schemes": []
-    },
-    "get_user_file": {
-      "tokens": [
-        ["variable", "/", "[^/]++", "file"],
-        ["text", "/files"],
-        ["variable", "/", "[^/]++", "id"],
-        ["text", "/users"],
-        ["variable", "/", "[^/]++", "version"],
-        ["variable", "/", "en|fr", "_locale"]
-      ],
-      "defaults": { "_locale": "en", "version": "v1" },
-      "requirements": { "_locale": "en|fr" },
-      "hosttokens": [],
-      "methods": ["GET"],
-      "schemes": []
-    },
-    "get_user_vcard": {
-      "tokens": [
-        ["text", "/vcard"],
-        ["variable", "/", "[^/]++", "id"],
-        ["text", "/users"],
-        ["variable", "/", "[^/]++", "version"],
-        ["variable", "/", "en|fr", "_locale"]
-      ],
-      "defaults": { "_locale": "en", "version": "v1" },
-      "requirements": { "_locale": "en|fr" },
-      "hosttokens": [],
-      "methods": ["GET"],
-      "schemes": []
-    },
-    "login": {
-      "tokens": [["text", "/auth/login"]],
-      "defaults": [],
-      "requirements": [],
-      "hosttokens": [],
-      "methods": ["POST"],
-      "schemes": []
-    }
-  },
-  "prefix": "",
-  "host": "localhost",
-  "port": "",
-  "scheme": "http",
-  "locale": []
+    "prefix": "",
+    "host": "localhost",
+    "port": "",
+    "scheme": "http",
+    "locale": ""
 }

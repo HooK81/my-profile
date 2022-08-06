@@ -95,7 +95,7 @@
       },
       "framework": {
         "title": "Framework",
-        "item1": "Symfony 5.4",
+        "item1": "Symfony 6.0",
         "item2": "Rest API by <2>FOSRestBundle</2>",
         "item3": "JWT token authentication by <2>LexikJWTAuthenticationBundle</2>",
         "item4": "Unit/Integration Tests: PHPUnit (100% code coverage)"

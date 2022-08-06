@@ -21,10 +21,6 @@ framework:
     php_errors:
         log: true
 
-    # Symfony Serializer
-    serializer:
-        enabled: true
-
     # HTTP Clients
     http_client:
         default_options:

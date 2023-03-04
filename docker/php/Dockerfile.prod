@@ -29,7 +29,7 @@ COPY docker/php/conf.d/php-*.ini docker/php/conf.d/php$PHP_ENV-*.ini $PHP_INI_DI
 COPY docker/php/scripts/symfony-entrypoint.sh /usr/local/bin/symfony-entrypoint.sh
 COPY apps/api /usr/src/api
 COPY docker/php/secrets/prod.decrypt.private.php /usr/src/api/config/secrets/prod/prod.decrypt.private.php
-COPY ocker/php/secrets/prod.jwt.private.pem /usr/src/api/config/jwt/prod/private.pem
+COPY docker/php/secrets/prod.jwt.private.pem /usr/src/api/config/jwt/prod/private.pem
 RUN cd /usr/src/api && \
     composer build:prod
 

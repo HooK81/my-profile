@@ -8,10 +8,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import './utils/i18n';
-import './utils/toastify';
 import { RouterScrollToTop } from './components/atoms/RouterScrollToTop/RouterScrollToTop';
 import App from './App';
 import { store } from './utils/configureStore';
+import { ToastContainer } from 'react-toastify';
 
 /**
  * MyProfile
@@ -25,6 +25,7 @@ ReactDOM.render(
         <BrowserRouter>
           <RouterScrollToTop>
             <App />
+            <ToastContainer autoClose={8000} position="top-center" />
           </RouterScrollToTop>
         </BrowserRouter>
       </Suspense>

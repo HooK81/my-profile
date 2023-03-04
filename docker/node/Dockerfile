@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:18-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
 RUN mkdir -p /home/user && \

@@ -20,7 +20,7 @@ exports[`Footer should Footer render without crash 1`] = `
           title="copyright"
         >
           <li>
-            vlatest © Copyright 2022 
+            vlatest © Copyright 2023 
             <span
               class="protected-text  s-671534137"
             >
@@ -93,7 +93,7 @@ exports[`Footer should Footer render without crash when props missing 1`] = `
           title="copyright"
         >
           <li>
-            vlatest © Copyright 2022 
+            vlatest © Copyright 2023 
             <span
               class="protected-text  s893923648"
             >

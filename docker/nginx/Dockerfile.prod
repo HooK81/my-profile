@@ -1,5 +1,5 @@
 # Stage1 - Build React App 
-FROM node:lts-alpine as build
+FROM node:18-alpine as build
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
 WORKDIR /usr/src/front
@@ -16,7 +16,7 @@ ENV APP_VERSION $APP_VERSION
 RUN yarn build
 
 # Stage 2 - build the final image
-FROM nginx:1.21-alpine
+FROM nginx:1.23-alpine
 LABEL maintainer="Julien CROCHET <julien@crochet.me>"
 
 WORKDIR /usr/src

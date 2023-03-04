@@ -1,11 +1,13 @@
 /**
  * MyProfile App
  */
+import moment from 'moment';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { Route, Switch, withRouter } from 'react-router-dom';
+
 import {
   selectApiProfileData,
   selectApiProfileError,
@@ -14,8 +16,6 @@ import { selectApiTokenError } from './redux/token/selectors';
 import { selectAppIsLoaded, selectAppLocale } from './redux/app/selectors';
 import { getProfile } from './redux/profile/actions';
 import { setIsLoaded } from './redux/app/actions';
-import moment from 'moment';
-
 import './App.scss';
 import { AppLoader } from './components/molecules/AppLoader/AppLoader';
 import { Home } from './components/pages/Home/Home';

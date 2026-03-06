@@ -1,0 +1,75 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding-top: $navbar-height;
+}
+
+.intro {
+  color: $text-tertiary;
+  font-size: $font-size-lg;
+  line-height: $line-height-base;
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 43.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: break-spaces;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 12.5rem 1fr;
+  align-items: baseline;
+  gap: 6.25rem;
+
+  @include respond-below($breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: $text-primary;
+  margin: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid $text-tertiary;
+
+  @include respond-below($breakpoint-md) {
+    text-align: center;
+  }
+}
+
+.details {
+  color: $text-primary;
+  ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0 0 1rem;
+
+    li {
+      font-size: $font-size-sm;
+      line-height: 2;
+    }
+  }
+}
+
+.category {
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: 0.25rem;
+  margin-top: 0;
+
+  &:not(:first-child) {
+    margin-top: 0.5rem;
+  }
+}

@@ -1,0 +1,48 @@
+@use 'variables' as *;
+
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-heading;
+  font-weight: 500;
+  line-height: $line-height-heading;
+  color: $text-primary;
+}
+
+h1 {
+  font-size: $font-size-hero;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: $font-size-xxl;
+}
+
+h3 {
+  font-size: $font-size-xl;
+}
+
+p {
+  margin-bottom: 1em;
+  color: $text-secondary;
+}
+
+a {
+  color: $text-secondary;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-secondary;
+    text-decoration: none;
+  }
+}

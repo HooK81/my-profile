@@ -1,0 +1,115 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $bg-primary;
+  position: relative;
+  padding: 0 $container-padding-x;
+  box-shadow: inset 0 -10px 10px 0 rgba(59, 66, 82, 0.8);
+  overflow: hidden;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 10;
+  margin: auto;
+
+  @include respond-below($breakpoint-md) {
+    gap: 2rem;
+    transform: translateY(-2rem); // Shift content up to balance space with scroll indicator
+  }
+}
+
+.welcome {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: $text-secondary;
+  margin: 0;
+
+  @include respond-below($breakpoint-md) {
+    min-height: 4.5rem; // Reserve 2 lines to prevent layout shift during typing
+  }
+}
+
+.name {
+  display: inline-block;
+  font-size: $font-size-hero;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0;
+  padding: 1rem;
+  text-transform: uppercase;
+  border: 1px solid $text-primary;
+  position: relative;
+
+  @include respond-below($breakpoint-md) {
+    font-size: 2.5rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -0.3125rem;
+    right: -0.3125rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    background-color: $text-secondary;
+  }
+}
+
+// Staggered fade-up entrance animations (Hero only)
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeUp1 {
+  animation: fadeUp 1.2s ease-out 0.15s both;
+}
+
+.fadeUp2 {
+  animation: fadeUp 1.2s ease-out 0.3s both;
+}
+
+.description {
+  font-size: 1.25rem;
+
+  p {
+    color: $text-primary;
+    margin: 0;
+
+    strong {
+      color: $text-secondary;
+      font-weight: normal
+    }
+  }
+}
+
+.fadeUp3 {
+  animation: fadeUp 1.2s ease-out 0.45s both;
+}
+

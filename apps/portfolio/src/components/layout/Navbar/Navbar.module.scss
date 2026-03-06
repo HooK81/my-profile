@@ -1,0 +1,161 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: $bg-primary;
+}
+
+.inner {
+  width: 100%;
+  height: $navbar-height;
+
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+
+  @include respond-below($breakpoint-md) {
+    position: fixed;
+    top: $navbar-height;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: rgba(67, 76, 94, 0.98);
+    padding: 1rem 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all $transition-normal;
+  }
+}
+
+.menuOpen {
+  @include respond-below($breakpoint-md) {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.link {
+  background: none;
+  border: none;
+  color: $text-primary;
+  font-size: 1.125rem;
+  font-family: $font-primary;
+  font-weight: 500;
+  padding: 0.3125rem 0.9375rem;
+  cursor: pointer;
+  transition: color $transition-fast;
+  position: relative;
+
+  &:hover {
+    color: $text-primary;
+  }
+
+  @include respond-below($breakpoint-md) {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.375rem 0;
+    font-size: 1rem;
+  }
+}
+
+// Desktop underline animation on hover/active
+@media (min-width: $breakpoint-md) {
+  .link::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translate(-50%) translateZ(0);
+    height: 3px;
+    width: 0;
+    background-color: $text-secondary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .link:hover::after {
+    width: calc(100% - 2.2em);
+  }
+
+  .active::after {
+    width: calc(100% - 2.2em);
+  }
+}
+
+.active {
+  color: $text-secondary;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 0.3125rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  outline: none;
+
+  span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: $text-primary;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 0;
+  }
+
+  @include respond-below($breakpoint-md) {
+    display: flex;
+  }
+}
+
+.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+  width: 25px;
+}
+
+.open span:nth-child(2) {
+  width: 0;
+}
+
+.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+  width: 25px;
+}
+
+// Locale switcher visibility
+.desktopLocale {
+  margin-left: 0.5rem;
+
+  @include respond-below($breakpoint-md) {
+    display: none;
+  }
+}
+
+.mobileLocale {
+  @media (min-width: $breakpoint-md) {
+    display: none;
+  }
+
+  // Add a subtle separator above the locale row in the mobile menu
+  border-top: 1px solid rgba($text-primary, 0.12);
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+}

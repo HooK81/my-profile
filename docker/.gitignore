@@ -1,0 +1,4 @@
+# USERS
+/docker/users/*
+!/docker/users/README.md
+!/docker/users/9383f3b9-9d3f-468d-b5dc-d47bd4460fa2/

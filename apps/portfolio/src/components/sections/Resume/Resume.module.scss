@@ -1,0 +1,197 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// Layout
+.experience {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.education {
+  margin-bottom: 3rem;
+
+  > .columnTitle {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.educationGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @include respond-below($breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+
+  .itemDate {
+    margin-bottom: 0;
+  }
+}
+
+.columnTitle {
+  font-size: 1.5rem;
+  color: $text-primary;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid $text-tertiary;
+
+  i {
+    color: $text-secondary;
+  }
+}
+
+// Timeline items
+.timelineItem {
+  padding: 0 0.9375rem 1.25rem 2.5rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid $text-tertiary;
+    background: transparent;
+    transition: background-color 0.3s ease;
+  }
+
+  &.active::before {
+    background-color: $text-tertiary;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 33px;
+    width: 2px;
+    height: calc(100% - 43px);
+    background-color: $text-tertiary;
+    border-radius: 3px;
+  }
+
+}
+
+.itemTitle {
+  font-family: $font-heading;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: $text-primary;
+  margin-bottom: 0.25rem;
+}
+
+.itemMeta {
+  font-size: $font-size-sm;
+  color: $text-primary;
+  margin-bottom: 0.25rem;
+}
+
+.metaCompany {
+  color: $text-secondary;
+  font-weight: 600;
+}
+
+.itemDate {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: $text-primary;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.itemDesc {
+  font-size: $font-size-sm;
+  color: $text-primary;
+  line-height: 1.6;
+}
+
+.itemDesc p {
+  color: $text-primary;
+  margin-bottom: 1rem;
+}
+
+.itemDesc ul {
+  margin: 0;
+  margin-left: 1em;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.itemDesc p + ul {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+.itemDesc strong {
+  color: $text-secondary;
+  font-weight: normal;
+}
+
+// Skills
+.skills {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 6.25rem;
+
+  @include respond-below($breakpoint-lg) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.skillItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+.skillName {
+  color: $text-primary;
+  font-weight: 400;
+}
+
+.skillLevel {
+  color: $text-primary;
+  font-weight: 500;
+}
+
+.skillTrack {
+  height: $bar-height;
+  background-color: $bar-bg;
+  border-radius: $bar-border-radius;
+  overflow: hidden;
+}
+
+.skillFill {
+  height: 100%;
+  background-color: $bar-fill;
+  border-radius: $bar-border-radius;
+  transition: width 1.5s ease-in-out;
+}
+
+.subtitle {
+  color: $text-tertiary;
+  font-size: $font-size-lg;
+  text-align: center;
+}

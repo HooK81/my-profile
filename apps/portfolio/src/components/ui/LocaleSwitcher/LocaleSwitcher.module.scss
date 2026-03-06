@@ -1,0 +1,114 @@
+@use '../../../styles/variables' as *;
+
+// ── Dropdown variant (desktop) ─────────────────────────────────────────────
+
+.dropdown {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $text-primary;
+  font-size: 1rem;
+  font-family: $font-primary;
+  font-weight: 500;
+  padding: 0.3125rem 0.5rem;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-secondary;
+  }
+}
+
+.caret {
+  font-size: 0.625rem;
+  margin-left: 0.125rem;
+  transition: transform $transition-fast;
+
+  .open & {
+    transform: rotate(180deg);
+  }
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.375rem);
+  background: $bg-darkest;
+  border: 1px solid $bg-secondary;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  list-style: none;
+  padding: 0.25rem 0;
+  margin: 0;
+  min-width: 5.5rem;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  li button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $text-primary;
+    font-family: $font-primary;
+    font-size: 0.875rem;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $bg-secondary;
+    }
+
+    &.active {
+      color: $text-secondary;
+    }
+  }
+}
+
+// ── Inline variant (mobile menu) ───────────────────────────────────────────
+
+.inline {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.375rem 0;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $text-primary;
+    font-family: $font-primary;
+    font-size: 1rem;
+    opacity: 0.45;
+    transition: opacity $transition-fast, color $transition-fast;
+
+    &:hover {
+      opacity: 0.75;
+    }
+
+    &.active {
+      opacity: 1;
+      color: $text-secondary;
+    }
+  }
+}
+
+// ── Shared ─────────────────────────────────────────────────────────────────
+
+.flag {
+  font-size: 1.125rem;
+  line-height: 1;
+}

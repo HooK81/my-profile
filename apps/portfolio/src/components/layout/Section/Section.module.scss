@@ -1,0 +1,50 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.section {
+  padding: $section-padding-y 0;
+  scroll-margin-top: $navbar-height - 4rem;
+
+  @include respond-below($breakpoint-md) {
+    scroll-margin-top: $navbar-height;
+    padding: $section-padding-y-mobile 0;
+  }
+}
+
+.container {
+  @include container;
+}
+
+.primary {
+  background-color: $bg-primary;
+  color: $text-primary;
+}
+
+.secondary {
+  background-color: $bg-secondary;
+  color: $text-primary;
+}
+
+.title {
+  font-size: $font-size-xl;
+  text-align: center;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid $text-tertiary;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -0.3125rem;
+    right: -0.3125rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    background-color: $text-secondary;
+  }
+}

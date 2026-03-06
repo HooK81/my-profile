@@ -1,0 +1,18 @@
+@use 'reset';
+@use 'typography';
+@use 'variables' as *;
+
+:root {
+  --color-darkest: #{$bg-darkest};
+  --color-light: #{$text-primary};
+  --color-teal: #{$text-secondary};
+}
+
+body {
+  background-color: $bg-primary;
+  color: $text-primary;
+}
+
+#root {
+  min-height: 100vh;
+}

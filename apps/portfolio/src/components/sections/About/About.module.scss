@@ -1,0 +1,80 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+
+  @include respond-below($breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.imageCol {
+  display: flex;
+  justify-content: center;
+}
+
+.photo {
+  max-width: 18rem;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  @include respond-below($breakpoint-md) {
+    max-width: 12rem;
+  }
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bio {
+  color: $text-secondary;
+  line-height: $line-height-base;
+  font-size: $font-size-base;
+  white-space: pre-line;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+
+  @include respond-below($breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detailItem {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+
+  strong {
+    color: $text-primary;
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+
+  a {
+    color: $text-secondary;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}

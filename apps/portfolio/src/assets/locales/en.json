@@ -1,0 +1,122 @@
+{
+  "locale": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "navbar": {
+    "home": "Home",
+    "aboutMe": "About Me",
+    "resume": "Resume",
+    "techs": "Favorite Techs",
+    "aboutThisSite": "About this site",
+    "contact": "Contact",
+    "toggleMenu": "Toggle menu"
+  },
+  "hero": {
+    "iAmA": "I'm a",
+    "basedIn": "based in"
+  },
+  "about": {
+    "title": "About Me",
+    "name": "Name",
+    "location": "Location",
+    "email": "Email",
+    "phone": "Phone",
+    "downloadResume": "Download Resume"
+  },
+  "resume": {
+    "title": "Resume",
+    "experience": "Professional Experience",
+    "education": "Education",
+    "date": {
+      "present": "Present",
+      "year_one": "{{count}} year",
+      "year_other": "{{count}} years",
+      "month_one": "{{count}} month",
+      "month_other": "{{count}} months"
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "desc": "Catch-up of my skills"
+  },
+  "techs": {
+    "title": "Favorite Techs",
+    "desc": "I'm a tinkerer and am always interested in testing new technologies but these are the ones I prefer."
+  },
+  "hobbies": {
+    "title": "Hobbies",
+    "desc": "Here are some of my hobbies."
+  },
+  "contact": {
+    "title": "Contact",
+    "location": "Location",
+    "phone": "Phone",
+    "email": "Email",
+    "form": {
+      "emailPlaceholder": "Your Email *",
+      "subjectPlaceholder": "Subject",
+      "messagePlaceholder": "Your Message *",
+      "sendSuccess": "Message sent successfully!",
+      "sendError": "Your message could not be sent.",
+      "sending": "Sending...",
+      "sendButton": "Send Message"
+    }
+  },
+  "scrollDown": {
+    "label": "Scroll Down"
+  },
+  "aboutThisSite": {
+    "title": "About This Site",
+    "intro": "Here is the technology stack used on this website.\nIt is definitely too much for the purpose but as we say in french \u00ab\u00a0If you like it, won't think about the price\u00a0\u00bb.",
+    "frontend": {
+      "title": "Frontend",
+      "category1": {
+        "title": "Language",
+        "items1": "Strict TypeScript"
+      },
+      "category2": {
+        "title": "Library",
+        "items1": "React 19.2 with Vite",
+        "items2": "Client HTTP: Axios",
+        "items3": "State Container: Zustand",
+        "items4": "Unit Tests: Vitest (100% code coverage)"
+      }
+    },
+    "backend": {
+      "title": "Backend",
+      "category1": {
+        "title": "Language",
+        "items1": "Strict TypeScript"
+      },
+      "category2": {
+        "title": "Framework",
+        "items1": "NestJS with SWC",
+        "items2": "JWT token authentication",
+        "items3": "Unit/Integration Tests: Vitest (100% code coverage)"
+      }
+    },
+    "infrastructure": {
+      "title": "Infrastructure",
+      "category1": {
+        "title": "Docker containers",
+        "items1": "Node container for NestJS API",
+        "items2": "Nginx container for React App"
+      },
+      "category2": {
+        "title": "Hosting",
+        "items1": "Raspberry Pi 4"
+      }
+    }
+  },
+  "error": {
+    "api": {
+      "login": "Unable to access the site!",
+      "loadProfile": "Unable to retrieve profile data!",
+      "getFile": "Unable to retrieve file!",
+      "getVcard": "Unable to retrieve file!",
+      "sendMail": "Unable to send message!",
+      "tryAgain": "Please try again later."
+    }
+  }
+}

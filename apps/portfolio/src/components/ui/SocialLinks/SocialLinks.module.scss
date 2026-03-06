@@ -1,0 +1,49 @@
+@use '../../../styles/variables' as *;
+
+.links {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  a {
+    display: block;
+    font-size: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    border: 1px solid $text-tertiary;
+    border-radius: 50%;
+    color: $text-primary;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $text-primary;
+      color: $bg-primary;
+    }
+  }
+}
+
+.sm a {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 0.875rem;
+}
+
+.md a {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  font-size: 1.125rem;
+}
+
+.lg a {
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  font-size: 1.375rem;
+}

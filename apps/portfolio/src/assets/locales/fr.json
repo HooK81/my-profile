@@ -1,0 +1,122 @@
+{
+  "locale": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "navbar": {
+    "home": "Accueil",
+    "aboutMe": "À propos de moi",
+    "resume": "Curriculum",
+    "techs": "Mes technos",
+    "aboutThisSite": "Ce site",
+    "contact": "Contact",
+    "toggleMenu": "Ouvrir le menu"
+  },
+  "hero": {
+    "iAmA": "Je suis",
+    "basedIn": "basé à"
+  },
+  "about": {
+    "title": "À propos de moi",
+    "name": "Nom",
+    "location": "Localisation",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "downloadResume": "Télécharger mon CV"
+  },
+  "resume": {
+    "title": "Curriculum Vitae",
+    "experience": "Expériences professionnelles",
+    "education": "Formations",
+    "skills": "Compétences",
+    "date": {
+      "present": "Présent",
+      "year_one": "{{count}} an",
+      "year_other": "{{count}} ans",
+      "month_one": "{{count}} mois",
+      "month_other": "{{count}} mois"
+    }
+  },
+  "skills": {
+    "title": "Compétences",
+    "desc": "Résumé de mes compétences"
+  },
+  "techs": {
+    "title": "Technos Préférées",
+    "desc": "Je suis un touche à tout et j'adore jouer avec les nouvelles technologies, mais ce sont celles-ci qui m'ont vraiment convaincu."
+  },
+  "hobbies": {
+    "title": "Centres d'intérêt"
+  },
+  "contact": {
+    "title": "Contact",
+    "location": "Adresse",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "form": {
+      "emailPlaceholder": "Votre e-mail *",
+      "subjectPlaceholder": "Sujet",
+      "messagePlaceholder": "Votre message *",
+      "sendSuccess": "Message envoyé avec succès !",
+      "sendError": "Votre message n'a pas pu être envoyé.",
+      "sending": "Envoi en cours...",
+      "sendButton": "Envoyer"
+    }
+  },
+  "scrollDown": {
+    "label": "Défiler"
+  },
+  "aboutThisSite": {
+    "title": "À Propos du site",
+    "intro": "Voici les différents éléments constituant ce site et sa stack technique.\nC'est sans aucun doute surdimensionné mais quand on aime on ne compte pas.",
+    "frontend": {
+      "title": "Frontend",
+      "category1": {
+        "title": "Langage",
+        "items1": "Strict TypeScript"
+      },
+      "category2": {
+        "title": "Library",
+        "items1": "React 19.2 avec Vite",
+        "items2": "Client HTTP: Axios",
+        "items3": "Conteneur d'État: Zustand",
+        "items4": "Tests Unitaires: Vitest (100% de couverture du code)"
+      }
+    },
+    "backend": {
+      "title": "Backend",
+      "category1": {
+        "title": "Langage",
+        "items1": "Strict TypeScript"
+      },
+      "category2": {
+        "title": "Framework",
+        "items1": "NestJS avec SWC",
+        "items2": "Authentification avec token JWT",
+        "items3": "Tests Unitaires/Intégrations: Vitest (100% de couverture du code)"
+      }
+    },
+    "infrastructure": {
+      "title": "Infrastructure",
+      "category1": {
+        "title": "Conteneurs Docker",
+        "items1": "Conteneur Node pour l'API NestJS",
+        "items2": "Conteneur Nginx pour l'application React"
+      },
+      "category2": {
+        "title": "Hébergement",
+        "items1": "Raspberry Pi 4"
+      }
+    }
+  },
+  "error": {
+    "api": {
+      "login": "Impossible d'accéder au site !",
+      "loadProfile": "Impossible de récupérer les données du profil !",
+      "getFile": "Impossible de récupérer le fichier !",
+      "getVcard": "Impossible de récupérer le fichier !",
+      "sendMail": "Impossible d'envoyer le message !",
+      "tryAgain": "Veuillez réessayer plus tard."
+    }
+  }
+}

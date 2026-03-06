@@ -1,8 +1,0 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
-
-login:
-  path: /auth/login
-  options: { expose: true }
-  methods: [POST]

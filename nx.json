@@ -1,0 +1,73 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "!{projectRoot}/dist/**",
+      "!{projectRoot}/coverage/**",
+      "!{projectRoot}/node_modules/**"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.spec.ts",
+      "!{projectRoot}/test_utils/**",
+      "!{projectRoot}/vitest.config.ts",
+      "!{projectRoot}/coverage/**"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "inputs": [
+        "default"
+      ],
+      "cache": true
+    },
+    "tsc": {
+      "inputs": [
+        "default"
+      ],
+      "cache": true
+    }
+  },
+  "defaultBase": "main",
+  "release": {
+    "projects": ["my-profile-api", "my-profile-portfolio", "my-profile-shared"],
+    "projectsRelationship": "fixed",
+    "version": {
+      "conventionalCommits": true,
+      "manifestRootsToUpdate": ["{projectRoot}", "."]
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "file": "CHANGELOG.md",
+        "createRelease": false
+      },
+      "projectChangelogs": false
+    },
+    "git": {
+      "commit": true,
+      "commitMessage": "chore(release): v{version}",
+      "tag": true
+    }
+  }
+}

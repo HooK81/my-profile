@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`AppLoader should AppLoader be visible during loading 1`] = `<DocumentFragment />`;

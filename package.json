@@ -1,0 +1,47 @@
+{
+  "name": "my-profile",
+  "version": "4.8.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Julien Crochet <julien@crochet.me>",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "build": "nx run-many -t build",
+    "build:api": "nx build my-profile-api",
+    "build:portfolio": "nx build my-profile-portfolio",
+    "build:shared": "nx build my-profile-shared",
+    "dev": "nx run-many -t start:dev --projects=my-profile-api,my-profile-portfolio --parallel=2 --output-style=stream",
+    "dev:api": "nx start:dev my-profile-api",
+    "dev:portfolio": "nx start:dev my-profile-portfolio",
+    "graph": "nx graph",
+    "reset": "rm -rf node_modules apps/*/node_modules libs/*/node_modules; npm install; npx nx reset; npm run build",
+    "test": "nx run-many -t test",
+    "test:api": "nx test my-profile-api",
+    "test:api:cov": "nx test:cov my-profile-api",
+    "test:portfolio": "nx test my-profile-portfolio",
+    "lint": "nx run-many -t lint",
+    "lint:api": "nx lint my-profile-api",
+    "lint:portfolio": "nx lint my-profile-portfolio",
+    "lint:shared": "nx lint my-profile-shared",
+    "tsc": "nx run-many -t tsc",
+    "tsc:api": "nx tsc my-profile-api",
+    "tsc:portfolio": "nx tsc my-profile-portfolio",
+    "tsc:shared": "nx tsc my-profile-shared",
+    "prepare": "husky",
+    "release": "nx release --skip-publish",
+    "release:dry": "nx release --dry-run --skip-publish"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
+    "@nx/js": "^22.5.4",
+    "husky": "^9.1.7",
+    "nx": "22.5.4"
+  },
+  "volta": {
+    "node": "22.16.0"
+  }
+}

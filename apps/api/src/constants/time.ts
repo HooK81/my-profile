@@ -1,0 +1,12 @@
+export const TIME_MS = {
+  ONE_SECOND: 1000,
+  ONE_MINUTE: 60000,
+  ONE_HOUR: 3600000,
+  ONE_DAY: 86400000,
+};
+
+export const TIME_S = {
+  ONE_SECOND: 1,
+  ONE_MINUTE: 60,
+  ONE_HOUR: 3600,
+};

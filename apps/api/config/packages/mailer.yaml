@@ -1,8 +1,0 @@
-framework:
-    mailer:
-        dsn: 'smtp://%env(MAILER_USERNAME)%:%env(MAILER_PASSWORD)%@%env(MAILER_HOST)%'
-
-when@test:
-    framework:
-        mailer:
-            dsn: 'null://null'

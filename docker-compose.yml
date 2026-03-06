@@ -1,28 +1,29 @@
-version: '3.7'
-services: 
+services:
 
-    app:
-        build: 
+    api:
+        build:
             context: .
-            dockerfile: docker/php/Dockerfile     
+            dockerfile: docker/api/Dockerfile
             args:
-                APP_VERSION: ${TAG}   
-        container_name: mp_app
-        image: mp_app:${TAG}
-        restart: "no"
-        environment:
-            HOME: /home/user
-        
-    web:
-        build: 
+                API_PORT: ${API_PORT}
+        image: mp_api:latest
+        container_name: mp_api
+        env_file:
+            - docker/api/.secrets.production.local
+        volumes:
+            - './docker/users:/usr/src/app/apps/api/users:ro'
+        restart: unless-stopped
+
+    portfolio:
+        build:
             context: .
             dockerfile: docker/nginx/Dockerfile
             args:
-                APP_VERSION: ${TAG}
-        image: mp_web:${TAG}
-        container_name: mp_web
-        restart: "no"
-        depends_on: 
-            - app
-        ports: 
+                API_PORT: ${API_PORT}
+        image: mp_portfolio:latest
+        container_name: mp_portfolio
+        restart: unless-stopped
+        depends_on:
+            - api
+        ports:
             - '${NGINX_PORT}:80'

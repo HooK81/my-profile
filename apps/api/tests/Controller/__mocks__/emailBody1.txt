@@ -1,7 +1,0 @@
-From   : john@doe.com
-Object : Contact Message
-Date   : %%NOW%%
-Locale : en
--------------------------------------
-message to be sent
--------------------------------------

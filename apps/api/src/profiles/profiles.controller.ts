@@ -1,0 +1,59 @@
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  StreamableFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ProfileDto } from 'my-profile-shared';
+import { TIME_MS } from 'src/constants/time';
+
+import { JwtAuthGuard } from '../auth/auth.guard';
+import { ProfilesService } from './profiles.service';
+import { VCardService } from './vcard.service';
+
+@Controller({
+  path: 'profiles',
+  version: '1',
+})
+@UseInterceptors(CacheInterceptor)
+@CacheTTL(process.env.NODE_ENV === 'development' ? 1 : TIME_MS.ONE_DAY)
+@UseGuards(JwtAuthGuard)
+export class ProfilesController {
+  constructor(
+    private readonly profilesService: ProfilesService,
+    private readonly vCardService: VCardService,
+  ) {}
+
+  @Get(':id')
+  @CacheTTL(process.env.NODE_ENV === 'development' ? 1 : TIME_MS.ONE_HOUR)
+  async getProfile(@Param('id') id: string): Promise<ProfileDto> {
+    const profile = await this.profilesService.loadProfile(id);
+
+    return profile;
+  }
+
+  @Get(':id/files/:file')
+  async getProfileFile(
+    @Param('id') id: string,
+    @Param('file') file: string,
+    @Query('disposition') disposition: string,
+  ): Promise<StreamableFile> {
+    return await this.profilesService.getProfileFileStream(
+      id,
+      file,
+      disposition,
+    );
+  }
+
+  @Get(':id/vcard')
+  async getProfileVCard(
+    @Param('id') id: string,
+    @Query('disposition') disposition: string,
+  ): Promise<StreamableFile> {
+    return await this.vCardService.getProfileVCard(id, disposition);
+  }
+}

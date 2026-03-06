@@ -1,0 +1,512 @@
+openapi: 3.0.0
+paths:
+  /v1/auth/token:
+    get:
+      operationId: AuthController_getAnonymousToken_v1
+      parameters:
+        - name: x-fingerprint
+          required: true
+          in: header
+          schema:
+            type: string
+        - name: user-agent
+          required: true
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                required:
+                  - accessToken
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 401
+                    maximum: 401
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 500
+                    maximum: 500
+                  message:
+                    type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+      tags:
+        - Auth
+  /v1/{locale}/profiles/{id}:
+    get:
+      operationId: ProfilesController_getProfile_v1
+      parameters:
+        - name: locale
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Download a profile file
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "401": &a1
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 401
+                    maximum: 401
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        "500": &a2
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 500
+                    maximum: 500
+                  message:
+                    type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+      security:
+        - bearer: []
+      tags: &a3
+        - Profiles
+  /v1/{locale}/profiles/{id}/files/{file}:
+    get:
+      operationId: ProfilesController_getProfileFile_v1
+      parameters:
+        - name: locale
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: file
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: disposition
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Download a profile file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401": *a1
+        "500": *a2
+      security:
+        - bearer: []
+      tags: *a3
+  /v1/{locale}/profiles/{id}/vcard:
+    get:
+      operationId: ProfilesController_getProfileVCard_v1
+      parameters:
+        - name: locale
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: disposition
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return a VCard
+          content:
+            text/x-vcard:
+              schema:
+                type: string
+        "401": *a1
+        "500": *a2
+      security:
+        - bearer: []
+      tags: *a3
+  /v1/mails:
+    post:
+      operationId: MailController_sendMail_v1
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  format: email
+                message:
+                  type: string
+                  minLength: 10
+                subject:
+                  type: string
+              required:
+                - from
+                - message
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 400
+                    maximum: 400
+                  message:
+                    type: string
+                    enum:
+                      - Validation failed
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        expected:
+                          type: string
+                        received:
+                          type: string
+                        path:
+                          type: array
+                          items:
+                            oneOf:
+                              - type: string
+                              - type: number
+                        message:
+                          type: string
+                      required:
+                        - code
+                        - path
+                        - message
+                required:
+                  - statusCode
+                  - message
+                  - errors
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 401
+                    maximum: 401
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    minimum: 500
+                    maximum: 500
+                  message:
+                    type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+      security:
+        - bearer: []
+      tags:
+        - Mail
+info:
+  title: My Profile API
+  description: The My Profile API description
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+      required:
+        - street
+        - city
+        - zip
+        - country
+    Network:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        icon:
+          type: string
+      required:
+        - name
+        - url
+        - icon
+    User:
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        occupation:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        bio:
+          type: string
+        email:
+          type: string
+        base:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        phone:
+          type: string
+        website:
+          type: string
+        resumePdf:
+          type: string
+        networks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Network"
+      required:
+        - lastName
+        - firstName
+        - fullName
+        - occupation
+        - description
+        - image
+        - bio
+        - email
+        - base
+        - address
+        - phone
+        - website
+        - resumePdf
+        - networks
+    WorkDate:
+      type: object
+      properties:
+        start:
+          type: string
+        end:
+          type: string
+      required:
+        - start
+    Work:
+      type: object
+      properties:
+        title:
+          type: string
+        company:
+          type: string
+        city:
+          type: string
+        description:
+          type: string
+        date:
+          $ref: "#/components/schemas/WorkDate"
+      required:
+        - title
+        - company
+        - city
+        - description
+        - date
+    Education:
+      type: object
+      properties:
+        degree:
+          type: string
+        school:
+          type: string
+        city:
+          type: string
+        date:
+          type: string
+      required:
+        - degree
+        - school
+        - city
+        - date
+    Skill:
+      type: object
+      properties:
+        name:
+          type: string
+        level:
+          type: number
+      required:
+        - name
+        - level
+    Resume:
+      type: object
+      properties:
+        works:
+          type: array
+          items:
+            $ref: "#/components/schemas/Work"
+        educations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Education"
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
+      required:
+        - works
+        - educations
+        - skills
+    Hobby:
+      type: object
+      properties:
+        title:
+          type: string
+        image:
+          type: string
+        icon:
+          type: string
+      required:
+        - title
+        - image
+        - icon
+    Tech:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        desc:
+          type: string
+      required:
+        - name
+        - image
+        - desc
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        resume:
+          $ref: "#/components/schemas/Resume"
+        hobbies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Hobby"
+        techs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tech"
+      required:
+        - id
+        - user
+        - resume
+        - hobbies
+        - techs

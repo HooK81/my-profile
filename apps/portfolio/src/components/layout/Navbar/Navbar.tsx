@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
+import { useProfileStore } from '../../../stores/profile.store';
 import LocaleSwitcher from '../../ui/LocaleSwitcher/LocaleSwitcher';
 import styles from './Navbar.module.scss';
 
@@ -16,24 +18,23 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const profile = useProfileStore((s) => s.profile);
+  const logoUrl = useProfileFileUrl(profile?.user.logo);
 
   const isHome = location.pathname === '/';
 
-  const NAV_ITEMS = useMemo<NavItem[]>(
-    () => [
-      { type: 'section', id: 'hero', label: t('navbar.home') },
-      { type: 'section', id: 'about', label: t('navbar.aboutMe') },
-      { type: 'section', id: 'resume', label: t('navbar.resume') },
-      { type: 'section', id: 'techs', label: t('navbar.techs') },
-      { type: 'section', id: 'contact', label: t('navbar.contact') },
-      {
-        type: 'route',
-        path: '/about-this-site',
-        label: t('navbar.aboutThisSite'),
-      },
-    ],
-    [t],
-  );
+  const NAV_ITEMS: NavItem[] = [
+    { type: 'section', id: 'hero', label: t('navbar.home') },
+    { type: 'section', id: 'about', label: t('navbar.aboutMe') },
+    { type: 'section', id: 'resume', label: t('navbar.resume') },
+    { type: 'section', id: 'techs', label: t('navbar.techs') },
+    { type: 'section', id: 'contact', label: t('navbar.contact') },
+    {
+      type: 'route',
+      path: '/about-this-site',
+      label: t('navbar.aboutThisSite'),
+    },
+  ];
 
   const handleSectionClick = (id: string) => {
     setMenuOpen(false);
@@ -61,6 +62,14 @@ function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.inner}>
+        <button
+          className={styles.logo}
+          onClick={() => handleSectionClick('hero')}
+          aria-label={t('navbar.home')}
+        >
+          {logoUrl && <img src={logoUrl} alt={profile?.user.fullName} />}
+        </button>
+
         <button
           className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}

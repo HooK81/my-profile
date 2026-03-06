@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import api from '../../../api/Api';
+import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
 import { useProfileStore } from '../../../stores/profile.store';
 import { formatPhone } from '../../../utils/phone';
@@ -13,25 +13,7 @@ function About() {
   const { t } = useTranslation();
   const profile = useProfileStore((s) => s.profile);
   const locale = useAppStore((s) => s.locale);
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!profile) {
-      return;
-    }
-    let objectUrl: string;
-    const loadImage = async () => {
-      objectUrl = await api.getFile(locale, profile.user.image);
-      setProfileImageUrl(objectUrl);
-    };
-    void loadImage();
-
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-  }, [locale, profile]);
+  const profileImageUrl = useProfileFileUrl(profile?.user.image);
 
   if (!profile) {
     return null;

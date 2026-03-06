@@ -17,7 +17,28 @@
   @include container;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+.logo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  padding: 0.3125rem 0.9375rem;
+
+  @include respond-below($breakpoint-md) {
+    margin-right: auto;
+    padding: 0;
+  }
+
+  img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
 }
 
 .links {

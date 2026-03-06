@@ -24,6 +24,9 @@ export class User {
   image: string;
 
   @IsString()
+  logo: string;
+
+  @IsString()
   bio: string;
 
   @IsString()

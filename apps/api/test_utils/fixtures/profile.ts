@@ -103,6 +103,7 @@ const UserFactory = Factory.define<User>(() => {
     occupation: faker.person.jobTitle(),
     description: faker.lorem.paragraphs(2, '  \n'),
     image: `${faker.system.fileName().split('.')[0]}.jpg`,
+    logo: `${faker.system.fileName().split('.')[0]}.svg`,
     bio: faker.person.bio(),
     email: faker.internet.email(),
     address: {

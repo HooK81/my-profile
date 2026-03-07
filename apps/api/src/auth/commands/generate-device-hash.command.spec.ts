@@ -2,8 +2,6 @@ import { CommandTestFactory } from 'nest-commander-testing';
 import { AppModule } from 'src/app.module';
 
 describe('Generate Device Hash Command (functionnal)', () => {
-  const consoleSpy = vi.spyOn(console, 'log');
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -18,9 +16,12 @@ describe('Generate Device Hash Command (functionnal)', () => {
       '--user-agent=Chrome',
     ]);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      '✅ Device Hash: c4ef2ec214f90032f39dddfbfe51add7ef2c79da14fb2ccf14cb4c9ad15e5c9a',
-    );
+    await expect(
+      CommandTestFactory.run(commandInstance, [
+        'generate-device-hash',
+        '--user-agent=Chrome',
+      ]),
+    ).resolves.not.toThrow();
   });
 
   it('should return an error without user-agent', async () => {

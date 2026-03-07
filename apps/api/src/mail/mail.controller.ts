@@ -7,7 +7,7 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { EmailValidationDto, emailValidationSchema } from 'my-profile-shared';
+import { EmailValidation, emailValidationSchema } from 'my-profile-shared';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
@@ -24,7 +24,7 @@ export class MailController {
   @Post('')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UsePipes(new ZodValidationPipe(emailValidationSchema))
-  async sendMail(@Body() payload: EmailValidationDto): Promise<void> {
+  async sendMail(@Body() payload: EmailValidation): Promise<void> {
     await this.mailService.sendEmailToTeam(payload);
   }
 }

@@ -2,12 +2,12 @@ import { INestApplication } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { promises as fs } from 'fs';
+import { ProfileFactory } from 'my-profile-shared/fixtures';
 import * as path from 'path';
 import { AppModule } from 'src/app.module';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { getAuthToken } from 'test_utils/access-token';
-import ProfileFactory from 'test_utils/fixtures/profile';
 
 import { FILES_FOLDER } from './profiles.service';
 

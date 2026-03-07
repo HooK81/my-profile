@@ -7,13 +7,24 @@
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./fixtures/*": {
+      "types": "./dist/fixtures/*.d.ts",
+      "default": "./dist/fixtures/*.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "tsc": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "nestjs-zod": "^5.1.1",
+    "@faker-js/faker": "^10.3.0",
+    "fishery": "^2.4.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { readFile } from 'fs/promises';
+import { ProfileFactory } from 'my-profile-shared/fixtures';
 import { LoggerModule } from 'nestjs-pino';
-import ProfileFactory from 'test_utils/fixtures/profile';
 import { streamToString } from 'test_utils/stream-to-string';
 import VCard from 'vcard-creator';
 import { Mock } from 'vitest';

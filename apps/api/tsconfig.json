@@ -17,6 +17,10 @@
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "strict": true,
+    "paths": {
+      "my-profile-shared": ["../../libs/shared/dist"],
+      "my-profile-shared/*": ["../../libs/shared/dist/*"]
+    },
     "types": [
       "vitest/globals"
     ]

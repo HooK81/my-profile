@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { AccessTokenDto } from 'my-profile-shared';
+import { AccessToken } from 'my-profile-shared';
 import request from 'supertest';
 import { App } from 'supertest/types';
 
@@ -20,7 +20,7 @@ export const getAuthToken = async (
     .expect(200);
 
   return {
-    accessToken: (authResponse.body as AccessTokenDto).accessToken,
+    accessToken: (authResponse.body as AccessToken).accessToken,
     deviceHash,
   };
 };

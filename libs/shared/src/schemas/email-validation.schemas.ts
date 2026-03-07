@@ -1,4 +1,3 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 export const MESSAGE_MIN_LENGTH = 10;
@@ -10,5 +9,3 @@ export const emailValidationSchema = z.object({
 });
 
 export type EmailValidation = z.infer<typeof emailValidationSchema>;
-
-export class EmailValidationDto extends createZodDto(emailValidationSchema) {}

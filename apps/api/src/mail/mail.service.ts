@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
-import { EmailValidationDto } from 'my-profile-shared';
+import { EmailValidation } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 
 const EMAIL_SUBJECT_PREFIX = '[My Profile]';
@@ -15,7 +15,7 @@ export class MailService {
     private readonly mailerService: MailerService,
   ) {}
 
-  public async sendEmailToTeam(payload: EmailValidationDto): Promise<void> {
+  public async sendEmailToTeam(payload: EmailValidation): Promise<void> {
     if (!(await this.mailerService.verifyAllTransporters())) {
       throw new InternalServerErrorException('Email transport error');
     }
@@ -30,7 +30,7 @@ export class MailService {
     });
   }
 
-  private buildMailData(payload: EmailValidationDto): ISendMailOptions {
+  private buildMailData(payload: EmailValidation): ISendMailOptions {
     return {
       to: this.configService.get<string>('mailer.team_address'),
       from: this.configService.get<string>('mailer.sender'),

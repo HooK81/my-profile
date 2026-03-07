@@ -11,7 +11,13 @@ export default defineConfig({
   server: {
     port: 5174,
   },
+  optimizeDeps: {
+    include: ['my-profile-shared'],
+  },
   build: {
+    commonjsOptions: {
+      include: [/libs\/shared/, /node_modules/],
+    },
     rollupOptions: {
       output: {
         manualChunks: {
@@ -30,6 +36,7 @@ export default defineConfig({
             'libphonenumber-js',
             'react-i18next',
           ],
+          shared: ['my-profile-shared'],
         },
       },
     },

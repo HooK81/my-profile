@@ -8,7 +8,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ProfileDto } from 'my-profile-shared';
+import { Profile } from 'my-profile-shared';
 import { TIME_MS } from 'src/constants/time';
 
 import { JwtAuthGuard } from '../auth/auth.guard';
@@ -33,10 +33,8 @@ export class ProfilesController {
 
   @Get(':id')
   @CacheTTL(process.env.NODE_ENV !== 'production' ? 1 : TIME_MS.ONE_HOUR)
-  async getProfile(@Param('id') id: string): Promise<ProfileDto> {
-    const profile = await this.profilesService.loadProfile(id);
-
-    return profile;
+  async getProfile(@Param('id') id: string): Promise<Profile> {
+    return await this.profilesService.loadProfile(id);
   }
 
   @Get(':id/files/:file')

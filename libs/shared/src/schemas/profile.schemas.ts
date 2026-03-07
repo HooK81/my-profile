@@ -1,4 +1,3 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 export const addressSchema = z.object({
@@ -94,5 +93,3 @@ export type Tech = z.infer<typeof techSchema>;
 export type User = z.infer<typeof userSchema>;
 export type Resume = z.infer<typeof resumeSchema>;
 export type Profile = z.infer<typeof profileSchema>;
-
-export class ProfileDto extends createZodDto(profileSchema) {}

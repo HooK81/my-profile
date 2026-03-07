@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { readFile } from 'fs/promises';
 import mime from 'mime';
-import { ProfileDto } from 'my-profile-shared';
+import { Profile } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 import { Readable } from 'stream';
 import VCard from 'vcard-creator';
@@ -44,7 +44,7 @@ export class VCardService {
     });
   }
 
-  private async buildVcard(profile: ProfileDto): Promise<VCard> {
+  private async buildVcard(profile: Profile): Promise<VCard> {
     try {
       const photo = await this.getPhotoInfo(profile);
 
@@ -73,7 +73,7 @@ export class VCardService {
     return phone ? phone.replace(/\([^)]+\)/g, '').replace(/ /g, '') : '';
   }
 
-  private async getPhotoInfo(profile: ProfileDto): Promise<PhotoInfo> {
+  private async getPhotoInfo(profile: Profile): Promise<PhotoInfo> {
     const photo = await this.profilesService.getProfileFile(
       profile.id,
       profile.user.image,

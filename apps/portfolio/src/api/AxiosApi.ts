@@ -8,6 +8,7 @@ import type {
 import axios from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { t } from 'i18next';
+import { accessTokenSchema } from 'my-profile-shared';
 import { toast } from 'react-toastify';
 
 import { ApiError } from './ApiError';
@@ -20,7 +21,7 @@ type ApiConfig = {
   errorAutoClose: number;
   headers: RawAxiosRequestHeaders;
   responseType: ResponseType;
-  apiName?: string;
+  apiName: string;
 };
 
 export class AxiosApi {
@@ -79,6 +80,7 @@ export class AxiosApi {
       errorAutoClose: 5000,
       headers: {},
       responseType: 'json',
+      apiName: 'default',
       ...config,
     };
 
@@ -104,6 +106,7 @@ export class AxiosApi {
       errorAutoClose: 5000,
       headers: {},
       responseType: 'json',
+      apiName: 'default',
       ...config,
     };
 
@@ -123,7 +126,7 @@ export class AxiosApi {
     }
   }
 
-  private async refreshToken(): Promise<AxiosResponse> {
+  private async refreshToken(): Promise<void> {
     const res = await this.get(
       '/v1/auth/token',
       {},
@@ -133,12 +136,8 @@ export class AxiosApi {
         apiName: 'login',
       },
     );
-
-    if (res.data.accessToken) {
-      this.token = `Bearer ${res.data.accessToken}`;
-    }
-
-    return res;
+    const parsedResponse = accessTokenSchema.parse(res.data);
+    this.token = `Bearer ${parsedResponse.accessToken}`;
   }
 
   private async getHeaders(): Promise<RawAxiosRequestHeaders> {
@@ -153,13 +152,11 @@ export class AxiosApi {
     route: string,
     config: ApiConfig,
   ): void {
-    const message = `API Error ${config.apiName ?? ''} [${route}]: ${error.message}`;
+    const message = `API Error ${config.apiName} [${route}]: ${error.message}`;
     console.error(message, error);
 
     if (config.showError) {
-      const toastMessage = config.apiName
-        ? t(`error.api.${config.apiName}`)
-        : `API Error when calling [${route}]`;
+      const toastMessage = t(`error.api.${config.apiName}`);
       toast.error(`${toastMessage} ${t('error.api.tryAgain')}`, {
         autoClose: config.errorAutoClose,
       });

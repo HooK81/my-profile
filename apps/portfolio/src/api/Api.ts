@@ -1,4 +1,8 @@
-import type { EmailValidation, Profile } from 'my-profile-shared';
+import {
+  type EmailValidation,
+  type Profile,
+  profileSchema,
+} from 'my-profile-shared';
 
 import { AxiosApi } from './AxiosApi';
 
@@ -11,16 +15,16 @@ class Api extends AxiosApi {
       {},
       { apiName: 'loadProfile' },
     );
-    return data as Profile;
+    return profileSchema.parse(data);
   }
 
-  public async getFile(locale: string, file: string): Promise<string> {
+  public async getFile(locale: string, file: string): Promise<Blob> {
     const response = await this.get(
       `/v1/${locale}/profiles/${PROFILE_ID}/files/${file}`,
       {},
       { responseType: 'blob', apiName: 'getFile' },
     );
-    return URL.createObjectURL(response.data as Blob);
+    return response.data as Blob;
   }
 
   public async sendMail(payload: EmailValidation): Promise<void> {
@@ -30,13 +34,13 @@ class Api extends AxiosApi {
     });
   }
 
-  public async getVcard(locale: string): Promise<string> {
+  public async getVcard(locale: string): Promise<Blob> {
     const response = await this.get(
       `/v1/${locale}/profiles/${PROFILE_ID}/vcard`,
       {},
       { responseType: 'blob', apiName: 'getVcard' },
     );
-    return URL.createObjectURL(response.data as Blob);
+    return response.data as Blob;
   }
 }
 

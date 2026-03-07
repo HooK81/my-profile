@@ -1,15 +1,18 @@
 import { faker } from '@faker-js/faker';
 import { Factory } from 'fishery';
-import type { Education } from 'src/profiles/entities/education.entity';
-import type { Hobby } from 'src/profiles/entities/hobby.entity';
-import type { Network } from 'src/profiles/entities/network.entity';
-import type { Profile } from 'src/profiles/entities/profile.entity';
-import type { Resume } from 'src/profiles/entities/resume.entity';
-import type { Skill } from 'src/profiles/entities/skill.entity';
-import type { Tech } from 'src/profiles/entities/tech.entity';
-import type { User } from 'src/profiles/entities/user.entity';
-import type { Work } from 'src/profiles/entities/work.entity';
-import type { WorkDate } from 'src/profiles/entities/work-date.entity';
+
+import type {
+  Education,
+  Hobby,
+  Network,
+  Profile,
+  Resume,
+  Skill,
+  Tech,
+  User,
+  Work,
+  WorkDate,
+} from '../schemas/profile.schemas';
 
 const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
@@ -84,7 +87,7 @@ const HobbyFactory = Factory.define<Hobby>(() => {
 const NetworkFactory = Factory.define<Network>(() => {
   const name = faker.helpers.arrayElement(['twitter', 'linkedIn', 'instagram']);
   return {
-    name,
+    name: `${name}_${faker.number.int()}`,
     url: `https://${name}.com/${faker.internet.username()}`,
     icon: `fab fa-${name}`,
   };
@@ -119,12 +122,10 @@ const UserFactory = Factory.define<User>(() => {
   };
 });
 
-const ProfileFactory = Factory.define<Profile>(() => ({
+export const ProfileFactory = Factory.define<Profile>(() => ({
   id: faker.string.uuid(),
   user: UserFactory.build(),
   hobbies: HobbyFactory.buildList(faker.number.int({ min: 1, max: 5 })),
   techs: TechFactory.buildList(faker.number.int({ min: 1, max: 5 })),
   resume: ResumeFactory.build(),
 }));
-
-export default ProfileFactory;

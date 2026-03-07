@@ -111,6 +111,7 @@
   },
   "error": {
     "api": {
+      "default": "Erreur inconnue !",
       "login": "Impossible d'accéder au site !",
       "loadProfile": "Impossible de récupérer les données du profil !",
       "getFile": "Impossible de récupérer le fichier !",

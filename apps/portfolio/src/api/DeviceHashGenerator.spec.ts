@@ -1,9 +1,7 @@
-import { describe, expect, it } from 'vitest';
-
 import { DeviceHashGenerator } from './DeviceHashGenerator';
 
 describe('DeviceHashGenerator', () => {
-  it('generates a 64-char hex string', async () => {
+  it('should generate a 64-char hex string', async () => {
     Object.defineProperty(navigator, 'userAgent', {
       value: 'TestAgent/1.0',
       configurable: true,
@@ -13,7 +11,7 @@ describe('DeviceHashGenerator', () => {
     expect(hash).toMatch(/^[0-9a-f]+$/);
   });
 
-  it('returns the same hash for the same user-agent', async () => {
+  it('should return the same hash for the same user-agent', async () => {
     Object.defineProperty(navigator, 'userAgent', {
       value: 'TestAgent/1.0',
       configurable: true,
@@ -23,7 +21,7 @@ describe('DeviceHashGenerator', () => {
     expect(hash1).toBe(hash2);
   });
 
-  it('returns different hashes for different user-agents', async () => {
+  it('should return different hashes for different user-agents', async () => {
     Object.defineProperty(navigator, 'userAgent', {
       value: 'AgentA',
       configurable: true,

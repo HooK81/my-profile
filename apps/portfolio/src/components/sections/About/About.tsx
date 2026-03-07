@@ -30,13 +30,13 @@ function About() {
   };
 
   const handleDownloadResume = async () => {
-    const blobUrl = await api.getFile(locale, user.resumePdf);
-    downloadBlob(blobUrl, user.resumePdf);
+    const blob = await api.getFile(locale, user.resumePdf);
+    downloadBlob(URL.createObjectURL(blob), user.resumePdf);
   };
 
   const handleDownloadVcard = async () => {
-    const blobUrl = await api.getVcard(locale);
-    downloadBlob(blobUrl, `${user.fullName}.vcf`);
+    const blob = await api.getVcard(locale);
+    downloadBlob(URL.createObjectURL(blob), `${user.fullName}.vcf`);
   };
 
   return (

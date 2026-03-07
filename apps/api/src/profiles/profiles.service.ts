@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { createReadStream } from 'fs';
 import { access, constants, readFile } from 'fs/promises';
 import mime from 'mime';
-import { ProfileDto, profileSchema } from 'my-profile-shared';
+import { Profile, profileSchema } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 import { resolve } from 'path';
 import { LocaleService } from 'src/locale/locale.service';
@@ -28,13 +28,11 @@ export class ProfilesService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async loadProfile(id: string): Promise<ProfileDto> {
+  public async loadProfile(id: string): Promise<Profile> {
     try {
       const raw = await readFile(this.getProfileMainFile(id), 'utf8');
 
-      const profile = profileSchema.parse(JSON.parse(raw));
-
-      return profile;
+      return profileSchema.parse(JSON.parse(raw));
     } catch (error) {
       this.logger.error('error while loading profile', {
         id,

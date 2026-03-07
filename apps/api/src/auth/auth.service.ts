@@ -2,13 +2,13 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { Request } from 'express';
-import { AccessTokenDto, accessTokenSchema } from 'my-profile-shared';
+import { AccessToken, accessTokenSchema } from 'my-profile-shared';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public async anonymousSignin(deviceHash: string): Promise<AccessTokenDto> {
+  public async anonymousSignin(deviceHash: string): Promise<AccessToken> {
     const payload = {
       role: 'anonymous',
       deviceHash,

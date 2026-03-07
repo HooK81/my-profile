@@ -1,6 +1,6 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccessTokenDto } from 'my-profile-shared';
+import { AccessToken } from 'my-profile-shared';
 import { AppModule } from 'src/app.module';
 import request from 'supertest';
 import { App } from 'supertest/types';
@@ -24,7 +24,7 @@ describe('AuthController (functionnal)', () => {
       .get(URI)
       .set('x-device-hash', generateDeviceHash())
       .expect(HttpStatus.OK)
-      .expect((res: { body: AccessTokenDto }) => {
+      .expect((res: { body: AccessToken }) => {
         if (typeof res.body.accessToken !== 'string') {
           throw new Error('accessToken is missing or not a string');
         }

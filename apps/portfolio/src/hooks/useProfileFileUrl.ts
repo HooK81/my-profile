@@ -13,7 +13,8 @@ export function useProfileFileUrl(file: string | undefined): string | null {
     }
     let objectUrl: string;
     const load = async () => {
-      objectUrl = await api.getFile(locale, file);
+      const blob = await api.getFile(locale, file);
+      objectUrl = URL.createObjectURL(blob);
       setUrl(objectUrl);
     };
     void load();

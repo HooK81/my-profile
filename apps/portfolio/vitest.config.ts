@@ -8,7 +8,12 @@ export default defineConfig({
     coverage: {
       reportsDirectory: './coverage',
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/test-setup.ts', 'src/main.tsx', 'src/**/*.d.ts'],
+      exclude: [
+        'src/test-setup.ts',
+        'src/main.tsx',
+        'src/**/*.d.ts',
+        'src/utils/console-greeting.ts',
+      ],
     },
     css: {
       modules: {

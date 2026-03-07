@@ -111,6 +111,7 @@
   },
   "error": {
     "api": {
+      "default": "Unknown error!",
       "login": "Unable to access the site!",
       "loadProfile": "Unable to retrieve profile data!",
       "getFile": "Unable to retrieve file!",

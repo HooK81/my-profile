@@ -38,6 +38,7 @@ export default defineConfig({
       // Ensure Vitest correctly resolves TypeScript path aliases
       src: resolve(__dirname, './src'),
       test_utils: resolve(__dirname, './test_utils'),
+      'my-profile-shared': resolve(__dirname, '../../libs/shared/dist'),
     },
   },
 });

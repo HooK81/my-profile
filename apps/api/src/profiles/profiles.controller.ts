@@ -20,7 +20,10 @@ import { VCardService } from './vcard.service';
   version: '1',
 })
 @UseInterceptors(CacheInterceptor)
-@CacheTTL(process.env.NODE_ENV === 'development' ? 1 : TIME_MS.ONE_DAY)
+@CacheTTL(
+  // v8 ignore next
+  process.env.NODE_ENV !== 'production' ? 1 : TIME_MS.ONE_DAY,
+)
 @UseGuards(JwtAuthGuard)
 export class ProfilesController {
   constructor(
@@ -29,7 +32,7 @@ export class ProfilesController {
   ) {}
 
   @Get(':id')
-  @CacheTTL(process.env.NODE_ENV === 'development' ? 1 : TIME_MS.ONE_HOUR)
+  @CacheTTL(process.env.NODE_ENV !== 'production' ? 1 : TIME_MS.ONE_HOUR)
   async getProfile(@Param('id') id: string): Promise<ProfileDto> {
     const profile = await this.profilesService.loadProfile(id);
 

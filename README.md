@@ -34,9 +34,10 @@ npm run dev:portfolio
 npm run build
 ```
 
-### Run API tests
+### Run all tests
 ```shell
-npm run test:api
+npm run test
+npm run test:cov
 ```
 
 ### Lint all apps

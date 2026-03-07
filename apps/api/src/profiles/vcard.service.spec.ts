@@ -12,7 +12,10 @@ import { VCardService } from './vcard.service';
 vi.mock('vcard-creator');
 vi.mock('fs/promises');
 
-const profileFixture = ProfileFactory.build();
+const profileFixtures = [
+  ProfileFactory.build(),
+  ProfileFactory.build({ user: { phone: undefined } }),
+];
 
 describe('VCardService', () => {
   let service: VCardService;
@@ -43,10 +46,10 @@ describe('VCardService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should generate a vcard', async () => {
+  it.each(profileFixtures)('should generate a vcard', async (profile) => {
     const expectedVCardData = 'vcard_data';
 
-    (profilesService.loadProfile as Mock).mockResolvedValue(profileFixture);
+    (profilesService.loadProfile as Mock).mockResolvedValue(profile);
     (profilesService.getProfileFile as Mock).mockResolvedValue({
       filePath: 'file/path',
       fileMime: 'image/jpeg',
@@ -64,14 +67,14 @@ describe('VCardService', () => {
       };
     });
 
-    const response = await service.getProfileVCard(profileFixture.id);
+    const response = await service.getProfileVCard(profile.id);
     const responseData = await streamToString(response.getStream());
 
     expect(responseData).toBe(expectedVCardData);
   });
 
   it('should handle vcard error', async () => {
-    (profilesService.loadProfile as Mock).mockResolvedValue(profileFixture);
+    (profilesService.loadProfile as Mock).mockResolvedValue(profileFixtures[0]);
     (profilesService.getProfileFile as Mock).mockResolvedValue({
       filePath: 'file/path',
       fileMime: 'image/jpeg',
@@ -90,8 +93,8 @@ describe('VCardService', () => {
       };
     });
 
-    await expect(service.getProfileVCard(profileFixture.id)).rejects.toThrow(
-      'Unable to generate VCard',
-    );
+    await expect(
+      service.getProfileVCard(profileFixtures[0].id),
+    ).rejects.toThrow('Unable to generate VCard');
   });
 });

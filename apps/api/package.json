@@ -82,19 +82,5 @@
     "typescript-eslint": "^8.56.1",
     "unplugin-swc": "^1.5.7",
     "vitest": "^4.0.18"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/dist"
-        ]
-      },
-      "test:cov": {
-        "outputs": [
-          "{projectRoot}/coverage"
-        ]
-      }
-    }
   }
 }

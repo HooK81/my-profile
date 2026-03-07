@@ -7,7 +7,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'coverage'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended, reactHooks.configs.flat['recommended-latest'], eslintPluginPrettierRecommended],
     files: ['**/*.{ts,tsx}'],

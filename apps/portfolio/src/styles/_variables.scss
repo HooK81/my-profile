@@ -28,10 +28,13 @@ $section-padding-y-mobile: 3rem;
 $container-max-width: 63.75rem;
 $container-padding-x: 1.25rem;
 
-// Breakpoints
+// Breakpoints — width
 $breakpoint-sm: 460px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 900px;
+
+// Breakpoints — height
+$breakpoint-h-sm: 600px;
 
 // Transitions
 $transition-fast: 0.2s ease-in-out;

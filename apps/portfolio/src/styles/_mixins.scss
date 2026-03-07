@@ -12,6 +12,12 @@
   }
 }
 
+@mixin respond-below-height($breakpoint) {
+  @media only screen and (max-height: $breakpoint) {
+    @content;
+  }
+}
+
 @mixin container {
   width: 96%;
   max-width: $container-max-width;

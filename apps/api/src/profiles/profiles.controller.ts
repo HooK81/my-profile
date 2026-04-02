@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseUUIDPipe,
   Query,
   StreamableFile,
   UseGuards,
@@ -33,13 +34,13 @@ export class ProfilesController {
 
   @Get(':id')
   @CacheTTL(process.env.NODE_ENV !== 'production' ? 1 : TIME_MS.ONE_HOUR)
-  async getProfile(@Param('id') id: string): Promise<Profile> {
+  async getProfile(@Param('id', ParseUUIDPipe) id: string): Promise<Profile> {
     return await this.profilesService.loadProfile(id);
   }
 
   @Get(':id/files/:file')
   async getProfileFile(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Param('file') file: string,
     @Query('disposition') disposition: string,
   ): Promise<StreamableFile> {
@@ -52,7 +53,7 @@ export class ProfilesController {
 
   @Get(':id/vcard')
   async getProfileVCard(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Query('disposition') disposition: string,
   ): Promise<StreamableFile> {
     return await this.vCardService.getProfileVCard(id, disposition);

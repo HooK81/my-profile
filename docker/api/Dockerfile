@@ -32,6 +32,8 @@ ENV PORT=$API_PORT
 ENV NODE_ENV=production
 ENV APP_ENV=production
 
+RUN apk add --no-cache curl
+
 WORKDIR /usr/src/app
 
 # Copy root workspace files
@@ -47,13 +49,15 @@ RUN npm ci --ignore-scripts --workspace=apps/api --workspace=libs/shared --omit=
     && npm cache clean --force
 
 # Copy built shared lib (needed at runtime for Zod validation)
-COPY --from=builder /usr/src/app/libs/shared/dist ./libs/shared/dist
+COPY --chown=node:node --from=builder /usr/src/app/libs/shared/dist ./libs/shared/dist
 
 # Copy built output and env
-COPY --from=builder /usr/src/app/apps/api/dist ./apps/api/dist
-COPY docker/api/.env.production.local ./apps/api/
+COPY --chown=node:node --from=builder /usr/src/app/apps/api/dist ./apps/api/dist
+COPY --chown=node:node docker/api/.env.production.local ./apps/api/
 
 WORKDIR /usr/src/app/apps/api
+
+USER node
 
 EXPOSE $API_PORT
 

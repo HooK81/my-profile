@@ -19,4 +19,17 @@ describe('LocaleService', () => {
 
     expect(service.getLocale()).toBe(locale);
   });
+
+  describe('isSupportedLocale', () => {
+    it.each(['en', 'fr'])('should return true for "%s"', (locale) => {
+      expect(LocaleService.isSupportedLocale(locale)).toBe(true);
+    });
+
+    it.each(['de', 'es', '../etc/passwd', ''])(
+      'should return false for "%s"',
+      (locale) => {
+        expect(LocaleService.isSupportedLocale(locale)).toBe(false);
+      },
+    );
+  });
 });

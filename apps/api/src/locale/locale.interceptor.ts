@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   CallHandler,
   ExecutionContext,
   Injectable,
@@ -17,6 +18,10 @@ export class LocaleInterceptor implements NestInterceptor {
   intercept<T>(context: ExecutionContext, next: CallHandler): Observable<T> {
     const request = context.switchToHttp().getRequest<Request>();
     const locale = (request.params.locale as string) || DEFAULT_LOCALE;
+
+    if (!LocaleService.isSupportedLocale(locale)) {
+      throw new BadRequestException(`Unsupported locale: ${locale}`);
+    }
 
     this.localeService.setLocale(locale);
 

@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { CallHandler, ExecutionContext } from '@nestjs/common';
+import {
+  BadRequestException,
+  CallHandler,
+  ExecutionContext,
+} from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 
 import { LocaleInterceptor } from './locale.interceptor';
@@ -17,44 +21,46 @@ describe('LocaleInterceptor', () => {
     interceptor = new LocaleInterceptor(localeService);
   });
 
+  const createContext = (params: Record<string, string | undefined>) =>
+    ({
+      switchToHttp: () => ({
+        getRequest: () => ({ params }),
+      }),
+    }) as unknown as ExecutionContext;
+
+  const createCallHandler = (): CallHandler => ({
+    handle: vi.fn(() => of('test-response')),
+  });
+
   it.each([{ params: { locale: 'fr' } }, { params: {} }])(
     'should set locale from request',
     ({ params }) => {
       const expectedLocale = params.locale ?? DEFAULT_LOCALE;
-      const context = {
-        switchToHttp: () => ({
-          getRequest: () => ({
-            params,
-          }),
-        }),
-      } as unknown as ExecutionContext;
 
-      const callHandler: CallHandler = {
-        handle: vi.fn(() => of('test-response')),
-      };
-
-      interceptor.intercept(context, callHandler);
+      interceptor.intercept(createContext(params), createCallHandler());
 
       expect(localeService.setLocale).toHaveBeenCalledWith(expectedLocale);
     },
   );
 
   it('should next.handle() have been called and return an Observable', () => {
-    const context = {
-      switchToHttp: () => ({
-        getRequest: () => ({
-          params: { locale: 'fr' },
-        }),
-      }),
-    } as unknown as ExecutionContext;
+    const callHandler = createCallHandler();
 
-    const callHandler: CallHandler = {
-      handle: vi.fn(() => of('default-locale-response')),
-    };
-
-    const result = interceptor.intercept(context, callHandler);
+    const result = interceptor.intercept(
+      createContext({ locale: 'fr' }),
+      callHandler,
+    );
 
     expect(callHandler.handle).toHaveBeenCalled();
     expect(result).toBeInstanceOf(Observable);
   });
+
+  it.each(['de', '../etc/passwd', 'EN', 'xyz'])(
+    'should throw BadRequestException for unsupported locale "%s"',
+    (locale) => {
+      expect(() =>
+        interceptor.intercept(createContext({ locale }), createCallHandler()),
+      ).toThrow(BadRequestException);
+    },
+  );
 });

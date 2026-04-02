@@ -32,7 +32,7 @@ export class VCardService {
   ): Promise<StreamableFile> {
     const profile = await this.profilesService.loadProfile(id);
 
-    const fileName = profile.user.fullName + VCARD_EXT;
+    const fileName = this.sanitizeFileName(profile.user.fullName) + VCARD_EXT;
     const vcard = await this.buildVcard(profile);
 
     return new StreamableFile(Readable.from([vcard.toString()]), {
@@ -67,6 +67,10 @@ export class VCardService {
 
       throw new InternalServerErrorException('Unable to generate VCard');
     }
+  }
+
+  private sanitizeFileName(name: string): string {
+    return name.replace(/[^\w\s.-]/g, '').trim();
   }
 
   private sanitazePhone(phone?: string): string {

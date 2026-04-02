@@ -14,8 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     configService: ConfigService,
   ) {
     super({
-      jwtFromRequest: (req: Request) =>
-        (req?.cookies?.[COOKIE_NAME] as string) ?? null,
+      jwtFromRequest: (req: Request) => req?.cookies?.[COOKIE_NAME] as string,
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('jwt.secret')!,
       passReqToCallback: true,

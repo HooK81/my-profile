@@ -7,6 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth/auth.module';
 import { configuration, envFilePath } from './config/configuration';
 import validate from './config/env.validation';
+import { HealthModule } from './health/health.module';
 import createLoggerConfig from './init/pino';
 import { LocaleInterceptor } from './locale/locale.interceptor';
 import { LocaleModule } from './locale/locale.module';
@@ -25,6 +26,7 @@ import { ResponseInterceptor } from './response/response.interceptor';
       envFilePath,
       load: [configuration],
     }),
+    HealthModule,
     LocaleModule,
     AuthModule,
     RouterModule.register([

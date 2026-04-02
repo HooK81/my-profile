@@ -3,10 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { Request } from 'express';
 import { AccessToken, accessTokenSchema } from 'my-profile-shared';
+import { Logger } from 'nestjs-pino';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly logger: Logger,
+    private readonly jwtService: JwtService,
+  ) {}
 
   public async anonymousSignin(deviceHash: string): Promise<AccessToken> {
     const payload = {
@@ -27,6 +31,10 @@ export class AuthService {
     const expected = this.hashDevice(userAgent);
 
     if (deviceHash !== expected) {
+      this.logger.warn('Device hash mismatch - possible auth bypass attempt', {
+        ip: req.ip,
+        userAgent: userAgent.slice(0, 200),
+      });
       throw new UnauthorizedException();
     }
 

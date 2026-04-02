@@ -9,9 +9,11 @@ export class HeadersService {
   constructor(private readonly configService: ConfigService) {}
 
   public setResponseHeaders(response: Response): void {
-    response.setHeader(
-      APP_VERSION_HEADER,
-      `v${this.configService.get<string>('app_version')!}`,
-    );
+    if (this.configService.get<string>('app_env') !== 'production') {
+      response.setHeader(
+        APP_VERSION_HEADER,
+        `v${this.configService.get<string>('app_version')!}`,
+      );
+    }
   }
 }

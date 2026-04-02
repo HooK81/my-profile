@@ -63,7 +63,7 @@ export const userSchema = z.object({
   email: z.email(),
   address: addressSchema,
   phone: z.string().optional(),
-  website: z.string(),
+  website: z.url(),
   resumePdf: z.string(),
   networks: z.array(networkSchema),
 });

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -43,10 +44,10 @@ export class ProfilesService {
         error && typeof error === 'object' && 'code' in error ? error.code : '';
 
       if (code) {
-        throw new NotFoundException(`Profile ${id} was not found`);
+        throw new NotFoundException(`Profile not found`);
       }
 
-      throw new ConflictException(`Profile ${id} is not valid`);
+      throw new ConflictException(`Profile not valid`);
     }
   }
 
@@ -92,8 +93,19 @@ export class ProfilesService {
     isFallback: boolean = false,
   ): Promise<FileInfo | null> {
     const path = this.configService.get<string>('users_folder')!;
+    const baseDir = resolve(path, `${id}/${FILES_FOLDER}`);
 
-    const filePath = resolve(path, `${id}/${FILES_FOLDER}/${file}`);
+    const filePath = resolve(baseDir, file);
+    if (!filePath.startsWith(baseDir)) {
+      this.logger.warn('Path traversal attempt detected', {
+        profile: id,
+        file,
+        resolvedPath: filePath,
+        baseDir,
+      });
+      throw new BadRequestException('Invalid file path');
+    }
+
     const fileMime = mime.getType(filePath) ?? 'text/plain';
 
     try {

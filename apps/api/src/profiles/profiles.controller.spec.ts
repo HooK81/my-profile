@@ -70,21 +70,19 @@ describe('Profiles Controller (functionnal)', () => {
         });
     });
 
-    it('should return an error when profile if not found', async () => {
+    it('should return an error when profile is not found', async () => {
       const token = await getAuthToken(app);
 
       await request(app.getHttpServer())
-        .get(`${URI}/not-a-profile`)
+        .get(`${URI}/f119f334-f301-426e-aac9-da86d26db999`)
         .set('x-device-hash', token.deviceHash)
         .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
     });
 
     describe('invalid JSON profile', () => {
-      const dirPath = path.resolve(
-        process.env.USERS_FOLDER!,
-        'invalid-id-profile',
-      );
+      const profileId = 'f119f334-f301-426e-aac9-da86d26db999';
+      const dirPath = path.resolve(process.env.USERS_FOLDER!, profileId);
       const filePath = path.join(dirPath, 'profile.en.json');
 
       beforeAll(async () => {
@@ -101,7 +99,7 @@ describe('Profiles Controller (functionnal)', () => {
         const token = await getAuthToken(app);
 
         await request(app.getHttpServer())
-          .get(`${URI}/invalid-id-profile`)
+          .get(`${URI}/${profileId}`)
           .set('x-device-hash', token.deviceHash)
           .set('Cookie', token.cookie)
           .expect(HttpStatus.CONFLICT);
@@ -163,6 +161,26 @@ describe('Profiles Controller (functionnal)', () => {
         .set('x-device-hash', token.deviceHash)
         .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
+    });
+
+    it('should reject path traversal in file parameter', async () => {
+      const token = await getAuthToken(app);
+
+      await request(app.getHttpServer())
+        .get(`${URI}/..%2F..%2F..%2Fetc%2Fpasswd`)
+        .set('x-device-hash', token.deviceHash)
+        .set('Cookie', token.cookie)
+        .expect(HttpStatus.BAD_REQUEST);
+    });
+
+    it('should reject non-UUID id parameter', async () => {
+      const token = await getAuthToken(app);
+
+      await request(app.getHttpServer())
+        .get(`/en/profiles/..%2F..%2Fetc/files/passwd`)
+        .set('x-device-hash', token.deviceHash)
+        .set('Cookie', token.cookie)
+        .expect(HttpStatus.BAD_REQUEST);
     });
   });
 

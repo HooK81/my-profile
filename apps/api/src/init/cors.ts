@@ -13,7 +13,7 @@ export function initCors(app: INestApplication): void {
   );
 
   app.enableCors({
-    origin: configService.get<string | RegExp[]>('cors_origin')!,
+    origin: configService.get<boolean | RegExp[]>('cors_origin')!,
     credentials: true,
   });
 }

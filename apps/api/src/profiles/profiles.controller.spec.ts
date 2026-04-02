@@ -4,11 +4,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { promises as fs } from 'fs';
 import { ProfileFactory } from 'my-profile-shared/fixtures';
 import * as path from 'path';
-import { AppModule } from 'src/app.module';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { getAuthToken } from 'test_utils/access-token';
 
+import { getAuthToken, initTestApp } from '../../test_utils/access-token';
+import { AppModule } from '../app.module';
 import { FILES_FOLDER } from './profiles.service';
 
 describe('Profiles Controller (functionnal)', () => {
@@ -20,6 +20,7 @@ describe('Profiles Controller (functionnal)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    initTestApp(app);
     await app.init();
   });
 
@@ -61,7 +62,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/${profile.id}`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect((response: request.Response) => {
           expect(response.body).toBeTruthy();
@@ -75,7 +76,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/not-a-profile`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
     });
 
@@ -102,7 +103,7 @@ describe('Profiles Controller (functionnal)', () => {
         await request(app.getHttpServer())
           .get(`${URI}/invalid-id-profile`)
           .set('x-device-hash', token.deviceHash)
-          .set('Authorization', `Bearer ${token.accessToken}`)
+          .set('Cookie', token.cookie)
           .expect(HttpStatus.CONFLICT);
       });
     });
@@ -117,7 +118,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/${profile.user.resumePdf}`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'application/pdf')
         .expect((response) => {
@@ -131,7 +132,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/${profile.user.resumePdf}?disposition=attachment`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect(
           'Content-Disposition',
@@ -145,7 +146,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/file`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'text/plain')
         .expect((response) => {
@@ -160,7 +161,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}/wrong-file.pdf`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
     });
   });
@@ -174,7 +175,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
 
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'text/x-vcard')
@@ -189,7 +190,7 @@ describe('Profiles Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .get(`${URI}?disposition=attachment`)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
 
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'text/x-vcard')

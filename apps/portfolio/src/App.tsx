@@ -25,7 +25,7 @@ function App() {
     const init = async () => {
       setIsLoaded(false);
       try {
-        await api.ensureToken();
+        await api.ensureAuth();
 
         const profile = await api.loadProfile(locale);
         updateProfile(profile);

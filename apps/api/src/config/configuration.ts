@@ -18,7 +18,7 @@ export type Config = {
   app_env: string;
   app_version: string;
   port: number;
-  cors_origin: string | RegExp[];
+  cors_origin: boolean | RegExp[];
   log_level: LogLevel;
   jwt: JwtConfig;
   users_folder: string;
@@ -53,7 +53,7 @@ export const configuration = (): Config => ({
   port: parseInt(process.env.PORT || '3000', 10),
   cors_origin: process.env.CORS_ORIGIN
     ? deserializeCorsOrigin(process.env.CORS_ORIGIN)
-    : '*',
+    : true,
   log_level: (process.env.LOG_LEVEL as LogLevel) || 'info',
   jwt: {
     secret: process.env.JWT_SECRET!,

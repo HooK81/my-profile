@@ -1,12 +1,16 @@
 import { INestApplication } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
 import * as crypto from 'crypto';
-import { AccessToken } from 'my-profile-shared';
 import request from 'supertest';
 import { App } from 'supertest/types';
 
 export type TestAuthToken = {
-  accessToken: string;
+  cookie: string;
   deviceHash: string;
+};
+
+export const initTestApp = (app: INestApplication<App>): void => {
+  app.use(cookieParser());
 };
 
 export const getAuthToken = async (
@@ -19,10 +23,13 @@ export const getAuthToken = async (
     .set('x-device-hash', deviceHash)
     .expect(200);
 
-  return {
-    accessToken: (authResponse.body as AccessToken).accessToken,
-    deviceHash,
-  };
+  const setCookie = authResponse.headers['set-cookie'] as unknown as
+    | string[]
+    | undefined;
+  const cookieStr = setCookie?.[0] ?? '';
+  const cookie = cookieStr.split(';')[0];
+
+  return { cookie, deviceHash };
 };
 
 export const generateDeviceHash = (userAgent: string = '') => {

@@ -3,7 +3,7 @@ import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 const { apiMock } = vi.hoisted(() => ({
   apiMock: {
-    ensureToken: vi.fn().mockResolvedValue(undefined),
+    ensureAuth: vi.fn().mockResolvedValue(undefined),
     loadProfile: vi.fn(),
   },
 }));
@@ -53,7 +53,7 @@ describe('App', () => {
     it('should not call the api', () => {
       render(<App />);
 
-      expect(apiMock.ensureToken).not.toHaveBeenCalled();
+      expect(apiMock.ensureAuth).not.toHaveBeenCalled();
     });
 
     it('should render loader with isLoaded=false', () => {
@@ -80,10 +80,10 @@ describe('App', () => {
       useAppStore.setState({ i18nReady: true, isLoaded: false, locale: 'en' });
     });
 
-    it('should call ensureToken', async () => {
+    it('should call ensureAuth', async () => {
       render(<App />);
 
-      await waitFor(() => expect(apiMock.ensureToken).toHaveBeenCalledOnce());
+      await waitFor(() => expect(apiMock.ensureAuth).toHaveBeenCalledOnce());
     });
 
     it('should call loadProfile with current locale', async () => {
@@ -131,7 +131,7 @@ describe('App', () => {
 
   describe('when api fails', () => {
     beforeEach(() => {
-      apiMock.ensureToken.mockRejectedValue(new Error('network error'));
+      apiMock.ensureAuth.mockRejectedValue(new Error('network error'));
       useAppStore.setState({ i18nReady: true, isLoaded: false });
     });
 

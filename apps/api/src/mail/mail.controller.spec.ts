@@ -1,10 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { getAuthToken } from 'test_utils/access-token';
+
+import { getAuthToken, initTestApp } from '../../test_utils/access-token';
+import { AppModule } from '../app.module';
 
 describe('Mail Controller (functionnal)', () => {
   let app: INestApplication<App>;
@@ -15,6 +16,7 @@ describe('Mail Controller (functionnal)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    initTestApp(app);
     await app.init();
   });
 
@@ -30,7 +32,7 @@ describe('Mail Controller (functionnal)', () => {
         message: 'lorem ipsum',
       })
       .set('x-device-hash', token.deviceHash)
-      .set('Authorization', `Bearer ${token.accessToken}`)
+      .set('Cookie', token.cookie)
       .expect(HttpStatus.NO_CONTENT);
   });
 
@@ -47,7 +49,7 @@ describe('Mail Controller (functionnal)', () => {
         .post(URI)
         .send(payload)
         .set('x-device-hash', token.deviceHash)
-        .set('Authorization', `Bearer ${token.accessToken}`)
+        .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
     });
   });

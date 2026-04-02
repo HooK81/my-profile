@@ -183,13 +183,13 @@ describe('AxiosApi', () => {
     });
   });
 
-  describe('ensureToken()', () => {
-    it('should fetch a token when none is set', async () => {
+  describe('ensureAuth()', () => {
+    it('should authenticate when not yet authenticated', async () => {
       mockAxiosInstance.get.mockResolvedValue({
-        data: { accessToken: 'my-token' },
+        data: { authenticated: true },
       });
 
-      await testApi.ensureToken();
+      await testApi.ensureAuth();
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
         '/v1/auth/token',
@@ -197,14 +197,14 @@ describe('AxiosApi', () => {
       );
     });
 
-    it('should not fetch a token when one is already set', async () => {
+    it('should not re-authenticate when already authenticated', async () => {
       mockAxiosInstance.get.mockResolvedValue({
-        data: { accessToken: 'my-token' },
+        data: { authenticated: true },
       });
-      await testApi.ensureToken();
+      await testApi.ensureAuth();
 
       mockAxiosInstance.get.mockClear();
-      await testApi.ensureToken();
+      await testApi.ensureAuth();
 
       expect(mockAxiosInstance.get).not.toHaveBeenCalled();
     });
@@ -218,7 +218,7 @@ describe('AxiosApi', () => {
 
     it('should retry the request on 401 without x-no-retry header', async () => {
       mockAxiosInstance.get.mockResolvedValue({
-        data: { accessToken: 'new-token' },
+        data: { authenticated: true },
       });
       mockAxiosInstance.mockResolvedValue({ data: 'retried' });
 

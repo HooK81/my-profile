@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { EmailValidation, emailValidationSchema } from 'my-profile-shared';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { JwtAuthGuard } from 'src/auth/auth.guard';
 
+import { JwtAuthGuard } from '../auth/auth.guard';
 import { MailService } from './mail.service';
 
 @Controller({

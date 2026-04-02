@@ -8,7 +8,6 @@ import type {
 import axios from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { t } from 'i18next';
-import { accessTokenSchema } from 'my-profile-shared';
 import { toast } from 'react-toastify';
 
 import { ApiError } from './ApiError';
@@ -27,17 +26,18 @@ type ApiConfig = {
 export class AxiosApi {
   private deviceHashGenerator: DeviceHashGenerator;
   private axios: AxiosInstance;
-  private token: string | null;
+  private authenticated: boolean;
   protected baseURL: string;
 
   constructor() {
     this.deviceHashGenerator = new DeviceHashGenerator();
-    this.token = null;
+    this.authenticated = false;
     this.baseURL = import.meta.env.VITE_API_URL;
 
     this.axios = axios.create({
       timeout: 30000,
       baseURL: this.baseURL,
+      withCredentials: true,
     });
 
     this.setInterceptors();
@@ -56,6 +56,7 @@ export class AxiosApi {
           originalRequest &&
           !originalRequest.headers?.get(NO_RETRY_HEADER)
         ) {
+          self.authenticated = false;
           await self.refreshToken();
           return self.axios({
             ...originalRequest,
@@ -120,14 +121,14 @@ export class AxiosApi {
     }
   }
 
-  public async ensureToken(): Promise<void> {
-    if (!this.token) {
+  public async ensureAuth(): Promise<void> {
+    if (!this.authenticated) {
       await this.refreshToken();
     }
   }
 
   private async refreshToken(): Promise<void> {
-    const res = await this.get(
+    await this.get(
       '/v1/auth/token',
       {},
       {
@@ -136,14 +137,12 @@ export class AxiosApi {
         apiName: 'login',
       },
     );
-    const parsedResponse = accessTokenSchema.parse(res.data);
-    this.token = `Bearer ${parsedResponse.accessToken}`;
+    this.authenticated = true;
   }
 
   private async getHeaders(): Promise<RawAxiosRequestHeaders> {
     return {
       'x-device-hash': await this.deviceHashGenerator.generateHash(),
-      ...(this.token ? { Authorization: this.token } : {}),
     };
   }
 

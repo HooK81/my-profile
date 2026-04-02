@@ -11,7 +11,8 @@ import mime from 'mime';
 import { Profile, profileSchema } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 import { resolve } from 'path';
-import { LocaleService } from 'src/locale/locale.service';
+
+import { LocaleService } from '../locale/locale.service';
 
 export const FILES_FOLDER = 'files/';
 

@@ -9,9 +9,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Profile } from 'my-profile-shared';
-import { TIME_MS } from 'src/constants/time';
 
 import { JwtAuthGuard } from '../auth/auth.guard';
+import { TIME_MS } from '../constants/time';
 import { ProfilesService } from './profiles.service';
 import { VCardService } from './vcard.service';
 

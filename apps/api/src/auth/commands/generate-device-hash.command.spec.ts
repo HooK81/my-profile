@@ -1,5 +1,6 @@
 import { CommandTestFactory } from 'nest-commander-testing';
-import { AppModule } from 'src/app.module';
+
+import { AppModule } from '../../app.module';
 
 describe('Generate Device Hash Command (functionnal)', () => {
   beforeEach(() => {

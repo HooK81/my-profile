@@ -1,10 +1,10 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccessToken } from 'my-profile-shared';
-import { AppModule } from 'src/app.module';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { generateDeviceHash } from 'test_utils/access-token';
+
+import { generateDeviceHash, initTestApp } from '../../test_utils/access-token';
+import { AppModule } from '../app.module';
 
 describe('AuthController (functionnal)', () => {
   const URI = '/auth/token';
@@ -16,18 +16,22 @@ describe('AuthController (functionnal)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    initTestApp(app);
     await app.init();
   });
 
-  it('should return an access token', async () => {
+  it('should set an access_token cookie', async () => {
     await request(app.getHttpServer())
       .get(URI)
       .set('x-device-hash', generateDeviceHash())
       .expect(HttpStatus.OK)
-      .expect((res: { body: AccessToken }) => {
-        if (typeof res.body.accessToken !== 'string') {
-          throw new Error('accessToken is missing or not a string');
-        }
+      .expect((res) => {
+        expect(res.body).toEqual({ authenticated: true });
+        const cookies = res.headers['set-cookie'] as unknown as string[];
+        expect(cookies).toBeDefined();
+        expect(cookies[0]).toContain('access_token=');
+        expect(cookies[0]).toContain('HttpOnly');
+        expect(cookies[0]).toContain('Path=/');
       });
   });
 

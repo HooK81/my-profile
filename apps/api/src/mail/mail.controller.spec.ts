@@ -42,6 +42,12 @@ describe('Mail Controller (functionnal)', () => {
       { from: 'not-an-email', message: 'lorem ipsum' },
       { from: 'test@crochet.com', message: 'abc' },
       { from: 'test@crochet.com', message: 1 },
+      { from: 'test@crochet.com', message: 'a'.repeat(5001) },
+      {
+        from: 'test@crochet.com',
+        message: 'lorem ipsum',
+        subject: 'a'.repeat(256),
+      },
     ])('shoud return a bad request response', async (payload) => {
       const token = await getAuthToken(app);
 

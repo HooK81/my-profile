@@ -90,6 +90,19 @@
   min-height: 7.5rem;
 }
 
+.charCounter {
+  display: block;
+  margin-top: -0.5rem;
+  text-align: right;
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+  transition: color $transition-fast;
+}
+
+.charCounterWarning {
+  color: $text-primary;
+}
+
 .submitBtn {
   align-self: flex-end;
 }

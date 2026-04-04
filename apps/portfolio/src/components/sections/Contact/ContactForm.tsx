@@ -1,3 +1,8 @@
+import {
+  MESSAGE_MAX_LENGTH,
+  MESSAGE_MIN_LENGTH,
+  SUBJECT_MAX_LENGTH,
+} from 'my-profile-shared';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -5,8 +10,6 @@ import { toast } from 'react-toastify';
 import api from '../../../api/Api';
 import Button from '../../ui/Button/Button';
 import styles from './Contact.module.scss';
-
-const MESSAGE_MIN_LENGTH = 10;
 
 function ContactForm() {
   const { t } = useTranslation();
@@ -52,6 +55,7 @@ function ContactForm() {
           placeholder={t('contact.form.subjectPlaceholder')}
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
+          maxLength={SUBJECT_MAX_LENGTH}
           className={styles.input}
         />
       </div>
@@ -62,9 +66,17 @@ function ContactForm() {
           onChange={(e) => setMessage(e.target.value)}
           required
           minLength={MESSAGE_MIN_LENGTH}
+          maxLength={MESSAGE_MAX_LENGTH}
           rows={6}
           className={styles.textarea}
         />
+        {message.length > 0 && (
+          <span
+            className={`${styles.charCounter} ${message.length >= MESSAGE_MAX_LENGTH * 0.9 ? styles.charCounterWarning : ''}`}
+          >
+            {message.length} / {MESSAGE_MAX_LENGTH}
+          </span>
+        )}
       </div>
       <Button type="submit" className={styles.submitBtn} disabled={sending}>
         {sending ? t('contact.form.sending') : t('contact.form.sendButton')}

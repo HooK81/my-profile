@@ -13,6 +13,10 @@ type JwtConfig = {
   secret: string;
 };
 
+type DeviceFingerprintConfig = {
+  secret: string;
+};
+
 export type Config = {
   node_env: string;
   app_env: string;
@@ -21,6 +25,7 @@ export type Config = {
   cors_origin: boolean | RegExp[];
   log_level: LogLevel;
   jwt: JwtConfig;
+  deviceFingerprint: DeviceFingerprintConfig;
   users_folder: string;
   mailer: {
     transport: TransportType;
@@ -57,6 +62,9 @@ export const configuration = (): Config => ({
   log_level: (process.env.LOG_LEVEL as LogLevel) || 'info',
   jwt: {
     secret: process.env.JWT_SECRET!,
+  },
+  deviceFingerprint: {
+    secret: process.env.DEVICE_FINGERPRINT_SECRET!,
   },
   users_folder: resolve(process.cwd(), process.env.USERS_FOLDER!),
   mailer: {

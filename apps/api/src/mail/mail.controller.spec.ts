@@ -31,7 +31,7 @@ describe('Mail Controller (functionnal)', () => {
         from: 'test@example.com',
         message: 'lorem ipsum',
       })
-      .set('x-device-hash', token.deviceHash)
+
       .set('Cookie', token.cookie)
       .expect(HttpStatus.NO_CONTENT);
   });
@@ -48,7 +48,6 @@ describe('Mail Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .post(URI)
         .send(payload)
-        .set('x-device-hash', token.deviceHash)
         .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
     });

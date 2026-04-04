@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { App } from 'supertest/types';
 
-import { generateDeviceHash, initTestApp } from '../../test_utils/access-token';
+import { getAuthToken, initTestApp } from '../../test_utils/access-token';
 import { AppModule } from '../app.module';
 
 describe('AuthController (functionnal)', () => {
@@ -23,7 +23,6 @@ describe('AuthController (functionnal)', () => {
   it('should set an access_token cookie', async () => {
     await request(app.getHttpServer())
       .get(URI)
-      .set('x-device-hash', generateDeviceHash())
       .expect(HttpStatus.OK)
       .expect((res) => {
         expect(res.body).toEqual({ authenticated: true });
@@ -35,10 +34,13 @@ describe('AuthController (functionnal)', () => {
       });
   });
 
-  it('should return 401 without device hash', async () => {
+  it('should reject a token used from a different device', async () => {
+    const token = await getAuthToken(app);
+
     await request(app.getHttpServer())
-      .get(URI)
-      .expect(HttpStatus.UNAUTHORIZED)
-      .expect(JSON.stringify({ message: 'Unauthorized', statusCode: 401 }));
+      .get('/en/profiles/00000000-0000-0000-0000-000000000000')
+      .set('Cookie', token.cookie)
+      .set('User-Agent', 'spoofed-agent')
+      .expect(HttpStatus.UNAUTHORIZED);
   });
 });

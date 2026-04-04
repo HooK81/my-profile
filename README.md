@@ -98,13 +98,13 @@ Version bumps are determined automatically from commit history:
 
 ### Authentication
 
-API endpoints are protected by JWT tokens with device-hash binding:
+API endpoints are protected by JWT tokens with server-side device fingerprinting:
 
-1. Client computes `SHA-256(User-Agent)` and sends it as `x-device-hash` header
-2. Server validates the hash, issues a short-lived JWT (5 min) embedding the device hash
-3. Every authenticated request re-validates `x-device-hash` against the User-Agent
+1. Client requests a token from `GET /v1/auth/token` (no client-side hash needed)
+2. Server computes an HMAC-SHA256 fingerprint from multiple request headers (User-Agent, Accept-Language, Accept-Encoding) using a server secret, and embeds it in the JWT
+3. Every authenticated request recomputes the fingerprint and verifies it against the JWT payload
 
-The device hash is not a secret — it binds tokens to a specific browser to prevent token theft across devices.
+The fingerprint algorithm is opaque to the client — it binds tokens to a specific browser to prevent token theft across devices.
 
 ### Rate Limiting
 

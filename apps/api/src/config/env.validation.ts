@@ -10,6 +10,7 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
   CORS_ORIGIN: z.string().optional(),
   JWT_SECRET: z.string(),
+  DEVICE_FINGERPRINT_SECRET: z.string(),
   USERS_FOLDER: z.string(),
   MAILER_TRANSPORT: z.string(),
   MAILER_SENDER: z.string(),

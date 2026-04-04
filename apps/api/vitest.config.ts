@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     globals: true,
     root: './',
+    exclude: ['dist/**', 'node_modules/**'],
     coverage: {
       exclude: [
         'src/config/**',

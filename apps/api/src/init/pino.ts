@@ -1,6 +1,6 @@
 import { Params } from 'nestjs-pino';
 
-const HEADERS_TO_REDACT = ['authorization', 'x-device-hash'];
+const HEADERS_TO_REDACT = ['authorization'];
 const KEYS_TO_REDACT = ['pid', 'hostname'];
 
 const redactedPaths = HEADERS_TO_REDACT.map(

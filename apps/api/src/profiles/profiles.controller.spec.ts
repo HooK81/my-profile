@@ -61,7 +61,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/${profile.id}`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect((response: request.Response) => {
@@ -75,7 +75,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/f119f334-f301-426e-aac9-da86d26db999`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
     });
@@ -100,7 +100,6 @@ describe('Profiles Controller (functionnal)', () => {
 
         await request(app.getHttpServer())
           .get(`${URI}/${profileId}`)
-          .set('x-device-hash', token.deviceHash)
           .set('Cookie', token.cookie)
           .expect(HttpStatus.CONFLICT);
       });
@@ -115,7 +114,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/${profile.user.resumePdf}`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'application/pdf')
@@ -129,7 +128,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/${profile.user.resumePdf}?disposition=attachment`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect(
@@ -143,7 +142,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/file`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.OK)
         .expect('Content-Type', 'text/plain')
@@ -158,7 +157,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/wrong-file.pdf`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.NOT_FOUND);
     });
@@ -168,7 +167,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}/..%2F..%2F..%2Fetc%2Fpasswd`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
     });
@@ -178,7 +177,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`/en/profiles/..%2F..%2Fetc/files/passwd`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
     });
@@ -192,7 +191,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
 
         .expect(HttpStatus.OK)
@@ -207,7 +206,7 @@ describe('Profiles Controller (functionnal)', () => {
 
       await request(app.getHttpServer())
         .get(`${URI}?disposition=attachment`)
-        .set('x-device-hash', token.deviceHash)
+
         .set('Cookie', token.cookie)
 
         .expect(HttpStatus.OK)

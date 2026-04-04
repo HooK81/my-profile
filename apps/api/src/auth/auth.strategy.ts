@@ -21,8 +21,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate<T>(req: Request, payload: T) {
-    this.authService.checkDeviceHash(req);
+  validate(req: Request, payload: { deviceFingerprint: string }) {
+    this.authService.verifyFingerprint(req, payload.deviceFingerprint);
 
     return payload;
   }

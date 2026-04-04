@@ -16,14 +16,6 @@ const PROFILE_ID = vi.hoisted(() => {
   return id;
 });
 
-vi.mock('./DeviceHashGenerator', () => ({
-  DeviceHashGenerator: vi.fn(function (this: {
-    generateHash: ReturnType<typeof vi.fn>;
-  }) {
-    this.generateHash = vi.fn().mockResolvedValue('mockedhash');
-  }),
-}));
-
 vi.mock('axios', () => ({
   default: {
     create: vi.fn(() => ({

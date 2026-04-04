@@ -72,7 +72,7 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/) e
 
 NestJS modular architecture with domain modules:
 
-- **`auth/`** — JWT authentication with device-hash verification (passport-jwt). `GET /v1/auth/token` sets an HTTP-only cookie (`access_token`) containing the JWT. The JWT strategy extracts the token from the cookie (not the Authorization header). Cookie flags: `httpOnly`, `secure` (prod only), `sameSite: lax`, `path: /`. Token expiry: 24h (dev) / 5m (prod). Device hash is `SHA-256(User-Agent)` — no shared secret, purely for browser-binding.
+- **`auth/`** — JWT authentication with device-fingerprint verification (passport-jwt). `GET /v1/auth/token` sets an HTTP-only cookie (`access_token`) containing the JWT. The JWT strategy extracts the token from the cookie (not the Authorization header). Cookie flags: `httpOnly`, `secure` (prod only), `sameSite: lax`, `path: /`. Token expiry: 24h (dev) / 5m (prod). Device fingerprint is `HMAC-SHA256(server-secret, userAgent + acceptLanguage + acceptEncoding)` — computed server-side only, opaque to the client.
 - **`profiles/`** — Profile data, file serving (images/PDFs), vCard generation. Routes: `GET /v1/:locale/profiles/:id`.
 - **`mail/`** — Contact email sending via Nodemailer with Pug templates.
 - **`locale/`** — Locale detection middleware, extracts locale from route params.
@@ -97,7 +97,7 @@ Directory structure:
 - **`components/layout/`** — Layout shell (`Layout`), `Navbar`, `Footer`, `Section`, `ScrollToTop`.
 - **`components/sections/`** — Home page sections: Hero, About, Resume, Techs, Hobbies, Contact.
 - **`stores/`** — Zustand stores: `app.store` (locale, loading, errors), `profile.store` (profile data, image blob URL).
-- **`api/`** — Axios client wrapper (`withCredentials: true`) with automatic device-hash generation. Auth cookie is managed by the browser via HTTP-only cookie set by the API.
+- **`api/`** — Axios client wrapper (`withCredentials: true`). Auth cookie is managed by the browser via HTTP-only cookie set by the API.
 - **`hooks/`** — Custom hooks (e.g., `useScrollSpy`).
 - **`styles/`** — Global SCSS. Components use SCSS modules (`.module.scss`).
 

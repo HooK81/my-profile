@@ -11,7 +11,6 @@ import { t } from 'i18next';
 import { toast } from 'react-toastify';
 
 import { ApiError } from './ApiError';
-import { DeviceHashGenerator } from './DeviceHashGenerator';
 
 const NO_RETRY_HEADER = 'x-no-retry';
 
@@ -24,13 +23,11 @@ type ApiConfig = {
 };
 
 export class AxiosApi {
-  private deviceHashGenerator: DeviceHashGenerator;
   private axios: AxiosInstance;
   private authenticated: boolean;
   protected baseURL: string;
 
   constructor() {
-    this.deviceHashGenerator = new DeviceHashGenerator();
     this.authenticated = false;
     this.baseURL = import.meta.env.VITE_API_URL;
 
@@ -61,7 +58,7 @@ export class AxiosApi {
           return self.axios({
             ...originalRequest,
             headers: {
-              ...(await self.getHeaders()),
+              ...self.getHeaders(),
               [NO_RETRY_HEADER]: '1',
             },
           });
@@ -89,7 +86,7 @@ export class AxiosApi {
       return await this.axios.get(route, {
         params,
         responseType: apiConfig.responseType,
-        headers: { ...(await this.getHeaders()), ...apiConfig.headers },
+        headers: { ...this.getHeaders(), ...apiConfig.headers },
       });
     } catch (error) {
       this.handleApiError(error as AxiosError, route, apiConfig);
@@ -113,7 +110,7 @@ export class AxiosApi {
 
     try {
       return await this.axios.post(route, data, {
-        headers: { ...(await this.getHeaders()), ...apiConfig.headers },
+        headers: { ...this.getHeaders(), ...apiConfig.headers },
       });
     } catch (error) {
       this.handleApiError(error as AxiosError, route, apiConfig);
@@ -140,10 +137,8 @@ export class AxiosApi {
     this.authenticated = true;
   }
 
-  private async getHeaders(): Promise<RawAxiosRequestHeaders> {
-    return {
-      'x-device-hash': await this.deviceHashGenerator.generateHash(),
-    };
+  private getHeaders(): RawAxiosRequestHeaders {
+    return {};
   }
 
   private handleApiError(

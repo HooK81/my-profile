@@ -5,7 +5,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './auth.strategy';
-import { GenerateDeviceHashCommand } from './commands/generate-device-hash.command';
 import { JWT_CONSTANTS } from './const';
 
 @Module({
@@ -20,6 +19,6 @@ import { JWT_CONSTANTS } from './const';
     }),
   ],
   controllers: [AuthController],
-  providers: [JwtStrategy, AuthService, GenerateDeviceHashCommand],
+  providers: [JwtStrategy, AuthService],
 })
 export class AuthModule {}

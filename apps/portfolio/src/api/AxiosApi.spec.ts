@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 
 import { ApiError } from './ApiError';
 import { AxiosApi } from './AxiosApi';
-import { DeviceHashGenerator } from './DeviceHashGenerator';
 
 vi.mock('axios', () => ({
   default: {
@@ -18,7 +17,6 @@ vi.mock('axios', () => ({
   },
 }));
 
-vi.mock('./DeviceHashGenerator');
 vi.mock('i18next');
 vi.mock('react-toastify');
 
@@ -76,10 +74,6 @@ describe('AxiosApi', () => {
     vi.mocked(axios.create).mockReturnValue(
       mockAxiosInstance as unknown as AxiosInstance,
     );
-    vi.mocked(DeviceHashGenerator.prototype.generateHash).mockResolvedValue(
-      'mockedhash',
-    );
-
     testApi = new TestAxiosApi();
   });
 

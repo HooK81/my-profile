@@ -17,9 +17,7 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
-    const deviceFingerprint = this.authService.computeFingerprint(req);
-    const { accessToken } =
-      await this.authService.anonymousSignin(deviceFingerprint);
+    const { accessToken } = await this.authService.anonymousSignin(req);
 
     res.cookie(COOKIE_NAME, accessToken, {
       ...COOKIE_OPTIONS,

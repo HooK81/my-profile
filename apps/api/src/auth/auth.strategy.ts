@@ -6,6 +6,7 @@ import { Strategy } from 'passport-jwt';
 
 import { AuthService } from './auth.service';
 import { COOKIE_NAME } from './const';
+import { JwtToken } from './types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -21,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(req: Request, payload: { deviceFingerprint: string }) {
+  validate(req: Request, payload: JwtToken) {
     this.authService.verifyFingerprint(req, payload.deviceFingerprint);
 
     return payload;

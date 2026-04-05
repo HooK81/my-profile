@@ -6,6 +6,8 @@ import { Request } from 'express';
 import { AccessToken, accessTokenSchema } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 
+import { JwtPayload } from './types';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,29 +16,16 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async anonymousSignin(
-    deviceFingerprint: string,
-  ): Promise<AccessToken> {
-    const payload = {
+  public async anonymousSignin(req: Request): Promise<AccessToken> {
+    const payload: JwtPayload = {
       role: 'anonymous',
-      deviceFingerprint,
+      deviceFingerprint: this.computeFingerprint(req),
       iat: Math.floor(Date.now() / 1000),
     };
 
     return accessTokenSchema.parse({
       accessToken: await this.jwtService.signAsync(payload),
     });
-  }
-
-  public computeFingerprint(req: Request): string {
-    const userAgent = (req.headers['user-agent'] as string) || '';
-    const acceptLanguage = (req.headers['accept-language'] as string) || '';
-    const acceptEncoding = (req.headers['accept-encoding'] as string) || '';
-
-    const data = [userAgent, acceptLanguage, acceptEncoding].join('\0');
-    const secret = this.configService.get<string>('deviceFingerprint.secret')!;
-
-    return crypto.createHmac('sha256', secret).update(data).digest('hex');
   }
 
   public verifyFingerprint(req: Request, expectedFingerprint: string): void {
@@ -60,5 +49,16 @@ export class AuthService {
       );
       throw new UnauthorizedException();
     }
+  }
+
+  private computeFingerprint(req: Request): string {
+    const userAgent = (req.headers['user-agent'] as string) || '';
+    const acceptLanguage = (req.headers['accept-language'] as string) || '';
+    const acceptEncoding = (req.headers['accept-encoding'] as string) || '';
+
+    const data = [userAgent, acceptLanguage, acceptEncoding].join('\0');
+    const secret = this.configService.get<string>('deviceFingerprint.secret')!;
+
+    return crypto.createHmac('sha256', secret).update(data).digest('hex');
   }
 }

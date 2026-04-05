@@ -51,11 +51,18 @@
   },
   "defaultBase": "main",
   "release": {
-    "projects": ["my-profile-api", "my-profile-portfolio", "my-profile-shared"],
+    "projects": [
+      "my-profile-api",
+      "my-profile-portfolio",
+      "my-profile-shared"
+    ],
     "projectsRelationship": "fixed",
     "version": {
       "conventionalCommits": true,
-      "manifestRootsToUpdate": ["{projectRoot}", "."]
+      "manifestRootsToUpdate": [
+        "{projectRoot}",
+        "."
+      ]
     },
     "changelog": {
       "workspaceChangelog": {
@@ -69,5 +76,6 @@
       "commitMessage": "chore(release): v{version}",
       "tag": true
     }
-  }
+  },
+  "analytics": false
 }

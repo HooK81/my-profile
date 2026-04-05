@@ -1,4 +1,4 @@
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -23,7 +23,7 @@ WORKDIR /usr/src/app/apps/api
 RUN npm run build
 
 
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 LABEL maintainer="Julien Crochet <julien@crochet.me>"
 
 ARG API_PORT=3000

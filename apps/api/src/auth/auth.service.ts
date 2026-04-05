@@ -39,7 +39,7 @@ export class AuthService {
       );
 
     if (!isValid) {
-      const userAgent = (req.headers['user-agent'] as string) || '';
+      const userAgent = req.headers['user-agent']!;
       this.logger.warn(
         'Device fingerprint mismatch - possible auth bypass attempt',
         {
@@ -52,9 +52,9 @@ export class AuthService {
   }
 
   private computeFingerprint(req: Request): string {
-    const userAgent = (req.headers['user-agent'] as string) || '';
-    const acceptLanguage = (req.headers['accept-language'] as string) || '';
-    const acceptEncoding = (req.headers['accept-encoding'] as string) || '';
+    const userAgent = req.get('user-agent');
+    const acceptLanguage = req.get('accept-language');
+    const acceptEncoding = req.get('accept-encoding');
 
     const data = [userAgent, acceptLanguage, acceptEncoding].join('\0');
     const secret = this.configService.get<string>('deviceFingerprint.secret')!;

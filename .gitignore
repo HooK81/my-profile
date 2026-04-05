@@ -28,6 +28,7 @@ docker-compose.override.yml
 
 # Build output
 dist
+*.tsbuildinfo
 
 # Node
 node_modules

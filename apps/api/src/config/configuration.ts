@@ -1,5 +1,5 @@
-import { TransportType } from '@nestjs-modules/mailer/dist/interfaces/mailer-options.interface';
 import { readFileSync } from 'fs';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { resolve } from 'path';
 
 type LogLevel = 'info' | 'debug' | 'warn' | 'error';
@@ -28,7 +28,7 @@ export type Config = {
   deviceFingerprint: DeviceFingerprintConfig;
   users_folder: string;
   mailer: {
-    transport: TransportType;
+    transport: SMTPTransport.Options | string;
     sender: string;
     team_address: string;
   };
@@ -39,9 +39,11 @@ const deserializeCorsOrigin = (value: string): RegExp[] => {
   return parsed.map(({ pattern, flags }) => new RegExp(pattern, flags));
 };
 
-const deserializeMailerTransport = (value: string): TransportType => {
+const deserializeMailerTransport = (
+  value: string,
+): SMTPTransport.Options | string => {
   try {
-    return JSON.parse(value) as TransportType;
+    return JSON.parse(value) as SMTPTransport.Options | string;
   } catch {
     return value;
   }

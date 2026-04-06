@@ -15,9 +15,6 @@ export default defineConfig({
     include: ['my-profile-shared'],
   },
   build: {
-    commonjsOptions: {
-      include: [/libs\/shared/, /node_modules/],
-    },
     rolldownOptions: {
       output: {
         codeSplitting: {

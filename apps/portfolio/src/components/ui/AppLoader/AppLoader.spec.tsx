@@ -1,22 +1,22 @@
 import { render } from '@testing-library/react';
 import { act } from 'react';
 
-import Loader from './Loader';
+import AppLoader from './AppLoader';
 
-describe('Loader', () => {
+describe('AppLoader', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
 
   it('should render the overlay when not loaded', () => {
-    const { container } = render(<Loader isLoaded={false} />);
+    const { container } = render(<AppLoader isLoaded={false} />);
     expect(container.firstChild).toBeInTheDocument();
   });
 
   it('should remove the overlay after 500ms when isLoaded=true', () => {
-    const { container, rerender } = render(<Loader isLoaded={false} />);
+    const { container, rerender } = render(<AppLoader isLoaded={false} />);
     expect(container.firstChild).toBeInTheDocument();
 
-    rerender(<Loader isLoaded={true} />);
+    rerender(<AppLoader isLoaded={true} />);
     act(() => {
       vi.advanceTimersByTime(500);
     });

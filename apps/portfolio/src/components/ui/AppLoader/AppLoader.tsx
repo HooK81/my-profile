@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import styles from './Loader.module.scss';
+import styles from './AppLoader.module.scss';
 
 type LoaderProps = {
   isLoaded: boolean;
 };
 
-function Loader({ isLoaded }: LoaderProps) {
+function AppLoader({ isLoaded }: LoaderProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,11 @@ function Loader({ isLoaded }: LoaderProps) {
   }
 
   return (
-    <div className={`${styles.overlay} ${isLoaded ? styles.fadeOut : ''}`}>
+    <div
+      data-testid="loader"
+      data-loaded={String(isLoaded)}
+      className={`${styles.overlay} ${isLoaded ? styles.fadeOut : ''}`}
+    >
       <div className={styles.spinner}>
         <div className={styles.bounce1} />
         <div className={styles.bounce2} />
@@ -31,4 +35,4 @@ function Loader({ isLoaded }: LoaderProps) {
   );
 }
 
-export default Loader;
+export default AppLoader;

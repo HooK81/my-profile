@@ -19,40 +19,18 @@ export default defineConfig({
       include: [/libs\/shared/, /node_modules/],
     },
     rolldownOptions: {
-      /*output: {
+      output: {
         codeSplitting: {
           groups: [
             {
-              name: 'libs',
+              name: 'vendor',
               test: /node_modules/,
-              minSize: 200000, // 200K
-              maxSize: 500000, // 500k
+              minSize: 250000,
+              maxSize: 500000,
             },
           ],
         },
-      },*/
-    },
-    /*rollupOptions: {
-      output: {
-        manualChunks: {
-          react: [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            'react-markdown',
-            'react-toastify',
-          ],
-          animation: ['@tsparticles/react', '@tsparticles/slim', 'typed.js'],
-          intl: [
-            'dayjs',
-            'i18next',
-            'i18next-browser-languagedetector',
-            'libphonenumber-js',
-            'react-i18next',
-          ],
-          shared: ['my-profile-shared'],
-        },
       },
-    },*/
+    },
   },
 });

@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import api from './api/Api';
 import Layout from './components/layout/Layout/Layout';
 import ScrollToTop from './components/layout/ScrollToTop/ScrollToTop';
-import Loader from './components/ui/Loader/Loader';
-import AboutThisSite from './pages/AboutThisSite/AboutThisSite';
+import AppLoader from './components/ui/AppLoader/AppLoader';
+import Spinner from './components/ui/Spinner/Spinner';
 import Home from './pages/Home/Home';
 import { useAppStore } from './stores/app.store';
 import { useProfileStore } from './stores/profile.store';
+
+const AboutThisSite = lazy(() => import('./pages/AboutThisSite/AboutThisSite'));
 
 function App() {
   const isLoaded = useAppStore((s) => s.isLoaded);
@@ -43,12 +45,19 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Loader isLoaded={isLoaded} />
+      <AppLoader isLoaded={isLoaded} />
       {isLoaded && (
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="about-this-site" element={<AboutThisSite />} />
+            <Route
+              path="about-this-site"
+              element={
+                <Suspense fallback={<Spinner />}>
+                  <AboutThisSite />
+                </Suspense>
+              }
+            />
           </Route>
         </Routes>
       )}

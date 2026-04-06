@@ -18,7 +18,21 @@ export default defineConfig({
     commonjsOptions: {
       include: [/libs\/shared/, /node_modules/],
     },
-    rollupOptions: {
+    rolldownOptions: {
+      /*output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: 'libs',
+              test: /node_modules/,
+              minSize: 200000, // 200K
+              maxSize: 500000, // 500k
+            },
+          ],
+        },
+      },*/
+    },
+    /*rollupOptions: {
       output: {
         manualChunks: {
           react: [
@@ -39,6 +53,6 @@ export default defineConfig({
           shared: ['my-profile-shared'],
         },
       },
-    },
+    },*/
   },
 });

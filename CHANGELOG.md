@@ -1,3 +1,17 @@
+## 5.2.0 (2026-04-06)
+
+### 🚀 Features
+
+- packages upgrade ([5636243](https://github.com/HooK81/my-profile/commit/5636243))
+- api packages upgrade ([3d4865e](https://github.com/HooK81/my-profile/commit/3d4865e))
+- portfolio packages upgrade ([1f0c298](https://github.com/HooK81/my-profile/commit/1f0c298))
+- improve vite code split and AboutSite lazy loading ([e4b845f](https://github.com/HooK81/my-profile/commit/e4b845f))
+- portfolio package upgrade ([ced8a07](https://github.com/HooK81/my-profile/commit/ced8a07))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 5.1.0 (2026-04-04)
 
 ### 🚀 Features

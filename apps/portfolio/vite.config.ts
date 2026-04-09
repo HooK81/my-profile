@@ -23,7 +23,6 @@ export default defineConfig({
               name: 'vendor',
               test: /node_modules/,
               minSize: 250000,
-              maxSize: 500000,
             },
           ],
         },

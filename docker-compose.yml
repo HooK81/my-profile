@@ -48,8 +48,5 @@ services:
 
 networks:
     frontend:
-        ipam:
-            config:
-                - subnet: 172.20.0.0/24
     backend:
         internal: true

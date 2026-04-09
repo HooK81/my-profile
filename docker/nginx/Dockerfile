@@ -26,7 +26,7 @@ LABEL maintainer="Julien Crochet <julien@crochet.me>"
 RUN apk add --no-cache curl
 
 # Configure nginx to run as non-root
-RUN sed -i '/^pid/d' /etc/nginx/nginx.conf \
+RUN sed -i '/^user /d; /^pid/d' /etc/nginx/nginx.conf \
     && echo 'pid /tmp/nginx.pid;' >> /etc/nginx/nginx.conf \
     && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /etc/nginx/conf.d \
     && chmod -R 755 /var/cache/nginx /var/log/nginx

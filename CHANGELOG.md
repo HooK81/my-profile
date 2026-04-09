@@ -1,3 +1,13 @@
+## 5.2.1 (2026-04-09)
+
+### 🩹 Fixes
+
+- fix hsts and vite config ([4471d3a](https://github.com/HooK81/my-profile/commit/4471d3a))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 5.2.0 (2026-04-06)
 
 ### 🚀 Features

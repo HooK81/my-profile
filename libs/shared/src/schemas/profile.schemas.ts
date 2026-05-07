@@ -51,6 +51,13 @@ export const techSchema = z.object({
   desc: z.string(),
 });
 
+export const factsSchema = z.object({
+  linesOfCode: z.number().int().nonnegative(),
+  mergeRequests: z.number().int().nonnegative(),
+  trainings: z.number().int().nonnegative(),
+  coffees: z.number().int().nonnegative(),
+});
+
 export const userSchema = z.object({
   lastName: z.string(),
   firstName: z.string(),
@@ -66,6 +73,7 @@ export const userSchema = z.object({
   website: z.url(),
   resumePdf: z.string(),
   networks: z.array(networkSchema),
+  facts: factsSchema.optional(),
 });
 
 export const resumeSchema = z.object({
@@ -90,6 +98,7 @@ export type Education = z.infer<typeof educationSchema>;
 export type Skill = z.infer<typeof skillSchema>;
 export type Hobby = z.infer<typeof hobbySchema>;
 export type Tech = z.infer<typeof techSchema>;
+export type Facts = z.infer<typeof factsSchema>;
 export type User = z.infer<typeof userSchema>;
 export type Resume = z.infer<typeof resumeSchema>;
 export type Profile = z.infer<typeof profileSchema>;

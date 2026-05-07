@@ -1,0 +1,61 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.bg {
+  background-image: url('../../../assets/images/facts-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2rem;
+
+  @include respond-below($breakpoint-md) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1 1 0;
+
+  @include respond-below($breakpoint-md) {
+    flex: 0 0 calc(50% - 2rem);
+  }
+
+  @include respond-below($breakpoint-sm) {
+    flex: 0 0 100%;
+  }
+}
+
+.icon {
+  font-size: 2.5rem;
+  color: $text-tertiary;
+  margin-bottom: 1rem;
+}
+
+.value {
+  font-family: $font-heading;
+  font-size: $font-size-xxl;
+  font-weight: 700;
+  color: $text-primary;
+  line-height: 1.1;
+}
+
+.label {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+}

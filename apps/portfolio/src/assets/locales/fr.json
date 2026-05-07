@@ -24,6 +24,12 @@
     "phone": "Téléphone",
     "downloadResume": "Télécharger mon CV"
   },
+  "facts": {
+    "linesOfCode": "Lignes de code",
+    "mergeRequests": "Merge Requests",
+    "trainings": "Formations",
+    "coffees": "Cafés"
+  },
   "resume": {
     "title": "Curriculum Vitae",
     "experience": "Expériences professionnelles",

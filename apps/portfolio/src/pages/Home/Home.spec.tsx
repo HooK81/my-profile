@@ -10,6 +10,10 @@ vi.mock('../../components/sections/About/About', () => ({
   default: () => <div data-testid="about" />,
 }));
 
+vi.mock('../../components/sections/Facts/Facts', () => ({
+  default: () => <div data-testid="facts" />,
+}));
+
 vi.mock('../../components/sections/Resume/Resume', () => ({
   default: () => <div data-testid="resume" />,
 }));
@@ -35,6 +39,7 @@ describe('Home', () => {
 
     expect(screen.getByTestId('hero')).toBeInTheDocument();
     expect(screen.getByTestId('about')).toBeInTheDocument();
+    expect(screen.getByTestId('facts')).toBeInTheDocument();
     expect(screen.getByTestId('resume')).toBeInTheDocument();
     expect(screen.getByTestId('techs')).toBeInTheDocument();
     expect(screen.getByTestId('hobbies')).toBeInTheDocument();
@@ -49,6 +54,7 @@ describe('Home', () => {
     expect(order).toStrictEqual([
       'hero',
       'about',
+      'facts',
       'resume',
       'techs',
       'hobbies',

@@ -3,6 +3,7 @@ import { Factory } from 'fishery';
 
 import type {
   Education,
+  Facts,
   Hobby,
   Network,
   Profile,
@@ -84,6 +85,13 @@ const HobbyFactory = Factory.define<Hobby>(() => {
   };
 });
 
+const FactsFactory = Factory.define<Facts>(() => ({
+  linesOfCode: faker.number.int({ min: 100_000, max: 2_000_000 }),
+  mergeRequests: faker.number.int({ min: 50, max: 1000 }),
+  trainings: faker.number.int({ min: 1, max: 20 }),
+  coffees: faker.number.int({ min: 100, max: 2000 }),
+}));
+
 const NetworkFactory = Factory.define<Network>(() => {
   const name = faker.helpers.arrayElement(['twitter', 'linkedIn', 'instagram']);
   return {
@@ -119,6 +127,7 @@ const UserFactory = Factory.define<User>(() => {
     website: `https://www.${faker.internet.domainName()}`,
     resumePdf: `${faker.system.fileName().split('.')[0]}.pdf`,
     networks: NetworkFactory.buildList(faker.number.int({ min: 1, max: 3 })),
+    facts: FactsFactory.build(),
   };
 });
 

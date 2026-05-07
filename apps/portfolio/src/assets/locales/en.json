@@ -24,6 +24,12 @@
     "phone": "Phone",
     "downloadResume": "Download Resume"
   },
+  "facts": {
+    "linesOfCode": "Lines of code",
+    "mergeRequests": "Merge Requests",
+    "trainings": "Trainings",
+    "coffees": "Coffees"
+  },
   "resume": {
     "title": "Resume",
     "experience": "Professional Experience",

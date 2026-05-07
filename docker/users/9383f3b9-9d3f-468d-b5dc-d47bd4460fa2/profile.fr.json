@@ -35,7 +35,13 @@
         "url": "https://twitter.com/john_doe",
         "icon": "fab fa-x-twitter"
       }
-    ]
+    ],
+    "facts": {
+      "linesOfCode": 567395,
+      "mergeRequests": 483,
+      "trainings": 8,
+      "coffees": 1275
+    }
   },
   "resume": {
     "educations": [

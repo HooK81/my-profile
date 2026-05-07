@@ -64,6 +64,16 @@ describe('About', () => {
       expect(screen.getByText(profile.user.bio)).toBeInTheDocument();
     });
 
+    it('should render social links for each network', () => {
+      render(<About />);
+
+      profile.user.networks.forEach((network) => {
+        const link = screen.getByTitle(network.name);
+        expect(link).toHaveAttribute('href', network.url);
+        expect(link).toHaveAttribute('target', '_blank');
+      });
+    });
+
     it('should display the full name as a link', () => {
       render(<About />);
 

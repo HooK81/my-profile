@@ -7,6 +7,7 @@ import { useProfileStore } from '../../../stores/profile.store';
 import { formatPhone } from '../../../utils/phone';
 import Section from '../../layout/Section/Section';
 import Button from '../../ui/Button/Button';
+import SocialLinks from '../../ui/SocialLinks/SocialLinks';
 import styles from './About.module.scss';
 
 function About() {
@@ -49,6 +50,9 @@ function About() {
               alt={user.fullName}
               className={styles.photo}
             />
+          )}
+          {user.networks.length > 0 && (
+            <SocialLinks networks={user.networks} size="sm" />
           )}
         </div>
 

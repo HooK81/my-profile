@@ -15,6 +15,7 @@ git clone git@github.com:HooK81/my-profile.git
 cd my-profile
 cp .env.dist .env
 npm install
+npm run build
 ```
 
 ## Development

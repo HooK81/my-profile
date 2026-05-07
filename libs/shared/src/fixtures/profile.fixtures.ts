@@ -115,7 +115,7 @@ const UserFactory = Factory.define<User>(() => {
     description: faker.lorem.paragraphs(2, '  \n'),
     image: `${faker.system.fileName().split('.')[0]}.jpg`,
     logo: `${faker.system.fileName().split('.')[0]}.svg`,
-    bio: faker.person.bio(),
+    bio: faker.lorem.sentence(),
     email: faker.internet.email(),
     address: {
       street: faker.location.street(),

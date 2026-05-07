@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useProfileStore } from '../../../stores/profile.store';
 import Section from '../../layout/Section/Section';
+import Icon from '../../ui/Icon/Icon';
 import styles from './Hobbies.module.scss';
 
 function Hobbies() {
@@ -24,7 +25,7 @@ function Hobbies() {
               className={styles.image}
             />
             <div className={styles.overlay}>
-              <i className={hobby.icon} />
+              <Icon name={hobby.icon} />
               <hr className={styles.divider} />
               <span className={styles.title}>{hobby.title}</span>
             </div>

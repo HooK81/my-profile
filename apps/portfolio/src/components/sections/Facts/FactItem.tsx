@@ -1,10 +1,12 @@
+import type { IconName } from 'my-profile-shared';
 import { useEffect, useRef, useState } from 'react';
 
 import { useAppStore } from '../../../stores/app.store';
+import Icon from '../../ui/Icon/Icon';
 import styles from './Facts.module.scss';
 
 type FactItemProps = {
-  icon: string;
+  icon: IconName;
   value: number;
   label: string;
 };
@@ -60,7 +62,7 @@ function FactItem({ icon, value, label }: FactItemProps) {
 
   return (
     <div ref={ref} className={styles.item}>
-      <i className={`${icon} ${styles.icon}`} aria-hidden="true" />
+      <Icon name={icon} className={styles.icon} />
       <div className={styles.value}>{display.toLocaleString(locale)}+</div>
       <div className={styles.label}>{label}</div>
     </div>

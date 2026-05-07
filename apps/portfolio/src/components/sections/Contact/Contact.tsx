@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useProfileStore } from '../../../stores/profile.store';
 import { formatPhone } from '../../../utils/phone';
 import Section from '../../layout/Section/Section';
+import Icon from '../../ui/Icon/Icon';
 import styles from './Contact.module.scss';
 import ContactForm from './ContactForm';
 
@@ -34,7 +35,7 @@ function Contact() {
       <div className={styles.grid}>
         <div className={styles.info}>
           <div className={styles.infoItem}>
-            <i className="fa-solid fa-location-dot" />
+            <Icon name="LuMapPin" />
             <div>
               <h4>{t('contact.location')}</h4>
               <p>
@@ -50,7 +51,7 @@ function Contact() {
 
           {user.phone && (
             <div className={styles.infoItem}>
-              <i className="fa-solid fa-mobile-screen" />
+              <Icon name="LuSmartphone" />
               <div>
                 <h4>{t('contact.phone')}</h4>
                 <p>
@@ -61,7 +62,7 @@ function Contact() {
           )}
 
           <div className={styles.infoItem}>
-            <i className="fa-solid fa-envelope" />
+            <Icon name="LuMail" />
             <div>
               <h4>{t('contact.email')}</h4>
               <p>

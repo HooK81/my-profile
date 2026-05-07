@@ -84,13 +84,10 @@ describe('Facts', () => {
       expect(screen.getByText('facts.coffees')).toBeDefined();
     });
 
-    it('should render the four font-awesome icons', () => {
+    it('should render an svg icon for each fact', () => {
       const { container } = render(<Facts />);
 
-      expect(container.querySelector('.fa-code')).not.toBeNull();
-      expect(container.querySelector('.fa-code-pull-request')).not.toBeNull();
-      expect(container.querySelector('.fa-lightbulb')).not.toBeNull();
-      expect(container.querySelector('.fa-mug-hot')).not.toBeNull();
+      expect(container.querySelectorAll('svg')).toHaveLength(4);
     });
 
     it('should display 0+ before the section is observed', () => {

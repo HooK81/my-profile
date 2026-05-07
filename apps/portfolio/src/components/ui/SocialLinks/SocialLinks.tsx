@@ -1,5 +1,6 @@
 import type { Network } from 'my-profile-shared';
 
+import Icon from '../Icon/Icon';
 import styles from './SocialLinks.module.scss';
 
 type SocialLinksProps = {
@@ -18,7 +19,7 @@ function SocialLinks({ networks, size = 'md' }: SocialLinksProps) {
             rel="noopener noreferrer"
             title={network.name}
           >
-            <i className={network.icon} />
+            <Icon name={network.icon} />
           </a>
         </li>
       ))}

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useProfileStore } from '../../../stores/profile.store';
 import Section from '../../layout/Section/Section';
+import Icon from '../../ui/Icon/Icon';
 import EducationItem from './EducationItem';
 import styles from './Resume.module.scss';
 import SkillBar from './SkillBar';
@@ -20,7 +21,7 @@ function Resume() {
     <Section id="resume" variant="secondary" title={t('resume.title')}>
       <div className={styles.experience}>
         <h3 className={styles.columnTitle}>
-          <i className="fa-solid fa-rocket" /> {t('resume.experience')}
+          <Icon name="LuRocket" /> {t('resume.experience')}
         </h3>
         {resume.works.map((work, i) => (
           <WorkItem key={i} work={work} />
@@ -30,7 +31,7 @@ function Resume() {
       {resume.educations.length > 0 && (
         <div className={styles.education}>
           <h3 className={styles.columnTitle}>
-            <i className="fa-solid fa-graduation-cap" /> {t('resume.education')}
+            <Icon name="LuGraduationCap" /> {t('resume.education')}
           </h3>
           <div className={styles.educationGrid}>
             {resume.educations.map((edu, i) => (
@@ -42,7 +43,7 @@ function Resume() {
 
       <div className={styles.skills}>
         <h3 className={styles.columnTitle}>
-          <i className="fa-solid fa-code" /> {t('skills.title')}
+          <Icon name="LuCode" /> {t('skills.title')}
         </h3>
         <p className={styles.subtitle}>{t('skills.desc')}</p>
         <div className={styles.skillsGrid}>

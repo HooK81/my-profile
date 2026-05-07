@@ -23,17 +23,17 @@
       {
         "name": "linkedin",
         "url": "https://www.linkedin.com/in/j-doe/",
-        "icon": "fab fa-linkedin"
+        "icon": "FaLinkedin"
       },
       {
         "name": "facebook",
         "url": "https://www.facebook.com/john.doe",
-        "icon": "fab fa-facebook"
+        "icon": "FaFacebook"
       },
       {
         "name": "twitter",
         "url": "https://twitter.com/john_doe",
-        "icon": "fab fa-x-twitter"
+        "icon": "FaXTwitter"
       }
     ],
     "facts": {
@@ -117,17 +117,17 @@
     {
       "title": "Cinema",
       "image": "cinema.jpg",
-      "icon": "fas fa-film"
+      "icon": "LuFilm"
     },
     {
       "title": "Video Game",
       "image": "gaming.jpg",
-      "icon": "fas fa-gamepad"
+      "icon": "LuGamepad2"
     },
     {
       "title": "Reading",
       "image": "reading.jpg",
-      "icon": "fas fa-book-reader"
+      "icon": "LuBookOpenText"
     }
   ]
 }

@@ -7,6 +7,7 @@ import { useProfileStore } from '../../../stores/profile.store';
 import { formatPhone } from '../../../utils/phone';
 import Section from '../../layout/Section/Section';
 import Button from '../../ui/Button/Button';
+import Icon from '../../ui/Icon/Icon';
 import SocialLinks from '../../ui/SocialLinks/SocialLinks';
 import styles from './About.module.scss';
 
@@ -98,7 +99,7 @@ function About() {
 
           <div className={styles.actions}>
             <Button onClick={() => void handleDownloadResume()}>
-              <i className="fa-solid fa-download" /> {t('about.downloadResume')}
+              <Icon name="LuDownload" /> {t('about.downloadResume')}
             </Button>
           </div>
         </div>

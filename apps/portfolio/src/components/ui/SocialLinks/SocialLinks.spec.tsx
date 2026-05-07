@@ -4,16 +4,16 @@ import type { Network } from 'my-profile-shared';
 import SocialLinks from './SocialLinks';
 
 const networks: Network[] = [
-  { name: 'GitHub', url: 'https://github.com/johndoe', icon: 'fab fa-github' },
+  { name: 'GitHub', url: 'https://github.com/johndoe', icon: 'FaGithub' },
   {
     name: 'LinkedIn',
     url: 'https://linkedin.com/in/johndoe',
-    icon: 'fab fa-linkedin',
+    icon: 'FaLinkedin',
   },
   {
     name: 'Twitter',
     url: 'https://twitter.com/johndoe',
-    icon: 'fab fa-twitter',
+    icon: 'FaXTwitter',
   },
 ];
 
@@ -39,12 +39,12 @@ describe('SocialLinks', () => {
     }
   });
 
-  it('should apply the icon class to each network', () => {
+  it('should render an svg icon for each network', () => {
     render(<SocialLinks networks={networks} />);
 
     for (const network of networks) {
-      const icon = screen.getByTitle(network.name).querySelector('i');
-      expect(icon).toHaveClass(network.icon);
+      const link = screen.getByTitle(network.name);
+      expect(link.querySelector('svg')).not.toBeNull();
     }
   });
 

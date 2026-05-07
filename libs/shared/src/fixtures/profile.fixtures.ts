@@ -81,7 +81,11 @@ const HobbyFactory = Factory.define<Hobby>(() => {
   return {
     title,
     image: `${title.toLowerCase()}.png`,
-    icon: `fas fa-${title.toLowerCase()}`,
+    icon: faker.helpers.arrayElement([
+      'LuFilm',
+      'LuGamepad2',
+      'LuBookOpenText',
+    ]),
   };
 });
 
@@ -97,7 +101,11 @@ const NetworkFactory = Factory.define<Network>(() => {
   return {
     name: `${name}_${faker.number.int()}`,
     url: `https://${name}.com/${faker.internet.username()}`,
-    icon: `fab fa-${name}`,
+    icon: faker.helpers.arrayElement([
+      'FaXTwitter',
+      'FaLinkedin',
+      'FaInstagram',
+    ]),
   };
 });
 

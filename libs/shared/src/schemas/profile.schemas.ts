@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { iconSchema } from './icon.schemas';
+
 export const addressSchema = z.object({
   street: z.string().optional(),
   city: z.string().optional(),
@@ -10,7 +12,7 @@ export const addressSchema = z.object({
 export const networkSchema = z.object({
   name: z.string(),
   url: z.url(),
-  icon: z.string(),
+  icon: iconSchema,
 });
 
 export const workDateSchema = z.object({
@@ -42,7 +44,7 @@ export const skillSchema = z.object({
 export const hobbySchema = z.object({
   title: z.string(),
   image: z.string(),
-  icon: z.string(),
+  icon: iconSchema,
 });
 
 export const techSchema = z.object({

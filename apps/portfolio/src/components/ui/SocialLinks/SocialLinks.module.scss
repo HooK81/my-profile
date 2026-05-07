@@ -9,12 +9,12 @@
   padding: 0;
 
   a {
-    display: block;
-    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    line-height: 2.5rem;
-    text-align: center;
+    font-size: 1rem;
     border: 1px solid $text-tertiary;
     border-radius: 50%;
     color: $text-primary;
@@ -30,20 +30,17 @@
 .sm a {
   width: 2rem;
   height: 2rem;
-  line-height: 2rem;
-  font-size: 0.875rem;
+  font-size: 1.125rem;
 }
 
 .md a {
   width: 2.5rem;
   height: 2.5rem;
-  line-height: 2.5rem;
-  font-size: 1.125rem;
+  font-size: 1.375rem;
 }
 
 .lg a {
   width: 3rem;
   height: 3rem;
-  line-height: 3rem;
-  font-size: 1.375rem;
+  font-size: 1.625rem;
 }

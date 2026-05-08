@@ -54,7 +54,7 @@ describe('VCardService', () => {
       filePath: 'file/path',
       fileMime: 'image/jpeg',
     });
-    (readFile as Mock).mockResolvedValue('rawjpeg' as string);
+    (readFile as Mock).mockResolvedValue('rawjpeg');
 
     (VCard as Mock).mockImplementation(function () {
       return {
@@ -79,7 +79,7 @@ describe('VCardService', () => {
       filePath: 'file/path',
       fileMime: 'image/jpeg',
     });
-    (readFile as Mock).mockResolvedValue('rawjpeg' as string);
+    (readFile as Mock).mockResolvedValue('rawjpeg');
 
     (VCard as Mock).mockImplementation(function () {
       return {

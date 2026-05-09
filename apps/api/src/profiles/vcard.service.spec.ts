@@ -56,12 +56,13 @@ describe('VCardService', () => {
     });
     (readFile as Mock).mockResolvedValue('rawjpeg');
 
-    (VCard as Mock).mockImplementation(function () {
+    (VCard as unknown as Mock).mockImplementation(function () {
       return {
         addName: vi.fn().mockReturnThis(),
         addEmail: vi.fn().mockReturnThis(),
         addPhoneNumber: vi.fn().mockReturnThis(),
-        addURL: vi.fn().mockReturnThis(),
+        addUrl: vi.fn().mockReturnThis(),
+        addCustomProperty: vi.fn().mockReturnThis(),
         addPhoto: vi.fn().mockReturnThis(),
         toString: vi.fn().mockReturnValue(expectedVCardData),
       };
@@ -81,12 +82,12 @@ describe('VCardService', () => {
     });
     (readFile as Mock).mockResolvedValue('rawjpeg');
 
-    (VCard as Mock).mockImplementation(function () {
+    (VCard as unknown as Mock).mockImplementation(function () {
       return {
         addName: vi.fn().mockReturnThis(),
         addEmail: vi.fn().mockReturnThis(),
         addPhoneNumber: vi.fn().mockReturnThis(),
-        addURL: vi.fn().mockReturnThis(),
+        addUrl: vi.fn().mockReturnThis(),
         addPhoto: vi.fn().mockImplementation(() => {
           throw new Error('unable to read photo');
         }),

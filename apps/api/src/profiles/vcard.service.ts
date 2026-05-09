@@ -48,15 +48,25 @@ export class VCardService {
     try {
       const photo = await this.getPhotoInfo(profile);
 
-      const vcard = new VCard('vcard')
-        .addName(profile.user.lastName, profile.user.firstName)
-        .addEmail(profile.user.email, 'PREF;HOME')
-        .addPhoneNumber(
-          this.sanitazePhone(profile.user.phone),
-          'PREF;HOME;VOICE',
-        )
-        .addURL(profile.user.website, 'HOME')
-        .addPhoto(photo.data, photo.mime);
+      const vcard = new VCard()
+        .addName({
+          familyName: profile.user.lastName,
+          givenName: profile.user.firstName,
+        })
+        .addEmail({ address: profile.user.email, type: ['pref', 'home'] })
+        .addPhoneNumber({
+          number: this.sanitazePhone(profile.user.phone),
+          type: ['pref', 'home', 'voice'],
+        })
+        .addUrl({ url: profile.user.website, type: ['home'] })
+        .addPhoto({ image: photo.data, mime: photo.mime });
+
+      profile.user.networks.forEach((network, index) => {
+        const group = `item${index + 1}`;
+        vcard
+          .addCustomProperty({ name: 'URL', value: network.url, group })
+          .addCustomProperty({ name: 'X-ABLABEL', value: network.name, group });
+      });
 
       return vcard;
     } catch (error) {

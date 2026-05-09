@@ -5,41 +5,12 @@ vi.mock('zustand');
 vi.mock('i18next');
 vi.mock('react-i18next');
 vi.mock('../../../utils/i18n');
+vi.mock('../../../hooks/useInView');
 
+import { setInView } from '../../../hooks/__mocks__/useInView';
 import { useAppStore } from '../../../stores/app.store';
 import { useProfileStore } from '../../../stores/profile.store';
 import Facts from './Facts';
-
-let observerCallbacks: IntersectionObserverCallback[] = [];
-
-class ControlledIO {
-  constructor(cb: IntersectionObserverCallback) {
-    observerCallbacks.push(cb);
-  }
-  observe() {}
-  disconnect() {}
-  unobserve() {}
-  takeRecords() {
-    return [];
-  }
-}
-
-const intersect = () => {
-  act(() => {
-    for (const cb of observerCallbacks) {
-      cb(
-        [{ isIntersecting: true } as IntersectionObserverEntry],
-        {} as IntersectionObserver,
-      );
-    }
-  });
-};
-
-beforeEach(() => {
-  observerCallbacks = [];
-  globalThis.IntersectionObserver =
-    ControlledIO as unknown as typeof IntersectionObserver;
-});
 
 afterEach(() => {
   cleanup();
@@ -99,10 +70,10 @@ describe('Facts', () => {
     it('should animate values up to their targets when observed', () => {
       vi.useFakeTimers();
       const facts = {
-        linesOfCode: 1287065,
+        linesOfCode: 1_287_065,
         mergeRequests: 483,
         trainings: 8,
-        coffees: 1275,
+        coffees: 1_275,
       };
       useProfileStore.setState({
         profile: ProfileFactory.build({ user: { facts } }),
@@ -110,9 +81,9 @@ describe('Facts', () => {
 
       render(<Facts />);
 
-      intersect();
+      setInView(true);
       act(() => {
-        vi.advanceTimersByTime(1600);
+        vi.advanceTimersByTime(2_100);
       });
 
       expect(

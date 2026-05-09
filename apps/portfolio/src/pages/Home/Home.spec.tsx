@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-vi.mock('../../hooks/useScrollSpy');
+vi.mock('../../hooks/useMenuScrollSpy');
 
 vi.mock('../../components/sections/Hero/Hero', () => ({
   default: () => <div data-testid="hero" />,
@@ -30,7 +30,7 @@ vi.mock('../../components/sections/Contact/Contact', () => ({
   default: () => <div data-testid="contact" />,
 }));
 
-import { useScrollSpy } from '../../hooks/useScrollSpy';
+import { useMenuScrollSpy } from '../../hooks/useMenuScrollSpy';
 import Home from './Home';
 
 describe('Home', () => {
@@ -65,6 +65,6 @@ describe('Home', () => {
   it('should activate scroll spy', () => {
     render(<Home />);
 
-    expect(useScrollSpy).toHaveBeenCalled();
+    expect(useMenuScrollSpy).toHaveBeenCalled();
   });
 });

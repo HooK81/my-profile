@@ -1,8 +1,8 @@
 import type { Work } from 'my-profile-shared';
-import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 
+import { useInView } from '../../../hooks/useInView';
 import { useAppStore } from '../../../stores/app.store';
 import { calculateDuration, formatDate } from '../../../utils/date';
 import styles from './Resume.module.scss';
@@ -14,8 +14,9 @@ type WorkItemProps = {
 function WorkItem({ work }: WorkItemProps) {
   const { t } = useTranslation();
   const locale = useAppStore((s) => s.locale);
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
+  const { ref, inView: active } = useInView<HTMLDivElement>({
+    rootMargin: '0px 0px -55% 0px',
+  });
   const start = formatDate(work.date.start, locale);
   const end = work.date.end
     ? formatDate(work.date.end, locale)
@@ -25,19 +26,6 @@ function WorkItem({ work }: WorkItemProps) {
     work.date.end || undefined,
   );
   const dateRange = `${start} - ${end} (${duration})`;
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin: '0px 0px -55% 0px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div

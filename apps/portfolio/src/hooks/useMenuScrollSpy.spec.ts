@@ -3,13 +3,13 @@ import { cleanup, renderHook } from '@testing-library/react';
 vi.mock('zustand');
 
 import { useAppStore } from '../stores/app.store';
-import { useScrollSpy } from './useScrollSpy';
+import { useMenuScrollSpy } from './useMenuScrollSpy';
 
 const SECTIONS = ['hero', 'about', 'resume', 'techs', 'hobbies', 'contact'];
 
 afterEach(() => cleanup());
 
-describe('useScrollSpy', () => {
+describe('useMenuScrollSpy', () => {
   let observeMock: ReturnType<typeof vi.fn>;
   let disconnectMock: ReturnType<typeof vi.fn>;
   let observerCallback: IntersectionObserverCallback;
@@ -48,7 +48,7 @@ describe('useScrollSpy', () => {
   }
 
   it('should not create observer when not loaded', () => {
-    renderHook(() => useScrollSpy());
+    renderHook(() => useMenuScrollSpy());
 
     expect(IntersectionObserver).not.toHaveBeenCalled();
   });
@@ -57,7 +57,7 @@ describe('useScrollSpy', () => {
     useAppStore.setState({ isLoaded: true });
     createSectionElements(SECTIONS);
 
-    renderHook(() => useScrollSpy());
+    renderHook(() => useMenuScrollSpy());
 
     expect(observeMock).toHaveBeenCalledTimes(6);
     for (const id of SECTIONS) {
@@ -69,7 +69,7 @@ describe('useScrollSpy', () => {
     useAppStore.setState({ isLoaded: true });
     createSectionElements(['hero']);
 
-    renderHook(() => useScrollSpy());
+    renderHook(() => useMenuScrollSpy());
 
     observerCallback(
       [
@@ -85,7 +85,7 @@ describe('useScrollSpy', () => {
     useAppStore.setState({ isLoaded: true });
     createSectionElements(['hero']);
 
-    renderHook(() => useScrollSpy());
+    renderHook(() => useMenuScrollSpy());
 
     observerCallback(
       [
@@ -100,7 +100,7 @@ describe('useScrollSpy', () => {
   it('should disconnect observer on unmount', () => {
     useAppStore.setState({ isLoaded: true });
 
-    const { unmount } = renderHook(() => useScrollSpy());
+    const { unmount } = renderHook(() => useMenuScrollSpy());
     unmount();
 
     expect(disconnectMock).toHaveBeenCalled();

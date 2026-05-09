@@ -1,6 +1,6 @@
 import type { Skill } from 'my-profile-shared';
-import { useEffect, useRef, useState } from 'react';
 
+import { useInView } from '../../../hooks/useInView';
 import styles from './Resume.module.scss';
 
 type SkillBarProps = {
@@ -8,28 +8,10 @@ type SkillBarProps = {
 };
 
 function SkillBar({ skill }: SkillBarProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, inView: visible } = useInView<HTMLDivElement>({
+    threshold: 0.3,
+    once: true,
+  });
 
   return (
     <div ref={ref} className={styles.skillItem}>

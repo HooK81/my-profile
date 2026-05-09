@@ -4,7 +4,7 @@ import { useAppStore } from '../stores/app.store';
 
 const SECTIONS = ['hero', 'about', 'resume', 'techs', 'hobbies', 'contact'];
 
-export function useScrollSpy() {
+export function useMenuScrollSpy() {
   const isLoaded = useAppStore((s) => s.isLoaded);
   const setActiveSection = useAppStore((s) => s.setActiveSection);
 

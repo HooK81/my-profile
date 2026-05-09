@@ -1,6 +1,6 @@
 import type { Education } from 'my-profile-shared';
-import { useEffect, useRef, useState } from 'react';
 
+import { useInView } from '../../../hooks/useInView';
 import { useAppStore } from '../../../stores/app.store';
 import { formatDate } from '../../../utils/date';
 import styles from './Resume.module.scss';
@@ -11,21 +11,9 @@ type EducationItemProps = {
 
 function EducationItem({ education }: EducationItemProps) {
   const locale = useAppStore((s) => s.locale);
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin: '0px 0px -55% 0px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, inView: active } = useInView<HTMLDivElement>({
+    rootMargin: '0px 0px -55% 0px',
+  });
 
   return (
     <div

@@ -1,6 +1,7 @@
 import type { IconName } from 'my-profile-shared';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { useInView } from '../../../hooks/useInView';
 import { useAppStore } from '../../../stores/app.store';
 import Icon from '../../ui/Icon/Icon';
 import styles from './Facts.module.scss';
@@ -11,33 +12,15 @@ type FactItemProps = {
   label: string;
 };
 
-const DURATION_MS = 1500;
+const DURATION_MS = 1_500;
 
 function FactItem({ icon, value, label }: FactItemProps) {
-  const ref = useRef<HTMLDivElement>(null);
   const locale = useAppStore((s) => s.locale);
-  const [visible, setVisible] = useState(false);
+  const { ref, inView: visible } = useInView<HTMLDivElement>({
+    threshold: 0.7,
+    once: true,
+  });
   const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!visible) {

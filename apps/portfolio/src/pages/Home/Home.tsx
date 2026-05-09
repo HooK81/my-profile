@@ -5,10 +5,10 @@ import Hero from '../../components/sections/Hero/Hero';
 import Hobbies from '../../components/sections/Hobbies/Hobbies';
 import Resume from '../../components/sections/Resume/Resume';
 import Techs from '../../components/sections/Techs/Techs';
-import { useScrollSpy } from '../../hooks/useScrollSpy';
+import { useMenuScrollSpy } from '../../hooks/useMenuScrollSpy';
 
 function Home() {
-  useScrollSpy();
+  useMenuScrollSpy();
 
   return (
     <>

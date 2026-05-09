@@ -27,7 +27,8 @@ Axios client wrapper (`withCredentials: true`). Auth cookie is managed by the br
 
 ### Hooks
 
-- `useScrollSpy` — Intersection Observer for active nav section tracking
+- `useMenuScrollSpy` — Intersection Observer for active nav section tracking
+- `useInView` — Intersection Observer hook returning `{ ref, inView }` (with `once` option)
 - `useProfileFileUrl` — Builds profile file URLs
 
 ### Build
@@ -45,7 +46,7 @@ src/
     layout/            # Layout, Navbar, Footer, Section, ScrollToTop
     sections/          # Hero, About, Resume, Techs, Hobbies, Contact
     ui/                # AppLoader, Button, LocaleSwitcher, ScrollDown, SocialLinks, Spinner
-  hooks/               # useScrollSpy, useProfileFileUrl
+  hooks/               # useMenuScrollSpy, useInView, useProfileFileUrl
   pages/               # Home, AboutThisSite
   stores/              # app.store, profile.store
   styles/              # Global SCSS (_variables, _mixins, _reset, _typography, global)

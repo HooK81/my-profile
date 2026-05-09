@@ -74,11 +74,11 @@ describe('About', () => {
       });
     });
 
-    it('should display the full name as a link', () => {
+    it('should display the full name as a button', () => {
       render(<About />);
 
       expect(
-        screen.getByRole('link', { name: profile.user.fullName }),
+        screen.getByRole('button', { name: profile.user.fullName }),
       ).toBeInTheDocument();
     });
 
@@ -164,7 +164,7 @@ describe('About', () => {
       clickSpy.mockRestore();
     });
 
-    it('should download the vcard on name link click', async () => {
+    it('should download the vcard on name button click', async () => {
       const blob = new Blob(['vcard']);
       mockedApi.getVcard.mockResolvedValue(blob);
       const createObjectURLSpy = vi
@@ -179,7 +179,7 @@ describe('About', () => {
 
       render(<About />);
       fireEvent.click(
-        screen.getByRole('link', { name: profile.user.fullName }),
+        screen.getByRole('button', { name: profile.user.fullName }),
       );
 
       await waitFor(() => {

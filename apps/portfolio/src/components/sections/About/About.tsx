@@ -64,15 +64,13 @@ function About() {
             <div className={styles.detailItem}>
               <strong>{t('about.name')}:</strong>
               <span>
-                <a
-                  href="#vcard"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    void handleDownloadVcard();
-                  }}
+                <button
+                  type="button"
+                  className={styles.linkButton}
+                  onClick={() => void handleDownloadVcard()}
                 >
                   {user.fullName}
-                </a>
+                </button>
               </span>
             </div>
             {user.address?.city && (

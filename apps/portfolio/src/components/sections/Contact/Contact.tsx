@@ -40,7 +40,7 @@ function Contact() {
               <h4>{t('contact.location')}</h4>
               <p>
                 {addressLines.map((line, i) => (
-                  <span key={i}>
+                  <span key={line}>
                     {line}
                     {i < addressLines.length - 1 && <br />}
                   </span>

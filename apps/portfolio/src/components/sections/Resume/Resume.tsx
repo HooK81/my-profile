@@ -24,7 +24,10 @@ function Resume() {
           <Icon name="LuRocket" /> {t('resume.experience')}
         </h3>
         {resume.works.map((work) => (
-          <WorkItem key={`${work.company}-${work.date.start}`} work={work} />
+          <WorkItem
+            key={`${work.title}-${work.company}-${work.date.start}`}
+            work={work}
+          />
         ))}
       </div>
 
@@ -36,7 +39,7 @@ function Resume() {
           <div className={styles.educationGrid}>
             {resume.educations.map((edu) => (
               <EducationItem
-                key={`${edu.school}-${edu.date}`}
+                key={`${edu.school}-${edu.degree}-${edu.date}`}
                 education={edu}
               />
             ))}

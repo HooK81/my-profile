@@ -1,3 +1,13 @@
+## 5.3.1 (2026-05-22)
+
+### 🩹 Fixes
+
+- issue with external network connections ([2ec6f94](https://github.com/HooK81/my-profile/commit/2ec6f94))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 5.3.0 (2026-05-22)
 
 ### 🚀 Features

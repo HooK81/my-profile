@@ -1,3 +1,25 @@
+## 5.3.0 (2026-05-22)
+
+### 🚀 Features
+
+- add portfolio components tests ([30b5e71](https://github.com/HooK81/my-profile/commit/30b5e71))
+- refactor contact form with useActionState and useFormStatus ([09eb7e1](https://github.com/HooK81/my-profile/commit/09eb7e1))
+- add portfolio components tests ([c6c249c](https://github.com/HooK81/my-profile/commit/c6c249c))
+- add social links into about ([8f00e40](https://github.com/HooK81/my-profile/commit/8f00e40))
+- add facts component ([bfd6495](https://github.com/HooK81/my-profile/commit/bfd6495))
+- replace font-awesome cdn by react-icons ([b1ec1bb](https://github.com/HooK81/my-profile/commit/b1ec1bb))
+
+### 🩹 Fixes
+
+- fix about flaky test on profile bio ([f3473ba](https://github.com/HooK81/my-profile/commit/f3473ba))
+- react-doctor fixes ([105eba3](https://github.com/HooK81/my-profile/commit/105eba3))
+- fix about links behavior ([4978e5b](https://github.com/HooK81/my-profile/commit/4978e5b))
+- duplicate keys for workitem and educationitem ([a0b5e69](https://github.com/HooK81/my-profile/commit/a0b5e69))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 5.2.1 (2026-04-09)
 
 ### 🩹 Fixes

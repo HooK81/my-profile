@@ -54,7 +54,8 @@
     "projects": [
       "my-profile-api",
       "my-profile-portfolio",
-      "my-profile-shared"
+      "my-profile-shared",
+      "my-profile-root"
     ],
     "projectsRelationship": "fixed",
     "version": {

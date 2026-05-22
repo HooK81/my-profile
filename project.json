@@ -1,0 +1,13 @@
+{
+  "name": "my-profile-root",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "root": ".",
+  "sourceRoot": ".",
+  "targets": {},
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["."]
+    }
+  }
+}

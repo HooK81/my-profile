@@ -21,6 +21,7 @@ services:
             start_period: 30s
         networks:
             - backend
+            - egress
 
     portfolio:
         build:
@@ -50,3 +51,4 @@ networks:
     frontend:
     backend:
         internal: true
+    egress:

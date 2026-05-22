@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa6';
 import {
   LuBookOpenText,
+  LuCamera,
   LuCode,
   LuCoffee,
   LuDownload,
@@ -19,8 +20,11 @@ import {
   LuLightbulb,
   LuMail,
   LuMapPin,
+  LuMusic4,
+  LuPlane,
   LuRocket,
   LuSmartphone,
+  LuWatch,
 } from 'react-icons/lu';
 
 const ICONS: Record<IconName, IconType> = {
@@ -40,8 +44,12 @@ const ICONS: Record<IconName, IconType> = {
   LuLightbulb,
   LuMail,
   LuMapPin,
+  LuMusic4,
+  LuCamera,
+  LuPlane,
   LuRocket,
   LuSmartphone,
+  LuWatch,
 };
 
 interface IconProps {

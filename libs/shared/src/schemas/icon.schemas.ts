@@ -7,6 +7,7 @@ export const iconSchema = z.enum([
   'FaLinkedin',
   'FaXTwitter',
   'LuBookOpenText',
+  'LuCamera',
   'LuCode',
   'LuCoffee',
   'LuDownload',
@@ -17,8 +18,11 @@ export const iconSchema = z.enum([
   'LuLightbulb',
   'LuMail',
   'LuMapPin',
+  'LuMusic4',
+  'LuPlane',
   'LuRocket',
   'LuSmartphone',
+  'LuWatch',
 ]);
 
 export type IconName = z.infer<typeof iconSchema>;

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal portfolio / digital CV web application. NX monorepo with three packages:
 
 - **`apps/api`** — NestJS 11 REST API (Node.js 24, TypeScript, SWC)
-- **`apps/portfolio`** — React 19 + Vite 8 SPA (TypeScript, SCSS, Zustand)
+- **`apps/portfolio`** — React 19 + Vite 8 SPA (TypeScript, SCSS, Zustand, TanStack Query)
 - **`libs/shared`** — Shared API contracts (Zod schemas, TypeScript types)
 
 NX package names: `my-profile-api`, `my-profile-portfolio`, `my-profile-shared`.

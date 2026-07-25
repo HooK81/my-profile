@@ -58,7 +58,7 @@ function ContactForm() {
 
       return initialState;
     } catch {
-      toast.error(`${t('contact.form.sendError')} ${t('error.api.tryAgain')}`);
+      toast.error(`${t('contact.form.sendError')} ${t('error.tryAgainLater')}`);
       return { from, subject, message };
     }
   };

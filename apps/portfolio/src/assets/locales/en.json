@@ -122,8 +122,10 @@
       "loadProfile": "Unable to retrieve profile data!",
       "getFile": "Unable to retrieve file!",
       "getVcard": "Unable to retrieve file!",
-      "sendMail": "Unable to send message!",
-      "tryAgain": "Please try again later."
-    }
+      "sendMail": "Unable to send message!"
+    },
+    "title": "Oh no, an error occurred while loading the app",
+    "tryAgainLater": "Please try again later.",
+    "retry": "Try again"
   }
 }

@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
 import api from '../../../api/Api';
+import { useProfile } from '../../../hooks/useProfile';
 import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
-import { useProfileStore } from '../../../stores/profile.store';
 import { formatPhone } from '../../../utils/phone';
 import Section from '../../layout/Section/Section';
 import Button from '../../ui/Button/Button';
@@ -13,7 +13,7 @@ import styles from './About.module.scss';
 
 function About() {
   const { t } = useTranslation();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
   const locale = useAppStore((s) => s.locale);
   const profileImageUrl = useProfileFileUrl(profile?.user.image);
 

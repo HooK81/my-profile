@@ -1,4 +1,6 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, screen } from '@testing-library/react';
+import type { Profile } from 'my-profile-shared';
+import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 
 vi.mock('zustand');
@@ -12,7 +14,7 @@ vi.mock('../../ui/LocaleSwitcher/LocaleSwitcher', () => ({
 
 import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
-import { useProfileStore } from '../../../stores/profile.store';
+import { renderWithQueryClient } from '../../../test-utils';
 import Navbar from './Navbar';
 
 const mockedUseProfileFileUrl = vi.mocked(useProfileFileUrl);
@@ -24,12 +26,13 @@ function LocationDisplay() {
   );
 }
 
-function renderNavbar(initialPath = '/') {
-  return render(
+function renderNavbar(initialPath = '/', profile?: Profile) {
+  return renderWithQueryClient(
     <MemoryRouter initialEntries={[initialPath]}>
       <Navbar />
       <LocationDisplay />
     </MemoryRouter>,
+    { profile },
   );
 }
 
@@ -51,16 +54,9 @@ describe('Navbar', () => {
   });
 
   it('should render the logo image when logoUrl is set', () => {
-    const profile = useProfileStore.getState();
-    useProfileStore.setState({
-      ...profile,
-      profile: {
-        user: { fullName: 'John Doe', logo: 'logo.png' },
-      } as never,
-    });
     mockedUseProfileFileUrl.mockReturnValue('blob:logo-url');
 
-    renderNavbar();
+    renderNavbar('/', ProfileFactory.build({ user: { logo: 'logo.png' } }));
 
     expect(screen.getByRole('img')).toHaveAttribute('src', 'blob:logo-url');
   });

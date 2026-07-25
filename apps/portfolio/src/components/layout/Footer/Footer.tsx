@@ -1,9 +1,9 @@
-import { useProfileStore } from '../../../stores/profile.store';
+import { useProfile } from '../../../hooks/useProfile';
 import SocialLinks from '../../ui/SocialLinks/SocialLinks';
 import styles from './Footer.module.scss';
 
 function Footer() {
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
   if (!profile) {
     return null;
   }

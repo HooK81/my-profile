@@ -120,6 +120,17 @@ describe('FetchApi', () => {
         expectedStatus: StatusCodes.BAD_GATEWAY,
         expectedData: undefined,
       },
+      {
+        scenario: 'with a non-JSON body (gateway error page)',
+        setup: () =>
+          fetchMock.mockResolvedValue(
+            new Response('<html>502 Bad Gateway</html>', {
+              status: StatusCodes.BAD_GATEWAY,
+            }),
+          ),
+        expectedStatus: StatusCodes.BAD_GATEWAY,
+        expectedData: '<html>502 Bad Gateway</html>',
+      },
     ])(
       'should reject with correct httpStatus and data ($scenario)',
       async ({ setup, expectedStatus, expectedData }) => {

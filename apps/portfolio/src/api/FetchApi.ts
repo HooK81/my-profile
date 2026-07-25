@@ -196,7 +196,7 @@ export class FetchApi {
 
     if (config.showError) {
       const toastMessage = t(`error.api.${config.apiName}`);
-      toast.error(`${toastMessage} ${t('error.api.tryAgain')}`, {
+      toast.error(`${toastMessage} ${t('error.tryAgainLater')}`, {
         autoClose: config.errorAutoClose,
       });
     }

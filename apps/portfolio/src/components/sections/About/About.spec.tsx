@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 vi.mock('zustand');
@@ -17,7 +11,7 @@ vi.mock('../../../hooks/useProfileFileUrl');
 import api from '../../../api/Api';
 import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
-import { useProfileStore } from '../../../stores/profile.store';
+import { renderWithQueryClient } from '../../../test-utils';
 import About from './About';
 
 const mockedUseProfileFileUrl = vi.mocked(useProfileFileUrl);
@@ -26,10 +20,10 @@ const mockedApi = vi.mocked(api);
 afterEach(() => cleanup());
 
 describe('About', () => {
-  it('should render nothing when profile is null', () => {
+  it('should render nothing when profile is not loaded', () => {
     mockedUseProfileFileUrl.mockReturnValue(null);
 
-    const { container } = render(<About />);
+    const { container } = renderWithQueryClient(<About />);
 
     expect(container.firstChild).toBeNull();
   });
@@ -39,33 +33,32 @@ describe('About', () => {
 
     beforeEach(() => {
       mockedUseProfileFileUrl.mockReturnValue(null);
-      useProfileStore.setState({ profile });
       useAppStore.setState({ locale: 'en' });
     });
 
     it('should render the profile image when url is available', () => {
       mockedUseProfileFileUrl.mockReturnValue('blob:http://localhost/image');
 
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       const img = screen.getByAltText(profile.user.fullName);
       expect(img).toHaveAttribute('src', 'blob:http://localhost/image');
     });
 
     it('should not render the profile image when url is null', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument();
     });
 
     it('should display the bio text', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       expect(screen.getByText(profile.user.bio)).toBeInTheDocument();
     });
 
     it('should render social links for each network', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       profile.user.networks.forEach((network) => {
         const link = screen.getByTitle(network.name);
@@ -75,7 +68,7 @@ describe('About', () => {
     });
 
     it('should display the full name as a button', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       expect(
         screen.getByRole('button', { name: profile.user.fullName }),
@@ -83,7 +76,7 @@ describe('About', () => {
     });
 
     it('should display the email as a mailto link', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       const emailLink = screen.getByRole('link', {
         name: profile.user.email,
@@ -92,7 +85,7 @@ describe('About', () => {
     });
 
     it('should display the location when city exists', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       expect(screen.getByText(profile.user.address.city!)).toBeInTheDocument();
     });
@@ -101,9 +94,8 @@ describe('About', () => {
       const noCity = ProfileFactory.build({
         user: { address: { street: '', city: '', zip: '', country: '' } },
       });
-      useProfileStore.setState({ profile: noCity });
 
-      render(<About />);
+      renderWithQueryClient(<About />, { profile: noCity });
 
       expect(
         screen.queryByText('about.location', { exact: false }),
@@ -111,7 +103,7 @@ describe('About', () => {
     });
 
     it('should display the phone as a tel link when phone exists', () => {
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
 
       expect(
         document.querySelector(`a[href="tel:${profile.user.phone!}"]`),
@@ -120,9 +112,8 @@ describe('About', () => {
 
     it('should not display the phone when phone is not set', () => {
       const noPhone = ProfileFactory.build({ user: { phone: undefined } });
-      useProfileStore.setState({ profile: noPhone });
 
-      render(<About />);
+      renderWithQueryClient(<About />, { profile: noPhone });
 
       expect(
         screen.queryByText('about.phone', { exact: false }),
@@ -142,7 +133,7 @@ describe('About', () => {
         .spyOn(HTMLAnchorElement.prototype, 'click')
         .mockImplementation(() => {});
 
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
       fireEvent.click(
         screen.getByRole('button', { name: /about.downloadResume/ }),
       );
@@ -177,7 +168,7 @@ describe('About', () => {
         .spyOn(HTMLAnchorElement.prototype, 'click')
         .mockImplementation(() => {});
 
-      render(<About />);
+      renderWithQueryClient(<About />, { profile });
       fireEvent.click(
         screen.getByRole('button', { name: profile.user.fullName }),
       );

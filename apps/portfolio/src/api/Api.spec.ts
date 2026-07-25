@@ -44,7 +44,7 @@ describe('Api', () => {
       expect(getSpy).toHaveBeenCalledWith(
         `/v1/en/profiles/${PROFILE_ID}`,
         {},
-        { apiName: 'loadProfile' },
+        { showError: false, apiName: 'loadProfile' },
       );
       expect(result).toEqual(profile);
     });

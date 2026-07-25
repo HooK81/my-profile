@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import Typed from 'typed.js';
 
-import { useProfileStore } from '../../../stores/profile.store';
+import { useProfile } from '../../../hooks/useProfile';
 import ScrollDown from '../../ui/ScrollDown/ScrollDown';
 import styles from './Hero.module.scss';
 
@@ -52,7 +52,7 @@ const initParticles = async (engine: Engine): Promise<void> => {
 
 function Hero() {
   const { t } = useTranslation();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
   const typedRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {

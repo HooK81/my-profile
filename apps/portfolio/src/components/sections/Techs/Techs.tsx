@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
-import { useProfileStore } from '../../../stores/profile.store';
+import { useProfile } from '../../../hooks/useProfile';
 import Section from '../../layout/Section/Section';
 import styles from './Techs.module.scss';
 
 function Techs() {
   const { t } = useTranslation();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
 
   if (!profile) {
     return null;

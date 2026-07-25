@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useProfile } from '../../../hooks/useProfile';
 import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
-import { useProfileStore } from '../../../stores/profile.store';
 import LocaleSwitcher from '../../ui/LocaleSwitcher/LocaleSwitcher';
 import styles from './Navbar.module.scss';
 
@@ -18,7 +18,7 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
   const logoUrl = useProfileFileUrl(profile?.user.logo);
 
   const isHome = location.pathname === '/';

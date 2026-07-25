@@ -11,7 +11,9 @@ export default defineConfig({
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/test-setup.ts',
+        'src/test-utils.tsx',
         'src/main.tsx',
+        'src/queryClient.ts',
         'src/**/*.d.ts',
         'src/utils/console-greeting.ts',
       ],

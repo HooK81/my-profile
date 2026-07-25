@@ -1,0 +1,122 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: $bg-secondary;
+}
+
+.header {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: $container-max-width;
+
+  @include respond-below($breakpoint-md) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.illustration {
+  flex-shrink: 0;
+  width: 15rem;
+  height: auto;
+  color: $text-primary;
+
+  @include respond-below($breakpoint-md) {
+    width: 8rem;
+  }
+}
+
+.title {
+  max-width: 34rem;
+  font-family: $font-heading;
+  font-size: $font-size-xxl;
+  line-height: $line-height-heading;
+  color: $text-primary;
+  text-align: center;
+
+  @include respond-below($breakpoint-lg) {
+    font-size: $font-size-xl;
+  }
+
+  @include respond-below($breakpoint-md) {
+    font-size: $font-size-lg;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.message {
+  font-size: $font-size-lg;
+  color: $text-primary;
+}
+
+.cloud {
+  animation: sway 4s ease-in-out infinite;
+}
+
+.tear1,
+.tear2,
+.tear3 {
+  animation: drip 2.4s ease-in infinite;
+}
+
+.tear2 {
+  animation-delay: 0.8s;
+}
+
+.tear3 {
+  animation-delay: 1.6s;
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes drip {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(6px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(46px) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .tear1,
+  .tear2,
+  .tear3 {
+    animation: none;
+  }
+}

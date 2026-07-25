@@ -122,8 +122,10 @@
       "loadProfile": "Impossible de récupérer les données du profil !",
       "getFile": "Impossible de récupérer le fichier !",
       "getVcard": "Impossible de récupérer le fichier !",
-      "sendMail": "Impossible d'envoyer le message !",
-      "tryAgain": "Veuillez réessayer plus tard."
-    }
+      "sendMail": "Impossible d'envoyer le message !"
+    },
+    "title": "Oh non, une erreur est survenue lors du chargement de l'app",
+    "tryAgainLater": "Veuillez réessayer plus tard.",
+    "retry": "Réessayer"
   }
 }

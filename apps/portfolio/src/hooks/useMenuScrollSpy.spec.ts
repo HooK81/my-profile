@@ -1,8 +1,11 @@
 import { cleanup, renderHook } from '@testing-library/react';
+import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 vi.mock('zustand');
+vi.mock('../utils/i18n');
 
 import { useAppStore } from '../stores/app.store';
+import { createQueryWrapper } from '../test-utils';
 import { useMenuScrollSpy } from './useMenuScrollSpy';
 
 const SECTIONS = ['hero', 'about', 'resume', 'techs', 'hobbies', 'contact'];
@@ -47,17 +50,28 @@ describe('useMenuScrollSpy', () => {
     }
   }
 
-  it('should not create observer when not loaded', () => {
-    renderHook(() => useMenuScrollSpy());
+  function renderScrollSpy(ready = true) {
+    if (ready) {
+      useAppStore.setState({ i18nReady: true });
+    }
+
+    return renderHook(() => useMenuScrollSpy(), {
+      wrapper: createQueryWrapper(
+        ready ? { profile: ProfileFactory.build() } : {},
+      ),
+    });
+  }
+
+  it('should not create observer when the app is not ready', () => {
+    renderScrollSpy(false);
 
     expect(IntersectionObserver).not.toHaveBeenCalled();
   });
 
   it('should observe all section elements when loaded', () => {
-    useAppStore.setState({ isLoaded: true });
     createSectionElements(SECTIONS);
 
-    renderHook(() => useMenuScrollSpy());
+    renderScrollSpy();
 
     expect(observeMock).toHaveBeenCalledTimes(6);
     for (const id of SECTIONS) {
@@ -66,10 +80,9 @@ describe('useMenuScrollSpy', () => {
   });
 
   it('should call setActiveSection when entry is intersecting', () => {
-    useAppStore.setState({ isLoaded: true });
     createSectionElements(['hero']);
 
-    renderHook(() => useMenuScrollSpy());
+    renderScrollSpy();
 
     observerCallback(
       [
@@ -82,10 +95,9 @@ describe('useMenuScrollSpy', () => {
   });
 
   it('should ignore non-intersecting entries', () => {
-    useAppStore.setState({ isLoaded: true });
     createSectionElements(['hero']);
 
-    renderHook(() => useMenuScrollSpy());
+    renderScrollSpy();
 
     observerCallback(
       [
@@ -98,9 +110,7 @@ describe('useMenuScrollSpy', () => {
   });
 
   it('should disconnect observer on unmount', () => {
-    useAppStore.setState({ isLoaded: true });
-
-    const { unmount } = renderHook(() => useMenuScrollSpy());
+    const { unmount } = renderScrollSpy();
     unmount();
 
     expect(disconnectMock).toHaveBeenCalled();

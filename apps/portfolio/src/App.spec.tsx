@@ -1,4 +1,10 @@
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 const { apiMock } = vi.hoisted(() => ({
@@ -10,18 +16,19 @@ const { apiMock } = vi.hoisted(() => ({
 
 vi.mock('./api/Api', () => ({ default: apiMock }));
 
-vi.mock('./components/layout/Layout/Layout', () => ({
-  default: () => <div data-testid="layout" />,
-}));
+vi.mock('./components/layout/Layout/Layout', async () => {
+  const { Outlet } = await import('react-router-dom');
+  return {
+    default: () => (
+      <div data-testid="layout">
+        <Outlet />
+      </div>
+    ),
+  };
+});
 
 vi.mock('./components/layout/ScrollToTop/ScrollToTop', () => ({
   default: () => null,
-}));
-
-vi.mock('./components/ui/Loader/Loader', () => ({
-  default: ({ isLoaded }: { isLoaded: boolean }) => (
-    <div data-testid="loader" data-loaded={isLoaded} />
-  ),
 }));
 
 vi.mock('./pages/Home/Home', () => ({
@@ -34,30 +41,33 @@ vi.mock('./pages/AboutThisSite/AboutThisSite', () => ({
 
 vi.mock('zustand');
 vi.mock('i18next');
+vi.mock('react-i18next');
 vi.mock('./utils/i18n');
 
 import App from './App';
 import { useAppStore } from './stores/app.store';
+import { renderWithQueryClient } from './test-utils';
 
 describe('App', () => {
   afterEach(() => {
     vi.clearAllMocks();
     cleanup();
+    window.history.pushState({}, '', '/');
   });
 
   describe('when i18n is not ready', () => {
     beforeEach(() => {
-      useAppStore.setState({ i18nReady: false, isLoaded: false });
+      useAppStore.setState({ i18nReady: false });
     });
 
     it('should not call the api', () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       expect(apiMock.ensureAuth).not.toHaveBeenCalled();
     });
 
     it('should render loader with isLoaded=false', () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       expect(screen.getByTestId('loader')).toHaveAttribute(
         'data-loaded',
@@ -66,7 +76,7 @@ describe('App', () => {
     });
 
     it('should not render routes', () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       expect(screen.queryByTestId('layout')).not.toBeInTheDocument();
     });
@@ -77,17 +87,17 @@ describe('App', () => {
 
     beforeEach(() => {
       apiMock.loadProfile.mockResolvedValue(profile);
-      useAppStore.setState({ i18nReady: true, isLoaded: false, locale: 'en' });
+      useAppStore.setState({ i18nReady: true, locale: 'en' });
     });
 
     it('should call ensureAuth', async () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       await waitFor(() => expect(apiMock.ensureAuth).toHaveBeenCalledOnce());
     });
 
     it('should call loadProfile with current locale', async () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       await waitFor(() =>
         expect(apiMock.loadProfile).toHaveBeenCalledWith('en'),
@@ -95,7 +105,7 @@ describe('App', () => {
     });
 
     it('should set document title from profile', async () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       await waitFor(() =>
         expect(document.title).toBe(
@@ -104,16 +114,27 @@ describe('App', () => {
       );
     });
 
-    it('should render routes once loaded', async () => {
-      render(<App />);
+    it('should render the home page once loaded', async () => {
+      renderWithQueryClient(<App />);
 
       await waitFor(() =>
-        expect(screen.getByTestId('layout')).toBeInTheDocument(),
+        expect(screen.getByTestId('home')).toBeInTheDocument(),
       );
     });
 
+    it('should render the about-this-site page on its route', async () => {
+      window.history.pushState({}, '', '/about-this-site');
+
+      renderWithQueryClient(<App />);
+
+      await waitFor(() =>
+        expect(screen.getByTestId('about-this-site')).toBeInTheDocument(),
+      );
+      expect(screen.queryByTestId('home')).not.toBeInTheDocument();
+    });
+
     it('should reload profile when locale changes', async () => {
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       await waitFor(() =>
         expect(apiMock.loadProfile).toHaveBeenCalledWith('en'),
@@ -130,40 +151,56 @@ describe('App', () => {
   });
 
   describe('when api fails', () => {
+    const profile = ProfileFactory.build();
+
     beforeEach(() => {
       apiMock.ensureAuth.mockRejectedValue(new Error('network error'));
-      useAppStore.setState({ i18nReady: true, isLoaded: false });
+      useAppStore.setState({ i18nReady: true, locale: 'en' });
+    });
+
+    it('should render the error screen', async () => {
+      renderWithQueryClient(<App />);
+
+      await waitFor(() =>
+        expect(screen.getByTestId('app-error')).toBeInTheDocument(),
+      );
+    });
+
+    it('should not render the loader', async () => {
+      renderWithQueryClient(<App />);
+
+      await waitFor(() =>
+        expect(screen.getByTestId('app-error')).toBeInTheDocument(),
+      );
+
+      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     });
 
     it('should not render routes', async () => {
-      const consoleSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      render(<App />);
-
-      await waitFor(() => expect(consoleSpy).toHaveBeenCalled());
-
-      expect(screen.queryByTestId('layout')).not.toBeInTheDocument();
-
-      consoleSpy.mockRestore();
-    });
-
-    it('should log the error', async () => {
-      const consoleSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      render(<App />);
+      renderWithQueryClient(<App />);
 
       await waitFor(() =>
-        expect(consoleSpy).toHaveBeenCalledWith(
-          'Failed to init app',
-          expect.any(Error),
-        ),
+        expect(screen.getByTestId('app-error')).toBeInTheDocument(),
       );
 
-      consoleSpy.mockRestore();
+      expect(screen.queryByTestId('layout')).not.toBeInTheDocument();
+    });
+
+    it('should render the routes when retrying succeeds', async () => {
+      renderWithQueryClient(<App />);
+
+      await waitFor(() =>
+        expect(screen.getByTestId('app-error')).toBeInTheDocument(),
+      );
+
+      apiMock.ensureAuth.mockResolvedValue(undefined);
+      apiMock.loadProfile.mockResolvedValue(profile);
+      fireEvent.click(screen.getByRole('button', { name: 'error.retry' }));
+
+      await waitFor(() =>
+        expect(screen.getByTestId('layout')).toBeInTheDocument(),
+      );
+      expect(screen.queryByTestId('app-error')).not.toBeInTheDocument();
     });
   });
 });

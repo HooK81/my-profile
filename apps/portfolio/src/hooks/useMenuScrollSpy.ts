@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 
 import { useAppStore } from '../stores/app.store';
+import { useAppReady } from './useAppReady';
 
 const SECTIONS = ['hero', 'about', 'resume', 'techs', 'hobbies', 'contact'];
 
 export function useMenuScrollSpy() {
-  const isLoaded = useAppStore((s) => s.isLoaded);
+  const isReady = useAppReady();
   const setActiveSection = useAppStore((s) => s.setActiveSection);
 
   useEffect(() => {
-    if (!isLoaded) {
+    if (!isReady) {
       return;
     }
 
@@ -32,5 +33,5 @@ export function useMenuScrollSpy() {
     }
 
     return () => observer.disconnect();
-  }, [isLoaded, setActiveSection]);
+  }, [isReady, setActiveSection]);
 }

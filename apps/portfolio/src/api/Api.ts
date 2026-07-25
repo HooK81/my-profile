@@ -13,7 +13,7 @@ class Api extends FetchApi {
     const data = await this.get<unknown>(
       `/v1/${locale}/profiles/${PROFILE_ID}`,
       {},
-      { apiName: 'loadProfile' },
+      { showError: false, apiName: 'loadProfile' },
     );
     return profileSchema.parse(data);
   }

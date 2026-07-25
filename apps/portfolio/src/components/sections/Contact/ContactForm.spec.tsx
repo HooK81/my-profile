@@ -262,7 +262,7 @@ describe('ContactForm', () => {
 
       await waitFor(() => {
         expect(vi.mocked(toast.error)).toHaveBeenCalledWith(
-          'contact.form.sendError error.api.tryAgain',
+          'contact.form.sendError error.tryAgainLater',
         );
       });
     });

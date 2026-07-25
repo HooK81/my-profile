@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 
-import { useProfileStore } from '../../../stores/profile.store';
+import { useProfile } from '../../../hooks/useProfile';
 import Section from '../../layout/Section/Section';
 import Icon from '../../ui/Icon/Icon';
 import styles from './Hobbies.module.scss';
 
 function Hobbies() {
   const { t } = useTranslation();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
 
   if (!profile) {
     return null;

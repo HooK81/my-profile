@@ -15,6 +15,12 @@ function Probe({ options }: ProbeProps) {
   );
 }
 
+// Mimics a consumer rendering its element conditionally: the ref stays detached
+function DetachedProbe() {
+  const { inView } = useInView();
+  return <div data-testid="detached">{inView ? 'in' : 'out'}</div>;
+}
+
 describe('useInView', () => {
   let observeMock: ReturnType<typeof vi.fn>;
   let disconnectMock: ReturnType<typeof vi.fn>;
@@ -63,6 +69,13 @@ describe('useInView', () => {
 
     expect(screen.getByTestId('probe')).toHaveTextContent('out');
     expect(observeMock).toHaveBeenCalledWith(screen.getByTestId('probe'));
+  });
+
+  it('should not observe when the ref is not attached to an element', () => {
+    render(<DetachedProbe />);
+
+    expect(IntersectionObserver).not.toHaveBeenCalled();
+    expect(screen.getByTestId('detached')).toHaveTextContent('out');
   });
 
   it('should flip inView to true when entry intersects', () => {

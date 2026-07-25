@@ -33,7 +33,7 @@ describe('useAppStore', () => {
     it('should have correct defaults', () => {
       const state = useAppStore.getState();
 
-      expect(state.isLoaded).toBe(false);
+      expect(state.i18nReady).toBe(false);
       expect(state.locale).toBe('en');
       expect(state.activeSection).toBe('hero');
     });
@@ -57,14 +57,6 @@ describe('useAppStore', () => {
       useAppStore.getState().changeLocale('fr');
 
       expect(useAppStore.getState().locale).toBe('fr');
-    });
-  });
-
-  describe('setIsLoaded()', () => {
-    it('should update isLoaded', () => {
-      useAppStore.getState().setIsLoaded(true);
-
-      expect(useAppStore.getState().isLoaded).toBe(true);
     });
   });
 

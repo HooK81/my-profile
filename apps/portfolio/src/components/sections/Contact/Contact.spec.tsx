@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 vi.mock('zustand');
@@ -9,15 +9,15 @@ vi.mock('./ContactForm', () => ({
   default: () => <div data-testid="contact-form" />,
 }));
 
-import { useProfileStore } from '../../../stores/profile.store';
+import { renderWithQueryClient } from '../../../test-utils';
 import { formatPhone } from '../../../utils/phone';
 import Contact from './Contact';
 
 afterEach(() => cleanup());
 
 describe('Contact', () => {
-  it('should render nothing when profile is null', () => {
-    const { container } = render(<Contact />);
+  it('should render nothing when profile is not loaded', () => {
+    const { container } = renderWithQueryClient(<Contact />);
 
     expect(container.firstChild).toBeNull();
   });
@@ -25,12 +25,8 @@ describe('Contact', () => {
   describe('when profile is set', () => {
     const profile = ProfileFactory.build();
 
-    beforeEach(() => {
-      useProfileStore.setState({ profile });
-    });
-
     it('should render the section heading with contact title', () => {
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile });
 
       expect(
         screen.getByRole('heading', { level: 2, name: 'contact.title' }),
@@ -38,7 +34,7 @@ describe('Contact', () => {
     });
 
     it('should display full address lines', () => {
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile });
 
       expect(
         screen.getByText(profile.user.address.street!),
@@ -54,7 +50,7 @@ describe('Contact', () => {
     });
 
     it('should display the email as a mailto link', () => {
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile });
 
       const emailLink = screen.getByRole('link', {
         name: profile.user.email,
@@ -63,7 +59,7 @@ describe('Contact', () => {
     });
 
     it('should display the phone as a tel link with formatted text', () => {
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile });
 
       const phoneLink = document.querySelector(
         `a[href="tel:${profile.user.phone!}"]`,
@@ -74,15 +70,14 @@ describe('Contact', () => {
 
     it('should not display the phone section when phone is undefined', () => {
       const noPhone = ProfileFactory.build({ user: { phone: undefined } });
-      useProfileStore.setState({ profile: noPhone });
 
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile: noPhone });
 
       expect(screen.queryByText('contact.phone')).not.toBeInTheDocument();
     });
 
     it('should render ContactForm', () => {
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile });
 
       expect(screen.getByTestId('contact-form')).toBeInTheDocument();
     });
@@ -93,9 +88,8 @@ describe('Contact', () => {
           address: { street: '', zip: '', city: 'Paris', country: 'France' },
         },
       });
-      useProfileStore.setState({ profile: partial });
 
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile: partial });
 
       expect(screen.getByText('Paris')).toBeInTheDocument();
       expect(screen.getByText('France')).toBeInTheDocument();
@@ -107,9 +101,8 @@ describe('Contact', () => {
           address: { street: '', zip: '', city: '', country: 'France' },
         },
       });
-      useProfileStore.setState({ profile: countryOnly });
 
-      render(<Contact />);
+      renderWithQueryClient(<Contact />, { profile: countryOnly });
 
       expect(screen.getByText('France')).toBeInTheDocument();
       const spans = screen

@@ -1,7 +1,7 @@
 import type { Facts as FactsData, IconName } from 'my-profile-shared';
 import { useTranslation } from 'react-i18next';
 
-import { useProfileStore } from '../../../stores/profile.store';
+import { useProfile } from '../../../hooks/useProfile';
 import Section from '../../layout/Section/Section';
 import FactItem from './FactItem';
 import styles from './Facts.module.scss';
@@ -15,7 +15,7 @@ const FACTS: { key: keyof FactsData; icon: IconName }[] = [
 
 function Facts() {
   const { t } = useTranslation();
-  const profile = useProfileStore((s) => s.profile);
+  const { data: profile } = useProfile();
 
   if (!profile?.user.facts) {
     return null;

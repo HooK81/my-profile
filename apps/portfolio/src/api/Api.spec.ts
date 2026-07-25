@@ -1,13 +1,12 @@
-import type { AxiosResponse } from 'axios';
 import type { EmailValidation } from 'my-profile-shared';
 import { ProfileFactory } from 'my-profile-shared/fixtures/profile.fixtures';
 
 import api from './Api';
-import { AxiosApi } from './AxiosApi';
+import { FetchApi } from './FetchApi';
 
-type AxiosApiMethods = {
-  get(route: string, params?: object, config?: object): Promise<AxiosResponse>;
-  post(route: string, data: unknown, config?: object): Promise<AxiosResponse>;
+type FetchApiMethods = {
+  get(route: string, params?: object, config?: object): Promise<unknown>;
+  post(route: string, data: unknown, config?: object): Promise<unknown>;
 };
 
 const PROFILE_ID = vi.hoisted(() => {
@@ -15,16 +14,6 @@ const PROFILE_ID = vi.hoisted(() => {
   vi.stubEnv('VITE_PROFILE_ID', id);
   return id;
 });
-
-vi.mock('axios', () => ({
-  default: {
-    create: vi.fn(() => ({
-      get: vi.fn(),
-      post: vi.fn(),
-      interceptors: { response: { use: vi.fn() } },
-    })),
-  },
-}));
 
 vi.mock('i18next');
 vi.mock('react-toastify');
@@ -34,9 +23,9 @@ describe('Api', () => {
   let postSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    getSpy = vi.spyOn(AxiosApi.prototype as unknown as AxiosApiMethods, 'get');
+    getSpy = vi.spyOn(FetchApi.prototype as unknown as FetchApiMethods, 'get');
     postSpy = vi.spyOn(
-      AxiosApi.prototype as unknown as AxiosApiMethods,
+      FetchApi.prototype as unknown as FetchApiMethods,
       'post',
     );
   });
@@ -48,7 +37,7 @@ describe('Api', () => {
   describe('loadProfile', () => {
     it('should call get with the correct route and return data', async () => {
       const profile = ProfileFactory.build();
-      getSpy.mockResolvedValue({ data: profile });
+      getSpy.mockResolvedValue(profile);
 
       const result = await api.loadProfile('en');
 
@@ -64,7 +53,7 @@ describe('Api', () => {
   describe('getFile', () => {
     it('should call get with blob responseType and return a Blob', async () => {
       const blob = new Blob(['pdf content']);
-      getSpy.mockResolvedValue({ data: blob });
+      getSpy.mockResolvedValue(blob);
 
       const result = await api.getFile('en', 'resume.pdf');
 
@@ -84,7 +73,7 @@ describe('Api', () => {
         from: 'jane@example.com',
         message: 'Hello World',
       };
-      postSpy.mockResolvedValue({ data: undefined });
+      postSpy.mockResolvedValue(undefined);
 
       await api.sendMail(payload);
 
@@ -98,7 +87,7 @@ describe('Api', () => {
   describe('getVcard', () => {
     it('should call get with blob responseType and return a Blob', async () => {
       const blob = new Blob(['vcard content']);
-      getSpy.mockResolvedValue({ data: blob });
+      getSpy.mockResolvedValue(blob);
 
       const result = await api.getVcard('fr');
 

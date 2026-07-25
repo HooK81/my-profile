@@ -16,6 +16,7 @@ export default defineConfig({
         'src/queryClient.ts',
         'src/**/*.d.ts',
         'src/utils/console-greeting.ts',
+        'src/**/__mocks__',
       ],
     },
     css: {

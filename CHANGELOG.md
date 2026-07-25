@@ -1,3 +1,23 @@
+## 5.4.0 (2026-07-25)
+
+### 🚀 Features
+
+- **api:** use a single 5m JWT TTL in every environment ([537290d](https://github.com/HooK81/my-profile/commit/537290d))
+- **portfolio:** replace axios with native fetch client ([2a14774](https://github.com/HooK81/my-profile/commit/2a14774))
+- **portfolio:** replace profile store with tanstack query ([e52e0ff](https://github.com/HooK81/my-profile/commit/e52e0ff))
+- **portfolio:** migrate useProfileFileUrl to tanstack query ([2f2c653](https://github.com/HooK81/my-profile/commit/2f2c653))
+- **portfolio:** use mutation for contact form send ([eda5100](https://github.com/HooK81/my-profile/commit/eda5100))
+- **portfolio:** update stack list on the about this site page ([722ca2c](https://github.com/HooK81/my-profile/commit/722ca2c))
+
+### 🩹 Fixes
+
+- let nx release derive the bump from every commit ([5d283a5](https://github.com/HooK81/my-profile/commit/5d283a5))
+
+### ❤️ Thank You
+
+- Claude Fable 5
+- Julien Crochet
+
 ## 5.3.1 (2026-05-22)
 
 ### 🩹 Fixes

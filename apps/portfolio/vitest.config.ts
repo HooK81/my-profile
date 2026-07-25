@@ -13,7 +13,7 @@ export default defineConfig({
         'src/test-setup.ts',
         'src/test-utils.tsx',
         'src/main.tsx',
-        'src/queryClient.ts',
+        'src/query/client.ts',
         'src/**/*.d.ts',
         'src/utils/console-greeting.ts',
         'src/**/__mocks__',

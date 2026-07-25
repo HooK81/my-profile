@@ -4,7 +4,7 @@ import type { Profile } from 'my-profile-shared';
 import type { ReactElement, ReactNode } from 'react';
 
 import { DEFAULT_LOCALE, type Locale } from './constants';
-import { profileQueryKey } from './hooks/useProfile';
+import { profileQueryKey } from './query/keys';
 
 type QueryOptions = {
   profile?: Profile;

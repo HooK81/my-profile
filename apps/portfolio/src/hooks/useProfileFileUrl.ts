@@ -2,11 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 
 import api from '../api/Api';
-import { type Locale } from '../constants';
+import { profileFileQueryKey } from '../query/keys';
 import { useAppStore } from '../stores/app.store';
-
-export const profileFileQueryKey = (locale: Locale, file: string) =>
-  ['profile-file', locale, file] as const;
 
 export function useProfileFileUrl(file: string | undefined): string | null {
   const locale = useAppStore((s) => s.locale);

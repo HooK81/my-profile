@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 
 import App from './App.tsx';
 import AppLoader from './components/ui/AppLoader/AppLoader';
-import { queryClient } from './queryClient';
+import { queryClient } from './query/client';
 import { printConsoleGreeting } from './utils/console-greeting';
 
 printConsoleGreeting();

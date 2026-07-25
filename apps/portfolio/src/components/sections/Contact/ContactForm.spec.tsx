@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 
 vi.mock('react-i18next');
 vi.mock('react-toastify');
-vi.mock('../../../utils/i18n');
 vi.mock('../../../api/Api');
 
 import api from '../../../api/Api';

@@ -7,7 +7,9 @@
   "targets": {},
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["."]
+      "manifestRootsToUpdate": [
+        "."
+      ]
     }
   }
 }

@@ -36,6 +36,7 @@ function AboutThisSite() {
                 <li>{t('aboutThisSite.frontend.category2.items2')}</li>
                 <li>{t('aboutThisSite.frontend.category2.items3')}</li>
                 <li>{t('aboutThisSite.frontend.category2.items4')}</li>
+                <li>{t('aboutThisSite.frontend.category2.items5')}</li>
               </ul>
             </div>
           </div>

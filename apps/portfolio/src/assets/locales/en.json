@@ -84,9 +84,10 @@
       "category2": {
         "title": "Library",
         "items1": "React 19.2 with Vite",
-        "items2": "Client HTTP: Axios",
-        "items3": "State Container: Zustand",
-        "items4": "Unit Tests: Vitest (100% code coverage)"
+        "items2": "Client HTTP: native Fetch API",
+        "items3": "Client State: Zustand",
+        "items4": "Server State: TanStack Query",
+        "items5": "Unit Tests: Vitest (100% code coverage)"
       }
     },
     "backend": {

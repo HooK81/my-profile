@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import {
   MESSAGE_MAX_LENGTH,
   MESSAGE_MIN_LENGTH,
@@ -14,9 +8,11 @@ import { toast } from 'react-toastify';
 
 vi.mock('react-i18next');
 vi.mock('react-toastify');
+vi.mock('../../../utils/i18n');
 vi.mock('../../../api/Api');
 
 import api from '../../../api/Api';
+import { renderWithQueryClient } from '../../../test-utils';
 import ContactForm from './ContactForm';
 
 const mockedApi = vi.mocked(api);
@@ -58,7 +54,7 @@ function submitForm() {
 describe('ContactForm', () => {
   describe('rendering', () => {
     it('should render an email input with required attribute', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const email = screen.getByPlaceholderText(
         'contact.form.emailPlaceholder',
@@ -69,7 +65,7 @@ describe('ContactForm', () => {
     });
 
     it('should render a subject input with maxLength constraint', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const subject = screen.getByPlaceholderText(
         'contact.form.subjectPlaceholder',
@@ -80,7 +76,7 @@ describe('ContactForm', () => {
     });
 
     it('should render a message textarea with required and length constraints', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const message = screen.getByPlaceholderText(
         'contact.form.messagePlaceholder',
@@ -92,7 +88,7 @@ describe('ContactForm', () => {
     });
 
     it('should render a submit button', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const button = screen.getByRole('button', {
         name: 'contact.form.sendButton',
@@ -102,7 +98,7 @@ describe('ContactForm', () => {
     });
 
     it('should not display the character counter initially', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       expect(
         screen.queryByText(new RegExp(`\\d+ / ${MESSAGE_MAX_LENGTH}`)),
@@ -112,7 +108,7 @@ describe('ContactForm', () => {
 
   describe('character counter', () => {
     it('should display the counter when the user types in the message field', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       fireEvent.change(
         screen.getByPlaceholderText('contact.form.messagePlaceholder'),
@@ -123,7 +119,7 @@ describe('ContactForm', () => {
     });
 
     it('should hide the counter when message is cleared', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const textarea = screen.getByPlaceholderText(
         'contact.form.messagePlaceholder',
@@ -137,7 +133,7 @@ describe('ContactForm', () => {
     });
 
     it('should apply warning class when message reaches 90% of max length', () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       const warningLength = MESSAGE_MAX_LENGTH * 0.9;
       const text = 'x'.repeat(warningLength);
@@ -164,7 +160,7 @@ describe('ContactForm', () => {
           }),
       );
 
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
@@ -189,7 +185,7 @@ describe('ContactForm', () => {
     });
 
     it('should call api.sendMail with correct payload', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
@@ -203,7 +199,7 @@ describe('ContactForm', () => {
     });
 
     it('should show a success toast after sending', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
@@ -215,7 +211,7 @@ describe('ContactForm', () => {
     });
 
     it('should reset the character counter after successful send', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
 
       fireEvent.change(
         screen.getByPlaceholderText('contact.form.messagePlaceholder'),
@@ -236,7 +232,7 @@ describe('ContactForm', () => {
     });
 
     it('should send subject as undefined when subject is empty', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm({ subject: '' });
       submitForm();
 
@@ -256,7 +252,7 @@ describe('ContactForm', () => {
     });
 
     it('should show an error toast when sending fails', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
@@ -268,7 +264,7 @@ describe('ContactForm', () => {
     });
 
     it('should preserve form values when sending fails', async () => {
-      render(<ContactForm />);
+      renderWithQueryClient(<ContactForm />);
       fillForm({
         from: 'user@test.com',
         subject: 'My Subject',

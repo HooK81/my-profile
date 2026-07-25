@@ -1,4 +1,6 @@
+import { useMutation } from '@tanstack/react-query';
 import {
+  type EmailValidation,
   MESSAGE_MAX_LENGTH,
   MESSAGE_MIN_LENGTH,
   SUBJECT_MAX_LENGTH,
@@ -39,6 +41,10 @@ function ContactForm() {
   const { t } = useTranslation();
   const [messageLength, setMessageLength] = useState(0);
 
+  const { mutateAsync: sendMail } = useMutation({
+    mutationFn: (payload: EmailValidation) => api.sendMail(payload),
+  });
+
   const submitAction = async (
     _: FormState,
     formData: FormData,
@@ -48,7 +54,7 @@ function ContactForm() {
     const message = formData.get('message') as string;
 
     try {
-      await api.sendMail({
+      await sendMail({
         from,
         message,
         subject: subject || undefined,

@@ -58,6 +58,9 @@
       "my-profile-root"
     ],
     "projectsRelationship": "fixed",
+    "conventionalCommits": {
+      "useCommitScope": false
+    },
     "version": {
       "conventionalCommits": true,
       "manifestRootsToUpdate": [

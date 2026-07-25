@@ -1,7 +1,7 @@
-import type { ISourceOptions } from '@tsparticles/engine';
-import Particles, { initParticlesEngine } from '@tsparticles/react';
+import type { Engine, ISourceOptions } from '@tsparticles/engine';
+import Particles, { ParticlesProvider } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import Typed from 'typed.js';
@@ -14,7 +14,7 @@ const particlesOptions: ISourceOptions = {
   fullScreen: { enable: false },
   particles: {
     number: { value: 80, density: { enable: true } },
-    color: { value: '#ffffff' },
+    paint: { color: { value: '#ffffff' } },
     shape: { type: 'circle' },
     opacity: { value: 0.5 },
     size: { value: { min: 1, max: 6 } },
@@ -45,21 +45,15 @@ const particlesOptions: ISourceOptions = {
   detectRetina: true,
 };
 
+// ParticlesProvider requires the init callback to be stable across renders
+const initParticles = async (engine: Engine): Promise<void> => {
+  await loadSlim(engine);
+};
+
 function Hero() {
   const { t } = useTranslation();
   const profile = useProfileStore((s) => s.profile);
   const typedRef = useRef<HTMLSpanElement>(null);
-  const [engineReady, setEngineReady] = useState(false);
-
-  useEffect(() => {
-    const init = async () => {
-      await initParticlesEngine(async (engine) => {
-        await loadSlim(engine);
-      });
-      setEngineReady(true);
-    };
-    void init();
-  }, []);
 
   useEffect(() => {
     if (!typedRef.current || !profile) {
@@ -91,13 +85,13 @@ function Hero() {
 
   return (
     <section id="hero" className={styles.hero}>
-      {engineReady && (
+      <ParticlesProvider init={initParticles}>
         <Particles
           id="tsparticles"
           className={styles.particles}
           options={particlesOptions}
         />
-      )}
+      </ParticlesProvider>
 
       <div className={styles.content}>
         <p className={`${styles.welcome} ${styles.fadeUp1}`}>

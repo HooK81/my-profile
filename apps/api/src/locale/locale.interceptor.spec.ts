@@ -4,10 +4,10 @@ import {
   CallHandler,
   ExecutionContext,
 } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { LocaleInterceptor } from './locale.interceptor';
-import { DEFAULT_LOCALE, LocaleService } from './locale.service';
+import { LocaleService } from './locale.service';
 
 describe('LocaleInterceptor', () => {
   let interceptor: LocaleInterceptor;
@@ -32,27 +32,16 @@ describe('LocaleInterceptor', () => {
     handle: vi.fn(() => of('test-response')),
   });
 
-  it.each([{ params: { locale: 'fr' } }, { params: {} }])(
-    'should set locale from request',
-    ({ params }) => {
-      const expectedLocale = params.locale ?? DEFAULT_LOCALE;
-
-      interceptor.intercept(createContext(params), createCallHandler());
-
-      expect(localeService.setLocale).toHaveBeenCalledWith(expectedLocale);
-    },
-  );
-
-  it('should next.handle() have been called and return an Observable', () => {
+  it.each([
+    { params: { locale: 'fr' }, expectedLocale: 'fr' },
+    { params: {}, expectedLocale: 'en' },
+  ])('should set locale from request', ({ params, expectedLocale }) => {
     const callHandler = createCallHandler();
 
-    const result = interceptor.intercept(
-      createContext({ locale: 'fr' }),
-      callHandler,
-    );
+    interceptor.intercept(createContext(params), callHandler);
 
+    expect(localeService.setLocale).toHaveBeenCalledWith(expectedLocale);
     expect(callHandler.handle).toHaveBeenCalled();
-    expect(result).toBeInstanceOf(Observable);
   });
 
   it.each(['de', '../etc/passwd', 'EN', 'xyz'])(

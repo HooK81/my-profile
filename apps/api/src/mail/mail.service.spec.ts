@@ -70,16 +70,16 @@ describe('MailService', () => {
     );
   });
 
-  it('should catch error when email failed to be sent', () => {
+  it('should not reject the caller when the email fails to be sent', async () => {
     verifyAllTransportersMock.mockResolvedValue(true);
     sendMailMock.mockRejectedValue(new Error('Error sending mail'));
 
-    expect(async () => {
-      await service.sendEmailToTeam({
+    await expect(
+      service.sendEmailToTeam({
         from: 'email',
         message: 'test message',
-      });
-    }).not.toThrow();
+      }),
+    ).resolves.toBeUndefined();
   });
 
   it('should check transport configuration', async () => {

@@ -78,7 +78,8 @@
     "git": {
       "commit": true,
       "commitMessage": "chore(release): v{version}",
-      "tag": true
+      "tag": true,
+      "push": true
     }
   },
   "analytics": false

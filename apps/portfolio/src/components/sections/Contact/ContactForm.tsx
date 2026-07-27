@@ -1,6 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
 import {
-  type EmailValidation,
   MESSAGE_MAX_LENGTH,
   MESSAGE_MIN_LENGTH,
   SUBJECT_MAX_LENGTH,
@@ -8,9 +6,8 @@ import {
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
-import api from '../../../api/Api';
+import { useSendMail } from '../../../hooks/useSendMail';
 import Button from '../../ui/Button/Button';
 import styles from './Contact.module.scss';
 
@@ -41,9 +38,7 @@ function ContactForm() {
   const { t } = useTranslation();
   const [messageLength, setMessageLength] = useState(0);
 
-  const { mutateAsync: sendMail } = useMutation({
-    mutationFn: (payload: EmailValidation) => api.sendMail(payload),
-  });
+  const { mutateAsync: sendMail } = useSendMail();
 
   const submitAction = async (
     _: FormState,
@@ -59,12 +54,10 @@ function ContactForm() {
         message,
         subject: subject || undefined,
       });
-      toast.success(t('contact.form.sendSuccess'));
       setMessageLength(0);
 
       return initialState;
     } catch {
-      toast.error(`${t('contact.form.sendError')} ${t('error.tryAgainLater')}`);
       return { from, subject, message };
     }
   };

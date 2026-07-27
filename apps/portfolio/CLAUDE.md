@@ -36,6 +36,7 @@ Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) 
 - `useAppReady` — boot gate: `i18nReady && profile loaded`
 - `useMenuScrollSpy` — Intersection Observer for active nav section tracking
 - `useInView` — Intersection Observer hook returning `{ ref, inView }` (with `once` option)
+- `useSendMail` — contact form mutation; owns the success/error toasts in `onSuccess`/`onError`. No `retry`: the mail endpoint is rate-limited to 1r/m per IP with no burst ([rate-limit.conf](../../docker/nginx/rate-limit.conf)), so an automatic retry would only ever earn a 429 — and the POST isn't idempotent. Retrying is the user resubmitting the form
 - `useProfileFileUrl` — caches the file *blob* per locale+file; each consumer derives its own object URL via `useMemo` and revokes it on unmount. The URL is not cached (a shared URL would outlive its owner) and not set from an effect (`react-hooks/set-state-in-effect`)
 
 ### Build
@@ -53,7 +54,7 @@ src/
     layout/            # Layout, Navbar, Footer, Section, ScrollToTop
     sections/          # Hero, About, Resume, Techs, Hobbies, Contact
     ui/                # AppLoader, AppError, Button, LocaleSwitcher, ScrollDown, SocialLinks, Spinner
-  hooks/               # useProfile, useAppReady, useMenuScrollSpy, useInView, useProfileFileUrl
+  hooks/               # useProfile, useAppReady, useMenuScrollSpy, useInView, useProfileFileUrl, useSendMail
   pages/               # Home, AboutThisSite
   query/               # TanStack Query client + key factories
   stores/              # app.store

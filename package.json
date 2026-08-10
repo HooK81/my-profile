@@ -40,11 +40,20 @@
     "release:dry": "nx release --dry-run --skip-publish"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.2.0",
+    "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
-    "@nx/js": "^23.1.0",
+    "@nx/js": "^23.1.1",
     "husky": "^9.1.7",
-    "nx": "23.1.0"
+    "npm-check-updates": "^23.0.2",
+    "nx": "23.1.1"
+  },
+  "overrides": {
+    "nx": {
+      "brace-expansion": "5.0.9"
+    },
+    "preview-email": {
+      "mailparser": "3.9.15"
+    }
   },
   "volta": {
     "node": "24.11.1"

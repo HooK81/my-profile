@@ -16,37 +16,37 @@ Each package has its own `CLAUDE.md` with architecture and testing details.
 
 ## Common Commands
 
+Every project exposes the same NX targets (`serve`, `build`, `test`, `test:cov`, `lint`, `tsc`), so anything can be run with `nx run-many -t <target>` (all projects) or `nx <target> <project>` (single project). The root npm scripts are thin aliases over `nx run-many`.
+
 ```bash
-# Development
-npm run dev                  # Start API + portfolio in parallel
-npm run dev:api              # Start API in watch mode (port 3000)
-npm run dev:portfolio        # Start portfolio dev server (Vite, port 5174)
+# Development (serve depends on ^build: shared lib is built automatically)
+npm run serve                          # Start API + portfolio in parallel (nx run-many -t serve)
+npx nx serve my-profile-api            # Start API in watch mode (port 3000)
+npx nx serve my-profile-portfolio      # Start portfolio dev server (Vite, port 5174)
 
 # Build
-npm run build                # Build all projects via NX
-npm run build:shared         # Build shared lib (must run before API build)
-npm run build:api            # Build API only
-npm run build:portfolio      # Build portfolio only
+npm run build                          # Build all projects (nx run-many -t build)
+npx nx build my-profile-api            # Build one project (builds my-profile-shared first via ^build)
 
 # Test
-npm run test                 # Run all tests (Vitest)
-npm run test:api             # API tests only
-npm run test:cov:api         # API tests with coverage
-npm run test:portfolio       # Portfolio tests only
-npm run test:cov:portfolio   # Portfolio tests with coverage
+npm run test                           # Run all tests (Vitest)
+npm run test:cov                       # All tests with coverage
+npx nx test my-profile-api             # One project's tests
+npx nx test:cov my-profile-portfolio   # One project's tests with coverage
 
 # Lint & type-check
-npm run lint                 # ESLint all projects (with --fix)
-npm run tsc                  # Type-check all projects (no emit)
+npm run lint                           # ESLint all projects
+npm run tsc                            # Type-check all projects (no emit)
+npx nx lint my-profile-shared          # One project
 
 # NX utilities
-npx nx affected -t test      # Test only affected projects
-npx nx affected -t build     # Build only affected projects
-npx nx graph                 # Visualize dependency graph
+npx nx affected -t test                # Test only affected projects
+npx nx affected -t build               # Build only affected projects
+npx nx graph                           # Visualize dependency graph
 
 # Release
-npm run release              # Bump version, update changelog, create git tag
-npm run release:dry          # Preview release without making changes
+npm run release                        # Bump version, update changelog, create git tag
+npm run release:dry                    # Preview release without making changes
 ```
 
 ## Versioning & Commits
@@ -83,7 +83,7 @@ docker compose build
 docker compose up -d
 ```
 
-Docker is not used for local development — run `npm run dev` or `npm run dev:api` / `npm run dev:portfolio` instead.
+Docker is not used for local development — run `npm run serve` or `npx nx serve my-profile-api` / `npx nx serve my-profile-portfolio` instead.
 
 API runs in Node.js 24-alpine container. Portfolio is served via Nginx stable-alpine which also proxies API requests. The whole stack runs behind an upstream Nginx reverse proxy that sets `X-Real-IP`. The Docker Nginx includes two-layer rate limiting (per-IP + global) per endpoint (auth, mail, general API) via `rate-limit.conf`. User profile data (JSON + files) is mounted read-only from `docker/users/`.
 

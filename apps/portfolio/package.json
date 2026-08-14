@@ -5,7 +5,7 @@
   "author": "Julien Crochet <julien@crochet.me>",
   "type": "module",
   "scripts": {
-    "start:dev": "vite",
+    "serve": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "tsc": "tsc -b",

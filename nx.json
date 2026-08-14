@@ -29,10 +29,25 @@
       ],
       "cache": true
     },
+    "serve": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
     "test": {
       "inputs": [
         "default",
         "^production"
+      ],
+      "cache": true
+    },
+    "test:cov": {
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
       ],
       "cache": true
     },

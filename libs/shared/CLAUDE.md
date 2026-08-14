@@ -6,7 +6,7 @@ Zod schemas and Fishery fixtures shared between API and portfolio. NX package na
 
 - Output built via Vite library mode (`vite-plugin-dts` for type declarations)
 - Consumed via npm workspace resolution (`"my-profile-shared": "*"`)
-- Must be built (`npm run build:shared` from root, or `npm run build` locally) before API build
+- Must be built (`npx nx build my-profile-shared` from root, or `npm run build` locally) before API build
 - No tests of its own — schemas are validated through API and portfolio tests
 
 ## Export Paths

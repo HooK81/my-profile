@@ -20,14 +20,15 @@ npm run build
 
 ## Development
 
-### Start API server
+### Start API + portfolio in parallel
 ```shell
-npm run dev:api
+npm run serve
 ```
 
-### Start portfolio dev server
+### Start a single app
 ```shell
-npm run dev:portfolio
+npx nx serve my-profile-api        # API (port 3000)
+npx nx serve my-profile-portfolio  # Portfolio (Vite, port 5174)
 ```
 
 ### Run all builds
@@ -53,12 +54,17 @@ npm run tsc
 
 ## NX Commands
 
+All projects expose the same targets: `serve`, `build`, `test`, `test:cov`, `lint`, `tsc`.
+
 ```shell
 npx nx graph                   # Visualize project dependency graph
+npx nx run-many -t serve       # Start all dev servers
 npx nx run-many -t build       # Build all apps
 npx nx run-many -t lint        # Lint all apps
 npx nx run-many -t tsc         # Type-check all apps
 npx nx run-many -t test        # Run tests
+npx nx run-many -t test:cov    # Run tests with coverage
+npx nx test my-profile-api     # Run one target for one project
 npx nx affected -t build       # Build only affected projects
 npx nx affected -t test        # Test only affected projects
 ```

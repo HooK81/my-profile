@@ -1,7 +1,7 @@
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module } from '@nestjs/common';
+import { Module, StandardSchemaValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino';
 
 import { AuthModule } from './auth/auth.module';
@@ -47,6 +47,10 @@ import { ResponseInterceptor } from './response/response.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: StandardSchemaValidationPipe,
     },
   ],
 })

@@ -5,10 +5,8 @@ import {
   HttpStatus,
   Post,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 import { EmailValidation, emailValidationSchema } from 'my-profile-shared';
-import { ZodValidationPipe } from 'nestjs-zod';
 
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { MailService } from './mail.service';
@@ -23,8 +21,9 @@ export class MailController {
 
   @Post('')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UsePipes(new ZodValidationPipe(emailValidationSchema))
-  async sendMail(@Body() payload: EmailValidation): Promise<void> {
+  async sendMail(
+    @Body({ schema: emailValidationSchema }) payload: EmailValidation,
+  ): Promise<void> {
     await this.mailService.sendEmailToTeam(payload);
   }
 }

@@ -9,6 +9,7 @@ import { MailService } from './mail.service';
 @Module({
   imports: [
     MailerModule.forRootAsync({
+      imports: [],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         transport: configService.get<string>('mailer.transport')!,

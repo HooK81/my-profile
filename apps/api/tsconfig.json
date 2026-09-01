@@ -26,5 +26,5 @@
       "node",
       "vitest/globals"
     ]
-  },
+  }
 }

@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -23,6 +24,14 @@ export default defineConfig({
       modules: {
         classNameStrategy: 'non-scoped',
       },
+    },
+  },
+  resolve: {
+    alias: {
+      'my-profile-shared': resolve(
+        import.meta.dirname,
+        '../../libs/shared/src',
+      ),
     },
   },
 });

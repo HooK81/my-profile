@@ -1,12 +1,12 @@
 # Shared Library — CLAUDE.md
 
-Zod schemas and Fishery fixtures shared between API and portfolio. NX package name: `my-profile-shared`. Dual CJS + ESM output.
+Zod schemas and Fishery fixtures shared between API and portfolio. NX package name: `my-profile-shared`. ESM-only runtime output; types consumed from source.
 
 ## Quick Reference
 
-- Output built via Vite library mode (`vite-plugin-dts` for type declarations)
 - Consumed via npm workspace resolution (`"my-profile-shared": "*"`)
-- Must be built (`npx nx build my-profile-shared` from root, or `npm run build` locally) before API build
+- Types resolve from `src/` directly (`exports` `types` conditions point at source): `tsc`, lint, IDE, and both vitest suites (aliased to `src/` in each app's `vitest.config.ts`) never need a build
+- The Vite build (`dist/` ESM only, no `.d.ts`) is needed only at **runtime**: API serve/build and portfolio serve/build resolve the `import` condition to `dist/`, rebuilt automatically via NX `^build`
 - No tests of its own — schemas are validated through API and portfolio tests
 
 ## Export Paths
@@ -64,6 +64,6 @@ npm run lint     # ESLint
 ## Build Notes
 
 - Vite library mode with three entry points (index, fixtures/index, fixtures/profile.fixtures)
-- `vite-plugin-dts` generates `.d.ts` alongside `.mjs` / `.cjs` outputs
+- ESM output only (`.mjs`) — no CJS, no `.d.ts`: everything consuming it is ESM, and type resolution goes through `src/`
 - Zod 4 (package `zod@^4.5.0`)
 - External deps (zod, @faker-js/faker, fishery) are not bundled

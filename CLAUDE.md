@@ -28,13 +28,13 @@ npx nx serve my-profile-portfolio      # Start portfolio dev server (Vite, port 
 npm run build                          # Build all projects (nx run-many -t build)
 npx nx build my-profile-api            # Build one project (builds my-profile-shared first via ^build)
 
-# Test
+# Test (no build needed: tests resolve the shared lib from libs/shared/src)
 npm run test                           # Run all tests (Vitest)
 npm run test:cov                       # All tests with coverage
 npx nx test my-profile-api             # One project's tests
 npx nx test:cov my-profile-portfolio   # One project's tests with coverage
 
-# Lint & type-check
+# Lint & type-check (no build needed: types resolve from libs/shared/src)
 npm run lint                           # ESLint all projects
 npm run tsc                            # Type-check all projects (no emit)
 npx nx lint my-profile-shared          # One project

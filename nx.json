@@ -34,9 +34,6 @@
       ]
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
       "inputs": [
         "default",
         "^production"
@@ -44,9 +41,6 @@
       "cache": true
     },
     "test:cov": {
-      "dependsOn": [
-        "^build"
-      ],
       "inputs": [
         "default",
         "^production"
@@ -63,9 +57,6 @@
       "cache": true
     },
     "tsc": {
-      "dependsOn": [
-        "^build"
-      ],
       "inputs": [
         "default",
         "^production"

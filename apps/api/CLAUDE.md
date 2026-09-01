@@ -41,7 +41,7 @@ test_utils/
 ## Testing
 
 - **Framework**: Vitest + supertest
-- **Config**: `vitest.config.ts` — globals enabled, path aliases (`src`, `test_utils`, `my-profile-shared`)
+- **Config**: `vitest.config.ts` — globals enabled, path aliases (`src`, `test_utils`, `my-profile-shared` → `libs/shared/src`, so tests run against shared source without a build)
 - **Colocated tests**: `*.spec.ts` next to source files
 - **Controller tests**: integration-style — boot full `AppModule`, call `initTestApp(app)` for cookie-parser, use `supertest` for HTTP assertions
 - **Service tests**: unit-style — `Test.createTestingModule` with mocked dependencies via `useValue`

@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { Profile } from 'my-profile-shared';
 
-import { JwtAuthGuard } from '../auth/auth.guard';
-import { TIME_MS } from '../constants/time';
-import { ProfilesService } from './profiles.service';
-import { VCardService } from './vcard.service';
+import { JwtAuthGuard } from '../auth/auth.guard.js';
+import { TIME_MS } from '../constants/time.js';
+import { ProfilesService } from './profiles.service.js';
+import { VCardService } from './vcard.service.js';
 
 @Controller({
   path: 'profiles',

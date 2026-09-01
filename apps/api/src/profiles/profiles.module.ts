@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 
-import { LocaleModule } from '../locale/locale.module';
-import { ProfilesController } from './profiles.controller';
-import { ProfilesService } from './profiles.service';
-import { VCardService } from './vcard.service';
+import { LocaleModule } from '../locale/locale.module.js';
+import { ProfilesController } from './profiles.controller.js';
+import { ProfilesService } from './profiles.service.js';
+import { VCardService } from './vcard.service.js';
 
 @Module({
   imports: [LocaleModule],

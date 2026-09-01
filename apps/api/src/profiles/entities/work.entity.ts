@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 
-import { WorkDate } from './work-date.entity';
+import { WorkDate } from './work-date.entity.js';
 
 export class Work {
   @IsString()

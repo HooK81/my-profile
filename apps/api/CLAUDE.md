@@ -1,6 +1,6 @@
 # API — CLAUDE.md
 
-NestJS 11 REST API. NX package name: `my-profile-api`. CommonJS modules, Node.js 24, TypeScript, SWC compiler.
+NestJS 12 REST API. NX package name: `my-profile-api`. Native ESM (`"type": "module"`, relative imports use `.js` extensions), Node.js 24, TypeScript compiled with `tsc` via the Nest CLI.
 
 ## Architecture
 
@@ -8,7 +8,7 @@ NestJS modular architecture with domain modules:
 
 - **`auth/`** — JWT authentication with device-fingerprint verification (passport-jwt). `GET /v1/auth/token` sets an HTTP-only cookie (`access_token`) containing the JWT. The JWT strategy extracts the token from the cookie (not the Authorization header). Cookie flags: `httpOnly`, `secure` (prod only), `sameSite: lax`, `path: /`. Token expiry: 24h (dev) / 5m (prod). Device fingerprint is `HMAC-SHA256(server-secret, userAgent + acceptLanguage + acceptEncoding)` — computed server-side only, opaque to the client.
 - **`profiles/`** — Profile data, file serving (images/PDFs), vCard generation. Routes: `GET /v1/:locale/profiles/:id`.
-- **`mail/`** — Contact email sending via Nodemailer with Pug templates. `nest-cli.json` copies `mail/templates/` to dist.
+- **`mail/`** — Contact email sending via Nodemailer with Pug templates. `nest-cli.json` copies `mail/templates/` to dist. Request body validated against the shared Zod contract via `@Body({ schema: emailValidationSchema })` and the global `StandardSchemaValidationPipe` (`APP_PIPE` in `app.module.ts`).
 - **`locale/`** — Locale detection interceptor (REQUEST-scoped), extracts locale from route params, falls back to EN.
 - **`config/`** — Environment validation with Zod schemas (`env.validation.ts`).
 - **`response/`** — Response interceptor (adds `X-App-Version` header in non-prod) and headers service.
@@ -21,7 +21,7 @@ API uses URI versioning (`/v1/`). All profile endpoints require JWT auth. Profil
 
 ```
 src/
-  app.module.ts              # Root module, global interceptors
+  app.module.ts              # Root module, global interceptors + validation pipe
   main.ts                    # Bootstrap (CORS, cookie-parser, Pino)
   auth/                      # JWT auth (controller, service, strategy, guard)
   config/                    # Env validation (Zod)
@@ -41,7 +41,7 @@ test_utils/
 ## Testing
 
 - **Framework**: Vitest + supertest
-- **Config**: `vitest.config.ts` — SWC plugin, globals enabled, path aliases (`src`, `test_utils`, `my-profile-shared`)
+- **Config**: `vitest.config.ts` — globals enabled, path aliases (`src`, `test_utils`, `my-profile-shared`)
 - **Colocated tests**: `*.spec.ts` next to source files
 - **Controller tests**: integration-style — boot full `AppModule`, call `initTestApp(app)` for cookie-parser, use `supertest` for HTTP assertions
 - **Service tests**: unit-style — `Test.createTestingModule` with mocked dependencies via `useValue`

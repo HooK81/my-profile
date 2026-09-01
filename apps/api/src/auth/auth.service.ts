@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { AccessToken, accessTokenSchema } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 
-import { JwtPayload } from './types';
+import { JwtPayload } from './types.js';
 
 @Injectable()
 export class AuthService {

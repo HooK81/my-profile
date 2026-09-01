@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Response } from 'express';
 
-import { APP_VERSION_HEADER, HeadersService } from './headers.service';
+import { APP_VERSION_HEADER, HeadersService } from './headers.service.js';
 
 const APP_VERSION = '1.2.3';
 

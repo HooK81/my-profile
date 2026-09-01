@@ -5,11 +5,11 @@ import { promises as fs } from 'fs';
 import { ProfileFactory } from 'my-profile-shared/fixtures';
 import * as path from 'path';
 import request from 'supertest';
-import { App } from 'supertest/types';
+import type { App } from 'supertest/types.js';
 
-import { getAuthToken, initTestApp } from '../../test_utils/access-token';
-import { AppModule } from '../app.module';
-import { FILES_FOLDER } from './profiles.service';
+import { getAuthToken, initTestApp } from '../../test_utils/access-token.js';
+import { AppModule } from '../app.module.js';
+import { FILES_FOLDER } from './profiles.service.js';
 
 describe('Profiles Controller (functionnal)', () => {
   let app: INestApplication<App>;

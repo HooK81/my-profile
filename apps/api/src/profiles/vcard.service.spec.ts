@@ -5,9 +5,9 @@ import { LoggerModule } from 'nestjs-pino';
 import VCard from 'vcard-creator';
 import { Mock } from 'vitest';
 
-import { streamToString } from '../../test_utils/stream-to-string';
-import { ProfilesService } from './profiles.service';
-import { VCardService } from './vcard.service';
+import { streamToString } from '../../test_utils/stream-to-string.js';
+import { ProfilesService } from './profiles.service.js';
+import { VCardService } from './vcard.service.js';
 
 vi.mock('vcard-creator');
 vi.mock('fs/promises');

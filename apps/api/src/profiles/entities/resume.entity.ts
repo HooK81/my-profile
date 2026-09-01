@@ -1,9 +1,9 @@
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 
-import { Education } from './education.entity';
-import { Skill } from './skill.entity';
-import { Work } from './work.entity';
+import { Education } from './education.entity.js';
+import { Skill } from './skill.entity.js';
+import { Work } from './work.entity.js';
 
 export class Resume {
   @ValidateNested({ each: true })

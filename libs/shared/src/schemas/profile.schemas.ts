@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { iconSchema } from './icon.schemas';
+import { iconSchema } from './icon.schemas.js';
 
 export const addressSchema = z.object({
   street: z.string().optional(),

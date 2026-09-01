@@ -4,17 +4,17 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR, APP_PIPE, RouterModule } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino';
 
-import { AuthModule } from './auth/auth.module';
-import { configuration, envFilePath } from './config/configuration';
-import validate from './config/env.validation';
-import { HealthModule } from './health/health.module';
-import createLoggerConfig from './init/pino';
-import { LocaleInterceptor } from './locale/locale.interceptor';
-import { LocaleModule } from './locale/locale.module';
-import { MailModule } from './mail/mail.module';
-import { ProfilesModule } from './profiles/profiles.module';
-import { HeadersService } from './response/headers.service';
-import { ResponseInterceptor } from './response/response.interceptor';
+import { AuthModule } from './auth/auth.module.js';
+import { configuration, envFilePath } from './config/configuration.js';
+import validate from './config/env.validation.js';
+import { HealthModule } from './health/health.module.js';
+import createLoggerConfig from './init/pino.js';
+import { LocaleInterceptor } from './locale/locale.interceptor.js';
+import { LocaleModule } from './locale/locale.module.js';
+import { MailModule } from './mail/mail.module.js';
+import { ProfilesModule } from './profiles/profiles.module.js';
+import { HeadersService } from './response/headers.service.js';
+import { ResponseInterceptor } from './response/response.interceptor.js';
 
 @Module({
   imports: [

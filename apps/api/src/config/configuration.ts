@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
 import { resolve } from 'path';
 
 type LogLevel = 'info' | 'debug' | 'warn' | 'error';

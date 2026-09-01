@@ -5,6 +5,7 @@
   "author": "Julien Crochet <julien@crochet.me>",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

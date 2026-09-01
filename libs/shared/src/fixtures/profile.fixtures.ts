@@ -13,7 +13,7 @@ import type {
   User,
   Work,
   WorkDate,
-} from '../schemas/profile.schemas';
+} from '../schemas/profile.schemas.js';
 
 const formatDate = (date: Date) => date.toISOString().split('T')[0];
 

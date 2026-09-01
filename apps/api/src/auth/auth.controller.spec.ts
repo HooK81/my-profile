@@ -1,10 +1,10 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { App } from 'supertest/types';
+import type { App } from 'supertest/types.js';
 
-import { getAuthToken, initTestApp } from '../../test_utils/access-token';
-import { AppModule } from '../app.module';
+import { getAuthToken, initTestApp } from '../../test_utils/access-token.js';
+import { AppModule } from '../app.module.js';
 
 describe('AuthController (functionnal)', () => {
   const URI = '/auth/token';

@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import request from 'supertest';
-import { App } from 'supertest/types';
+import type { App } from 'supertest/types.js';
 
 export type TestAuthToken = {
   cookie: string;

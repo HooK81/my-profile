@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { of } from 'rxjs';
 
-import { LocaleInterceptor } from './locale.interceptor';
-import { LocaleService } from './locale.service';
+import { LocaleInterceptor } from './locale.interceptor.js';
+import { LocaleService } from './locale.service.js';
 
 describe('LocaleInterceptor', () => {
   let interceptor: LocaleInterceptor;

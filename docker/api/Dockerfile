@@ -61,4 +61,4 @@ USER node
 
 EXPOSE $API_PORT
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]

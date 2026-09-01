@@ -9,7 +9,7 @@ import {
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 
-import { DEFAULT_LOCALE, LocaleService } from './locale.service';
+import { DEFAULT_LOCALE, LocaleService } from './locale.service.js';
 
 @Injectable({ scope: Scope.REQUEST })
 export class LocaleInterceptor implements NestInterceptor {

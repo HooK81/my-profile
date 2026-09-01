@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { LocaleService } from './locale.service';
+import { LocaleService } from './locale.service.js';
 
 describe('LocaleService', () => {
   let service: LocaleService;

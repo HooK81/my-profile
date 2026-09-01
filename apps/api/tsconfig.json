@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "isolatedModules": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -18,10 +19,6 @@
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "strict": true,
-    "paths": {
-      "my-profile-shared": ["../../libs/shared/dist"],
-      "my-profile-shared/*": ["../../libs/shared/dist/*"]
-    },
     "types": [
       "node",
       "vitest/globals"

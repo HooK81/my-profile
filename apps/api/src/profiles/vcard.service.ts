@@ -10,7 +10,7 @@ import { Logger } from 'nestjs-pino';
 import { Readable } from 'stream';
 import VCard from 'vcard-creator';
 
-import { ProfilesService } from './profiles.service';
+import { ProfilesService } from './profiles.service.js';
 
 const VCARD_EXT = '.vcf';
 

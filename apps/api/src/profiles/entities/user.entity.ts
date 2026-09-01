@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsEmail, IsString, ValidateNested } from 'class-validator';
 
-import { Address } from './address.entity';
-import { Network } from './network.entity';
+import { Address } from './address.entity.js';
+import { Network } from './network.entity.js';
 
 export class User {
   @IsString()

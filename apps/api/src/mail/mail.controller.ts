@@ -6,10 +6,11 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { EmailValidation, emailValidationSchema } from 'my-profile-shared';
+import type { EmailValidation } from 'my-profile-shared';
+import { emailValidationSchema } from 'my-profile-shared';
 
-import { JwtAuthGuard } from '../auth/auth.guard';
-import { MailService } from './mail.service';
+import { JwtAuthGuard } from '../auth/auth.guard.js';
+import { MailService } from './mail.service.js';
 
 @Controller({
   path: 'mails',

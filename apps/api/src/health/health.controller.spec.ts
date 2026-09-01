@@ -1,10 +1,10 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { App } from 'supertest/types';
+import type { App } from 'supertest/types.js';
 
-import { initTestApp } from '../../test_utils/access-token';
-import { AppModule } from '../app.module';
+import { initTestApp } from '../../test_utils/access-token.js';
+import { AppModule } from '../app.module.js';
 
 describe('HealthController (functionnal)', () => {
   const URI = '/health';

@@ -2,8 +2,8 @@
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { of } from 'rxjs';
 
-import { HeadersService } from './headers.service';
-import { ResponseInterceptor } from './response.interceptor';
+import { HeadersService } from './headers.service.js';
+import { ResponseInterceptor } from './response.interceptor.js';
 
 describe('ResponseInterceptor', () => {
   let interceptor: ResponseInterceptor;

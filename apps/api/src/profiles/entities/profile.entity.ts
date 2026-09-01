@@ -1,10 +1,10 @@
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 
-import { Hobby } from './hobby.entity';
-import { Resume } from './resume.entity';
-import { Tech } from './tech.entity';
-import { User } from './user.entity';
+import { Hobby } from './hobby.entity.js';
+import { Resume } from './resume.entity.js';
+import { Tech } from './tech.entity.js';
+import { User } from './user.entity.js';
 
 export class Profile {
   @IsString()

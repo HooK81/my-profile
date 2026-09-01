@@ -7,7 +7,7 @@ import {
 import { Response } from 'express';
 import { Observable } from 'rxjs';
 
-import { HeadersService } from './headers.service';
+import { HeadersService } from './headers.service.js';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {

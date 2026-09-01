@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MailerService } from '@nestjs-modules/mailer';
 import { LoggerModule } from 'nestjs-pino';
 
-import { MailService } from './mail.service';
+import { MailService } from './mail.service.js';
 
 describe('MailService', () => {
   let service: MailService;

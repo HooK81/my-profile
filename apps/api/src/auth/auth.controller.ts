@@ -1,9 +1,9 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { AuthResponse } from 'my-profile-shared';
 
-import { AuthService } from './auth.service';
-import { COOKIE_NAME, COOKIE_OPTIONS, JWT_CONSTANTS } from './const';
+import { AuthService } from './auth.service.js';
+import { COOKIE_NAME, COOKIE_OPTIONS, JWT_CONSTANTS } from './const.js';
 
 @Controller({
   path: 'auth',

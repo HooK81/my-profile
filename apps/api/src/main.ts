@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
-import { AppModule } from './app.module';
-import { initCors } from './init/cors';
+import { AppModule } from './app.module.js';
+import { initCors } from './init/cors.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,4 +28,4 @@ async function bootstrap() {
   logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 
-void bootstrap();
+await bootstrap();

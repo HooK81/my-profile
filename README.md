@@ -6,7 +6,7 @@ Personal profile / digital CV web application. NX monorepo with two apps:
 
 ## Prerequisites
 
-- Node.js 22 (enforced via [Volta](https://volta.sh/))
+- Node.js 24 (enforced via [Volta](https://volta.sh/))
 
 ## Installation
 

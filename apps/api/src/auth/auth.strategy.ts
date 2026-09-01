@@ -4,9 +4,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { Strategy } from 'passport-jwt';
 
-import { AuthService } from './auth.service';
-import { COOKIE_NAME } from './const';
-import { JwtToken } from './types';
+import { AuthService } from './auth.service.js';
+import { COOKIE_NAME } from './const.js';
+import { JwtToken } from './types.js';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

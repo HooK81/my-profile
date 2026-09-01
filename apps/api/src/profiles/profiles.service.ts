@@ -13,7 +13,7 @@ import { Profile, profileSchema } from 'my-profile-shared';
 import { Logger } from 'nestjs-pino';
 import { resolve } from 'path';
 
-import { LocaleService } from '../locale/locale.service';
+import { LocaleService } from '../locale/locale.service.js';
 
 export const FILES_FOLDER = 'files/';
 

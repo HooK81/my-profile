@@ -1,1 +1,1 @@
-export * from './profile.fixtures';
+export * from './profile.fixtures.js';

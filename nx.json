@@ -11,8 +11,7 @@
       "default",
       "!{projectRoot}/**/*.spec.ts",
       "!{projectRoot}/test_utils/**",
-      "!{projectRoot}/vitest.config.ts",
-      "!{projectRoot}/coverage/**"
+      "!{projectRoot}/vitest.config.ts"
     ]
   },
   "targetDefaults": {
@@ -35,6 +34,9 @@
       ]
     },
     "test": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "default",
         "^production"
@@ -42,6 +44,9 @@
       "cache": true
     },
     "test:cov": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "default",
         "^production"
@@ -58,8 +63,12 @@
       "cache": true
     },
     "tsc": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
-        "default"
+        "default",
+        "^production"
       ],
       "cache": true
     }

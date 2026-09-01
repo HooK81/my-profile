@@ -14,14 +14,17 @@ const envSchema = z.object({
   USERS_FOLDER: z.string(),
   MAILER_TRANSPORT: z.string(),
   MAILER_SENDER: z.string(),
-  MAILER_TEAM_ADDRESS: z.string().email(),
+  MAILER_TEAM_ADDRESS: z.email(),
 });
 
 export default (config: Record<string, unknown>): Record<string, unknown> => {
   const result = envSchema.safeParse(config);
 
   if (!result.success) {
-    console.error('❌ Invalid environment variables:', result.error.format());
+    console.error(
+      '❌ Invalid environment variables:\n',
+      z.prettifyError(result.error),
+    );
     process.exit(1);
   }
 

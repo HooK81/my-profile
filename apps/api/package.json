@@ -49,7 +49,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "vcard-creator": "^1.0.0",
-    "zod": "^4.4.3"
+    "zod": "^4.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

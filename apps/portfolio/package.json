@@ -33,6 +33,7 @@
     "react-router-dom": "^7.18.2",
     "react-toastify": "^11.1.0",
     "typed.js": "^3.0.0",
+    "zod": "^4.5.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {

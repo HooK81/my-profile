@@ -65,5 +65,5 @@ npm run lint     # ESLint
 
 - Vite library mode with three entry points (index, fixtures/index, fixtures/profile.fixtures)
 - `vite-plugin-dts` generates `.d.ts` alongside `.mjs` / `.cjs` outputs
-- Zod 4 (package `zod@^4.3.6`)
+- Zod 4 (package `zod@^4.5.0`)
 - External deps (zod, @faker-js/faker, fishery) are not bundled

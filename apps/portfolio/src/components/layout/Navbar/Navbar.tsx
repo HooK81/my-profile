@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useProfile } from '../../../hooks/useProfile';
-import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
 import LocaleSwitcher from '../../ui/LocaleSwitcher/LocaleSwitcher';
+import Logo from '../../ui/Logo/Logo';
 import styles from './Navbar.module.scss';
 
 type NavItem =
@@ -19,7 +19,6 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { data: profile } = useProfile();
-  const logoUrl = useProfileFileUrl(profile?.user.logo);
 
   const isHome = location.pathname === '/';
 
@@ -67,7 +66,7 @@ function Navbar() {
           onClick={() => handleSectionClick('hero')}
           aria-label={t('navbar.home')}
         >
-          {logoUrl && <img src={logoUrl} alt={profile?.user.fullName} />}
+          <Logo name={profile?.user.fullName ?? ''} />
         </button>
 
         <button

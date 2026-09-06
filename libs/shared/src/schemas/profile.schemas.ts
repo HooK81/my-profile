@@ -67,7 +67,6 @@ export const userSchema = z.object({
   occupation: z.string(),
   description: z.string(),
   image: z.string(),
-  logo: z.string(),
   bio: z.string(),
   email: z.email(),
   address: addressSchema,

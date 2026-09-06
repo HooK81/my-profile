@@ -14,7 +14,7 @@ React SPA with client-side routing (`react-router-dom`). Two pages sharing a com
 - **`pages/`** — Page components: `Home/`, `AboutThisSite/`.
 - **`components/layout/`** — Layout shell (`Layout`), `Navbar`, `Footer`, `Section`, `ScrollToTop`.
 - **`components/sections/`** — Home page sections: Hero, About, Resume, Techs, Hobbies, Contact.
-- **`components/ui/`** — Reusable UI: AppLoader, AppError (boot failure screen; it receives `onRetry` as a prop — calling `useProfile` there would mount a second observer on the errored query and refetch-loop), Button (polymorphic with CSS vars), LocaleSwitcher, ScrollDown, SocialLinks, Spinner.
+- **`components/ui/`** — Reusable UI: AppLoader, AppError (boot failure screen; it receives `onRetry` as a prop — calling `useProfile` there would mount a second observer on the errored query and refetch-loop), Button (polymorphic with CSS vars), LocaleSwitcher, Logo (inline SVG circle with the initials of `user.fullName`, via `utils/initials`), ScrollDown, SocialLinks, Spinner.
 
 ### State Management
 
@@ -41,7 +41,7 @@ Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) 
 
 ### Build
 
-Vite config injects `VITE_APP_VERSION` from `package.json`. Code splitting via Rolldown `codeSplitting.groups` with a vendor chunk (node_modules, minSize 250kB). `my-profile-shared` included in `optimizeDeps`.
+Vite config injects `VITE_APP_VERSION` from `package.json`. Code splitting via Rolldown `codeSplitting.groups` with a vendor chunk (node_modules, minSize 250kB). `my-profile-shared` must **not** be listed in `optimizeDeps.include`: Vite's dep cache (`node_modules/.vite`) is keyed on the lockfile and config only, so a pre-bundled workspace lib is never refreshed when its `dist` is rebuilt. Left out, Vite serves `libs/shared/dist` directly and every `serve` (which runs `^build`) picks up the current contract.
 
 ## Directory Structure
 
@@ -53,13 +53,13 @@ src/
   components/
     layout/            # Layout, Navbar, Footer, Section, ScrollToTop
     sections/          # Hero, About, Resume, Techs, Hobbies, Contact
-    ui/                # AppLoader, AppError, Button, LocaleSwitcher, ScrollDown, SocialLinks, Spinner
+    ui/                # AppLoader, AppError, Button, LocaleSwitcher, Logo, ScrollDown, SocialLinks, Spinner
   hooks/               # useProfile, useAppReady, useMenuScrollSpy, useInView, useProfileFileUrl, useSendMail
   pages/               # Home, AboutThisSite
   query/               # TanStack Query client + key factories
   stores/              # app.store
   styles/              # Global SCSS (_variables, _mixins, _reset, _typography, global)
-  utils/               # i18n, date, phone, console-greeting
+  utils/               # i18n, date, phone, initials, console-greeting
   test-utils.tsx       # renderWithQueryClient / createQueryWrapper
 __mocks__/
   zustand.ts           # Auto-reset mock for Zustand stores

@@ -11,9 +11,6 @@ export default defineConfig({
   server: {
     port: 5174,
   },
-  optimizeDeps: {
-    include: ['my-profile-shared'],
-  },
   build: {
     rolldownOptions: {
       output: {

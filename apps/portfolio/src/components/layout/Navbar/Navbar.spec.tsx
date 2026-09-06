@@ -7,17 +7,13 @@ vi.mock('zustand');
 vi.mock('i18next');
 vi.mock('react-i18next');
 vi.mock('../../../utils/i18n');
-vi.mock('../../../hooks/useProfileFileUrl');
 vi.mock('../../ui/LocaleSwitcher/LocaleSwitcher', () => ({
   default: () => <div data-testid="locale-switcher" />,
 }));
 
-import { useProfileFileUrl } from '../../../hooks/useProfileFileUrl';
 import { useAppStore } from '../../../stores/app.store';
 import { renderWithQueryClient } from '../../../test-utils';
 import Navbar from './Navbar';
-
-const mockedUseProfileFileUrl = vi.mocked(useProfileFileUrl);
 
 function LocationDisplay() {
   const location = useLocation();
@@ -43,30 +39,21 @@ beforeAll(() => {
 afterEach(() => cleanup());
 
 describe('Navbar', () => {
-  beforeEach(() => {
-    mockedUseProfileFileUrl.mockReturnValue(null);
-  });
-
   it('should render a nav element', () => {
     renderNavbar();
 
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
-  it('should render the logo image when logoUrl is set', () => {
-    mockedUseProfileFileUrl.mockReturnValue('blob:logo-url');
+  it('should render the logo with the initials of the user full name', () => {
+    renderNavbar(
+      '/',
+      ProfileFactory.build({ user: { fullName: 'Julien Crochet' } }),
+    );
 
-    renderNavbar('/', ProfileFactory.build({ user: { logo: 'logo.png' } }));
-
-    expect(screen.getByRole('img')).toHaveAttribute('src', 'blob:logo-url');
-  });
-
-  it('should not render the logo image when logoUrl is null', () => {
-    mockedUseProfileFileUrl.mockReturnValue(null);
-
-    renderNavbar();
-
-    expect(screen.queryByRole('img')).toBeNull();
+    expect(
+      screen.getAllByRole('button', { name: 'navbar.home' })[0],
+    ).toHaveTextContent('JC');
   });
 
   it('should render all nav items', () => {

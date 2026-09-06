@@ -1,3 +1,30 @@
+# 6.0.0 (2026-09-06)
+
+### 🚀 Features
+
+- harmonize commands around nx run-many targets ([abc77f7](https://github.com/HooK81/my-profile/commit/abc77f7))
+- upgrade zod to 4.5 ([8a65a60](https://github.com/HooK81/my-profile/commit/8a65a60))
+- migrate to esm module ([6a3f790](https://github.com/HooK81/my-profile/commit/6a3f790))
+- auto generated logo ([4a30acf](https://github.com/HooK81/my-profile/commit/4a30acf))
+- **api:** upgrade nestjs to 12 ([6b6b890](https://github.com/HooK81/my-profile/commit/6b6b890))
+- **portfolio:** extract useSendMail with toasts in mutation callbacks ([af51e9b](https://github.com/HooK81/my-profile/commit/af51e9b))
+- ⚠️  **portfolio:** redesign with the glass & glow theme ([20ac108](https://github.com/HooK81/my-profile/commit/20ac108))
+
+### 🩹 Fixes
+
+- security fix ([550aff0](https://github.com/HooK81/my-profile/commit/550aff0))
+- fix nx depedencies ([07406de](https://github.com/HooK81/my-profile/commit/07406de))
+
+### ⚠️  Breaking Changes
+
+- **portfolio:** redesign with the glass & glow theme  ([20ac108](https://github.com/HooK81/my-profile/commit/20ac108))
+
+### ❤️ Thank You
+
+- Claude Fable 5
+- Claude Opus 5 (1M context)
+- Julien Crochet
+
 ## 5.4.0 (2026-07-25)
 
 ### 🚀 Features

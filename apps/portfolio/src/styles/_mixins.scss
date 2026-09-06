@@ -28,7 +28,6 @@
   background: var(--surface);
   border: 1px solid var(--border);
   backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
 }
 
 @mixin primary-gradient($angle: 135deg) {

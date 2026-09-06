@@ -1,3 +1,15 @@
+## 6.1.1 (2026-09-06)
+
+### 🩹 Fixes
+
+- **portfolio:** restore backdrop blur in production build ([6986abf](https://github.com/HooK81/my-profile/commit/6986abf))
+- **portfolio:** disable zod jit to stop csp eval violation ([f3c8a7b](https://github.com/HooK81/my-profile/commit/f3c8a7b))
+
+### ❤️ Thank You
+
+- Claude Fable 5.1
+- Julien Crochet
+
 ## 6.1.0 (2026-09-06)
 
 ### 🚀 Features

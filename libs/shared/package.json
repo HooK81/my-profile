@@ -1,6 +1,6 @@
 {
   "name": "my-profile-shared",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "Shared API contracts (Zod schemas, TypeScript types, OpenAPI spec)",
   "author": "Julien Crochet <julien@crochet.me>",
   "license": "MIT",

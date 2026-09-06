@@ -110,4 +110,8 @@
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include respond-below($breakpoint-md) {
+    justify-content: center;
+  }
 }

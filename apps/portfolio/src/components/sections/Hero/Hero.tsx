@@ -21,7 +21,7 @@ const buildParticlesOptions = (color: string): ISourceOptions => ({
   fullScreen: { enable: false },
   fpsLimit: 60,
   particles: {
-    number: { value: 80, density: { enable: true } },
+    number: { value: 80, limit: { value: 160 }, density: { enable: true } },
     paint: { color: { value: color } },
     shape: { type: 'circle' },
     opacity: { value: 0.5 },
@@ -41,6 +41,7 @@ const buildParticlesOptions = (color: string): ISourceOptions => ({
     },
   },
   interactivity: {
+    detectsOn: 'canvas',
     events: {
       onHover: { enable: true, mode: 'repulse' },
       onClick: { enable: true, mode: 'push' },

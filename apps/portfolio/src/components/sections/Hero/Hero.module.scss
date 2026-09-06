@@ -20,7 +20,7 @@
 }
 
 .glow1 {
-  @include glow-blob(55vw, var(--primary-glow), 120px);
+  @include glow-blob(55vw, var(--primary-glow));
   max-width: 45rem;
   max-height: 45rem;
   left: -12vw;
@@ -29,7 +29,7 @@
 }
 
 .glow2 {
-  @include glow-blob(45vw, var(--primary-soft-glow), 120px);
+  @include glow-blob(45vw, var(--primary-soft-glow));
   max-width: 37.5rem;
   max-height: 37.5rem;
   right: -10vw;

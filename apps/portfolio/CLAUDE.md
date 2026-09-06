@@ -172,6 +172,6 @@ Components reference them directly (`color: var(--muted)`). Shared keyframes (`f
 - **Radii**: `$radius-sm` 10px · `md` 16px · `lg` 18px · `xl` 22px · `2xl` 24px · `pill`
 - **Breakpoints**: `$breakpoint-sm: 460px`, `$breakpoint-md: 768px` (About/Contact one column, smaller hero name), `$breakpoint-lg: 900px` (burger menu), `$breakpoint-h-sm: 600px`
 - **Transitions**: fast (0.2s), normal (0.3s), slow (0.4s), `$ease-soft` for width/scale easing
-- **Mixins** (`_mixins.scss`): `respond-below()`, `respond-above()`, `respond-below-height()`, `container()`, `glass($blur)`, `primary-gradient()`, `icon-chip($size, $radius, $surface)`, `hover-lift` (lift + accent border + glow, used by Techs/Education/Hobbies), `glow-blob($size, $color, $blur)`
+- **Mixins** (`_mixins.scss`): `respond-below()`, `respond-above()`, `respond-below-height()`, `container()`, `glass($blur)`, `primary-gradient()`, `icon-chip($size, $radius, $surface)`, `hover-lift` (lift + accent border + glow, used by Techs/Education/Hobbies), `glow-blob($size, $color)` (a radial gradient, never `filter: blur` — an animated blur on a viewport-sized element freezes Safari)
 
 `Section` owns the section header (decorative `index` + `h2`, optional `description`) and stacks with `isolation: isolate`, so glow blobs sit at `z-index: -1` inside it without escaping behind the section background. Test-visible class names (`active`, `open`, `primary`/`secondary`, `btn`, `charCounterWarning`, `sm`/`md`/`lg`) are asserted by specs — rename with care.

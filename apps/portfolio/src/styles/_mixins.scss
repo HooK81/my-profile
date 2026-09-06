@@ -61,12 +61,11 @@
   }
 }
 
-@mixin glow-blob($size, $color, $blur: 140px) {
+@mixin glow-blob($size, $color) {
   position: absolute;
   width: $size;
   height: $size;
   border-radius: 50%;
-  background: $color;
-  filter: blur($blur);
+  background: radial-gradient(circle closest-side, $color, transparent);
   pointer-events: none;
 }

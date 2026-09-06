@@ -7,7 +7,7 @@
 }
 
 .glow {
-  @include glow-blob(43.75rem, var(--primary-glow), 150px);
+  @include glow-blob(43.75rem, var(--primary-glow));
   left: -15.625rem;
   bottom: -18.75rem;
   z-index: -1;

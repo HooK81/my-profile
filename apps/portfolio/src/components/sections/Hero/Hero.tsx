@@ -19,6 +19,7 @@ const PARTICLE_COLORS: Record<Theme, string> = {
 
 const buildParticlesOptions = (color: string): ISourceOptions => ({
   fullScreen: { enable: false },
+  fpsLimit: 60,
   particles: {
     number: { value: 80, density: { enable: true } },
     paint: { color: { value: color } },
@@ -95,6 +96,8 @@ function Hero() {
       loop: true,
       showCursor: false,
     });
+
+    console.log('typed');
 
     return () => typed.destroy();
   }, [profile, t]);

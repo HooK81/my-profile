@@ -1,3 +1,18 @@
+## 6.1.0 (2026-09-06)
+
+### 🚀 Features
+
+- **portfolio:** highlight contact message counter below min length ([0f37203](https://github.com/HooK81/my-profile/commit/0f37203))
+
+### 🩹 Fixes
+
+- **docker:** build portfolio with node 24 ([196786c](https://github.com/HooK81/my-profile/commit/196786c))
+
+### ❤️ Thank You
+
+- Claude Fable 5.1
+- Julien Crochet
+
 # 6.0.0 (2026-09-06)
 
 ### 🚀 Features

@@ -71,6 +71,7 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/) e
 - **ESLint 10** with `simple-import-sort` enforced (externals → internals → relative)
 - **Prettier**: 80 char line width, 2-space indent, single quotes, trailing commas
 - **TypeScript**: Strict mode, no implicit `any`
+- **Functions**: `function` declarations for anything named at module scope (components, hooks, exported and private helpers); arrow functions only for closures and callbacks inside them
 
 ## Docker Deployment (Production Only)
 

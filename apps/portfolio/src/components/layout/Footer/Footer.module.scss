@@ -2,21 +2,22 @@
 @use '../../../styles/mixins' as *;
 
 .footer {
-  background-color: $bg-secondary;
-  padding: 2.5rem 0;
-  text-align: center;
+  padding: 2rem $section-padding-x;
+  border-top: 1px solid var(--border);
+  background-color: var(--bg-elevated);
 }
 
 .container {
   @include container;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
 }
 
 .copyright {
-  color: $text-secondary;
-  font-size: 0.875rem;
-  font-weight: 300;
+  margin: 0;
+  font-size: $font-size-xs;
+  color: var(--muted);
 }

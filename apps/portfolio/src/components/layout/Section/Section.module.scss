@@ -2,13 +2,10 @@
 @use '../../../styles/mixins' as *;
 
 .section {
-  padding: $section-padding-y 0;
-  scroll-margin-top: $navbar-height - 4rem;
-
-  @include respond-below($breakpoint-md) {
-    scroll-margin-top: $navbar-height;
-    padding: $section-padding-y-mobile 0;
-  }
+  position: relative;
+  isolation: isolate;
+  padding: $section-padding-y $section-padding-x;
+  scroll-margin-top: $navbar-height + 0.75rem - $section-padding-y;
 }
 
 .container {
@@ -16,40 +13,45 @@
 }
 
 .primary {
-  background-color: $bg-primary;
-  color: $text-primary;
+  background-color: var(--bg);
 }
 
 .secondary {
-  background-color: $bg-secondary;
-  color: $text-primary;
+  background-color: var(--bg-elevated);
 }
 
-.darkest {
-  background-color: $bg-darkest;
-  color: $text-primary;
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.hasDescription {
+  margin-bottom: 1rem;
+}
+
+.index {
+  font-family: $font-heading;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
 }
 
 .title {
-  font-size: $font-size-xl;
-  text-align: center;
-  margin-bottom: 3rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border: 1px solid $text-tertiary;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: -0.3125rem;
-    right: -0.3125rem;
-    width: 0.625rem;
-    height: 0.625rem;
-    background-color: $text-secondary;
-  }
+.description {
+  margin: 0 0 3rem;
+  max-width: 40rem;
+  font-size: $font-size-lg;
+  color: var(--muted);
+  text-wrap: pretty;
 }

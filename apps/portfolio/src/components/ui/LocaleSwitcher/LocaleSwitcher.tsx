@@ -17,10 +17,11 @@ const LOCALES = SUPPORTED_LOCALES.map((code) => ({
 }));
 
 type Props = {
-  variant?: 'dropdown' | 'inline';
+  layout: 'dropdown' | 'inline';
+  onChange?: (locale: Locale) => void;
 };
 
-function LocaleSwitcher({ variant = 'dropdown' }: Props) {
+function LocaleSwitcher({ layout, onChange }: Props) {
   const { t } = useTranslation();
   const locale = useAppStore((s) => s.locale);
   const changeLocale = useAppStore((s) => s.changeLocale);
@@ -31,6 +32,7 @@ function LocaleSwitcher({ variant = 'dropdown' }: Props) {
     void i18n.changeLanguage(code);
     changeLocale(code);
     setOpen(false);
+    onChange?.(code);
   };
 
   useEffect(() => {
@@ -51,7 +53,7 @@ function LocaleSwitcher({ variant = 'dropdown' }: Props) {
 
   const active = LOCALES.find((l) => l.code === locale)!;
 
-  if (variant === 'inline') {
+  if (layout === 'inline') {
     return (
       <div className={styles.inline}>
         {LOCALES.map(({ code, flag }) => (
@@ -62,6 +64,7 @@ function LocaleSwitcher({ variant = 'dropdown' }: Props) {
             aria-label={t(`locale.${code}`)}
           >
             <span className={styles.flag}>{flag}</span>
+            <span className={styles.code}>{code}</span>
           </button>
         ))}
       </div>
@@ -77,6 +80,7 @@ function LocaleSwitcher({ variant = 'dropdown' }: Props) {
         aria-expanded={open}
       >
         <span className={styles.flag}>{active.flag}</span>
+        <span className={styles.code}>{active.code}</span>
         <span className={styles.caret}>▾</span>
       </button>
 
@@ -92,6 +96,7 @@ function LocaleSwitcher({ variant = 'dropdown' }: Props) {
                 aria-selected={locale === code}
               >
                 <span className={styles.flag}>{flag}</span>
+                <span className={styles.code}>{code}</span>
               </button>
             </li>
           ))}

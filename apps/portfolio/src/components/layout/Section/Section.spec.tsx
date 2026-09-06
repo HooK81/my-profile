@@ -6,20 +6,28 @@ afterEach(() => cleanup());
 
 describe('Section', () => {
   it('should render with the given id', () => {
-    render(<Section id="test-section">content</Section>);
+    render(
+      <Section id="test-section" variant="primary">
+        content
+      </Section>,
+    );
 
     expect(document.getElementById('test-section')).toBeInTheDocument();
   });
 
   it('should render children', () => {
-    render(<Section id="s">child content</Section>);
+    render(
+      <Section id="s" variant="primary">
+        child content
+      </Section>,
+    );
 
     expect(screen.getByText('child content')).toBeInTheDocument();
   });
 
   it('should render the title when provided', () => {
     render(
-      <Section id="s" title="My Title">
+      <Section id="s" variant="primary" title="My Title">
         content
       </Section>,
     );
@@ -29,14 +37,61 @@ describe('Section', () => {
     ).toBeInTheDocument();
   });
 
+  it('should render the decorative index next to the title', () => {
+    render(
+      <Section id="s" variant="primary" title="My Title" index="01">
+        content
+      </Section>,
+    );
+
+    const index = screen.getByText('01');
+    expect(index).toHaveAttribute('aria-hidden', 'true');
+    expect(index.parentElement).toContainElement(
+      screen.getByRole('heading', { level: 2, name: 'My Title' }),
+    );
+  });
+
+  it('should not render the index when title is omitted', () => {
+    render(
+      <Section id="s" variant="primary" index="01">
+        content
+      </Section>,
+    );
+
+    expect(screen.queryByText('01')).toBeNull();
+  });
+
+  it('should render the description below the title', () => {
+    render(
+      <Section
+        id="s"
+        variant="primary"
+        title="My Title"
+        description="Some description"
+      >
+        content
+      </Section>,
+    );
+
+    expect(screen.getByText('Some description')).toBeInTheDocument();
+  });
+
   it('should not render a heading when title is omitted', () => {
-    render(<Section id="s">content</Section>);
+    render(
+      <Section id="s" variant="primary">
+        content
+      </Section>,
+    );
 
     expect(screen.queryByRole('heading')).toBeNull();
   });
 
-  it('should use primary variant by default', () => {
-    const { container } = render(<Section id="s">content</Section>);
+  it('should apply primary variant class when specified', () => {
+    const { container } = render(
+      <Section id="s" variant="primary">
+        content
+      </Section>,
+    );
 
     expect(container.firstChild).toHaveClass('primary');
   });

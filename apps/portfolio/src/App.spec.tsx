@@ -47,12 +47,14 @@ vi.mock('./utils/i18n');
 import App from './App';
 import { useAppStore } from './stores/app.store';
 import { renderWithQueryClient } from './test-utils';
+import { getInitials } from './utils/initials';
 
 describe('App', () => {
   afterEach(() => {
     vi.clearAllMocks();
     cleanup();
     window.history.pushState({}, '', '/');
+    document.querySelector('link[rel="icon"]')?.remove();
   });
 
   describe('when i18n is not ready', () => {
@@ -112,6 +114,19 @@ describe('App', () => {
           `${profile.user.fullName} - ${profile.user.occupation}`,
         ),
       );
+    });
+
+    it('should set the favicon from the user initials', async () => {
+      renderWithQueryClient(<App />);
+
+      await waitFor(() => {
+        const link =
+          document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+        expect(link?.href).toContain('data:image/svg+xml');
+        expect(decodeURIComponent(link!.href)).toContain(
+          `>${getInitials(profile.user.fullName)}</text>`,
+        );
+      });
     });
 
     it('should render the home page once loaded', async () => {

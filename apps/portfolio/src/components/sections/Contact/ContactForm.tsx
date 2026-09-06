@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useSendMail } from '../../../hooks/useSendMail';
 import Button from '../../ui/Button/Button';
+import Icon from '../../ui/Icon/Icon';
 import styles from './Contact.module.scss';
 
 type FormState = {
@@ -17,26 +18,61 @@ type FormState = {
   message: string;
 };
 
+type SendStatus = 'idle' | 'success' | 'error';
+
 const initialState: FormState = {
   from: '',
   subject: '',
   message: '',
 };
 
-function SubmitButton() {
+type FormFooterProps = {
+  status: SendStatus;
+  messageLength: number;
+};
+
+function FormFooter({ status, messageLength }: FormFooterProps) {
   const { t } = useTranslation();
   const { pending } = useFormStatus();
 
+  const statusText = pending
+    ? t('contact.form.sending')
+    : status === 'success'
+      ? t('contact.form.sendSuccess')
+      : status === 'error'
+        ? `${t('contact.form.sendError')} ${t('error.tryAgainLater')}`
+        : null;
+
   return (
-    <Button type="submit" className={styles.submitBtn} disabled={pending}>
-      {pending ? t('contact.form.sending') : t('contact.form.sendButton')}
-    </Button>
+    <div className={styles.footerRow}>
+      {statusText ? (
+        <span className={styles.status} role="status">
+          {statusText}
+        </span>
+      ) : (
+        <span
+          className={`${styles.charCounter} ${messageLength >= MESSAGE_MAX_LENGTH * 0.9 ? styles.charCounterWarning : ''}`}
+        >
+          {messageLength > 0 && `${messageLength} / ${MESSAGE_MAX_LENGTH}`}
+        </span>
+      )}
+      <Button
+        type="submit"
+        variant="primary"
+        className={styles.submitBtn}
+        isLoading={pending}
+      >
+        {t('contact.form.sendButton')}
+        <Icon name="LuSend" />
+      </Button>
+    </div>
   );
 }
 
 function ContactForm() {
   const { t } = useTranslation();
   const [messageLength, setMessageLength] = useState(0);
+  const [status, setStatus] = useState<SendStatus>('idle');
 
   const { mutateAsync: sendMail } = useSendMail();
 
@@ -55,9 +91,12 @@ function ContactForm() {
         subject: subject || undefined,
       });
       setMessageLength(0);
+      setStatus('success');
 
       return initialState;
     } catch {
+      setStatus('error');
+
       return { from, subject, message };
     }
   };
@@ -91,22 +130,18 @@ function ContactForm() {
           name="message"
           placeholder={t('contact.form.messagePlaceholder')}
           defaultValue={state.message}
-          onChange={(e) => setMessageLength(e.target.value.length)}
+          onChange={(e) => {
+            setMessageLength(e.target.value.length);
+            setStatus('idle');
+          }}
           required
           minLength={MESSAGE_MIN_LENGTH}
           maxLength={MESSAGE_MAX_LENGTH}
           rows={6}
           className={styles.textarea}
         />
-        {messageLength > 0 && (
-          <span
-            className={`${styles.charCounter} ${messageLength >= MESSAGE_MAX_LENGTH * 0.9 ? styles.charCounterWarning : ''}`}
-          >
-            {messageLength} / {MESSAGE_MAX_LENGTH}
-          </span>
-        )}
       </div>
-      <SubmitButton />
+      <FormFooter status={status} messageLength={messageLength} />
     </form>
   );
 }

@@ -31,11 +31,21 @@ function Contact() {
   const addressLines = formatAddressLines(user.address);
 
   return (
-    <Section id="contact" variant="primary" title={t('contact.title')}>
+    <Section
+      id="contact"
+      variant="primary"
+      index="05"
+      title={t('contact.title')}
+      className={styles.contact}
+    >
+      <div className={styles.glow} aria-hidden="true" />
+
       <div className={styles.grid}>
         <div className={styles.info}>
           <div className={styles.infoItem}>
-            <Icon name="LuMapPin" />
+            <span className={styles.chip}>
+              <Icon name="LuMapPin" />
+            </span>
             <div>
               <h4>{t('contact.location')}</h4>
               <p>
@@ -51,7 +61,9 @@ function Contact() {
 
           {user.phone && (
             <div className={styles.infoItem}>
-              <Icon name="LuSmartphone" />
+              <span className={styles.chip}>
+                <Icon name="LuSmartphone" />
+              </span>
               <div>
                 <h4>{t('contact.phone')}</h4>
                 <p>
@@ -62,7 +74,9 @@ function Contact() {
           )}
 
           <div className={styles.infoItem}>
-            <Icon name="LuMail" />
+            <span className={styles.chip}>
+              <Icon name="LuMail" />
+            </span>
             <div>
               <h4>{t('contact.email')}</h4>
               <p>

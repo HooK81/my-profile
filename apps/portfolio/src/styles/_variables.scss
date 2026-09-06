@@ -1,32 +1,30 @@
-// Colors — Backgrounds
-$bg-primary: #434c5e;
-$bg-secondary: #4c566a;
-$bg-darkest: #2e3440;
-
-// Colors — Text
-$text-primary: #d8dee9;
-$text-secondary: #8fbcbb;
-$text-tertiary: #88c0d0;
-
 // Typography
-$font-primary: 'Open Sans', sans-serif;
-$font-heading: 'Poppins', sans-serif;
+$font-primary: 'Instrument Sans', system-ui, sans-serif;
+$font-heading: 'Sora', sans-serif;
 
 $font-size-base: 1rem;
-$font-size-sm: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 2rem;
-$font-size-xxl: 2.375rem;
-$font-size-hero: 4rem;
+$font-size-xxs: 0.75rem;
+$font-size-xs: 0.8125rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 0.9375rem;
+$font-size-lg: 1.0625rem;
 
-$line-height-base: 1.8;
+$line-height-base: 1.6;
 $line-height-heading: 1.2;
 
 // Spacing
-$section-padding-y: 5rem;
-$section-padding-y-mobile: 3rem;
-$container-max-width: 63.75rem;
-$container-padding-x: 1.25rem;
+$section-padding-y: 6.875rem;
+$section-padding-x: 1.5rem;
+$container-max-width: 70rem;
+$navbar-max-width: 72.5rem;
+
+// Radii
+$radius-sm: 0.625rem;
+$radius-md: 1rem;
+$radius-lg: 1.125rem;
+$radius-xl: 1.375rem;
+$radius-2xl: 1.5rem;
+$radius-pill: 999px;
 
 // Breakpoints — width
 $breakpoint-sm: 460px;
@@ -37,15 +35,16 @@ $breakpoint-lg: 900px;
 $breakpoint-h-sm: 600px;
 
 // Transitions
-$transition-fast: 0.2s ease-in-out;
-$transition-normal: 0.3s ease-in-out;
-$transition-slow: 0.5s ease-in-out;
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.4s ease;
+$ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-// Skill bars
-$bar-bg: #3b4252;
-$bar-fill: $text-secondary;
-$bar-height: 0.375rem;
-$bar-border-radius: 0;
+// Glass & glow
+$blur-card: 14px;
+$blur-panel: 16px;
+$blur-nav: 18px;
+$shadow-lift: 0 20px 50px var(--primary-glow);
 
 // Navbar
-$navbar-height: 5rem;
+$navbar-height: 5.5rem;

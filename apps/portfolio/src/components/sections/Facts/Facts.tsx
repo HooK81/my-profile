@@ -24,7 +24,7 @@ function Facts() {
   const { facts } = profile.user;
 
   return (
-    <Section id="facts" variant="darkest" className={styles.bg}>
+    <Section id="facts" variant="primary" className={styles.facts}>
       <div className={styles.grid}>
         {FACTS.map(({ key, icon }) => (
           <FactItem

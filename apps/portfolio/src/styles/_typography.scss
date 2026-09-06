@@ -14,35 +14,17 @@ h4,
 h5,
 h6 {
   font-family: $font-heading;
-  font-weight: 500;
-  line-height: $line-height-heading;
-  color: $text-primary;
-}
-
-h1 {
-  font-size: $font-size-hero;
   font-weight: 600;
-}
-
-h2 {
-  font-size: $font-size-xxl;
-}
-
-h3 {
-  font-size: $font-size-xl;
-}
-
-p {
-  margin-bottom: 1em;
-  color: $text-secondary;
+  line-height: $line-height-heading;
+  color: var(--text);
 }
 
 a {
-  color: $text-secondary;
+  color: var(--primary);
   transition: color $transition-fast;
 
   &:hover {
-    color: $text-primary;
+    color: var(--text);
     text-decoration: none;
   }
 }

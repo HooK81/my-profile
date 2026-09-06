@@ -20,7 +20,7 @@ function AppError({ onRetry }: AppErrorProps) {
 
       <div className={styles.actions}>
         <p className={styles.message}>{t('error.tryAgainLater')}</p>
-        <Button variant="filled" onClick={onRetry}>
+        <Button variant="primary" onClick={onRetry}>
           {t('error.retry')}
         </Button>
       </div>

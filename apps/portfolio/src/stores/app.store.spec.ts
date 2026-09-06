@@ -27,6 +27,7 @@ describe('useAppStore', () => {
     vi.resetModules();
     vi.clearAllMocks();
     i18nMock.isInitialized = false;
+    window.localStorage.clear();
   });
 
   describe('initial state', () => {
@@ -36,6 +37,7 @@ describe('useAppStore', () => {
       expect(state.i18nReady).toBe(false);
       expect(state.locale).toBe('en');
       expect(state.activeSection).toBe('hero');
+      expect(state.theme).toBe('dark');
     });
 
     it('should register i18n initialized listener when not yet initialized', () => {
@@ -65,6 +67,23 @@ describe('useAppStore', () => {
       useAppStore.getState().setActiveSection('about');
 
       expect(useAppStore.getState().activeSection).toBe('about');
+    });
+  });
+
+  describe('toggleTheme()', () => {
+    it('should switch from dark to light and persist the choice', () => {
+      useAppStore.getState().toggleTheme();
+
+      expect(useAppStore.getState().theme).toBe('light');
+      expect(window.localStorage.getItem('portfolio-theme')).toBe('light');
+    });
+
+    it('should switch back to dark on a second toggle', () => {
+      useAppStore.getState().toggleTheme();
+      useAppStore.getState().toggleTheme();
+
+      expect(useAppStore.getState().theme).toBe('dark');
+      expect(window.localStorage.getItem('portfolio-theme')).toBe('dark');
     });
   });
 

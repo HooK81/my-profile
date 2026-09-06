@@ -3,75 +3,45 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-
-  @include respond-below($breakpoint-lg) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include respond-below($breakpoint-sm) {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr));
+  gap: 1rem;
 }
 
 .card {
-  background-color: $bg-primary;
-  border: 1px solid $text-secondary;
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-  cursor: pointer;
-  transition: transform $transition-fast;
-
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  &:hover .imageWrapper {
-    transform: scale(1.2);
-  }
+  @include glass($blur-card);
+  @include hover-lift;
+  padding: 1.625rem;
+  border-radius: $radius-xl;
 }
 
 .imageWrapper {
-  width: 4rem;
-  height: 4rem;
-  margin: 0 auto 1rem;
-  transition: all 0.3s ease-in-out;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.125rem;
+  border-radius: $radius-md;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 2rem;
+    height: 2rem;
     object-fit: contain;
   }
 }
 
-.placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  color: $text-secondary;
-}
-
 .name {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: $text-primary;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .desc {
+  margin: 0;
   font-size: $font-size-sm;
-  color: $text-secondary;
-  line-height: 1.6;
-  font-weight: 300;
-}
-
-.subtitle {
-  color: $text-tertiary;
-  font-size: $font-size-lg;
-  margin-bottom: 2rem;
-  text-align: center;
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
 }

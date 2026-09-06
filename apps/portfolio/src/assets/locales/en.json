@@ -10,7 +10,8 @@
     "techs": "Techs",
     "aboutThisSite": "This site",
     "contact": "Contact",
-    "toggleMenu": "Toggle menu"
+    "toggleMenu": "Toggle menu",
+    "toggleTheme": "Toggle theme"
   },
   "hero": {
     "iAmA": "I'm a",
@@ -22,7 +23,8 @@
     "location": "Location",
     "email": "Email",
     "phone": "Phone",
-    "downloadResume": "Download Resume"
+    "downloadResume": "Download Resume",
+    "downloadVcard": "Save contact"
   },
   "facts": {
     "linesOfCode": "Lines of code",

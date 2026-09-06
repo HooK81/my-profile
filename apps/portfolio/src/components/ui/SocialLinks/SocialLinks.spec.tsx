@@ -19,7 +19,7 @@ const networks: Network[] = [
 
 describe('SocialLinks', () => {
   it('should render a link for each network', () => {
-    render(<SocialLinks networks={networks} />);
+    render(<SocialLinks networks={networks} size="md" />);
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(3);
@@ -31,7 +31,7 @@ describe('SocialLinks', () => {
   });
 
   it('should open links in a new tab with secure rel attribute', () => {
-    render(<SocialLinks networks={networks} />);
+    render(<SocialLinks networks={networks} size="md" />);
 
     for (const link of screen.getAllByRole('link')) {
       expect(link).toHaveAttribute('target', '_blank');
@@ -40,7 +40,7 @@ describe('SocialLinks', () => {
   });
 
   it('should render an svg icon for each network', () => {
-    render(<SocialLinks networks={networks} />);
+    render(<SocialLinks networks={networks} size="md" />);
 
     for (const network of networks) {
       const link = screen.getByTitle(network.name);
@@ -48,8 +48,8 @@ describe('SocialLinks', () => {
     }
   });
 
-  it('should apply the default md size class', () => {
-    render(<SocialLinks networks={networks} />);
+  it('should apply the md size class', () => {
+    render(<SocialLinks networks={networks} size="md" />);
 
     const list = screen.getByRole('list');
     expect(list).toHaveClass('md');
@@ -63,7 +63,7 @@ describe('SocialLinks', () => {
   });
 
   it('should render an empty list when no networks are provided', () => {
-    render(<SocialLinks networks={[]} />);
+    render(<SocialLinks networks={[]} size="md" />);
 
     expect(screen.getByRole('list')).toBeInTheDocument();
     expect(screen.queryAllByRole('link')).toHaveLength(0);

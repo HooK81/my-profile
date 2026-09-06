@@ -8,7 +8,18 @@ vi.mock('i18next');
 vi.mock('react-i18next');
 vi.mock('../../../utils/i18n');
 vi.mock('../../ui/LocaleSwitcher/LocaleSwitcher', () => ({
-  default: () => <div data-testid="locale-switcher" />,
+  default: ({
+    layout,
+    onChange,
+  }: {
+    layout: string;
+    onChange?: (locale: string) => void;
+  }) => (
+    <button
+      data-testid={`locale-switcher-${layout}`}
+      onClick={() => onChange?.('fr')}
+    />
+  ),
 }));
 
 import { useAppStore } from '../../../stores/app.store';
@@ -96,6 +107,41 @@ describe('Navbar', () => {
     expect(hamburger).not.toHaveClass('open');
 
     document.body.removeChild(el);
+  });
+
+  it('should close the menu when a locale is picked from the panel', () => {
+    renderNavbar();
+
+    const hamburger = screen.getByRole('button', { name: 'navbar.toggleMenu' });
+    fireEvent.click(hamburger);
+    expect(hamburger).toHaveClass('open');
+
+    fireEvent.click(screen.getByTestId('locale-switcher-inline'));
+
+    expect(hamburger).not.toHaveClass('open');
+  });
+
+  it('should close the menu on a click outside the navbar', () => {
+    renderNavbar();
+
+    const hamburger = screen.getByRole('button', { name: 'navbar.toggleMenu' });
+    fireEvent.click(hamburger);
+    expect(hamburger).toHaveClass('open');
+
+    fireEvent.mouseDown(document.body);
+
+    expect(hamburger).not.toHaveClass('open');
+  });
+
+  it('should keep the menu open on a click inside the navbar', () => {
+    renderNavbar();
+
+    const hamburger = screen.getByRole('button', { name: 'navbar.toggleMenu' });
+    fireEvent.click(hamburger);
+
+    fireEvent.mouseDown(screen.getByText('navbar.techs'));
+
+    expect(hamburger).toHaveClass('open');
   });
 
   it('should scroll to hero when the logo is clicked on the home page', () => {

@@ -2,114 +2,130 @@
 @use '../../../styles/mixins' as *;
 
 .hero {
-  height: 100vh;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  background-color: $bg-primary;
-  position: relative;
-  padding: 0 $container-padding-x;
-  box-shadow: inset 0 -10px 10px 0 rgba(59, 66, 82, 0.8);
   overflow: hidden;
+  background-color: var(--bg);
+}
+
+.glows {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow1 {
+  @include glow-blob(55vw, var(--primary-glow), 120px);
+  max-width: 45rem;
+  max-height: 45rem;
+  left: -12vw;
+  top: -10vw;
+  animation: drift 18s ease-in-out infinite;
+}
+
+.glow2 {
+  @include glow-blob(45vw, var(--primary-soft-glow), 120px);
+  max-width: 37.5rem;
+  max-height: 37.5rem;
+  right: -10vw;
+  bottom: -8vw;
+  animation: drift 22s ease-in-out infinite reverse;
 }
 
 .particles {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
   position: relative;
-  z-index: 10;
-  margin: auto;
-
-  @include respond-below($breakpoint-md) {
-    gap: 2rem;
-    transform: translateY(-2rem); // Shift content up to balance space with scroll indicator
-  }
+  z-index: 2;
+  max-width: 60rem;
+  padding: 7.5rem $section-padding-x 6.25rem;
+  text-align: center;
+  pointer-events: none;
 }
 
 .welcome {
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: $text-secondary;
-  margin: 0;
+  margin: 0 0 1.25rem;
+  font-size: clamp(0.9375rem, 1.6vw, 1.1875rem);
+  font-weight: 500;
+  color: var(--muted);
 
   @include respond-below($breakpoint-md) {
-    min-height: 4.5rem; // Reserve 2 lines to prevent layout shift during typing
+    min-height: 3.75rem;
   }
+}
+
+.typedText {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--primary);
+  animation: blink 1s step-end infinite;
 }
 
 .name {
-  display: inline-block;
-  font-size: $font-size-hero;
-  font-weight: 600;
-  color: $text-primary;
   margin: 0;
-  padding: 1rem;
-  text-transform: uppercase;
-  border: 1px solid $text-primary;
-  position: relative;
+  font-size: clamp(3rem, 8.5vw, 7rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, var(--text) 30%, var(--muted));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 
   @include respond-below($breakpoint-md) {
-    font-size: 2.5rem;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: -0.3125rem;
-    right: -0.3125rem;
-    width: 0.625rem;
-    height: 0.625rem;
-    background-color: $text-secondary;
+    font-size: clamp(2.75rem, 12vw, 4.5rem);
   }
 }
 
-// Staggered fade-up entrance animations (Hero only)
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
+.description {
+  @include glass;
+  display: inline-block;
+  margin: 2.25rem auto 0;
+  padding: 1.125rem 1.75rem;
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--muted);
+  pointer-events: auto;
+
+  p {
+    margin: 0;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
   }
 }
 
 .fadeUp1 {
-  animation: fadeUp 1.2s ease-out 0.15s both;
+  animation: fadeUp 0.8s ease both;
 }
 
 .fadeUp2 {
-  animation: fadeUp 1.2s ease-out 0.3s both;
-}
-
-.description {
-  font-size: 1.25rem;
-
-  p {
-    color: $text-primary;
-    margin: 0;
-
-    strong {
-      color: $text-secondary;
-      font-weight: normal
-    }
-  }
+  animation: fadeUp 0.9s ease 0.15s both;
 }
 
 .fadeUp3 {
-  animation: fadeUp 1.2s ease-out 0.45s both;
+  animation: fadeUp 1s ease 0.3s both;
 }
-

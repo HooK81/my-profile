@@ -18,23 +18,39 @@ function Resume() {
   const { resume } = profile;
 
   return (
-    <Section id="resume" variant="secondary" title={t('resume.title')}>
-      <div className={styles.experience}>
+    <Section
+      id="resume"
+      variant="secondary"
+      index="02"
+      title={t('resume.title')}
+      className={styles.resume}
+    >
+      <div className={styles.glow} aria-hidden="true" />
+
+      <div className={styles.block}>
         <h3 className={styles.columnTitle}>
-          <Icon name="LuRocket" /> {t('resume.experience')}
+          <span className={styles.chip}>
+            <Icon name="LuRocket" />
+          </span>
+          {t('resume.experience')}
         </h3>
-        {resume.works.map((work) => (
-          <WorkItem
-            key={`${work.title}-${work.company}-${work.date.start}`}
-            work={work}
-          />
-        ))}
+        <div className={styles.timeline}>
+          {resume.works.map((work) => (
+            <WorkItem
+              key={`${work.title}-${work.company}-${work.date.start}`}
+              work={work}
+            />
+          ))}
+        </div>
       </div>
 
       {resume.educations.length > 0 && (
-        <div className={styles.education}>
+        <div className={styles.block}>
           <h3 className={styles.columnTitle}>
-            <Icon name="LuGraduationCap" /> {t('resume.education')}
+            <span className={styles.chip}>
+              <Icon name="LuGraduationCap" />
+            </span>
+            {t('resume.education')}
           </h3>
           <div className={styles.educationGrid}>
             {resume.educations.map((edu) => (
@@ -48,8 +64,11 @@ function Resume() {
       )}
 
       <div className={styles.skills}>
-        <h3 className={styles.columnTitle}>
-          <Icon name="LuCode" /> {t('skills.title')}
+        <h3 className={`${styles.columnTitle} ${styles.skillsTitle}`}>
+          <span className={styles.chip}>
+            <Icon name="LuCode" />
+          </span>
+          {t('skills.title')}
         </h3>
         <p className={styles.subtitle}>{t('skills.desc')}</p>
         <div className={styles.skillsGrid}>

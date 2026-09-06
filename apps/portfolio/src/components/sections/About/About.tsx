@@ -42,19 +42,24 @@ function About() {
   };
 
   return (
-    <Section id="about" variant="primary" title={t('about.title')}>
+    <Section id="about" variant="secondary" index="01" title={t('about.title')}>
       <div className={styles.grid}>
         <div className={styles.imageCol}>
-          {profileImageUrl && (
-            <img
-              src={profileImageUrl}
-              alt={user.fullName}
-              className={styles.photo}
-            />
-          )}
-          {user.networks.length > 0 && (
-            <SocialLinks networks={user.networks} size="sm" />
-          )}
+          <div className={styles.glowBackdrop} aria-hidden="true" />
+          <div className={styles.photoCard}>
+            {profileImageUrl && (
+              <img
+                src={profileImageUrl}
+                alt={user.fullName}
+                className={styles.photo}
+              />
+            )}
+            {user.networks.length > 0 && (
+              <div className={styles.socials}>
+                <SocialLinks networks={user.networks} size="md" />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles.infoCol}>
@@ -62,42 +67,45 @@ function About() {
 
           <div className={styles.details}>
             <div className={styles.detailItem}>
-              <strong>{t('about.name')}:</strong>
-              <span>
-                <button
-                  type="button"
-                  className={styles.linkButton}
-                  onClick={() => void handleDownloadVcard()}
-                >
-                  {user.fullName}
-                </button>
-              </span>
+              <span className={styles.detailLabel}>{t('about.name')}</span>
+              <span className={styles.detailValue}>{user.fullName}</span>
             </div>
             {user.address?.city && (
               <div className={styles.detailItem}>
-                <strong>{t('about.location')}:</strong>
-                <span>{user.address.city}</span>
+                <span className={styles.detailLabel}>
+                  {t('about.location')}
+                </span>
+                <span className={styles.detailValue}>{user.address.city}</span>
               </div>
             )}
             <div className={styles.detailItem}>
-              <strong>{t('about.email')}:</strong>
-              <span>
-                <a href={`mailto:${user.email}`}>{user.email}</a>
-              </span>
+              <span className={styles.detailLabel}>{t('about.email')}</span>
+              <a className={styles.detailValue} href={`mailto:${user.email}`}>
+                {user.email}
+              </a>
             </div>
             {user.phone && (
               <div className={styles.detailItem}>
-                <strong>{t('about.phone')}:</strong>
-                <span>
-                  <a href={`tel:${user.phone}`}>{formatPhone(user.phone)}</a>
-                </span>
+                <span className={styles.detailLabel}>{t('about.phone')}</span>
+                <a className={styles.detailValue} href={`tel:${user.phone}`}>
+                  {formatPhone(user.phone)}
+                </a>
               </div>
             )}
           </div>
 
           <div className={styles.actions}>
-            <Button onClick={() => void handleDownloadResume()}>
+            <Button
+              variant="primary"
+              onClick={() => void handleDownloadResume()}
+            >
               <Icon name="LuDownload" /> {t('about.downloadResume')}
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => void handleDownloadVcard()}
+            >
+              <Icon name="LuContact" /> {t('about.downloadVcard')}
             </Button>
           </div>
         </div>

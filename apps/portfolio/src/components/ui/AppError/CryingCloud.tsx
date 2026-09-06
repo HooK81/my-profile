@@ -27,7 +27,7 @@ function CryingCloud({ className }: CryingCloudProps) {
       </g>
 
       <g
-        stroke="#2e3440"
+        stroke="var(--bg)"
         strokeWidth="5"
         strokeLinecap="round"
         fill="none"
@@ -38,7 +38,7 @@ function CryingCloud({ className }: CryingCloudProps) {
         <path d="M98 108c6-7 14-7 20 0" />
       </g>
 
-      <g fill="#88c0d0">
+      <g fill="var(--primary-soft)">
         <path
           className={styles.tear1}
           d="M74 126c0 0 8 11 8 16a8 8 0 0 1-16 0c0-5 8-16 8-16z"

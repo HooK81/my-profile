@@ -5,7 +5,9 @@ import styles from './Section.module.scss';
 type SectionProps = {
   id: string;
   title?: string;
-  variant?: 'primary' | 'secondary' | 'darkest';
+  index?: string;
+  description?: string;
+  variant: 'primary' | 'secondary';
   className?: string;
   children: ReactNode;
 };
@@ -13,18 +15,33 @@ type SectionProps = {
 function Section({
   id,
   title,
-  variant = 'primary',
+  index,
+  description,
+  variant,
   className,
   children,
 }: SectionProps) {
   const classes = [styles.section, styles[variant], className]
     .filter(Boolean)
     .join(' ');
+  const headerClasses = [styles.header, description && styles.hasDescription]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <section id={id} className={classes}>
       <div className={styles.container}>
-        {title && <h2 className={styles.title}>{title}</h2>}
+        {title && (
+          <div className={headerClasses}>
+            {index && (
+              <span className={styles.index} aria-hidden="true">
+                {index}
+              </span>
+            )}
+            <h2 className={styles.title}>{title}</h2>
+          </div>
+        )}
+        {description && <p className={styles.description}>{description}</p>}
         {children}
       </div>
     </section>

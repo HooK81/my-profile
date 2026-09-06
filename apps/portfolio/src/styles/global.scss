@@ -2,17 +2,118 @@
 @use 'typography';
 @use 'variables' as *;
 
-:root {
-  --color-darkest: #{$bg-darkest};
-  --color-light: #{$text-primary};
-  --color-teal: #{$text-secondary};
+@mixin dark-tokens {
+  --bg: #0a0d13;
+  --bg-elevated: #0f131b;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.09);
+  --text: #e8ecf4;
+  --muted: #98a3b8;
+  --primary: #fb8a70;
+  --primary-soft: #f5d06a;
+  --primary-glow: rgba(251, 159, 138, 0.35);
+  --primary-soft-glow: rgba(246, 199, 107, 0.3);
+  --nav: rgba(10, 13, 19, 0.55);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --on-primary: #071018;
+  --particle: 255, 255, 255;
+}
+
+@mixin light-tokens {
+  --bg: #f2f4f9;
+  --bg-elevated: #ffffff;
+  --surface: rgba(255, 255, 255, 0.7);
+  --surface-strong: rgba(255, 255, 255, 0.95);
+  --border: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --muted: #56627a;
+  --primary: #c2410c;
+  --primary-soft: #d99a1a;
+  --primary-glow: rgba(194, 65, 12, 0.2);
+  --primary-soft-glow: rgba(180, 83, 9, 0.18);
+  --nav: rgba(242, 244, 249, 0.6);
+  --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+  --on-primary: #ffffff;
+  --particle: 15, 23, 42;
+}
+
+:root,
+:root[data-theme='dark'] {
+  @include dark-tokens;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  @include light-tokens;
+  color-scheme: light;
+}
+
+html {
+  background-color: var(--bg);
+  transition:
+    background-color $transition-slow,
+    color $transition-slow;
 }
 
 body {
-  background-color: $bg-primary;
-  color: $text-primary;
+  background-color: var(--bg);
+  color: var(--text);
+  transition:
+    background-color $transition-slow,
+    color $transition-slow;
 }
 
 #root {
   min-height: 100vh;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes bounceDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(40px, -30px) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

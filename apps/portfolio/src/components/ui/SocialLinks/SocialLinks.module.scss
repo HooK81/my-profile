@@ -2,45 +2,55 @@
 
 .links {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.625rem;
   justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
 
   a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    font-size: 1rem;
-    border: 1px solid $text-tertiary;
-    border-radius: 50%;
-    color: $text-primary;
-    transition: all $transition-fast;
+    font-size: 1.125rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text);
+    transition:
+      color $transition-fast,
+      box-shadow $transition-fast;
 
     &:hover {
-      background: $text-primary;
-      color: $bg-primary;
+      color: var(--primary);
+      box-shadow: 0 0 16px var(--primary-glow);
     }
   }
 }
 
-.sm a {
-  width: 2rem;
-  height: 2rem;
-  font-size: 1.125rem;
+.sm {
+  gap: 0.5rem;
+
+  a {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.9375rem;
+    border-radius: $radius-sm;
+    background: var(--surface);
+    color: var(--muted);
+  }
 }
 
 .md a {
   width: 2.5rem;
   height: 2.5rem;
-  font-size: 1.375rem;
+  font-size: 1.125rem;
 }
 
 .lg a {
   width: 3rem;
   height: 3rem;
-  font-size: 1.625rem;
+  font-size: 1.375rem;
+  border-radius: 0.875rem;
 }

@@ -1,31 +1,76 @@
 @use '../../../styles/variables' as *;
 
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.5625rem;
-  font-size: $font-size-sm;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: $font-size-md;
   font-family: $font-primary;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-weight: 600;
+  line-height: 1;
   text-decoration: none;
   border: 1px solid var(--btn-border);
-  border-radius: 0;
-  background-color: var(--btn-bg);
+  border-radius: $radius-pill;
+  background: var(--btn-bg);
   color: var(--btn-text);
   cursor: pointer;
-  transition: all $transition-slow;
+  transition:
+    transform $transition-fast,
+    box-shadow $transition-fast,
+    background $transition-fast,
+    color $transition-fast;
+
+  svg {
+    font-size: 1.125rem;
+  }
+
+  &[data-loading] {
+    pointer-events: none;
+    cursor: progress;
+
+    .content {
+      opacity: 0;
+    }
+  }
+
+  &[data-variant='primary'] {
+    box-shadow: 0 10px 30px var(--primary-glow);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 14px 40px var(--primary-glow);
+    }
+  }
 
   &:hover:not(:disabled) {
-    background-color: var(--btn-hover-bg);
-    border-color: var(--btn-hover-bg);
+    transform: translateY(-2px);
+    background: var(--btn-hover-bg);
     color: var(--btn-hover-text);
   }
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  transition: opacity $transition-fast;
+}
+
+.loader {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

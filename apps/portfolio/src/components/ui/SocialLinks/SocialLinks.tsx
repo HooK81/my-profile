@@ -5,10 +5,10 @@ import styles from './SocialLinks.module.scss';
 
 type SocialLinksProps = {
   networks: Network[];
-  size?: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md' | 'lg';
 };
 
-function SocialLinks({ networks, size = 'md' }: SocialLinksProps) {
+function SocialLinks({ networks, size }: SocialLinksProps) {
   return (
     <ul className={`${styles.links} ${styles[size]}`}>
       {networks.map((network) => (

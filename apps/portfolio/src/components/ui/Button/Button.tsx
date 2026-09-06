@@ -1,8 +1,9 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 
+import Icon from '../Icon/Icon';
 import styles from './Button.module.scss';
 
-type ButtonVariant = 'filled' | 'outlined';
+type ButtonVariant = 'primary' | 'secondary';
 
 type ButtonColors = {
   bg: string;
@@ -12,29 +13,35 @@ type ButtonColors = {
   hoverText: string;
 };
 
+const ACCENT_GRADIENT =
+  'linear-gradient(135deg, var(--primary), var(--primary-soft))';
+
 const defaultColors: Record<ButtonVariant, ButtonColors> = {
-  outlined: {
-    bg: 'transparent',
-    border: 'var(--color-teal)',
-    text: 'var(--color-teal)',
-    hoverBg: 'var(--color-teal)',
-    hoverText: 'var(--color-darkest)',
+  primary: {
+    bg: ACCENT_GRADIENT,
+    border: 'transparent',
+    text: 'var(--on-primary)',
+    hoverBg: ACCENT_GRADIENT,
+    hoverText: 'var(--on-primary)',
   },
-  filled: {
-    bg: 'var(--color-teal)',
-    border: 'var(--color-teal)',
-    text: 'var(--color-darkest)',
-    hoverBg: 'var(--color-light)',
-    hoverText: 'var(--color-darkest)',
+  secondary: {
+    bg: 'var(--surface)',
+    border: 'var(--border)',
+    text: 'var(--text)',
+    hoverBg: 'var(--surface-strong)',
+    hoverText: 'var(--primary)',
   },
 };
 
 type BaseProps = {
-  variant?: ButtonVariant;
+  variant: ButtonVariant;
   colors?: ButtonColors;
   className?: string;
+  isLoading?: boolean;
   children: React.ReactNode;
 };
+
+const preventClick = (event: React.SyntheticEvent) => event.preventDefault();
 
 type AnchorProps = BaseProps & { href: string } & Omit<
     AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -49,9 +56,11 @@ type NativeButtonProps = BaseProps & { href?: never } & Omit<
 type ButtonProps = AnchorProps | NativeButtonProps;
 
 function Button({
-  variant = 'outlined',
+  variant,
   colors,
   className,
+  isLoading = false,
+  children,
   ...rest
 }: ButtonProps) {
   const c = colors ?? defaultColors[variant];
@@ -68,11 +77,42 @@ function Button({
     ? `${styles.btn} ${className}`
     : styles.btn;
 
+  const sharedProps = {
+    className: combinedClassName,
+    style: cssVars,
+    'data-variant': variant,
+    'data-loading': isLoading || undefined,
+    'aria-busy': isLoading || undefined,
+  };
+
+  const content = (
+    <>
+      <span className={styles.content}>{children}</span>
+      {isLoading && <Icon name="LuLoaderCircle" className={styles.loader} />}
+    </>
+  );
+
   if ('href' in rest && rest.href != null) {
-    return <a className={combinedClassName} style={cssVars} {...rest} />;
+    return (
+      <a
+        {...rest}
+        {...sharedProps}
+        onClick={isLoading ? preventClick : rest.onClick}
+      >
+        {content}
+      </a>
+    );
   }
 
-  return <button className={combinedClassName} style={cssVars} {...rest} />;
+  return (
+    <button
+      {...rest}
+      {...sharedProps}
+      onClick={isLoading ? preventClick : rest.onClick}
+    >
+      {content}
+    </button>
+  );
 }
 
 export default Button;

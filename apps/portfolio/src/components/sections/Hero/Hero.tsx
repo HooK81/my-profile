@@ -1,33 +1,40 @@
-import type { Engine, ISourceOptions } from '@tsparticles/engine';
+import type { Container, Engine, ISourceOptions } from '@tsparticles/engine';
 import Particles, { ParticlesProvider } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import Typed from 'typed.js';
 
 import { useProfile } from '../../../hooks/useProfile';
+import { useTheme } from '../../../hooks/useTheme';
+import type { Theme } from '../../../utils/theme';
 import ScrollDown from '../../ui/ScrollDown/ScrollDown';
 import styles from './Hero.module.scss';
 
-const particlesOptions: ISourceOptions = {
+const PARTICLE_COLORS: Record<Theme, string> = {
+  dark: '#ffffff',
+  light: '#0f172a',
+};
+
+const buildParticlesOptions = (color: string): ISourceOptions => ({
   fullScreen: { enable: false },
   particles: {
     number: { value: 80, density: { enable: true } },
-    paint: { color: { value: '#ffffff' } },
+    paint: { color: { value: color } },
     shape: { type: 'circle' },
     opacity: { value: 0.5 },
     size: { value: { min: 1, max: 6 } },
     links: {
       enable: true,
       distance: 150,
-      color: '#ffffff',
+      color,
       opacity: 0.4,
       width: 1,
     },
     move: {
       enable: true,
-      speed: 6,
+      speed: 2,
       direction: 'none',
       outModes: { default: 'out' },
     },
@@ -43,7 +50,7 @@ const particlesOptions: ISourceOptions = {
     },
   },
   detectRetina: true,
-};
+});
 
 // ParticlesProvider requires the init callback to be stable across renders
 const initParticles = async (engine: Engine): Promise<void> => {
@@ -53,7 +60,21 @@ const initParticles = async (engine: Engine): Promise<void> => {
 function Hero() {
   const { t } = useTranslation();
   const { data: profile } = useProfile();
+  const { theme } = useTheme();
   const typedRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<Container | undefined>(undefined);
+
+  const particlesOptions = useMemo(
+    () => buildParticlesOptions(PARTICLE_COLORS[theme]),
+    [theme],
+  );
+
+  const handleParticlesLoaded = useCallback((container?: Container) => {
+    if (containerRef.current && containerRef.current !== container) {
+      containerRef.current.destroy();
+    }
+    containerRef.current = container;
+  }, []);
 
   useEffect(() => {
     if (!typedRef.current || !profile) {
@@ -72,6 +93,7 @@ function Hero() {
       backSpeed: 30,
       backDelay: 2000,
       loop: true,
+      showCursor: false,
     });
 
     return () => typed.destroy();
@@ -85,27 +107,31 @@ function Hero() {
 
   return (
     <section id="hero" className={styles.hero}>
+      <div className={styles.glows} aria-hidden="true">
+        <span className={styles.glow1} />
+        <span className={styles.glow2} />
+      </div>
+
       <ParticlesProvider init={initParticles}>
         <Particles
+          key={theme}
           id="tsparticles"
           className={styles.particles}
           options={particlesOptions}
+          particlesLoaded={handleParticlesLoaded}
         />
       </ParticlesProvider>
 
       <div className={styles.content}>
         <p className={`${styles.welcome} ${styles.fadeUp1}`}>
           {t('hero.iAmA')} <span ref={typedRef} className={styles.typedText} />
+          <span className={styles.caret} aria-hidden="true" />
         </p>
 
-        <div className={styles.fadeUp2}>
-          <h1 className={styles.name}>{user.fullName}</h1>
-        </div>
+        <h1 className={`${styles.name} ${styles.fadeUp2}`}>{user.fullName}</h1>
 
-        <div className={styles.fadeUp3}>
-          <div className={styles.description}>
-            <ReactMarkdown>{user.description}</ReactMarkdown>
-          </div>
+        <div className={`${styles.description} ${styles.fadeUp3}`}>
+          <ReactMarkdown>{user.description}</ReactMarkdown>
         </div>
       </div>
 

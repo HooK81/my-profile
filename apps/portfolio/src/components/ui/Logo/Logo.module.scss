@@ -1,8 +1,17 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 .logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: #fff;
-  font-family: $font-primary;
+  @include primary-gradient;
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: $radius-sm;
+  font-family: $font-heading;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  box-shadow: 0 0 18px var(--primary-glow);
 }

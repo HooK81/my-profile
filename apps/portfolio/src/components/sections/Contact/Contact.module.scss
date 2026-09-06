@@ -1,14 +1,26 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
 
+.contact {
+  padding-bottom: 5.625rem;
+  overflow: hidden;
+}
+
+.glow {
+  @include glow-blob(43.75rem, var(--primary-glow), 150px);
+  left: -15.625rem;
+  bottom: -18.75rem;
+  z-index: -1;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 1.5rem;
+  align-items: start;
 
   @include respond-below($breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
 }
 
@@ -16,40 +28,52 @@
 .info {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 0.75rem;
 }
 
 .infoItem {
+  @include glass($blur-card);
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
-
-  > svg {
-    font-size: 2.625rem;
-    color: $text-secondary;
-    min-width: 3.125rem;
-  }
+  padding: 1.25rem 1.375rem;
+  border-radius: $radius-lg;
 
   h4 {
-    font-size: 1.375rem;
-    color: $text-primary;
-    font-weight: 500;
-    margin-bottom: 0;
+    margin: 0 0 0.125rem;
+    font-family: $font-primary;
+    font-size: $font-size-xxs;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
   p {
-    font-size: $font-size-sm;
-    color: $text-primary;
-    line-height: 1.6;
     margin: 0;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+}
+
+.chip {
+  @include icon-chip(2.625rem, 0.75rem);
+
+  svg {
+    font-size: 1.125rem;
   }
 }
 
 // Form
 .form {
+  @include glass;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: $radius-2xl;
+  box-shadow: var(--shadow);
 }
 
 .formGroup {
@@ -59,25 +83,25 @@
 .input,
 .textarea {
   width: 100%;
-  padding: 0.875rem 1rem;
-  font-size: 1rem;
+  padding: 0 1.125rem;
+  font-size: $font-size-md;
   font-family: $font-primary;
-  color: $text-primary;
-  background-color: transparent;
-  border: 1px solid $text-tertiary;
-  border-radius: 0;
+  color: var(--text);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
   outline: none;
-  box-shadow: none;
-  transition: all 0.5s;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
 
   &::placeholder {
-    color: $text-tertiary;
+    color: var(--muted);
   }
 
   &:focus {
-    background-color: transparent;
-    color: $text-primary;
-    border: 1px solid $text-tertiary;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
   }
 }
 
@@ -86,23 +110,37 @@
 }
 
 .textarea {
+  padding: 0.875rem 1.125rem;
   resize: vertical;
   min-height: 7.5rem;
 }
 
-.charCounter {
-  display: block;
-  margin-top: -0.5rem;
-  text-align: right;
+.footerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.status {
   font-size: $font-size-sm;
-  color: $text-tertiary;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.charCounter {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
   transition: color $transition-fast;
 }
 
 .charCounterWarning {
-  color: $text-primary;
+  color: var(--primary);
 }
 
 .submitBtn {
-  align-self: flex-end;
+  margin-left: auto;
 }

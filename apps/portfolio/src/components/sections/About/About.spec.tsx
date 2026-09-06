@@ -67,12 +67,13 @@ describe('About', () => {
       });
     });
 
-    it('should display the full name as a button', () => {
+    it('should display the full name as plain text', () => {
       renderWithQueryClient(<About />, { profile });
 
+      expect(screen.getByText(profile.user.fullName)).toBeInTheDocument();
       expect(
-        screen.getByRole('button', { name: profile.user.fullName }),
-      ).toBeInTheDocument();
+        screen.queryByRole('button', { name: profile.user.fullName }),
+      ).not.toBeInTheDocument();
     });
 
     it('should display the email as a mailto link', () => {
@@ -155,7 +156,7 @@ describe('About', () => {
       clickSpy.mockRestore();
     });
 
-    it('should download the vcard on name button click', async () => {
+    it('should download the vcard on the contact card button click', async () => {
       const blob = new Blob(['vcard']);
       mockedApi.getVcard.mockResolvedValue(blob);
       const createObjectURLSpy = vi
@@ -170,7 +171,7 @@ describe('About', () => {
 
       renderWithQueryClient(<About />, { profile });
       fireEvent.click(
-        screen.getByRole('button', { name: profile.user.fullName }),
+        screen.getByRole('button', { name: /about.downloadVcard/ }),
       );
 
       await waitFor(() => {

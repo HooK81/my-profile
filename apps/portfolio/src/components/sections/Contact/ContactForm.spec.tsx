@@ -4,10 +4,8 @@ import {
   MESSAGE_MIN_LENGTH,
   SUBJECT_MAX_LENGTH,
 } from 'my-profile-shared';
-import { toast } from 'react-toastify';
 
 vi.mock('react-i18next');
-vi.mock('react-toastify');
 vi.mock('../../../api/Api');
 
 import api from '../../../api/Api';
@@ -150,7 +148,7 @@ describe('ContactForm', () => {
   });
 
   describe('submission', () => {
-    it('should disable submit button and show sending text while submitting', async () => {
+    it('should mark the submit button busy and show the sending status while submitting', async () => {
       let resolveSubmit!: () => void;
       mockedApi.sendMail.mockImplementation(
         () =>
@@ -163,17 +161,19 @@ describe('ContactForm', () => {
       fillForm();
       submitForm();
 
-      const button = await screen.findByRole('button', {
-        name: 'contact.form.sending',
+      expect(await screen.findByRole('status')).toHaveTextContent(
+        'contact.form.sending',
+      );
+      const button = screen.getByRole('button', {
+        name: 'contact.form.sendButton',
       });
-      expect(button).toBeDisabled();
+      expect(button).toHaveAttribute('aria-busy', 'true');
+      expect(button).not.toBeDisabled();
 
       resolveSubmit();
 
       await waitFor(() => {
-        expect(
-          screen.getByRole('button', { name: 'contact.form.sendButton' }),
-        ).not.toBeDisabled();
+        expect(button).not.toHaveAttribute('aria-busy');
       });
     });
   });
@@ -197,16 +197,29 @@ describe('ContactForm', () => {
       });
     });
 
-    it('should show a success toast after sending', async () => {
+    it('should show the success status next to the button', async () => {
       renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
-      await waitFor(() => {
-        expect(vi.mocked(toast.success)).toHaveBeenCalledWith(
-          'contact.form.sendSuccess',
-        );
-      });
+      expect(
+        await screen.findByText('contact.form.sendSuccess'),
+      ).toHaveAttribute('role', 'status');
+    });
+
+    it('should clear the status once the user types a new message', async () => {
+      renderWithQueryClient(<ContactForm />);
+      fillForm();
+      submitForm();
+      await screen.findByText('contact.form.sendSuccess');
+
+      fireEvent.change(
+        screen.getByPlaceholderText('contact.form.messagePlaceholder'),
+        { target: { value: 'Hello' } },
+      );
+
+      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      expect(screen.getByText(`5 / ${MESSAGE_MAX_LENGTH}`)).toBeInTheDocument();
     });
 
     it('should reset the character counter after successful send', async () => {
@@ -250,16 +263,14 @@ describe('ContactForm', () => {
       mockedApi.sendMail.mockRejectedValue(new Error('Network error'));
     });
 
-    it('should show an error toast when sending fails', async () => {
+    it('should show the error status next to the button', async () => {
       renderWithQueryClient(<ContactForm />);
       fillForm();
       submitForm();
 
-      await waitFor(() => {
-        expect(vi.mocked(toast.error)).toHaveBeenCalledWith(
-          'contact.form.sendError error.tryAgainLater',
-        );
-      });
+      expect(
+        await screen.findByText('contact.form.sendError error.tryAgainLater'),
+      ).toHaveAttribute('role', 'status');
     });
 
     it('should preserve form values when sending fails', async () => {
@@ -271,9 +282,7 @@ describe('ContactForm', () => {
       });
       submitForm();
 
-      await waitFor(() => {
-        expect(vi.mocked(toast.error)).toHaveBeenCalled();
-      });
+      await screen.findByText('contact.form.sendError error.tryAgainLater');
 
       expect(
         screen.getByPlaceholderText('contact.form.emailPlaceholder'),

@@ -27,16 +27,16 @@ describe('LocaleSwitcher', () => {
     useAppStore.setState({ locale: 'en' });
   });
 
-  describe('dropdown variant (default)', () => {
+  describe('dropdown layout', () => {
     it('should render the trigger with the active locale flag', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       const trigger = screen.getByRole('button', { name: /▾/ });
       expect(trigger).toBeInTheDocument();
     });
 
     it('should open the menu on trigger click', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
 
@@ -46,7 +46,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should close the menu on second trigger click', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       const trigger = screen.getByRole('button', { name: /▾/ });
       fireEvent.click(trigger);
@@ -57,7 +57,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should show all locale options in the menu', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       fireEvent.click(screen.getByRole('button', { name: /▾/ }));
 
@@ -72,7 +72,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should mark the active locale as selected', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       fireEvent.click(screen.getByRole('button', { name: /▾/ }));
 
@@ -90,7 +90,7 @@ describe('LocaleSwitcher', () => {
       const changeLocale = vi.fn();
       useAppStore.setState({ locale: 'en', changeLocale });
 
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       fireEvent.click(screen.getByRole('button', { name: /▾/ }));
       fireEvent.click(screen.getByRole('option', { name: 'locale.fr' }));
@@ -101,7 +101,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should close the menu on outside click', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       fireEvent.click(screen.getByRole('button', { name: /▾/ }));
       expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should not close the menu on inside click', () => {
-      render(<LocaleSwitcher />);
+      render(<LocaleSwitcher layout="dropdown" />);
 
       const trigger = screen.getByRole('button', { name: /▾/ });
       fireEvent.click(trigger);
@@ -124,9 +124,9 @@ describe('LocaleSwitcher', () => {
     });
   });
 
-  describe('inline variant', () => {
+  describe('inline layout', () => {
     it('should render all locale buttons without a dropdown', () => {
-      render(<LocaleSwitcher variant="inline" />);
+      render(<LocaleSwitcher layout="inline" />);
 
       expect(
         screen.getByRole('button', { name: 'locale.en' }),
@@ -138,7 +138,7 @@ describe('LocaleSwitcher', () => {
     });
 
     it('should mark the active locale button', () => {
-      render(<LocaleSwitcher variant="inline" />);
+      render(<LocaleSwitcher layout="inline" />);
 
       expect(screen.getByRole('button', { name: 'locale.en' })).toHaveClass(
         'active',
@@ -152,12 +152,22 @@ describe('LocaleSwitcher', () => {
       const changeLocale = vi.fn();
       useAppStore.setState({ locale: 'en', changeLocale });
 
-      render(<LocaleSwitcher variant="inline" />);
+      render(<LocaleSwitcher layout="inline" />);
 
       fireEvent.click(screen.getByRole('button', { name: 'locale.fr' }));
 
       expect(changeLanguageMock).toHaveBeenCalledWith('fr');
       expect(changeLocale).toHaveBeenCalledWith('fr');
+    });
+
+    it('should notify the parent of the chosen locale', () => {
+      const onChange = vi.fn();
+
+      render(<LocaleSwitcher layout="inline" onChange={onChange} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'locale.fr' }));
+
+      expect(onChange).toHaveBeenCalledWith('fr');
     });
   });
 });

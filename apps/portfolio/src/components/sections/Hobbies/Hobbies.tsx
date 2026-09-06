@@ -14,8 +14,13 @@ function Hobbies() {
   }
 
   return (
-    <Section id="hobbies" variant="secondary" title={t('hobbies.title')}>
-      <p className={styles.subtitle}>{t('hobbies.desc')}</p>
+    <Section
+      id="hobbies"
+      variant="secondary"
+      index="04"
+      title={t('hobbies.title')}
+      description={t('hobbies.desc')}
+    >
       <div className={styles.grid}>
         {profile.hobbies.map((hobby) => (
           <div key={hobby.title} className={styles.card}>
@@ -24,9 +29,9 @@ function Hobbies() {
               alt={hobby.title}
               className={styles.image}
             />
-            <div className={styles.overlay}>
+            <div className={styles.overlay} />
+            <div className={styles.caption}>
               <Icon name={hobby.icon} />
-              <hr className={styles.divider} />
               <span className={styles.title}>{hobby.title}</span>
             </div>
           </div>

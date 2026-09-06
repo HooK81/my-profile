@@ -12,7 +12,8 @@
   justify-content: center;
   padding: 1.5rem;
   text-align: center;
-  background-color: $bg-secondary;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .header {
@@ -33,7 +34,8 @@
   flex-shrink: 0;
   width: 15rem;
   height: auto;
-  color: $text-primary;
+  color: var(--primary);
+  filter: drop-shadow(0 12px 30px var(--primary-glow));
 
   @include respond-below($breakpoint-md) {
     width: 8rem;
@@ -43,18 +45,12 @@
 .title {
   max-width: 34rem;
   font-family: $font-heading;
-  font-size: $font-size-xxl;
+  font-size: clamp(1.5rem, 3vw, 2.375rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: $line-height-heading;
-  color: $text-primary;
+  color: var(--text);
   text-align: center;
-
-  @include respond-below($breakpoint-lg) {
-    font-size: $font-size-xl;
-  }
-
-  @include respond-below($breakpoint-md) {
-    font-size: $font-size-lg;
-  }
 }
 
 .actions {
@@ -66,7 +62,7 @@
 
 .message {
   font-size: $font-size-lg;
-  color: $text-primary;
+  color: var(--muted);
 }
 
 .cloud {

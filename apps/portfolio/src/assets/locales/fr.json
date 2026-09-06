@@ -10,7 +10,8 @@
     "techs": "Techs",
     "aboutThisSite": "Ce site",
     "contact": "Contact",
-    "toggleMenu": "Ouvrir le menu"
+    "toggleMenu": "Ouvrir le menu",
+    "toggleTheme": "Changer de thème"
   },
   "hero": {
     "iAmA": "Je suis",
@@ -22,7 +23,8 @@
     "location": "Localisation",
     "email": "E-mail",
     "phone": "Téléphone",
-    "downloadResume": "Télécharger mon CV"
+    "downloadResume": "Télécharger mon CV",
+    "downloadVcard": "Enregistrer le contact"
   },
   "facts": {
     "linesOfCode": "Lignes de code",
@@ -52,7 +54,8 @@
     "desc": "Je suis un touche à tout et j'adore jouer avec les nouvelles technologies, mais ce sont celles-ci qui m'ont vraiment convaincu."
   },
   "hobbies": {
-    "title": "Centres d'intérêt"
+    "title": "Centres d'intérêt",
+    "desc": "Voici quelques-uns de mes centres d'intérêt."
   },
   "contact": {
     "title": "Contact",

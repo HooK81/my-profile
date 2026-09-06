@@ -9,18 +9,20 @@ React SPA with client-side routing (`react-router-dom`). Two pages sharing a com
 - **`/`** — Home page: single scrollable page with sections (Hero, About, Resume, Techs, Hobbies, Contact).
 - **`/about-this-site`** — Static page describing the project's technology stack (lazy-loaded with Suspense).
 
+Once the profile loads, `App` sets `document.title` and swaps the favicon for an inline SVG data URL carrying the user's initials (`utils/favicon`, same `getInitials` as the navbar `Logo`); `public/favicon.svg` is only the letterless pre-boot fallback.
+
 ### Component Categories
 
 - **`pages/`** — Page components: `Home/`, `AboutThisSite/`.
 - **`components/layout/`** — Layout shell (`Layout`), `Navbar`, `Footer`, `Section`, `ScrollToTop`.
 - **`components/sections/`** — Home page sections: Hero, About, Resume, Techs, Hobbies, Contact.
-- **`components/ui/`** — Reusable UI: AppLoader, AppError (boot failure screen; it receives `onRetry` as a prop — calling `useProfile` there would mount a second observer on the errored query and refetch-loop), Button (polymorphic with CSS vars), LocaleSwitcher, Logo (inline SVG circle with the initials of `user.fullName`, via `utils/initials`), ScrollDown, SocialLinks, Spinner.
+- **`components/ui/`** — Reusable UI: AppLoader, AppError (boot failure screen; it receives `onRetry` as a prop — calling `useProfile` there would mount a second observer on the errored query and refetch-loop), Button (polymorphic with CSS vars; `variant` is required — `primary` = accent gradient pill, `secondary` = glass pill — and mirrored as a `data-variant` attribute; `isLoading` swaps the content for a spinner, sets `aria-busy` and swallows clicks without looking disabled — `disabled` stays a separate, dimmed state), Icon (react-icons registry keyed by the shared `IconName` enum — UI-only icons such as `LuSun`/`LuSend` are added there too), LocaleSwitcher (`layout` = `dropdown` in the desktop pill, `inline` in the mobile panel — a layout, not a hierarchy, hence not `variant`), Logo (gradient square with the initials of `user.fullName`, via `utils/initials`), ScrollDown, SocialLinks, Spinner, ThemeToggle (sun/moon button bound to the store's `theme`).
 
 ### State Management
 
 Client state lives in Zustand, server state in TanStack Query — never both.
 
-- **`stores/app.store`** — locale, i18nReady, activeSection + actions (changeLocale, setActiveSection)
+- **`stores/app.store`** — locale, i18nReady, activeSection, theme + actions (changeLocale, setActiveSection, toggleTheme). `theme` is seeded by `utils/theme#getInitialTheme` (`localStorage['portfolio-theme']`, else `prefers-color-scheme`, else dark) and `toggleTheme` persists it
 - **`query/client`** — QueryClient defaults: `retry: false`, `staleTime: Infinity`, no refetch on window focus (profile data is immutable for a session; recovery is the explicit retry on `AppError`)
 - **`query/keys`** — query key factories. Keep them here, not in the hooks: `test-utils` imports them, and reaching into a hook would pull `app.store` → `utils/i18n`, whose module body runs `i18n.init()`
 
@@ -28,15 +30,17 @@ Client state lives in Zustand, server state in TanStack Query — never both.
 
 Native `fetch` wrapper (`FetchApi`) with `credentials: 'include'`; the auth cookie is an HTTP-only cookie managed by the browser. Because fetch doesn't throw on HTTP errors, `FetchApi` normalizes every failure into `ApiError` and handles the 401 → `/v1/auth/token` → single-retry flow explicitly (guarded by an `x-no-retry` header, single-flight so concurrent 401s share one refresh). Bodies are parsed empty-safe: 204s return `undefined`, non-JSON bodies (a gateway's HTML error page) come back as raw text.
 
-Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) or stay silent for callers that render their own UI (`loadProfile` → `AppError`, `sendMail` → form toast).
+Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) or stay silent for callers that render their own UI (`loadProfile` → `AppError`, `sendMail` → inline form status).
 
 ### Hooks
 
 - `useProfile` — profile query keyed by locale; a locale switch refetches, switching back is served from cache
 - `useAppReady` — boot gate: `i18nReady && profile loaded`
 - `useMenuScrollSpy` — Intersection Observer for active nav section tracking
-- `useInView` — Intersection Observer hook returning `{ ref, inView }` (with `once` option)
-- `useSendMail` — contact form mutation; owns the success/error toasts in `onSuccess`/`onError`. No `retry`: the mail endpoint is rate-limited to 1r/m per IP with no burst ([rate-limit.conf](../../docker/nginx/rate-limit.conf)), so an automatic retry would only ever earn a 429 — and the POST isn't idempotent. Retrying is the user resubmitting the form
+- `useInView` — Intersection Observer hook returning `{ ref, inView }` (with `once` option). `WorkItem` uses `rootMargin: '-15% 0px -45% 0px'` so a timeline entry is active only while its top is above 55 % of the viewport and its bottom below 15 %
+- `useTheme` — `{ theme, toggleTheme }` read from the store; the only way components touch the theme (`ThemeToggle`, `Hero`)
+- `useThemeSync` — mirrors `theme` to `<html data-theme>`; called once in `App` so the loader/error screens are themed too. Keep the DOM side effect there, not in `useTheme`
+- `useSendMail` — contact form mutation, nothing more: `ContactForm` renders the sending/success/error status inline next to the submit button (`role="status"`), there is no toast. No `retry`: the mail endpoint is rate-limited to 1r/m per IP with no burst ([rate-limit.conf](../../docker/nginx/rate-limit.conf)), so an automatic retry would only ever earn a 429 — and the POST isn't idempotent. Retrying is the user resubmitting the form
 - `useProfileFileUrl` — caches the file *blob* per locale+file; each consumer derives its own object URL via `useMemo` and revokes it on unmount. The URL is not cached (a shared URL would outlive its owner) and not set from an effect (`react-hooks/set-state-in-effect`)
 
 ### Build
@@ -53,13 +57,13 @@ src/
   components/
     layout/            # Layout, Navbar, Footer, Section, ScrollToTop
     sections/          # Hero, About, Resume, Techs, Hobbies, Contact
-    ui/                # AppLoader, AppError, Button, LocaleSwitcher, Logo, ScrollDown, SocialLinks, Spinner
-  hooks/               # useProfile, useAppReady, useMenuScrollSpy, useInView, useProfileFileUrl, useSendMail
+    ui/                # AppLoader, AppError, Button, Icon, LocaleSwitcher, Logo, ScrollDown, SocialLinks, Spinner, ThemeToggle
+  hooks/               # useProfile, useAppReady, useMenuScrollSpy, useInView, useProfileFileUrl, useSendMail, useTheme, useThemeSync
   pages/               # Home, AboutThisSite
   query/               # TanStack Query client + key factories
   stores/              # app.store
   styles/              # Global SCSS (_variables, _mixins, _reset, _typography, global)
-  utils/               # i18n, date, phone, initials, console-greeting
+  utils/               # i18n, date, phone, initials, theme, favicon, console-greeting
   test-utils.tsx       # renderWithQueryClient / createQueryWrapper
 __mocks__/
   zustand.ts           # Auto-reset mock for Zustand stores
@@ -150,12 +154,24 @@ Design tokens in `styles/_variables.scss`.
 
 ## Styling
 
-SCSS modules (`.module.scss` per component). Global styles and design tokens in `styles/`.
+SCSS modules (`.module.scss` per component). Global styles and design tokens in `styles/`. Look: "Glass & glow" — translucent glass cards, coral→gold primary gradient, blurred glow blobs, floating pill navbar, light/dark theme. The full design brief, kept in sync with the implementation, is in [docs/design-handoff-2026-09.md](../../docs/design-handoff-2026-09.md).
+
+### Theme tokens (`global.scss`)
+
+Colours are **CSS custom properties**, not SCSS variables, switched by `data-theme` on `<html>` (`:root` defaults to the dark set so nothing flashes before the store applies the choice):
+
+`--bg --bg-elevated --surface --surface-strong --border --text --muted --primary --primary-soft --primary-glow --primary-soft-glow --nav --shadow --on-primary --particle`
+
+Components reference them directly (`color: var(--muted)`). Shared keyframes (`fadeUp`, `blink`, `bounceDown`, `drift`) live in `global.scss`, and `prefers-reduced-motion` collapses every animation/transition globally. tsparticles reads the theme in `Hero` (`#ffffff` dark / `#0f172a` light, `key={theme}` remounts the canvas).
 
 ### Design Tokens (`_variables.scss`)
 
-- **Palette** (Nord-inspired): backgrounds (`$bg-primary: #434c5e`, `$bg-secondary: #4c566a`, `$bg-darkest: #2e3440`), text (`$text-primary: #d8dee9`, `$text-secondary: #8fbcbb`, `$text-tertiary: #88c0d0`)
-- **Fonts**: Open Sans (body), Poppins (headings)
-- **Breakpoints**: `$breakpoint-sm: 460px`, `$breakpoint-md: 768px`, `$breakpoint-lg: 900px`, `$breakpoint-h-sm: 600px`
-- **Transitions**: fast (0.2s), normal (0.3s), slow (0.5s)
-- **Mixins** (`_mixins.scss`): `respond-below()`, `respond-above()`, `respond-below-height()`, `container()`
+- **Fonts**: Instrument Sans (body, 400/500/600), Sora (headings, numbers, logo, 600/700/800) — loaded from Google Fonts in `index.html`
+- **Font sizes**: `$font-size-xxs` 12px · `xs` 13px · `sm` 14px · `md` 15px · `base` 16px · `lg` 17px
+- **Layout**: `$section-padding-y` 110px, `$section-padding-x` 24px, `$container-max-width` 1120px, `$navbar-max-width` 1160px, `$navbar-height`
+- **Radii**: `$radius-sm` 10px · `md` 16px · `lg` 18px · `xl` 22px · `2xl` 24px · `pill`
+- **Breakpoints**: `$breakpoint-sm: 460px`, `$breakpoint-md: 768px` (About/Contact one column, smaller hero name), `$breakpoint-lg: 900px` (burger menu), `$breakpoint-h-sm: 600px`
+- **Transitions**: fast (0.2s), normal (0.3s), slow (0.4s), `$ease-soft` for width/scale easing
+- **Mixins** (`_mixins.scss`): `respond-below()`, `respond-above()`, `respond-below-height()`, `container()`, `glass($blur)`, `primary-gradient()`, `icon-chip($size, $radius, $surface)`, `hover-lift` (lift + accent border + glow, used by Techs/Education/Hobbies), `glow-blob($size, $color, $blur)`
+
+`Section` owns the section header (decorative `index` + `h2`, optional `description`) and stacks with `isolation: isolate`, so glow blobs sit at `z-index: -1` inside it without escaping behind the section background. Test-visible class names (`active`, `open`, `primary`/`secondary`, `btn`, `charCounterWarning`, `sm`/`md`/`lg`) are asserted by specs — rename with care.

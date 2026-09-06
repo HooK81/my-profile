@@ -13,8 +13,13 @@ function Techs() {
   }
 
   return (
-    <Section id="techs" variant="primary" title={t('techs.title')}>
-      <p className={styles.subtitle}>{t('techs.desc')}</p>
+    <Section
+      id="techs"
+      variant="primary"
+      index="03"
+      title={t('techs.title')}
+      description={t('techs.desc')}
+    >
       <div className={styles.grid}>
         {profile.techs.map((tech) => (
           <div key={tech.name} className={styles.card}>

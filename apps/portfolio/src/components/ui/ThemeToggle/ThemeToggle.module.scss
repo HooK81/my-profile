@@ -1,0 +1,26 @@
+@use '../../../styles/variables' as *;
+
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: $radius-pill;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    transform $transition-normal,
+    background $transition-fast;
+
+  svg {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: var(--surface-strong);
+    transform: rotate(20deg);
+  }
+}

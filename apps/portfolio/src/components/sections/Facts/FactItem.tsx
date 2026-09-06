@@ -12,7 +12,7 @@ type FactItemProps = {
   label: string;
 };
 
-const DURATION_MS = 1_500;
+const DURATION_MS = 1_800;
 
 function FactItem({ icon, value, label }: FactItemProps) {
   const locale = useAppStore((s) => s.locale);
@@ -32,7 +32,7 @@ function FactItem({ icon, value, label }: FactItemProps) {
 
     const tick = (now: number) => {
       const t = Math.min((now - start) / DURATION_MS, 1);
-      const eased = t * (2 - t);
+      const eased = 1 - (1 - t) ** 3;
       setDisplay(Math.round(eased * value));
       if (t < 1) {
         frameId = requestAnimationFrame(tick);
@@ -45,7 +45,9 @@ function FactItem({ icon, value, label }: FactItemProps) {
 
   return (
     <div ref={ref} className={styles.item}>
-      <Icon name={icon} className={styles.icon} />
+      <div className={styles.iconChip}>
+        <Icon name={icon} className={styles.icon} />
+      </div>
       <div className={styles.value}>{display.toLocaleString(locale)}+</div>
       <div className={styles.label}>{label}</div>
     </div>

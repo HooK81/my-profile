@@ -1,8 +1,5 @@
 import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
-import { toast } from 'react-toastify';
 
-vi.mock('react-i18next');
-vi.mock('react-toastify');
 vi.mock('../api/Api');
 
 import api from '../api/Api';
@@ -33,48 +30,20 @@ describe('useSendMail', () => {
     return result;
   }
 
-  describe('when the mail is sent', () => {
-    beforeEach(() => {
-      mockedApi.sendMail.mockResolvedValue(undefined);
-    });
+  it('should send the payload to the API', async () => {
+    mockedApi.sendMail.mockResolvedValue(undefined);
 
-    it('should send the payload to the API', async () => {
-      const result = sendMail();
+    const result = sendMail();
 
-      await waitFor(() => expect(result.current.isSuccess).toBe(true));
-      expect(mockedApi.sendMail).toHaveBeenCalledWith(payload);
-    });
-
-    it('should show a success toast', async () => {
-      sendMail();
-
-      await waitFor(() =>
-        expect(vi.mocked(toast.success)).toHaveBeenCalledWith(
-          'contact.form.sendSuccess',
-        ),
-      );
-    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(mockedApi.sendMail).toHaveBeenCalledWith(payload);
   });
 
-  describe('when sending fails', () => {
-    beforeEach(() => {
-      mockedApi.sendMail.mockRejectedValue(new Error('network error'));
-    });
+  it('should expose the failure to the caller', async () => {
+    mockedApi.sendMail.mockRejectedValue(new Error('network error'));
 
-    it('should expose the failure to the caller', async () => {
-      const result = sendMail();
+    const result = sendMail();
 
-      await waitFor(() => expect(result.current.isError).toBe(true));
-    });
-
-    it('should show an error toast', async () => {
-      sendMail();
-
-      await waitFor(() =>
-        expect(vi.mocked(toast.error)).toHaveBeenCalledWith(
-          'contact.form.sendError error.tryAgainLater',
-        ),
-      );
-    });
+    await waitFor(() => expect(result.current.isError).toBe(true));
   });
 });

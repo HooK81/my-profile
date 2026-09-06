@@ -1,3 +1,4 @@
+import './utils/zod.ts';
 import './styles/global.scss';
 import './utils/i18n.ts';
 

@@ -1,3 +1,16 @@
+## 6.1.2 (2026-09-06)
+
+### 🩹 Fixes
+
+- **portfolio:** replace blurred glow blobs with gradients to unfreeze safari ([42d76f7](https://github.com/HooK81/my-profile/commit/42d76f7))
+- **portfolio:** stop navbar clicks from pushing hero particles ([8debe70](https://github.com/HooK81/my-profile/commit/8debe70))
+- **portfolio:** center the about action buttons on mobile ([7c52966](https://github.com/HooK81/my-profile/commit/7c52966))
+
+### ❤️ Thank You
+
+- Claude Fable 5.1
+- Julien Crochet
+
 ## 6.1.1 (2026-09-06)
 
 ### 🩹 Fixes

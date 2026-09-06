@@ -1,7 +1,7 @@
 {
   "name": "my-profile-portfolio",
   "private": true,
-  "version": "6.1.1",
+  "version": "6.1.2",
   "author": "Julien Crochet <julien@crochet.me>",
   "type": "module",
   "scripts": {

@@ -129,6 +129,34 @@ describe('ContactForm', () => {
       ).not.toBeInTheDocument();
     });
 
+    it('should apply warning class when message is under min length', () => {
+      renderWithQueryClient(<ContactForm />);
+
+      const shortLength = MESSAGE_MIN_LENGTH - 1;
+
+      fireEvent.change(
+        screen.getByPlaceholderText('contact.form.messagePlaceholder'),
+        { target: { value: 'x'.repeat(shortLength) } },
+      );
+
+      expect(
+        screen.getByText(`${shortLength} / ${MESSAGE_MAX_LENGTH}`),
+      ).toHaveClass('charCounterWarning');
+    });
+
+    it('should not apply warning class when message length is within bounds', () => {
+      renderWithQueryClient(<ContactForm />);
+
+      fireEvent.change(
+        screen.getByPlaceholderText('contact.form.messagePlaceholder'),
+        { target: { value: 'x'.repeat(MESSAGE_MIN_LENGTH) } },
+      );
+
+      expect(
+        screen.getByText(`${MESSAGE_MIN_LENGTH} / ${MESSAGE_MAX_LENGTH}`),
+      ).not.toHaveClass('charCounterWarning');
+    });
+
     it('should apply warning class when message reaches 90% of max length', () => {
       renderWithQueryClient(<ContactForm />);
 

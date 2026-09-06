@@ -20,6 +20,8 @@ type FormState = {
 
 type SendStatus = 'idle' | 'success' | 'error';
 
+const MESSAGE_WARNING_THRESHOLD = Math.floor(MESSAGE_MAX_LENGTH * 0.9);
+
 const initialState: FormState = {
   from: '',
   subject: '',
@@ -43,6 +45,10 @@ function FormFooter({ status, messageLength }: FormFooterProps) {
         ? `${t('contact.form.sendError')} ${t('error.tryAgainLater')}`
         : null;
 
+  const isLengthWarning =
+    messageLength < MESSAGE_MIN_LENGTH ||
+    messageLength >= MESSAGE_WARNING_THRESHOLD;
+
   return (
     <div className={styles.footerRow}>
       {statusText ? (
@@ -51,7 +57,7 @@ function FormFooter({ status, messageLength }: FormFooterProps) {
         </span>
       ) : (
         <span
-          className={`${styles.charCounter} ${messageLength >= MESSAGE_MAX_LENGTH * 0.9 ? styles.charCounterWarning : ''}`}
+          className={`${styles.charCounter} ${isLengthWarning ? styles.charCounterWarning : ''}`}
         >
           {messageLength > 0 && `${messageLength} / ${MESSAGE_MAX_LENGTH}`}
         </span>

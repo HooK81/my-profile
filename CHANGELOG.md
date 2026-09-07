@@ -1,3 +1,13 @@
+## 6.1.3 (2026-09-07)
+
+### 🩹 Fixes
+
+- **portfolio:** size the glow halos in vmax with a soft gradient falloff ([5a6b108](https://github.com/HooK81/my-profile/commit/5a6b108))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 6.1.2 (2026-09-06)
 
 ### 🩹 Fixes

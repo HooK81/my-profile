@@ -98,8 +98,6 @@ function Hero() {
       showCursor: false,
     });
 
-    console.log('typed');
-
     return () => typed.destroy();
   }, [profile, t]);
 

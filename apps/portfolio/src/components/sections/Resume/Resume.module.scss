@@ -6,9 +6,9 @@
 }
 
 .glow {
-  @include glow-blob(37.5rem, var(--primary-soft-glow));
-  right: -12.5rem;
-  top: 12.5rem;
+  @include glow-halo(90vmax, var(--primary-soft-glow));
+  right: -45vmax;
+  top: -20vmax;
   z-index: -1;
 }
 

@@ -61,11 +61,16 @@
   }
 }
 
-@mixin glow-blob($size, $color) {
+@mixin glow-halo($size, $color) {
   position: absolute;
   width: $size;
   height: $size;
   border-radius: 50%;
-  background: radial-gradient(circle closest-side, $color, transparent);
+  background: radial-gradient(
+    circle at center,
+    $color 0%,
+    color-mix(in srgb, $color 45%, transparent) 28%,
+    transparent 62%
+  );
   pointer-events: none;
 }

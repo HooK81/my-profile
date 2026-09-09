@@ -4,7 +4,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
 
-import { getAuthToken, initTestApp } from '../../test_utils/access-token.js';
+import {
+  getAuthToken,
+  initTestApp,
+  TEST_PUBLIC_APP_URL,
+} from '../../test_utils/access-token.js';
 import { AppModule } from '../app.module.js';
 
 describe('Mail Controller (functionnal)', () => {
@@ -20,20 +24,44 @@ describe('Mail Controller (functionnal)', () => {
     await app.init();
   });
 
-  const URI = '/mails';
+  const URI = '/api/v1/mails';
+  const validPayload = {
+    from: 'test@example.com',
+    message: 'lorem ipsum',
+  };
 
   it('should send an email to the team with valid payload', async () => {
     const token = await getAuthToken(app);
 
     return request(app.getHttpServer())
       .post(URI)
-      .send({
-        from: 'test@example.com',
-        message: 'lorem ipsum',
-      })
-
+      .send(validPayload)
+      .set('Origin', TEST_PUBLIC_APP_URL)
       .set('Cookie', token.cookie)
       .expect(HttpStatus.NO_CONTENT);
+  });
+
+  describe('CSRF: Origin check', () => {
+    it('should refuse an authenticated request without Origin', async () => {
+      const token = await getAuthToken(app);
+
+      await request(app.getHttpServer())
+        .post(URI)
+        .send(validPayload)
+        .set('Cookie', token.cookie)
+        .expect(HttpStatus.FORBIDDEN);
+    });
+
+    it('should refuse an authenticated request from a foreign Origin', async () => {
+      const token = await getAuthToken(app);
+
+      await request(app.getHttpServer())
+        .post(URI)
+        .send(validPayload)
+        .set('Origin', 'https://evil.example')
+        .set('Cookie', token.cookie)
+        .expect(HttpStatus.FORBIDDEN);
+    });
   });
 
   describe('validation errors', () => {
@@ -54,6 +82,7 @@ describe('Mail Controller (functionnal)', () => {
       await request(app.getHttpServer())
         .post(URI)
         .send(payload)
+        .set('Origin', TEST_PUBLIC_APP_URL)
         .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
     });

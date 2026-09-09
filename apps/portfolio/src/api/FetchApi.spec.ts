@@ -4,11 +4,7 @@ import { toast } from 'react-toastify';
 import { ApiError } from './ApiError';
 import { FetchApi } from './FetchApi';
 
-const BASE_URL = vi.hoisted(() => {
-  const url = 'https://api.test';
-  vi.stubEnv('VITE_API_URL', url);
-  return url;
-});
+const BASE_URL = '/api';
 
 vi.mock('i18next');
 vi.mock('react-toastify');
@@ -43,19 +39,15 @@ describe('FetchApi', () => {
     vi.unstubAllGlobals();
   });
 
-  afterAll(() => {
-    vi.unstubAllEnvs();
-  });
-
   describe('get()', () => {
-    it('should fetch the route with credentials and return the parsed body', async () => {
+    it('should fetch the route under /api with same-origin credentials and return the parsed body', async () => {
       fetchMock.mockResolvedValue(jsonResponse(StatusCodes.OK, { id: 1 }));
 
       const result = await testApi.get('/test');
 
       expect(fetchMock).toHaveBeenCalledWith(
         `${BASE_URL}/test`,
-        expect.objectContaining({ method: 'GET', credentials: 'include' }),
+        expect.objectContaining({ method: 'GET', credentials: 'same-origin' }),
       );
       expect(result).toEqual({ id: 1 });
     });
@@ -188,14 +180,14 @@ describe('FetchApi', () => {
   });
 
   describe('ensureAuth()', () => {
-    it('should authenticate when not yet authenticated', async () => {
+    it('should authenticate with a POST when not yet authenticated', async () => {
       fetchMock.mockResolvedValue(jsonResponse(StatusCodes.OK, {}));
 
       await testApi.ensureAuth();
 
       expect(fetchMock).toHaveBeenCalledWith(
         `${BASE_URL}/v1/auth/token`,
-        expect.anything(),
+        expect.objectContaining({ method: 'POST', body: undefined }),
       );
     });
 
@@ -223,7 +215,7 @@ describe('FetchApi', () => {
       expect(fetchMock).toHaveBeenNthCalledWith(
         2,
         `${BASE_URL}/v1/auth/token`,
-        expect.anything(),
+        expect.objectContaining({ method: 'POST' }),
       );
       expect(fetchMock).toHaveBeenNthCalledWith(
         3,

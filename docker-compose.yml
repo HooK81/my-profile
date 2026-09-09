@@ -14,7 +14,7 @@ services:
             - './docker/users:/usr/src/app/apps/api/users:ro'
         restart: unless-stopped
         healthcheck:
-            test: ['CMD', 'curl', '-f', 'http://localhost:${API_PORT}/health']
+            test: ['CMD', 'curl', '-f', 'http://localhost:${API_PORT}/api/v1/health']
             interval: 30m
             timeout: 5s
             retries: 3

@@ -1,10 +1,16 @@
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module, StandardSchemaValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR, APP_PIPE, RouterModule } from '@nestjs/core';
+import {
+  APP_GUARD,
+  APP_INTERCEPTOR,
+  APP_PIPE,
+  RouterModule,
+} from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino';
 
 import { AuthModule } from './auth/auth.module.js';
+import { OriginGuard } from './auth/origin.guard.js';
 import { configuration, envFilePath } from './config/configuration.js';
 import validate from './config/env.validation.js';
 import { HealthModule } from './health/health.module.js';
@@ -40,6 +46,10 @@ import { ResponseInterceptor } from './response/response.interceptor.js';
   ],
   providers: [
     HeadersService,
+    {
+      provide: APP_GUARD,
+      useClass: OriginGuard,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: LocaleInterceptor,

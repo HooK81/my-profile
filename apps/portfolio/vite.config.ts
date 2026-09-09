@@ -10,6 +10,11 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Same origin in dev too: the browser only ever sees localhost:5173, so
+    // the SameSite=Strict cookie works without CORS, exactly as behind nginx.
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
   },
   build: {
     rolldownOptions: {

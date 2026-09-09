@@ -6,6 +6,7 @@ import { ApiError } from './ApiError';
 
 const NO_RETRY_HEADER = 'x-no-retry';
 const TIMEOUT_MS = 30000;
+const API_BASE = '/api';
 
 type ApiConfig = {
   showError: boolean;
@@ -26,7 +27,7 @@ const DEFAULT_CONFIG: ApiConfig = {
 export class FetchApi {
   private authenticated = false;
   private refreshPromise: Promise<void> | null = null;
-  protected baseURL: string = import.meta.env.VITE_API_URL;
+  protected baseURL: string = API_BASE;
 
   public async ensureAuth(): Promise<void> {
     if (!this.authenticated) {
@@ -129,7 +130,7 @@ export class FetchApi {
     try {
       return await fetch(this.buildUrl(route, params), {
         method,
-        credentials: 'include',
+        credentials: 'same-origin',
         signal: AbortSignal.timeout(TIMEOUT_MS),
         headers: {
           ...(data !== undefined && { 'Content-Type': 'application/json' }),
@@ -169,15 +170,11 @@ export class FetchApi {
 
   // Single-flight: concurrent 401s share one refresh call
   private refreshToken(): Promise<void> {
-    this.refreshPromise ??= this.get(
-      '/v1/auth/token',
-      {},
-      {
-        showError: false,
-        headers: { [NO_RETRY_HEADER]: '1' },
-        apiName: 'login',
-      },
-    )
+    this.refreshPromise ??= this.post('/v1/auth/token', undefined, {
+      showError: false,
+      headers: { [NO_RETRY_HEADER]: '1' },
+      apiName: 'login',
+    })
       .then(() => {
         this.authenticated = true;
       })

@@ -7,7 +7,7 @@ import { initTestApp } from '../../test_utils/access-token.js';
 import { AppModule } from '../app.module.js';
 
 describe('HealthController (functionnal)', () => {
-  const URI = '/health';
+  const URI = '/api/v1/health';
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -20,7 +20,7 @@ describe('HealthController (functionnal)', () => {
     await app.init();
   });
 
-  it('should return healthy status', async () => {
+  it('should return healthy status without an Origin header', async () => {
     await request(app.getHttpServer())
       .get(URI)
       .expect(HttpStatus.OK)

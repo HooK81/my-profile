@@ -28,7 +28,7 @@ Client state lives in Zustand, server state in TanStack Query — never both.
 
 ### API Layer
 
-Native `fetch` wrapper (`FetchApi`) with `credentials: 'include'`; the auth cookie is an HTTP-only cookie managed by the browser. Because fetch doesn't throw on HTTP errors, `FetchApi` normalizes every failure into `ApiError` and handles the 401 → `/v1/auth/token` → single-retry flow explicitly (guarded by an `x-no-retry` header, single-flight so concurrent 401s share one refresh). Bodies are parsed empty-safe: 204s return `undefined`, non-JSON bodies (a gateway's HTML error page) come back as raw text.
+Native `fetch` wrapper (`FetchApi`) calling the API at the relative `/api` base with `credentials: 'same-origin'`: the API lives under the page's own origin (Nginx in prod, the Vite `server.proxy` in dev), so there is no `VITE_API_URL` and no CORS. The auth cookie is an HTTP-only, `SameSite=Strict` cookie managed by the browser. Because fetch doesn't throw on HTTP errors, `FetchApi` normalizes every failure into `ApiError` and handles the 401 → `POST /v1/auth/token` → single-retry flow explicitly (guarded by an `x-no-retry` header, single-flight so concurrent 401s share one refresh). Bodies are parsed empty-safe: 204s return `undefined`, non-JSON bodies (a gateway's HTML error page) come back as raw text.
 
 Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) or stay silent for callers that render their own UI (`loadProfile` → `AppError`, `sendMail` → inline form status).
 
@@ -45,7 +45,7 @@ Errors either toast (`showError`, the default — used by `getFile`/`getVcard`) 
 
 ### Build
 
-Vite config injects `VITE_APP_VERSION` from `package.json`. Code splitting via Rolldown `codeSplitting.groups` with a vendor chunk (node_modules, minSize 250kB). `my-profile-shared` must **not** be listed in `optimizeDeps.include`: Vite's dep cache (`node_modules/.vite`) is keyed on the lockfile and config only, so a pre-bundled workspace lib is never refreshed when its `dist` is rebuilt. Left out, Vite serves `libs/shared/dist` directly and every `serve` (which runs `^build`) picks up the current contract.
+Vite config injects `VITE_APP_VERSION` from `package.json` and proxies `/api` to `http://localhost:3000` in dev so the browser only ever talks to `localhost:5173`. Code splitting via Rolldown `codeSplitting.groups` with a vendor chunk (node_modules, minSize 250kB). `my-profile-shared` must **not** be listed in `optimizeDeps.include`: Vite's dep cache (`node_modules/.vite`) is keyed on the lockfile and config only, so a pre-bundled workspace lib is never refreshed when its `dist` is rebuilt. Left out, Vite serves `libs/shared/dist` directly and every `serve` (which runs `^build`) picks up the current contract.
 
 ## Directory Structure
 

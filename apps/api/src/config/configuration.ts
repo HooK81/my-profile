@@ -4,11 +4,6 @@ import { resolve } from 'path';
 
 type LogLevel = 'info' | 'debug' | 'warn' | 'error';
 
-type SerializedCorsOrigin = {
-  pattern: string;
-  flags: string;
-};
-
 type JwtConfig = {
   secret: string;
 };
@@ -22,7 +17,9 @@ export type Config = {
   app_env: string;
   app_version: string;
   port: number;
-  cors_origin: boolean | RegExp[];
+  public_app_url: string;
+  public_origin: string;
+  cookie_secure: boolean;
   log_level: LogLevel;
   jwt: JwtConfig;
   deviceFingerprint: DeviceFingerprintConfig;
@@ -32,11 +29,6 @@ export type Config = {
     sender: string;
     team_address: string;
   };
-};
-
-const deserializeCorsOrigin = (value: string): RegExp[] => {
-  const parsed = JSON.parse(value) as SerializedCorsOrigin[];
-  return parsed.map(({ pattern, flags }) => new RegExp(pattern, flags));
 };
 
 const deserializeMailerTransport = (
@@ -58,9 +50,9 @@ export const configuration = (): Config => ({
     ) as { version: string }
   ).version,
   port: parseInt(process.env.PORT || '3000', 10),
-  cors_origin: process.env.CORS_ORIGIN
-    ? deserializeCorsOrigin(process.env.CORS_ORIGIN)
-    : process.env.NODE_ENV !== 'production',
+  public_app_url: process.env.PUBLIC_APP_URL!,
+  public_origin: new URL(process.env.PUBLIC_APP_URL!).origin,
+  cookie_secure: process.env.COOKIE_SECURE === 'true',
   log_level: (process.env.LOG_LEVEL as LogLevel) || 'info',
   jwt: {
     secret: process.env.JWT_SECRET!,

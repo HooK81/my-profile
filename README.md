@@ -107,7 +107,7 @@ Version bumps are determined automatically from commit history:
 
 API endpoints are protected by JWT tokens with server-side device fingerprinting:
 
-1. Client requests a token from `GET /v1/auth/token` (no client-side hash needed)
+1. Client requests a token from `POST /api/v1/auth/token` (no client-side hash needed)
 2. Server computes an HMAC-SHA256 fingerprint from multiple request headers (User-Agent, Accept-Language, Accept-Encoding) using a server secret, and embeds it in the JWT
 3. Every authenticated request recomputes the fingerprint and verifies it against the JWT payload
 
@@ -128,11 +128,18 @@ Nginx enforces two layers of rate limiting on all API endpoints:
 
 Configuration: `docker/nginx/rate-limit.conf`
 
+### CSRF
+
+The browser only ever sees one origin: the API is served under `/api` of the SPA's origin (Nginx in production, the Vite proxy in development), so there is no CORS and no cross-site cookie.
+
+- **`SameSite=Strict`** cookie, `HttpOnly`, scoped to `Path=/api`, `Secure` when `COOKIE_SECURE=true`
+- **Origin check**: every mutating request (anything but GET/HEAD/OPTIONS, `POST /api/v1/auth/token` included) must carry an `Origin` header equal to the origin of `PUBLIC_APP_URL`, otherwise `403`
+- **Boot guards**: in `NODE_ENV=production` the API refuses to start unless `PUBLIC_APP_URL` is `https:` and `COOKIE_SECURE=true` (a `Secure` cookie is never sent back over http)
+
 ### Other protections
 
-- **CORS**: origin restricted to production domain (regex pattern)
 - **Helmet.js**: security headers (frameguard, CORP)
-- **JWT expiry**: 5 minutes in production
+- **JWT expiry**: 5 minutes
 
 ## Deployment
 
@@ -144,6 +151,8 @@ cp docker/api/.env.production.local.dist docker/api/.env.production.local
 cp docker/api/.secrets.production.local.dist docker/api/.secrets.production.local
 cp docker/nginx/.env.production.local.dist docker/nginx/.env.production.local
 ```
+
+In `docker/api/.env.production.local`, set `PUBLIC_APP_URL` to the exact origin the site is served from (scheme + host, no path, e.g. `https://www.domain.tld`) and keep `COOKIE_SECURE=true`: the API refuses to start otherwise. The upstream reverse proxy must forward the `Origin` header untouched and must not rewrite `/api/`.
 
 ### Build & Start
 

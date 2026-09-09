@@ -1,11 +1,9 @@
-import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import cookieParser from 'cookie-parser';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
 import { AppModule } from './app.module.js';
-import { initCors } from './init/cors.js';
+import { setupApp } from './init/setup-app.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,17 +13,12 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
-
-  app.use(cookieParser());
-  initCors(app);
+  setupApp(app);
 
   await app.listen(port);
 
   const logger = app.get(Logger);
-  logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  logger.log(`🚀 Application is running on: http://localhost:${port}/api`);
 }
 
 await bootstrap();

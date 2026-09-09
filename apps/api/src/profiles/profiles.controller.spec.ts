@@ -54,7 +54,7 @@ describe('Profiles Controller (functionnal)', () => {
   });
 
   describe('Get profile', () => {
-    const URI = '/en/profiles';
+    const URI = '/api/v1/en/profiles';
 
     it('should return a profile', async () => {
       const token = await getAuthToken(app);
@@ -107,7 +107,7 @@ describe('Profiles Controller (functionnal)', () => {
   });
 
   describe('Get File', () => {
-    const URI = `/en/profiles/${profile.id}/files`;
+    const URI = `/api/v1/en/profiles/${profile.id}/files`;
 
     it('should return the profile PDF file', async () => {
       const token = await getAuthToken(app);
@@ -176,7 +176,7 @@ describe('Profiles Controller (functionnal)', () => {
       const token = await getAuthToken(app);
 
       await request(app.getHttpServer())
-        .get(`/en/profiles/..%2F..%2Fetc/files/passwd`)
+        .get(`/api/v1/en/profiles/..%2F..%2Fetc/files/passwd`)
 
         .set('Cookie', token.cookie)
         .expect(HttpStatus.BAD_REQUEST);
@@ -184,7 +184,7 @@ describe('Profiles Controller (functionnal)', () => {
   });
 
   describe('Get Profile VCard', () => {
-    const URI = `/en/profiles/${profile.id}/vcard`;
+    const URI = `/api/v1/en/profiles/${profile.id}/vcard`;
 
     it('should return VCard data', async () => {
       const token = await getAuthToken(app);

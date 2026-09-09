@@ -9,7 +9,7 @@ export default defineConfig({
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
   },
   server: {
-    port: 5174,
+    port: 5173,
   },
   build: {
     rolldownOptions: {

@@ -28,7 +28,7 @@ npm run serve
 ### Start a single app
 ```shell
 npx nx serve my-profile-api        # API (port 3000)
-npx nx serve my-profile-portfolio  # Portfolio (Vite, port 5174)
+npx nx serve my-profile-portfolio  # Portfolio (Vite, port 5173)
 ```
 
 ### Run all builds

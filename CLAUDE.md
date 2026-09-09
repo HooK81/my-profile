@@ -22,7 +22,7 @@ Every project exposes the same NX targets (`serve`, `build`, `test`, `test:cov`,
 # Development (serve depends on ^build: shared lib is built automatically)
 npm run serve                          # Start API + portfolio in parallel (nx run-many -t serve)
 npx nx serve my-profile-api            # Start API in watch mode (port 3000)
-npx nx serve my-profile-portfolio      # Start portfolio dev server (Vite, port 5174)
+npx nx serve my-profile-portfolio      # Start portfolio dev server (Vite, port 5173)
 
 # Build
 npm run build                          # Build all projects (nx run-many -t build)

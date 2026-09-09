@@ -138,7 +138,7 @@ npm run tsc               # Type-check (tsc -b)
 npm run test              # Single run (vitest run)
 npm run test:watch        # Watch mode
 npm run test:cov          # Coverage report
-npm run serve             # Dev server (Vite, port 5174)
+npm run serve             # Dev server (Vite, port 5173)
 
 # Single test file
 npm run test -- src/stores/app.store.spec.ts

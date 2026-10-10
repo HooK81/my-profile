@@ -22,18 +22,26 @@
 
 .glowBackdrop {
   position: absolute;
-  inset: -1.25rem;
+  inset: -3.75rem;
   z-index: 0;
-  border-radius: 2.25rem;
   background:
-    radial-gradient(circle at 30% 20%, var(--primary-glow), transparent 60%),
-    radial-gradient(circle at 80% 90%, var(--primary-soft-glow), transparent 60%);
-  filter: blur(30px);
+    radial-gradient(
+      ellipse 42% 36% at 34% 30%,
+      var(--primary-glow) 0%,
+      color-mix(in srgb, var(--primary-glow) 45%, transparent) 38%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 42% 36% at 70% 74%,
+      var(--primary-soft-glow) 0%,
+      color-mix(in srgb, var(--primary-soft-glow) 45%, transparent) 38%,
+      transparent 70%
+    );
   pointer-events: none;
 }
 
 .photoCard {
-  @include glass;
+  @include glass-surface;
   position: relative;
   z-index: 1;
   padding: 0.625rem;

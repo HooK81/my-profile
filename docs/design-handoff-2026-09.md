@@ -43,7 +43,7 @@ Theme logic:
 
 Recipes (mixins in `src/styles/_mixins.scss`):
 
-- **Glass card** `glass($blur)`: `background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(14–18px)`, radius 18–24px, `box-shadow: var(--shadow)` only on prominent cards.
+- **Glass card** `glass($blur)`: `background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(14–18px)`, radius 18–24px, `box-shadow: var(--shadow)` only on prominent cards. The blur is reserved for cards that actually have something behind them (a glow halo, the hero particles); over a flat section background a card takes `glass-surface`, the same recipe without `backdrop-filter`.
 - **Primary gradient** `primary-gradient`: `linear-gradient(135deg, var(--primary), var(--primary-soft))`, text `var(--on-primary)`, `box-shadow: 0 10px 30px var(--primary-glow)`; buttons lift `-2px` on hover.
 - **Icon chip** `icon-chip($size, $radius, $surface)`: 36–48px square, radius 10–14px, `color: var(--primary)`, `--surface` or `--surface-strong` fill, 1px border.
 - **Hover lift** `hover-lift`: `translateY(-4px)`, `border-color: var(--primary)`, `box-shadow: 0 20px 50px var(--primary-glow)`, `.3s`. Used by Techs, Education tiles and Hobbies.
@@ -79,10 +79,10 @@ Mobile (≤ 900px): links and desktop controls hidden; hamburger opens a glass p
 `min-height: 100vh`, centred, `overflow: hidden`. Two drifting glow halos (`110vmax` at `left/top: -45vmax` `--primary-glow`, `95vmax` at `right: -42vmax; bottom: -40vmax` `--primary-soft-glow`; `drift` 18s / 22s reverse, transform only: `translate3d(6vw, -4vh, 0) scale(1.08)` at 50 %). tsparticles: 80 dots (hard limit 160), size 1–6, links 150px at .4 opacity, repulse 200, push 4 — `detectsOn: 'canvas'`, so only pointer events on the hero itself count, not navbar clicks, **`move.speed: 2`** (the brief said 6; lowered on review), `fpsLimit: 60`. Content `max-width: 960px`, `padding: 120px 24px 100px`: `I'm a <typed>` (`clamp(15px,1.6vw,19px)` 500 `--muted`, typed span `--primary` 600, own 2px caret blinking 1s, typed.js cursor disabled), `h1` Sora 800 `clamp(48px,8.5vw,112px)` with `--text → --muted` vertical text gradient (≤ 768px `clamp(44px,12vw,72px)`), markdown description in a glass pill (`padding: 18px 28px`, radius 20px, `--muted`, `<strong>` → `--text` 600). Entrance `fadeUp` .8s / .9s +.15s / 1s +.3s.
 
 ### About (`--bg-elevated`)
-Grid `340px minmax(0,1fr)`, gap 56px, one column ≤ 768px. Left: glass card radius 28px, padding 10px, `--shadow`, blurred radial glow behind; photo `aspect-ratio: 4/5`, radius 20px; `SocialLinks` md below. Right: bio `clamp(17px,1.6vw,20px)` `line-height: 1.75`; detail tiles `repeat(auto-fit, minmax(220px,1fr))` gap 12px (label 12px uppercase `.12em` `--muted`, value 600; email and phone are links, **the name is plain text**). Actions row (centred ≤ 768px): `Button primary` "Download Resume" (`LuDownload`) and `Button secondary` "Save contact" (`LuContact`) that downloads the vCard.
+Grid `340px minmax(0,1fr)`, gap 56px, one column ≤ 768px. Left: `glass-surface` card radius 28px, padding 10px, `--shadow`, soft radial glow behind (gradient falloff, no `filter`); photo `aspect-ratio: 4/5`, radius 20px; `SocialLinks` md below. Right: bio `clamp(17px,1.6vw,20px)` `line-height: 1.75`; detail tiles `repeat(auto-fit, minmax(220px,1fr))` gap 12px (label 12px uppercase `.12em` `--muted`, value 600; email and phone are links, **the name is plain text**). Actions row (centred ≤ 768px): `Button primary` "Download Resume" (`LuDownload`) and `Button secondary` "Save contact" (`LuContact`) that downloads the vCard.
 
 ### Facts (`--bg`, `padding: 90px 24px`)
-**No background image** (dropped on review). Grid `repeat(auto-fit, minmax(220px,1fr))` gap 16px. Card: glass blur 18px, `padding: 32px 24px`, radius 24px, centred, `--shadow`, hover `translateY(-4px)` only. Icon chip 48px (`--surface-strong`, `0 0 20px var(--primary-glow)`), number Sora 700 `clamp(34px,3.6vw,44px)` tabular, label 13px uppercase `.14em` `--muted`. Count-up 1.8s ease-out cubic, `toLocaleString(locale)`, trailing `+`.
+**No background image** (dropped on review). Grid `repeat(auto-fit, minmax(220px,1fr))` gap 16px. Card: `glass-surface` (no blur, the section background is flat), `padding: 32px 24px`, radius 24px, centred, `--shadow`, hover `translateY(-4px)` only. Icon chip 48px (`--surface-strong`, `0 0 20px var(--primary-glow)`), number Sora 700 `clamp(34px,3.6vw,44px)` tabular, label 13px uppercase `.14em` `--muted`. Count-up 1.8s ease-out cubic, `toLocaleString(locale)`, trailing `+`.
 
 ### Resume (`--bg-elevated`)
 Static `--primary-soft-glow` halo `90vmax` at `right: -45vmax; top: -20vmax`. Column titles `h3` Sora 22px/600 with a 36px chip; 32px below; blocks 80px apart.
@@ -91,7 +91,7 @@ Static `--primary-soft-glow` halo `90vmax` at `right: -45vmax; top: -20vmax`. Co
 - **Skills**: subtitle `--muted` indented 48px; `repeat(auto-fill, minmax(280px,1fr))` gap `14px 32px`; name 15px/600, `level%` 13px/600 `--primary` (hidden when `showLevel: false`); track 6px pill `--surface-strong` + border; fill `linear-gradient(90deg, var(--primary), var(--primary-soft))` + `0 0 12px var(--primary-glow)`, width 0 → level once in view, `1.2s cubic-bezier(.2,.8,.2,1)`.
 
 ### Techs (`--bg`)
-Header with description. Grid `repeat(auto-fill, minmax(250px,1fr))` gap 16px. Card glass `padding: 26px`, radius 22px, hover-lift. Logo well 56px, radius 16px, `--bg-elevated` + border, image 32px; `h4` Sora 17px/600; description 14px `--muted` `line-height: 1.65`.
+Header with description. Grid `repeat(auto-fill, minmax(250px,1fr))` gap 16px. Card `glass-surface` (no blur, the section background is flat) `padding: 26px`, radius 22px, hover-lift. Logo well 56px, radius 16px, `--bg-elevated` + border, image 32px; `h4` Sora 17px/600; description 14px `--muted` `line-height: 1.65`.
 
 ### Hobbies (`--bg-elevated`)
 Header with description. Grid `repeat(auto-fill, minmax(200px,1fr))`, rows 220px, gap 14px; first and last tiles `grid-column: span 2` (reset ≤ 460px). Tile radius 22px, `overflow: hidden`, border; image cover with `scale(1.06)` on hover (`.6s cubic-bezier(.2,.8,.2,1)`); overlay `linear-gradient(180deg, transparent 40%, rgba(0,0,0,.75))`; caption bottom-left: `Icon` 18px + Sora 17px/600 white; tile hover-lift.
@@ -124,6 +124,7 @@ Existing SCSS breakpoints only: `$breakpoint-sm` 460px (hobby span reset), `$bre
 | Tokens `--accent`, `--accent2`, `--glow1/2`, `--onaccent`, `--bg2`, `--surface2` | `--primary`, `--primary-soft`, `--primary-glow`, `--primary-soft-glow`, `--on-primary`, `--bg-elevated`, `--surface-strong` | Role-based names instead of numbered suffixes |
 | Particle `move.speed: 6` | `2` | Felt too fast in review |
 | Glow blobs as `filter: blur(120–150px)` circles | `vmax`-sized `glow-halo` radial gradients, no filter | The animated blur froze Safari (v6.1.2); the fix is size and falloff, not blur |
+| About photo glow as a `filter: blur(30px)` rounded rect | A wider box with 3-stop radial gradients that fade out before its edges, no filter | Same rule as the halos above, applied to the last place that still used `filter`: it makes the element a backdrop root and forces its own render surface. Found while hunting a scroll flicker in Brave that it did **not** fix — kept for the rule, not for the bug |
 | Facts background image with vertical fade | Removed | Not visible enough to justify a 378 kB asset |
 | vCard download on the name in About | Plain name + secondary "Save contact" CTA | Discoverability; the name looked like a link to nowhere |
 | Success/error toasts on the contact form | Inline `role="status"` text in the form footer | Matches the prototype's footer row |

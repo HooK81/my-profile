@@ -24,9 +24,13 @@
   margin: 0 auto;
 }
 
-@mixin glass($blur: $blur-panel) {
+@mixin glass-surface {
   background: var(--surface);
   border: 1px solid var(--border);
+}
+
+@mixin glass($blur: $blur-panel) {
+  @include glass-surface;
   backdrop-filter: blur($blur);
 }
 

@@ -8,7 +8,7 @@
 }
 
 .card {
-  @include glass($blur-card);
+  @include glass-surface;
   @include hover-lift;
   padding: 1.625rem;
   border-radius: $radius-xl;

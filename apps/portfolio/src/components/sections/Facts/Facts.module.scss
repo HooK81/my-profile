@@ -12,7 +12,7 @@
 }
 
 .item {
-  @include glass(18px);
+  @include glass-surface;
   padding: 2rem 1.5rem;
   border-radius: $radius-2xl;
   text-align: center;

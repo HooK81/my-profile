@@ -28,8 +28,9 @@ Colours are CSS custom properties switched by `data-theme` on `<html>`, declared
 | `--primary` | `#fb8a70` | `#c2410c` | Highlight used alone: links, active nav, dates, chips, status text |
 | `--primary-soft` | `#f5d06a` | `#d99a1a` | Gradient end; small accents (error-cloud tears) |
 | `--primary-glow` / `--primary-soft-glow` | `.35` / `.30` alpha of the two above | `.20` / `.18` | Glow halos, lift shadows |
-| `--nav` | `rgba(10,13,19,.55)` | `rgba(242,244,249,.6)` | Navbar pill and mobile panel |
-| `--shadow` | `0 20px 60px rgba(0,0,0,.45)` | `0 20px 60px rgba(15,23,42,.12)` | Prominent cards |
+| `--nav` | `rgba(27,33,45,.72)` | `rgba(242,244,249,.6)` | Navbar pill and mobile panel |
+| `--nav-shadow` | `0 10px 34px rgba(0,0,0,.55)` | `0 8px 30px rgba(15,23,42,.12)` | Navbar pill and mobile panel — only reads in light |
+| `--shadow` | `0 20px 60px rgba(0,0,0,.45)` | `0 20px 60px rgba(15,23,42,.12)` | Prominent cards, popovers |
 | `--on-primary` | `#071018` | `#ffffff` | Text on the primary gradient |
 | `--particle` | `255,255,255` | `15,23,42` | Kept for reference; tsparticles reads the hex directly |
 
@@ -72,7 +73,7 @@ Recipes (mixins in `src/styles/_mixins.scss`):
 ## Sections
 
 ### Navbar
-Fixed, `padding: 14px 24px`, z-index 50. Pill: `max-width: 1160px`, radius 999px, `padding: 10px 12px 10px 16px`, `--nav` fill, 1px border, blur 18px + saturate 1.4 (on a `::before` layer so the mobile panel can blur the page itself), `0 8px 30px rgba(0,0,0,.12)`. Links 14px/500, `padding: 8px 14px`, pill radius; hover/active `--surface-strong` + `--primary`. Right: locale dropdown, theme toggle, hamburger (≤ `$breakpoint-lg`).
+Fixed, `padding: 14px 24px`, z-index 50. Pill: `max-width: 1160px`, radius 999px, `padding: 10px 12px 10px 16px`, `--nav` fill, 1px border, blur 18px + saturate 1.4 (on a `::before` layer so the mobile panel can blur the page itself), `--nav-shadow`. Links 14px/500, `padding: 8px 14px`, pill radius; hover/active `--surface-strong` + `--primary`. Right: locale dropdown, theme toggle, hamburger (≤ `$breakpoint-lg`).
 Mobile (≤ 900px): links and desktop controls hidden; hamburger opens a glass panel below the pill (radius 20px, padding 10px) with stacked links (`padding: 12px 16px`, radius 12px) and a footer row holding the inline locale switcher (left) and the theme toggle (right). The panel closes on link click, on locale pick and on any click outside the pill.
 
 ### Hero

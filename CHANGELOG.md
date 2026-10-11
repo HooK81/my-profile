@@ -1,3 +1,22 @@
+# 7.0.0 (2026-10-11)
+
+### 🚀 Features
+
+- ⚠️  **api:** serve the API under /api on a single origin with CSRF guard ([969c004](https://github.com/HooK81/my-profile/commit/969c004))
+- **portfolio:** replace the About photo glow filter with gradient falloff ([a167e13](https://github.com/HooK81/my-profile/commit/a167e13))
+
+### 🩹 Fixes
+
+- **portfolio:** bullet points margin fix ([cf26ffe](https://github.com/HooK81/my-profile/commit/cf26ffe))
+
+### ⚠️  Breaking Changes
+
+- **api:** serve the API under /api on a single origin with CSRF guard  ([969c004](https://github.com/HooK81/my-profile/commit/969c004))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 ## 6.1.3 (2026-09-07)
 
 ### 🩹 Fixes

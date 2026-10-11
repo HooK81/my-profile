@@ -1,3 +1,14 @@
+## 7.0.1 (2026-10-11)
+
+### 🩹 Fixes
+
+- **portfolio:** translation fixes ([c23a1ed](https://github.com/HooK81/my-profile/commit/c23a1ed))
+- **portfolio:** dark theme fix ([7fd102d](https://github.com/HooK81/my-profile/commit/7fd102d))
+
+### ❤️ Thank You
+
+- Julien Crochet
+
 # 7.0.0 (2026-10-11)
 
 ### 🚀 Features

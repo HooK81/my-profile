@@ -5,8 +5,8 @@
   },
   "navbar": {
     "home": "Home",
-    "aboutMe": "About Me",
-    "resume": "Resume",
+    "aboutMe": "About me",
+    "resume": "CV",
     "techs": "Techs",
     "aboutThisSite": "This site",
     "contact": "Contact",
@@ -18,23 +18,23 @@
     "basedIn": "based in"
   },
   "about": {
-    "title": "About Me",
+    "title": "About me",
     "name": "Name",
     "location": "Location",
     "email": "Email",
     "phone": "Phone",
-    "downloadResume": "Download Resume",
-    "downloadVcard": "Save contact"
+    "downloadResume": "Download my CV",
+    "downloadVcard": "Save my contact card"
   },
   "facts": {
     "linesOfCode": "Lines of code",
-    "mergeRequests": "Merge Requests",
-    "trainings": "Trainings",
+    "mergeRequests": "Merge requests",
+    "trainings": "Courses",
     "coffees": "Coffees"
   },
   "resume": {
-    "title": "Resume",
-    "experience": "Professional Experience",
+    "title": "Curriculum vitae",
+    "experience": "Professional experience",
     "education": "Education",
     "date": {
       "present": "Present",
@@ -46,10 +46,10 @@
   },
   "skills": {
     "title": "Skills",
-    "desc": "Catch-up of my skills"
+    "desc": "Overview of my skills"
   },
   "techs": {
-    "title": "Favorite Techs",
+    "title": "Favorite techs",
     "desc": "I'm a tinkerer and am always interested in testing new technologies but these are the ones I prefer."
   },
   "hobbies": {
@@ -62,21 +62,21 @@
     "phone": "Phone",
     "email": "Email",
     "form": {
-      "emailPlaceholder": "Your Email *",
+      "emailPlaceholder": "Your email *",
       "subjectPlaceholder": "Subject",
-      "messagePlaceholder": "Your Message *",
+      "messagePlaceholder": "Your message *",
       "sendSuccess": "Message sent successfully!",
       "sendError": "Your message could not be sent.",
       "sending": "Sending...",
-      "sendButton": "Send Message"
+      "sendButton": "Send message"
     }
   },
   "scrollDown": {
-    "label": "Scroll Down"
+    "label": "Scroll down"
   },
   "aboutThisSite": {
-    "title": "About This Site",
-    "intro": "Here is the technology stack used on this website.\nIt is definitely too much for the purpose but as we say in french \u00ab\u00a0If you like it, won't think about the price\u00a0\u00bb.",
+    "title": "About this site",
+    "intro": "Here is the technology stack used on this website.\nIt is definitely overkill for what it does, but as we say in French, « if you love it, you don't count the cost. »",
     "frontend": {
       "title": "Frontend",
       "category1": {
@@ -86,10 +86,10 @@
       "category2": {
         "title": "Library",
         "items1": "React 19.2 with Vite",
-        "items2": "Client HTTP: native Fetch API",
-        "items3": "Client State: Zustand",
-        "items4": "Server State: TanStack Query",
-        "items5": "Unit Tests: Vitest (100% code coverage)"
+        "items2": "HTTP client: native Fetch API",
+        "items3": "Client state: Zustand",
+        "items4": "Server state: TanStack Query",
+        "items5": "Unit tests: Vitest (100% code coverage)"
       }
     },
     "backend": {
@@ -102,7 +102,7 @@
         "title": "Framework",
         "items1": "NestJS with SWC",
         "items2": "JWT token authentication",
-        "items3": "Unit/Integration Tests: Vitest (100% code coverage)"
+        "items3": "Unit/integration tests: Vitest (100% code coverage)"
       }
     },
     "infrastructure": {
@@ -110,7 +110,7 @@
       "category1": {
         "title": "Docker containers",
         "items1": "Node container for NestJS API",
-        "items2": "Nginx container for React App"
+        "items2": "Nginx container for React app"
       },
       "category2": {
         "title": "Hosting",
@@ -123,8 +123,8 @@
       "default": "Unknown error!",
       "login": "Unable to access the site!",
       "loadProfile": "Unable to retrieve profile data!",
-      "getFile": "Unable to retrieve file!",
-      "getVcard": "Unable to retrieve file!",
+      "getFile": "Unable to retrieve the file!",
+      "getVcard": "Unable to retrieve the vcard file!",
       "sendMail": "Unable to send message!"
     },
     "title": "Oh no, an error occurred while loading the app",

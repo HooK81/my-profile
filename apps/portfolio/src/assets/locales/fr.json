@@ -6,7 +6,7 @@
   "navbar": {
     "home": "Accueil",
     "aboutMe": "À propos de moi",
-    "resume": "Curriculum",
+    "resume": "CV",
     "techs": "Techs",
     "aboutThisSite": "Ce site",
     "contact": "Contact",
@@ -20,11 +20,11 @@
   "about": {
     "title": "À propos de moi",
     "name": "Nom",
-    "location": "Localisation",
+    "location": "Adresse",
     "email": "E-mail",
     "phone": "Téléphone",
     "downloadResume": "Télécharger mon CV",
-    "downloadVcard": "Enregistrer le contact"
+    "downloadVcard": "Enregistrer mon contact"
   },
   "facts": {
     "linesOfCode": "Lignes de code",
@@ -33,10 +33,9 @@
     "coffees": "Cafés"
   },
   "resume": {
-    "title": "Curriculum Vitae",
+    "title": "Curriculum vitae",
     "experience": "Expériences professionnelles",
     "education": "Formations",
-    "skills": "Compétences",
     "date": {
       "present": "Présent",
       "year_one": "{{count}} an",
@@ -50,7 +49,7 @@
     "desc": "Résumé de mes compétences"
   },
   "techs": {
-    "title": "Technos Préférées",
+    "title": "Techs préférées",
     "desc": "Je suis un touche à tout et j'adore jouer avec les nouvelles technologies, mais ce sont celles-ci qui m'ont vraiment convaincu."
   },
   "hobbies": {
@@ -76,8 +75,8 @@
     "label": "Défiler"
   },
   "aboutThisSite": {
-    "title": "À Propos du site",
-    "intro": "Voici les différents éléments constituant ce site et sa stack technique.\nC'est sans aucun doute surdimensionné mais quand on aime on ne compte pas.",
+    "title": "À propos du site",
+    "intro": "Voici les différents éléments constituant ce site et sa stack technique.\nC'est sans aucun doute surdimensionné, mais quand on aime on ne compte pas.",
     "frontend": {
       "title": "Frontend",
       "category1": {
@@ -85,12 +84,12 @@
         "items1": "Strict TypeScript"
       },
       "category2": {
-        "title": "Library",
+        "title": "Librairie",
         "items1": "React 19.2 avec Vite",
-        "items2": "Client HTTP: Fetch natif",
-        "items3": "État Client: Zustand",
-        "items4": "État Serveur: TanStack Query",
-        "items5": "Tests Unitaires: Vitest (100% de couverture du code)"
+        "items2": "Client HTTP : Fetch natif",
+        "items3": "État client : Zustand",
+        "items4": "État serveur : TanStack Query",
+        "items5": "Tests unitaires : Vitest (100 % de couverture du code)"
       }
     },
     "backend": {
@@ -103,7 +102,7 @@
         "title": "Framework",
         "items1": "NestJS avec SWC",
         "items2": "Authentification avec token JWT",
-        "items3": "Tests Unitaires/Intégrations: Vitest (100% de couverture du code)"
+        "items3": "Tests unitaires/intégrations : Vitest (100 % de couverture du code)"
       }
     },
     "infrastructure": {
@@ -125,7 +124,7 @@
       "login": "Impossible d'accéder au site !",
       "loadProfile": "Impossible de récupérer les données du profil !",
       "getFile": "Impossible de récupérer le fichier !",
-      "getVcard": "Impossible de récupérer le fichier !",
+      "getVcard": "Impossible de récupérer le fichier vcard !",
       "sendMail": "Impossible d'envoyer le message !"
     },
     "title": "Oh non, une erreur est survenue lors du chargement de l'app",
